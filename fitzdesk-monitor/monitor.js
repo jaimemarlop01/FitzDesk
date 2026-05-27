@@ -8,7 +8,7 @@ import cron from 'node-cron';
 import { SOURCES, KEYWORDS } from './sources.js';
 import { isProcessed, markProcessed, getCacheStats } from './cache.js';
 import { generateDraft } from './analyzer.js';
-import { logInfo, logSuccess, logWarn, logError, notifyDraft } from './notifier.js';
+import { logInfo, logSuccess, logWarn, logError, notifyDraft, notifySummary } from './notifier.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const parser = new Parser({ timeout: 10000 });
@@ -113,6 +113,8 @@ async function runCheck() {
             slug: result.slug,
             source: source.name,
             filePath,
+            categoria: result.categoria,
+            description: item.contentSnippet ?? item.content ?? '',
           });
         } else {
           markProcessed(id);
@@ -129,6 +131,7 @@ async function runCheck() {
 
   const summary = `━━━ Resumen: ${totalNew} novedades relevantes encontradas, ${totalDrafts} borradores generados${errors.length ? ` (${errors.length} fuentes con error)` : ''} ━━━`;
   logSuccess(summary);
+  await notifySummary({ totalNew, totalDrafts, errors });
   return { totalNew, totalDrafts };
 }
 
