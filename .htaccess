@@ -1,0 +1,7 @@
+RewriteEngine On
+
+# Si la ruta ya empieza por dist/, Apache la sirve directamente (evita bucle)
+RewriteRule ^dist/ - [L]
+
+# Todo lo demas se redirige a dist/ (donde están los archivos del build)
+RewriteRule ^(.*)$ dist/$1 [L]

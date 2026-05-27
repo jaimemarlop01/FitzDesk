@@ -1,0 +1,186 @@
+---
+import { u, base } from '../lib/url';
+
+const year = new Date().getFullYear();
+
+const categorias = [
+  { label: 'Ratones',         href: u('/categoria/ratones') },
+  { label: 'Teclados',        href: u('/categoria/teclados') },
+  { label: 'Monitores',       href: u('/categoria/monitores') },
+  { label: 'Portátiles',      href: u('/categoria/portatiles') },
+  { label: 'Setups completos',href: u('/categoria/setups') },
+];
+
+const info = [
+  { label: 'About FitzDesk', href: u('/about') },
+  { label: 'Contacto',       href: u('/contacto') },
+];
+---
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href={base} class="footer-logo">
+          <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect width="40" height="40" rx="8" fill="#F97316"/>
+            <circle cx="20" cy="20" r="11" fill="#DEB887"/>
+            <ellipse cx="12" cy="11" rx="4" ry="5.5" fill="#CD853F"/>
+            <ellipse cx="28" cy="11" rx="4" ry="5.5" fill="#CD853F"/>
+            <ellipse cx="20" cy="22" rx="7" ry="6" fill="#F4A460"/>
+            <circle cx="16" cy="19" r="2.8" fill="white"/>
+            <circle cx="24" cy="19" r="2.8" fill="white"/>
+            <circle cx="16.5" cy="19" r="1.4" fill="#1a1a1a"/>
+            <circle cx="24.5" cy="19" r="1.4" fill="#1a1a1a"/>
+            <rect x="11.5" y="16.5" width="8" height="5.5" rx="2" fill="none" stroke="#3d2b1f" stroke-width="1.2"/>
+            <rect x="20.5" y="16.5" width="8" height="5.5" rx="2" fill="none" stroke="#3d2b1f" stroke-width="1.2"/>
+            <line x1="19.5" y1="19.25" x2="20.5" y2="19.25" stroke="#3d2b1f" stroke-width="1.2"/>
+            <ellipse cx="20" cy="24" rx="1.5" ry="1" fill="#8B4513"/>
+            <polygon points="16.5,29 20,27 23.5,29 20,31" fill="#DC2626"/>
+            <circle cx="20" cy="29" r="1.5" fill="#EF4444"/>
+          </svg>
+          <span>Fitz<em>Desk</em></span>
+        </a>
+        <p class="footer-tagline">
+          Análisis honestos de periféricos y setups para profesionales que trabajan desde casa.
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h3>Categorías</h3>
+        <ul>
+          {categorias.map(l => (
+            <li><a href={l.href}>{l.label}</a></li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h3>Información</h3>
+        <ul>
+          {info.map(l => (
+            <li><a href={l.href}>{l.label}</a></li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-disclaimer">
+      <p>
+        <strong>Aviso de afiliados:</strong> FitzDesk participa en el programa de afiliados de PcComponentes.
+        Esto significa que si compras a través de nuestros enlaces podemos recibir una comisión sin coste
+        adicional para ti. Nuestras opiniones son siempre independientes.
+      </p>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; {year} FitzDesk. Todos los derechos reservados.</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--color-text);
+    color: #D1D5DB;
+    margin-top: auto;
+    padding: 3.5rem 0 0;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 3rem;
+    padding-bottom: 2.5rem;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.25rem;
+    color: white;
+    margin-bottom: 1rem;
+  }
+
+  .footer-logo svg {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+  }
+
+  .footer-logo em {
+    color: var(--color-brand);
+    font-style: normal;
+  }
+
+  .footer-logo:hover {
+    text-decoration: none;
+    color: white;
+    opacity: 0.9;
+  }
+
+  .footer-tagline {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: #9CA3AF;
+  }
+
+  .footer-col h3 {
+    font-family: var(--font-display);
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: white;
+    margin-bottom: 1rem;
+  }
+
+  .footer-col ul {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .footer-col a {
+    color: #9CA3AF;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: color var(--transition);
+  }
+
+  .footer-col a:hover {
+    color: var(--color-brand);
+    text-decoration: none;
+  }
+
+  .footer-disclaimer {
+    padding: 1.5rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    font-size: 0.8rem;
+    color: #6B7280;
+    line-height: 1.6;
+  }
+
+  .footer-disclaimer strong {
+    color: #9CA3AF;
+  }
+
+  .footer-bottom {
+    padding: 1.25rem 0;
+    font-size: 0.825rem;
+    color: #6B7280;
+    text-align: center;
+  }
+
+  @media (max-width: 768px) {
+    .footer-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+  }
+</style>

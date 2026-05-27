@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2a1a0d"/>
+      <stop offset="100%" style="stop-color:#4a2a1a"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <g transform="translate(430,295)">
+    <ellipse cx="20" cy="20" rx="75" ry="130" fill="#c05010" opacity="0.4" transform="rotate(-20 20 20)"/>
+    <ellipse cx="0" cy="-10" rx="62" ry="98" fill="#e06020" opacity="0.5" transform="rotate(-20 0 -10)"/>
+  </g>
+  <text x="600" y="305" font-family="sans-serif" font-size="48" fill="rgba(255,255,255,0.2)" text-anchor="middle">VS</text>
+  <g transform="translate(770,295)">
+    <ellipse cx="0" cy="0" rx="100" ry="145" fill="#c05010" opacity="0.3"/>
+    <ellipse cx="0" cy="-20" rx="90" ry="108" fill="#e06020" opacity="0.45"/>
+  </g>
+  <rect x="60" y="40" width="250" height="40" rx="20" fill="#F97316"/>
+  <text x="185" y="66" font-family="sans-serif" font-weight="700" font-size="18" fill="white" text-anchor="middle">GUÍAS DE COMPRA</text>
+  <text x="600" y="500" font-family="Georgia, serif" font-size="32" font-weight="700" fill="white" text-anchor="middle">Ratón ergonómico vs ratón estándar</text>
+  <text x="600" y="548" font-family="sans-serif" font-size="21" fill="#fdba74" text-anchor="middle">¿Cuál necesitas para teletrabajar?</text>
+  <text x="600" y="608" font-family="sans-serif" font-size="16" fill="rgba(255,255,255,0.4)" text-anchor="middle">fitzdesk.com</text>
+</svg>

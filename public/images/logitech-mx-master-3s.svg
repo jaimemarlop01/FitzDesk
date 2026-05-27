@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e3a5f"/>
+      <stop offset="100%" style="stop-color:#2d5a8e"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <!-- Mouse silhouette -->
+  <g transform="translate(600,315)">
+    <ellipse cx="0" cy="0" rx="130" ry="190" fill="#3d7fc4" opacity="0.3"/>
+    <ellipse cx="0" cy="-30" rx="120" ry="140" fill="#5a9fd4" opacity="0.5"/>
+    <rect x="-5" y="-110" width="10" height="70" rx="5" fill="#7bb3e0" opacity="0.7"/>
+    <line x1="0" y1="-190" x2="0" y2="-50" stroke="#7bb3e0" stroke-width="3" opacity="0.5"/>
+    <ellipse cx="0" cy="80" rx="50" ry="20" fill="#1a3a6e" opacity="0.4"/>
+  </g>
+  <!-- Badge -->
+  <rect x="60" y="40" width="220" height="40" rx="20" fill="#F97316"/>
+  <text x="170" y="66" font-family="sans-serif" font-weight="700" font-size="18" fill="white" text-anchor="middle">RATONES · ANÁLISIS</text>
+  <!-- Title -->
+  <text x="600" y="500" font-family="Georgia, serif" font-size="42" font-weight="700" fill="white" text-anchor="middle">Logitech MX Master 3S</text>
+  <text x="600" y="548" font-family="sans-serif" font-size="22" fill="#93c5fd" text-anchor="middle">El mejor ratón para teletrabajo</text>
+  <!-- Score badge -->
+  <circle cx="1080" cy="100" r="70" fill="#16a34a"/>
+  <text x="1080" y="95" font-family="sans-serif" font-weight="800" font-size="44" fill="white" text-anchor="middle">9.2</text>
+  <text x="1080" y="125" font-family="sans-serif" font-size="18" fill="rgba(255,255,255,0.8)" text-anchor="middle">/10</text>
+  <!-- FitzDesk brand -->
+  <text x="600" y="595" font-family="sans-serif" font-size="16" fill="rgba(255,255,255,0.4)" text-anchor="middle">fitzdesk.com</text>
+</svg>

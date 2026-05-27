@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f2a2a"/>
+      <stop offset="100%" style="stop-color:#1a4040"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg3)"/>
+  <!-- Monitor silhouette -->
+  <g transform="translate(600,270)">
+    <!-- Screen bezel -->
+    <rect x="-220" y="-170" width="440" height="280" rx="12" fill="#1a5555" opacity="0.5"/>
+    <!-- Screen glow -->
+    <rect x="-205" y="-158" width="410" height="258" rx="6" fill="#0d9488" opacity="0.15"/>
+    <rect x="-205" y="-158" width="410" height="258" rx="6" fill="none" stroke="#2dd4bf" stroke-width="1.5" opacity="0.3"/>
+    <!-- Screen content suggestion -->
+    <rect x="-180" y="-140" width="120" height="8" rx="4" fill="#4dd0c4" opacity="0.3"/>
+    <rect x="-180" y="-124" width="200" height="6" rx="3" fill="#4dd0c4" opacity="0.2"/>
+    <rect x="-180" y="-110" width="160" height="6" rx="3" fill="#4dd0c4" opacity="0.2"/>
+    <rect x="-40" y="-140" width="220" height="130" rx="6" fill="#0d9488" opacity="0.12"/>
+    <!-- Stand arm -->
+    <rect x="-3" y="110" width="6" height="80" rx="3" fill="#2d8080" opacity="0.7"/>
+    <rect x="-3" y="160" width="6" height="60" rx="3" fill="#2d8080" opacity="0.5" transform="rotate(20 0 190)"/>
+    <!-- Base -->
+    <ellipse cx="0" cy="200" rx="30" ry="8" fill="#1a5555" opacity="0.6"/>
+  </g>
+  <!-- Badge -->
+  <rect x="60" y="40" width="240" height="40" rx="20" fill="#0D9488"/>
+  <text x="180" y="66" font-family="sans-serif" font-weight="700" font-size="18" fill="white" text-anchor="middle">MONITORES · ANÁLISIS</text>
+  <!-- Title -->
+  <text x="600" y="500" font-family="Georgia, serif" font-size="42" font-weight="700" fill="white" text-anchor="middle">LG 27UN880 Ergo</text>
+  <text x="600" y="548" font-family="sans-serif" font-size="22" fill="#5eead4" text-anchor="middle">Monitor 4K con brazo articulado integrado</text>
+  <!-- Score badge -->
+  <circle cx="1080" cy="100" r="70" fill="#F97316"/>
+  <text x="1080" y="95" font-family="sans-serif" font-weight="800" font-size="44" fill="white" text-anchor="middle">8.5</text>
+  <text x="1080" y="125" font-family="sans-serif" font-size="18" fill="rgba(255,255,255,0.8)" text-anchor="middle">/10</text>
+  <text x="600" y="595" font-family="sans-serif" font-size="16" fill="rgba(255,255,255,0.4)" text-anchor="middle">fitzdesk.com</text>
+</svg>

@@ -1,0 +1,123 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ArticleCard from '../../components/ArticleCard.astro';
+import CategoryBadge from '../../components/CategoryBadge.astro';
+import { u, base } from '../../lib/url';
+
+export async function getStaticPaths() {
+  const allArticles = await getCollection('articulos');
+  const categories = [...new Set(allArticles.map(a => a.data.categoria))];
+  const allCategories = [...new Set([...categories, 'ratones', 'teclados', 'monitores', 'portatiles', 'setups', 'guias'])];
+
+  return allCategories.map(categoria => ({
+    params: { slug: categoria },
+    props: {
+      categoria,
+      articles: allArticles
+        .filter(a => a.data.categoria === categoria)
+        .sort((a, b) => new Date(b.data.fecha).getTime() - new Date(a.data.fecha).getTime()),
+    },
+  }));
+}
+
+interface Props {
+  categoria: string;
+  articles: Awaited<ReturnType<typeof getCollection<'articulos'>>>;
+}
+
+const { categoria, articles } = Astro.props;
+
+const categoryLabels: Record<string, string> = {
+  ratones: 'Ratones',
+  teclados: 'Teclados',
+  monitores: 'Monitores',
+  portatiles: 'Portátiles',
+  setups: 'Setups completos',
+  guias: 'Guías de compra',
+};
+
+const categoryDescs: Record<string, string> = {
+  ratones: 'Análisis en profundidad de los mejores ratones para teletrabajo, gaming y diseño.',
+  teclados: 'Reviews de teclados mecánicos, de membrana y ergonómicos para trabajar cómodamente.',
+  monitores: 'Comparativas y análisis de monitores para productividad, diseño y entretenimiento.',
+  portatiles: 'Los mejores portátiles para teletrabajar: potencia, batería y movilidad.',
+  setups: 'Inspiración y guías para montar el setup de trabajo perfecto.',
+  guias: 'Guías de compra y comparativas para elegir el mejor equipamiento sin perder tiempo ni dinero.',
+};
+
+const label = categoryLabels[categoria] ?? (categoria.charAt(0).toUpperCase() + categoria.slice(1));
+const desc = categoryDescs[categoria] ?? `Artículos y análisis sobre ${label}.`;
+---
+
+<BaseLayout title={label} description={desc}>
+  <div class="container">
+    <div class="category-header">
+      <nav class="breadcrumb" aria-label="Ruta de navegación">
+        <a href={base}>Inicio</a>
+        <span class="breadcrumb-sep" aria-hidden="true">›</span>
+        <span aria-current="page">{label}</span>
+      </nav>
+
+      <div class="cat-title-row">
+        <h1>{label}</h1>
+        <CategoryBadge categoria={categoria} size="md" />
+      </div>
+      <p class="cat-desc">{desc}</p>
+    </div>
+
+    {articles.length > 0 ? (
+      <>
+        <p class="cat-count">{articles.length} {articles.length === 1 ? 'análisis' : 'análisis'} publicados</p>
+        <div class="articles-grid">
+          {articles.map(article => (
+            <ArticleCard
+              title={article.data.title}
+              slug={article.slug}
+              categoria={article.data.categoria}
+              fecha={article.data.fecha}
+              descripcion={article.data.descripcion}
+              imagen={article.data.imagen}
+              puntuacion={article.data.puntuacion}
+            />
+          ))}
+        </div>
+      </>
+    ) : (
+      <div class="empty-state">
+        <div class="empty-icon">🔬</div>
+        <h2>Análisis en preparación</h2>
+        <p>Fitz está probando los mejores productos de esta categoría. ¡Vuelve pronto!</p>
+        <a href={base} class="back-link">← Volver al inicio</a>
+      </div>
+    )}
+  </div>
+</BaseLayout>
+
+<style>
+  .container { padding-top: 2.5rem; padding-bottom: 4rem; }
+
+  .category-header { margin-bottom: 2.5rem; }
+
+  .cat-title-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 1rem 0 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .cat-title-row h1 { font-size: clamp(1.75rem, 4vw, 2.5rem); }
+
+  .cat-desc { font-size: 1.0625rem; color: var(--color-text-muted); line-height: 1.6; max-width: 65ch; }
+
+  .cat-count { font-size: 0.875rem; color: var(--color-text-muted); margin-bottom: 1.5rem; }
+
+  .empty-state { text-align: center; padding: 5rem 2rem; }
+  .empty-icon  { font-size: 3.5rem; margin-bottom: 1.25rem; }
+  .empty-state h2 { font-size: 1.5rem; margin-bottom: 0.75rem; color: var(--color-text); }
+  .empty-state p  { color: var(--color-text-muted); margin-bottom: 1.5rem; font-size: 1rem; }
+
+  .back-link { display: inline-block; color: var(--color-brand); font-weight: 600; text-decoration: none; }
+  .back-link:hover { text-decoration: underline; }
+</style>

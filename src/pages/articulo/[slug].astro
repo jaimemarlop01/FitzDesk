@@ -1,0 +1,300 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CategoryBadge from '../../components/CategoryBadge.astro';
+import ScoreBox from '../../components/ScoreBox.astro';
+import SpecsTable from '../../components/SpecsTable.astro';
+import AffiliateButton from '../../components/AffiliateButton.astro';
+import FitzQuote from '../../components/FitzQuote.astro';
+import ArticleCard from '../../components/ArticleCard.astro';
+import { u, base } from '../../lib/url';
+
+export async function getStaticPaths() {
+  const articles = await getCollection('articulos');
+  return articles.map(article => ({
+    params: { slug: article.slug },
+    props: { article },
+  }));
+}
+
+interface Props {
+  article: CollectionEntry<'articulos'>;
+}
+
+const { article } = Astro.props;
+const { Content } = await article.render();
+const { title, fecha, categoria, descripcion, imagen, puntuacion, precio, enlace_afiliado, tiempo_lectura, fitzQuote, especificaciones } = article.data;
+
+const fechaFormateada = new Date(fecha).toLocaleDateString('es-ES', {
+  year: 'numeric', month: 'long', day: 'numeric',
+});
+
+const allArticles = await getCollection('articulos');
+const related = allArticles
+  .filter(a => a.data.categoria === categoria && a.slug !== article.slug)
+  .slice(0, 3);
+
+const reviewSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Review',
+  name: title,
+  reviewBody: descripcion,
+  reviewRating: {
+    '@type': 'Rating',
+    ratingValue: puntuacion,
+    bestRating: 10,
+    worstRating: 0,
+  },
+  author: { '@type': 'Organization', name: 'FitzDesk' },
+  datePublished: fecha,
+  url: Astro.url.href,
+};
+---
+
+<BaseLayout
+  title={title}
+  description={descripcion}
+  image={imagen}
+  type="article"
+  schema={reviewSchema}
+>
+  <article class="article-page">
+    <div class="article-hero">
+      <img
+        src={u(imagen)}
+        alt={title}
+        width="1200"
+        height="630"
+        loading="eager"
+        decoding="async"
+      />
+    </div>
+
+    <div class="container">
+      <div class="article-layout">
+        <main class="article-main">
+          <nav class="breadcrumb" aria-label="Ruta de navegación">
+            <a href={base}>Inicio</a>
+            <span class="breadcrumb-sep" aria-hidden="true">›</span>
+            <a href={u(`/categoria/${categoria}`)}>
+              {categoria.charAt(0).toUpperCase() + categoria.slice(1)}
+            </a>
+            <span class="breadcrumb-sep" aria-hidden="true">›</span>
+            <span aria-current="page">{title}</span>
+          </nav>
+
+          <div class="article-meta">
+            <CategoryBadge categoria={categoria} size="md" />
+            <time datetime={fecha} class="article-date">{fechaFormateada}</time>
+            {tiempo_lectura && <span class="article-readtime">· {tiempo_lectura} de lectura</span>}
+          </div>
+
+          <h1 class="article-title">{title}</h1>
+          <p class="article-lead">{descripcion}</p>
+
+          <ScoreBox puntuacion={puntuacion} precio={precio} />
+
+          <AffiliateButton href={enlace_afiliado} precio={precio} />
+
+          {fitzQuote && <FitzQuote quote={fitzQuote} />}
+
+          <div class="prose">
+            <Content />
+          </div>
+
+          {especificaciones && Object.keys(especificaciones).length > 0 && (
+            <SpecsTable especificaciones={especificaciones} />
+          )}
+
+          <AffiliateButton href={enlace_afiliado} precio={precio} />
+        </main>
+
+        <aside class="article-sidebar">
+          <div class="sidebar-card">
+            <h3>Puntuación</h3>
+            <div class="sidebar-score" style={`color: ${puntuacion >= 9 ? '#16a34a' : puntuacion >= 7.5 ? '#F97316' : '#DC2626'}`}>
+              {puntuacion}<span>/10</span>
+            </div>
+          </div>
+
+          {precio && (
+            <div class="sidebar-card">
+              <h3>Precio</h3>
+              <p class="sidebar-price">{precio}</p>
+              <a href={enlace_afiliado} target="_blank" rel="noopener noreferrer sponsored" class="sidebar-btn">
+                Ver en PcComponentes →
+              </a>
+            </div>
+          )}
+
+          {especificaciones && Object.keys(especificaciones).length > 0 && (
+            <div class="sidebar-card sidebar-specs">
+              <h3>Specs rápidas</h3>
+              <dl>
+                {Object.entries(especificaciones).slice(0, 5).map(([k, v]) => (
+                  <>
+                    <dt>{k.replace(/_/g, ' ')}</dt>
+                    <dd>{v}</dd>
+                  </>
+                ))}
+              </dl>
+            </div>
+          )}
+        </aside>
+      </div>
+
+      {related.length > 0 && (
+        <section class="related-section">
+          <h2>Análisis relacionados</h2>
+          <div class="articles-grid">
+            {related.map(rel => (
+              <ArticleCard
+                title={rel.data.title}
+                slug={rel.slug}
+                categoria={rel.data.categoria}
+                fecha={rel.data.fecha}
+                descripcion={rel.data.descripcion}
+                imagen={rel.data.imagen}
+                puntuacion={rel.data.puntuacion}
+              />
+            ))}
+          </div>
+        </section>
+      )}
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .article-hero {
+    width: 100%;
+    max-height: 480px;
+    overflow: hidden;
+    background: var(--color-bg-tertiary);
+  }
+
+  .article-hero img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .article-layout {
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: 3rem;
+    padding: 2.5rem 0 4rem;
+    align-items: start;
+  }
+
+  .article-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .article-date { font-size: 0.875rem; color: var(--color-text-muted); }
+  .article-readtime { font-size: 0.875rem; color: var(--color-text-muted); }
+
+  .article-title {
+    font-size: clamp(1.5rem, 4vw, 2.25rem);
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+
+  .article-lead {
+    font-size: 1.0625rem;
+    color: var(--color-text-muted);
+    line-height: 1.7;
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .article-sidebar {
+    position: sticky;
+    top: 5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .sidebar-card {
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem;
+  }
+
+  .sidebar-card h3 {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-muted);
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+  }
+
+  .sidebar-score {
+    font-family: var(--font-display);
+    font-size: 3rem;
+    font-weight: 800;
+    line-height: 1;
+  }
+
+  .sidebar-score span { font-size: 1.25rem; opacity: 0.6; }
+
+  .sidebar-price {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: 0.75rem;
+  }
+
+  .sidebar-btn {
+    display: block;
+    background: var(--color-brand);
+    color: white;
+    text-align: center;
+    padding: 0.65rem 1rem;
+    border-radius: var(--radius);
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background var(--transition);
+  }
+
+  .sidebar-btn:hover {
+    background: var(--color-brand-dark);
+    text-decoration: none;
+    color: white;
+  }
+
+  .sidebar-specs dl {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.4rem 0.75rem;
+  }
+
+  .sidebar-specs dt { font-size: 0.8rem; font-weight: 600; color: var(--color-text-muted); white-space: nowrap; }
+  .sidebar-specs dd { font-size: 0.8rem; color: var(--color-text); }
+
+  .related-section {
+    padding: 3rem 0 4rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .related-section h2 { font-size: 1.5rem; margin-bottom: 1.75rem; }
+
+  @media (max-width: 900px) {
+    .article-layout { grid-template-columns: 1fr; }
+    .article-sidebar {
+      position: static;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+  }
+</style>

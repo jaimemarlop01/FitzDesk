@@ -1,0 +1,323 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ArticleCard from '../components/ArticleCard.astro';
+import { u, base } from '../lib/url';
+import { getCollection } from 'astro:content';
+
+const allArticles = await getCollection('articulos');
+const latestArticles = allArticles
+  .sort((a, b) => new Date(b.data.fecha).getTime() - new Date(a.data.fecha).getTime())
+  .slice(0, 6);
+
+const categories = [
+  { slug: 'ratones',    label: 'Ratones',    desc: 'Los mejores ratones para trabajar sin cansancio', color: '#DBEAFE', icon: 'M12 2C8 2 5 5 5 9c0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7z' },
+  { slug: 'teclados',   label: 'Teclados',   desc: 'Mecánicos, silenciosos y ergonómicos', color: '#EDE9FE', icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z' },
+  { slug: 'monitores',  label: 'Monitores',  desc: 'Pantallas que cuidan tu vista y tu espalda', color: '#CCFBF1', icon: 'M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z' },
+  { slug: 'portatiles', label: 'Portátiles', desc: 'Los mejores laptops para teletrabajadores', color: '#DCFCE7', icon: 'M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z' },
+  { slug: 'setups',     label: 'Setups',     desc: 'Inspiración para montar tu espacio ideal', color: '#FEF3C7', icon: 'M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z' },
+];
+
+const whyItems = [
+  { title: 'Análisis reales', desc: 'Probamos cada producto durante semanas antes de escribir. Nada de copiar specs del fabricante.', icon: '🔬' },
+  { title: 'Sin sesgos de afiliado', desc: 'Si un producto no merece la pena, lo decimos. Nuestra reputación vale más que cualquier comisión.', icon: '⚖️' },
+  { title: 'Enfocados en teletrabajo', desc: 'No somos una web gaming. Evaluamos según las necesidades reales de quien trabaja desde casa.', icon: '🏠' },
+];
+---
+
+<BaseLayout
+  title="Inicio"
+  description="FitzDesk: análisis y recomendaciones de periféricos, setups y portátiles para trabajadores remotos y profesionales. Guiados por Fitz, tu experto de confianza."
+>
+  <!-- ==================
+       HERO
+       ================== -->
+  <section class="hero">
+    <div class="container hero-inner">
+      <div class="hero-text">
+        <div class="hero-badge">⭐ Recomendado por profesionales remotos</div>
+        <h1>Tu setup de trabajo,<br/><em>sin compromiso</em></h1>
+        <p class="hero-lead">
+          Análisis honestos de ratones, teclados, monitores y portátiles para que trabajes mejor desde casa. Guiados por Fitz, tu experto de confianza.
+        </p>
+        <div class="hero-actions">
+          <a href={u('/categoria/ratones')} class="btn-primary">Explorar análisis</a>
+          <a href={u('/about')} class="btn-secondary">Conoce a Fitz</a>
+        </div>
+      </div>
+
+      <div class="hero-mascot" aria-hidden="true">
+        <svg viewBox="0 0 180 210" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="90" cy="205" rx="50" ry="6" fill="#e5e7eb"/>
+          <path d="M 130 190 Q 165 160 160 120 Q 156 88 135 96 Q 145 118 140 148 Q 137 168 132 188 Z" fill="#A0522D" opacity="0.9"/>
+          <ellipse cx="86" cy="174" rx="33" ry="26" fill="#CD853F"/>
+          <circle cx="86" cy="107" r="39" fill="#DEB887"/>
+          <ellipse cx="56" cy="77" rx="14" ry="19" fill="#CD853F"/>
+          <ellipse cx="56" cy="78" rx="9" ry="13" fill="#F4A460"/>
+          <ellipse cx="116" cy="77" rx="14" ry="19" fill="#CD853F"/>
+          <ellipse cx="116" cy="78" rx="9" ry="13" fill="#F4A460"/>
+          <ellipse cx="86" cy="114" rx="26" ry="23" fill="#F4A460"/>
+          <circle cx="72" cy="103" r="11" fill="white"/>
+          <circle cx="100" cy="103" r="11" fill="white"/>
+          <circle cx="73.5" cy="103" r="5.5" fill="#1a1a1a"/>
+          <circle cx="101.5" cy="103" r="5.5" fill="#1a1a1a"/>
+          <circle cx="76" cy="100" r="2" fill="white"/>
+          <circle cx="104" cy="100" r="2" fill="white"/>
+          <rect x="58" y="95" width="23" height="16" rx="5" fill="none" stroke="#3d2b1f" stroke-width="2.5"/>
+          <rect x="85" y="95" width="23" height="16" rx="5" fill="none" stroke="#3d2b1f" stroke-width="2.5"/>
+          <line x1="81" y1="103" x2="85" y2="103" stroke="#3d2b1f" stroke-width="2.5"/>
+          <line x1="58" y1="103" x2="50" y2="103" stroke="#3d2b1f" stroke-width="2.5"/>
+          <line x1="108" y1="103" x2="116" y2="103" stroke="#3d2b1f" stroke-width="2.5"/>
+          <ellipse cx="86" cy="121" rx="4.5" ry="3" fill="#8B4513"/>
+          <path d="M 76 130 Q 86 138 96 130" stroke="#8B4513" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <circle cx="60" cy="116" r="7.5" fill="#f08080" opacity="0.3"/>
+          <circle cx="112" cy="116" r="7.5" fill="#f08080" opacity="0.3"/>
+          <polygon points="74,150 86,144 98,150 86,156" fill="#DC2626"/>
+          <polygon points="74,150 86,156 74,162" fill="#991B1B"/>
+          <polygon points="98,150 86,156 98,162" fill="#991B1B"/>
+          <circle cx="86" cy="153" r="4.5" fill="#EF4444"/>
+          <ellipse cx="86" cy="177" rx="21" ry="16" fill="#F4A460" opacity="0.5"/>
+          <ellipse cx="60" cy="180" rx="11" ry="17" fill="#CD853F" transform="rotate(-18 60 180)"/>
+          <ellipse cx="112" cy="180" rx="11" ry="17" fill="#CD853F" transform="rotate(18 112 180)"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================
+       CATEGORÍAS
+       ================== -->
+  <section class="section categories-section">
+    <div class="container">
+      <h2 class="section-title">Explora por categoría</h2>
+      <p class="section-subtitle">Encuentra el periférico perfecto para tu setup</p>
+      <div class="categories-grid">
+        {categories.map(cat => (
+          <a href={u(`/categoria/${cat.slug}`)} class="category-card" style={`background: ${cat.color}`}>
+            <svg class="cat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d={cat.icon}/>
+            </svg>
+            <h3>{cat.label}</h3>
+            <p>{cat.desc}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================
+       ÚLTIMOS ARTÍCULOS
+       ================== -->
+  {latestArticles.length > 0 && (
+    <section class="section latest-section">
+      <div class="container">
+        <h2 class="section-title">Últimos análisis</h2>
+        <p class="section-subtitle">Lo más reciente del laboratorio de Fitz</p>
+        <div class="articles-grid">
+          {latestArticles.map(article => (
+            <ArticleCard
+              title={article.data.title}
+              slug={article.slug}
+              categoria={article.data.categoria}
+              fecha={article.data.fecha}
+              descripcion={article.data.descripcion}
+              imagen={article.data.imagen}
+              puntuacion={article.data.puntuacion}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- ==================
+       POR QUÉ FITZDESK
+       ================== -->
+  <section class="section why-section">
+    <div class="container">
+      <h2 class="section-title">¿Por qué FitzDesk?</h2>
+      <p class="section-subtitle">No somos solo otra web de reviews</p>
+      <div class="why-grid">
+        {whyItems.map(item => (
+          <div class="why-card">
+            <div class="why-icon">{item.icon}</div>
+            <h3>{item.title}</h3>
+            <p>{item.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    background: linear-gradient(135deg, #fff7ed 0%, #fef3c7 50%, #fdf2f8 100%);
+    padding: 4rem 0 3rem;
+    overflow: hidden;
+  }
+
+  .hero-inner {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 3rem;
+    align-items: center;
+  }
+
+  .hero-badge {
+    display: inline-block;
+    background: var(--color-brand-light);
+    color: var(--color-brand-dark);
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.35rem 0.9rem;
+    border-radius: 999px;
+    margin-bottom: 1.25rem;
+  }
+
+  .hero-text h1 {
+    font-size: clamp(2rem, 5vw, 3.25rem);
+    line-height: 1.15;
+    margin-bottom: 1.25rem;
+  }
+
+  .hero-text h1 em {
+    color: var(--color-brand);
+    font-style: normal;
+  }
+
+  .hero-lead {
+    font-size: 1.0625rem;
+    color: var(--color-text-muted);
+    line-height: 1.7;
+    max-width: 50ch;
+    margin-bottom: 2rem;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    display: inline-block;
+    background: var(--color-brand);
+    color: white;
+    font-weight: 700;
+    padding: 0.75rem 1.75rem;
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    font-size: 1rem;
+    transition: background var(--transition), transform var(--transition);
+    box-shadow: 0 4px 14px rgba(249,115,22,0.35);
+  }
+
+  .btn-primary:hover {
+    background: var(--color-brand-dark);
+    transform: translateY(-1px);
+    text-decoration: none;
+    color: white;
+  }
+
+  .btn-secondary {
+    display: inline-block;
+    background: white;
+    color: var(--color-text);
+    font-weight: 600;
+    padding: 0.75rem 1.75rem;
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    font-size: 1rem;
+    border: 1px solid var(--color-border);
+    transition: border-color var(--transition), color var(--transition);
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--color-brand);
+    color: var(--color-brand);
+    text-decoration: none;
+  }
+
+  .hero-mascot svg {
+    width: 200px;
+    height: 233px;
+    filter: drop-shadow(0 8px 24px rgba(0,0,0,0.12));
+  }
+
+  .categories-section { background: var(--color-bg-secondary); }
+
+  .categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+
+  .category-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1.5rem;
+    border-radius: var(--radius-xl);
+    text-decoration: none;
+    color: var(--color-text);
+    border: 1px solid transparent;
+    transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+  }
+
+  .category-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+    border-color: rgba(0,0,0,0.08);
+    text-decoration: none;
+    color: var(--color-text);
+  }
+
+  .cat-icon {
+    width: 28px;
+    height: 28px;
+    color: var(--color-text);
+    opacity: 0.7;
+  }
+
+  .category-card h3 { font-size: 1.05rem; font-weight: 700; }
+  .category-card p  { font-size: 0.825rem; color: var(--color-text-muted); line-height: 1.5; }
+
+  .latest-section { background: var(--color-bg); }
+
+  .why-section { background: var(--color-text); color: white; }
+  .why-section .section-title { color: white; }
+  .why-section .section-subtitle { color: #9CA3AF; }
+
+  .why-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+  }
+
+  .why-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: var(--radius-xl);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .why-icon { font-size: 2.25rem; }
+  .why-card h3 { color: white; font-size: 1.1rem; }
+  .why-card p  { color: #9CA3AF; font-size: 0.9rem; line-height: 1.65; }
+
+  @media (max-width: 768px) {
+    .hero-inner { grid-template-columns: 1fr; text-align: center; }
+    .hero-lead  { max-width: 100%; margin-left: auto; margin-right: auto; }
+    .hero-actions { justify-content: center; }
+    .hero-mascot { display: flex; justify-content: center; order: -1; }
+    .hero-mascot svg { width: 140px; height: 163px; }
+    .categories-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 400px) {
+    .categories-grid { grid-template-columns: 1fr; }
+  }
+</style>

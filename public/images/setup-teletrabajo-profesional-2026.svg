@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2a1a0d"/>
+      <stop offset="100%" style="stop-color:#4a2a1a"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <g transform="translate(600,270)">
+    <rect x="-180" y="-130" width="360" height="220" rx="8" fill="#7a4020" opacity="0.4"/>
+    <rect x="-165" y="-118" width="330" height="198" rx="4" fill="#9a5025" opacity="0.45"/>
+    <rect x="-70" y="90" width="140" height="12" rx="4" fill="#7a4020" opacity="0.5"/>
+    <rect x="-240" y="108" width="200" height="58" rx="6" fill="#7a4020" opacity="0.38"/>
+    <rect x="-60" y="108" width="115" height="40" rx="5" fill="#9a4018" opacity="0.35"/>
+    <rect x="65" y="108" width="155" height="58" rx="6" fill="#7a4020" opacity="0.38"/>
+    <circle cx="-170" cy="140" r="18" fill="#F97316" opacity="0.25"/>
+  </g>
+  <rect x="60" y="40" width="250" height="40" rx="20" fill="#F97316"/>
+  <text x="185" y="66" font-family="sans-serif" font-weight="700" font-size="18" fill="white" text-anchor="middle">GUÍAS DE COMPRA</text>
+  <text x="600" y="498" font-family="Georgia, serif" font-size="32" font-weight="700" fill="white" text-anchor="middle">Setup de teletrabajo profesional</text>
+  <text x="600" y="540" font-family="Georgia, serif" font-size="30" font-weight="700" fill="#fbbf24" text-anchor="middle">La configuración de los que trabajan en serio</text>
+  <text x="600" y="582" font-family="sans-serif" font-size="20" fill="#fdba74" text-anchor="middle">LG 4K + Keychron K8 Pro + MX Master 3S</text>
+  <text x="600" y="608" font-family="sans-serif" font-size="16" fill="rgba(255,255,255,0.4)" text-anchor="middle">fitzdesk.com</text>
+</svg>

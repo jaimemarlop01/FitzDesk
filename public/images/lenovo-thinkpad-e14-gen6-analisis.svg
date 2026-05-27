@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d2a1a"/>
+      <stop offset="100%" style="stop-color:#1a4a2a"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <g transform="translate(600,285)">
+    <rect x="-235" y="-125" width="470" height="270" rx="10" fill="#1a4428" opacity="0.55"/>
+    <rect x="-220" y="-112" width="440" height="205" rx="5" fill="#1e5830" opacity="0.55"/>
+    <rect x="-215" y="-108" width="430" height="196" rx="3" fill="#0d2818" opacity="0.4"/>
+    <circle cx="0" cy="-12" r="8" fill="#dc2626" opacity="0.9"/>
+    <rect x="-235" y="143" width="470" height="18" rx="4" fill="#1a4428" opacity="0.6"/>
+    <rect x="-80" y="118" width="160" height="10" rx="5" fill="#2a6040" opacity="0.5"/>
+  </g>
+  <rect x="60" y="40" width="240" height="40" rx="20" fill="#F97316"/>
+  <text x="180" y="66" font-family="sans-serif" font-weight="700" font-size="18" fill="white" text-anchor="middle">PORTÁTILES · ANÁLISIS</text>
+  <text x="600" y="510" font-family="Georgia, serif" font-size="38" font-weight="700" fill="white" text-anchor="middle">Lenovo ThinkPad E14 Gen 6</text>
+  <text x="600" y="558" font-family="sans-serif" font-size="22" fill="#86efac" text-anchor="middle">Fiabilidad y el mejor teclado de su clase</text>
+  <circle cx="1080" cy="100" r="70" fill="#16a34a"/>
+  <text x="1080" y="95" font-family="sans-serif" font-weight="800" font-size="44" fill="white" text-anchor="middle">8.8</text>
+  <text x="1080" y="125" font-family="sans-serif" font-size="18" fill="rgba(255,255,255,0.8)" text-anchor="middle">/10</text>
+  <text x="600" y="608" font-family="sans-serif" font-size="16" fill="rgba(255,255,255,0.4)" text-anchor="middle">fitzdesk.com</text>
+</svg>

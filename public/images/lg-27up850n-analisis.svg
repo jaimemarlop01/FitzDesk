@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d2a2a"/>
+      <stop offset="100%" style="stop-color:#0a4a4a"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <g transform="translate(600,280)">
+    <rect x="-190" y="-140" width="380" height="240" rx="8" fill="#145050" opacity="0.6"/>
+    <rect x="-175" y="-128" width="350" height="215" rx="4" fill="#1a6a6a" opacity="0.5"/>
+    <rect x="-10" y="100" width="20" height="50" rx="3" fill="#145050" opacity="0.7"/>
+    <rect x="-50" y="148" width="100" height="12" rx="6" fill="#145050" opacity="0.7"/>
+  </g>
+  <rect x="60" y="40" width="240" height="40" rx="20" fill="#F97316"/>
+  <text x="180" y="66" font-family="sans-serif" font-weight="700" font-size="18" fill="white" text-anchor="middle">MONITORES · ANÁLISIS</text>
+  <text x="600" y="510" font-family="Georgia, serif" font-size="40" font-weight="700" fill="white" text-anchor="middle">LG 27UP850N-W</text>
+  <text x="600" y="558" font-family="sans-serif" font-size="22" fill="#5eead4" text-anchor="middle">4K + USB-C 96W: el monitor del teletrabajo moderno</text>
+  <circle cx="1080" cy="100" r="70" fill="#16a34a"/>
+  <text x="1080" y="95" font-family="sans-serif" font-weight="800" font-size="44" fill="white" text-anchor="middle">9.1</text>
+  <text x="1080" y="125" font-family="sans-serif" font-size="18" fill="rgba(255,255,255,0.8)" text-anchor="middle">/10</text>
+  <text x="600" y="608" font-family="sans-serif" font-size="16" fill="rgba(255,255,255,0.4)" text-anchor="middle">fitzdesk.com</text>
+</svg>

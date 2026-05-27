@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2d1b5e"/>
+      <stop offset="100%" style="stop-color:#4a2d8e"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg2)"/>
+  <!-- Keyboard silhouette -->
+  <g transform="translate(600,280)">
+    <rect x="-280" y="-80" width="560" height="160" rx="20" fill="#5a3db0" opacity="0.35"/>
+    <!-- Keys row 1 -->
+    <g fill="#7a5fd4" opacity="0.55">
+      <rect x="-260" y="-65" width="30" height="30" rx="4"/>
+      <rect x="-222" y="-65" width="30" height="30" rx="4"/>
+      <rect x="-184" y="-65" width="30" height="30" rx="4"/>
+      <rect x="-146" y="-65" width="30" height="30" rx="4"/>
+      <rect x="-108" y="-65" width="30" height="30" rx="4"/>
+      <rect x="-70" y="-65" width="30" height="30" rx="4"/>
+      <rect x="-32" y="-65" width="30" height="30" rx="4"/>
+      <rect x="6" y="-65" width="30" height="30" rx="4"/>
+      <rect x="44" y="-65" width="30" height="30" rx="4"/>
+      <rect x="82" y="-65" width="30" height="30" rx="4"/>
+      <rect x="120" y="-65" width="30" height="30" rx="4"/>
+      <rect x="158" y="-65" width="30" height="30" rx="4"/>
+      <rect x="196" y="-65" width="62" height="30" rx="4"/>
+    </g>
+    <!-- Keys row 2 -->
+    <g fill="#8a6fe4" opacity="0.55">
+      <rect x="-260" y="-27" width="46" height="30" rx="4"/>
+      <rect x="-206" y="-27" width="30" height="30" rx="4"/>
+      <rect x="-168" y="-27" width="30" height="30" rx="4"/>
+      <rect x="-130" y="-27" width="30" height="30" rx="4"/>
+      <rect x="-92" y="-27" width="30" height="30" rx="4"/>
+      <rect x="-54" y="-27" width="30" height="30" rx="4"/>
+      <rect x="-16" y="-27" width="30" height="30" rx="4"/>
+      <rect x="22" y="-27" width="30" height="30" rx="4"/>
+      <rect x="60" y="-27" width="30" height="30" rx="4"/>
+      <rect x="98" y="-27" width="30" height="30" rx="4"/>
+      <rect x="136" y="-27" width="30" height="30" rx="4"/>
+      <rect x="174" y="-27" width="84" height="30" rx="4"/>
+    </g>
+    <!-- Space bar row -->
+    <g fill="#7a5fd4" opacity="0.55">
+      <rect x="-260" y="11" width="46" height="30" rx="4"/>
+      <rect x="-206" y="11" width="195" height="30" rx="4"/>
+      <rect x="-3" y="11" width="30" height="30" rx="4"/>
+      <rect x="35" y="11" width="30" height="30" rx="4"/>
+      <rect x="73" y="11" width="30" height="30" rx="4"/>
+      <rect x="111" y="11" width="30" height="30" rx="4"/>
+      <rect x="149" y="11" width="109" height="30" rx="4"/>
+    </g>
+    <!-- RGB glow effect -->
+    <ellipse cx="0" cy="0" rx="290" ry="100" fill="none" stroke="#a78bfa" stroke-width="2" opacity="0.2"/>
+  </g>
+  <!-- Badge -->
+  <rect x="60" y="40" width="230" height="40" rx="20" fill="#7C3AED"/>
+  <text x="175" y="66" font-family="sans-serif" font-weight="700" font-size="18" fill="white" text-anchor="middle">TECLADOS · ANÁLISIS</text>
+  <!-- Title -->
+  <text x="600" y="500" font-family="Georgia, serif" font-size="42" font-weight="700" fill="white" text-anchor="middle">Keychron K2 V2</text>
+  <text x="600" y="548" font-family="sans-serif" font-size="22" fill="#c4b5fd" text-anchor="middle">El teclado mecánico para teletrabajadores</text>
+  <!-- Score badge -->
+  <circle cx="1080" cy="100" r="70" fill="#F97316"/>
+  <text x="1080" y="95" font-family="sans-serif" font-weight="800" font-size="44" fill="white" text-anchor="middle">8.8</text>
+  <text x="1080" y="125" font-family="sans-serif" font-size="18" fill="rgba(255,255,255,0.8)" text-anchor="middle">/10</text>
+  <text x="600" y="595" font-family="sans-serif" font-size="16" fill="rgba(255,255,255,0.4)" text-anchor="middle">fitzdesk.com</text>
+</svg>

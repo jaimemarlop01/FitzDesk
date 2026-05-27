@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2d1b4e"/>
+      <stop offset="100%" style="stop-color:#5b3a8e"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <g transform="translate(600,300)">
+    <rect x="-220" y="-60" width="440" height="120" rx="12" fill="#7c5cbf" opacity="0.4"/>
+    <rect x="-200" y="-45" width="55" height="35" rx="5" fill="#9b7dd4" opacity="0.6"/>
+    <rect x="-135" y="-45" width="55" height="35" rx="5" fill="#9b7dd4" opacity="0.6"/>
+    <rect x="-70" y="-45" width="55" height="35" rx="5" fill="#9b7dd4" opacity="0.6"/>
+    <rect x="-5" y="-45" width="55" height="35" rx="5" fill="#9b7dd4" opacity="0.6"/>
+    <rect x="60" y="-45" width="55" height="35" rx="5" fill="#9b7dd4" opacity="0.6"/>
+    <rect x="125" y="-45" width="55" height="35" rx="5" fill="#9b7dd4" opacity="0.6"/>
+    <rect x="-200" y="5" width="80" height="35" rx="5" fill="#9b7dd4" opacity="0.6"/>
+    <rect x="-110" y="5" width="55" height="35" rx="5" fill="#9b7dd4" opacity="0.6"/>
+    <rect x="-45" y="5" width="130" height="35" rx="5" fill="#b89ae0" opacity="0.7"/>
+    <rect x="95" y="5" width="85" height="35" rx="5" fill="#9b7dd4" opacity="0.6"/>
+  </g>
+  <rect x="60" y="40" width="230" height="40" rx="20" fill="#F97316"/>
+  <text x="175" y="66" font-family="sans-serif" font-weight="700" font-size="18" fill="white" text-anchor="middle">TECLADOS · ANÁLISIS</text>
+  <text x="600" y="510" font-family="Georgia, serif" font-size="40" font-weight="700" fill="white" text-anchor="middle">Keychron K8 Pro</text>
+  <text x="600" y="558" font-family="sans-serif" font-size="22" fill="#c4b5fd" text-anchor="middle">El mecánico que no decepciona</text>
+  <circle cx="1080" cy="100" r="70" fill="#16a34a"/>
+  <text x="1080" y="95" font-family="sans-serif" font-weight="800" font-size="44" fill="white" text-anchor="middle">9.0</text>
+  <text x="1080" y="125" font-family="sans-serif" font-size="18" fill="rgba(255,255,255,0.8)" text-anchor="middle">/10</text>
+  <text x="600" y="608" font-family="sans-serif" font-size="16" fill="rgba(255,255,255,0.4)" text-anchor="middle">fitzdesk.com</text>
+</svg>

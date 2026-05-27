@@ -1,0 +1,177 @@
+---
+import CategoryBadge from './CategoryBadge.astro';
+import { u } from '../lib/url';
+
+export interface Props {
+  title: string;
+  slug: string;
+  categoria: string;
+  fecha: string;
+  descripcion: string;
+  imagen: string;
+  puntuacion: number;
+}
+
+const { title, slug, categoria, fecha, descripcion, imagen, puntuacion } = Astro.props;
+
+const articleHref = u(`/articulo/${slug}`);
+const imgSrc = u(imagen);
+
+const scoreColor =
+  puntuacion >= 9 ? '#16a34a' :
+  puntuacion >= 7.5 ? '#F97316' :
+  '#DC2626';
+
+const fechaFormateada = new Date(fecha).toLocaleDateString('es-ES', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<article class="article-card">
+  <a href={articleHref} class="card-image-link" tabindex="-1" aria-hidden="true">
+    <div class="card-image-wrapper">
+      <img
+        src={imgSrc}
+        alt={title}
+        loading="lazy"
+        decoding="async"
+        width="400"
+        height="225"
+      />
+      <span class="card-score" style={`background: ${scoreColor}`}>
+        {puntuacion}
+      </span>
+    </div>
+  </a>
+
+  <div class="card-body">
+    <div class="card-meta">
+      <CategoryBadge categoria={categoria} />
+      <time datetime={fecha} class="card-date">{fechaFormateada}</time>
+    </div>
+
+    <h3 class="card-title">
+      <a href={articleHref}>{title}</a>
+    </h3>
+
+    <p class="card-desc">{descripcion}</p>
+
+    <a href={articleHref} class="card-link" aria-label={`Leer análisis: ${title}`}>
+      Leer análisis →
+    </a>
+  </div>
+</article>
+
+<style>
+  .article-card {
+    background: white;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform var(--transition), box-shadow var(--transition);
+  }
+
+  .article-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .card-image-link {
+    display: block;
+    text-decoration: none;
+  }
+
+  .card-image-wrapper {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: var(--color-bg-tertiary);
+  }
+
+  .card-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 300ms ease;
+  }
+
+  .article-card:hover .card-image-wrapper img {
+    transform: scale(1.04);
+  }
+
+  .card-score {
+    position: absolute;
+    bottom: 0.75rem;
+    right: 0.75rem;
+    color: white;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 0.25rem 0.6rem;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+  }
+
+  .card-body {
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 0.6rem;
+  }
+
+  .card-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .card-date {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+  }
+
+  .card-title {
+    font-size: 1.0625rem;
+    line-height: 1.35;
+    margin: 0;
+  }
+
+  .card-title a {
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  .card-title a:hover {
+    color: var(--color-brand);
+    text-decoration: none;
+  }
+
+  .card-desc {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    line-height: 1.6;
+    flex: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .card-link {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-brand);
+    text-decoration: none;
+    margin-top: 0.25rem;
+  }
+
+  .card-link:hover {
+    text-decoration: underline;
+  }
+</style>
