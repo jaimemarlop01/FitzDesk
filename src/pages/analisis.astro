@@ -1,0 +1,481 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ArticleCard from '../components/ArticleCard.astro';
+import { u } from '../lib/url';
+
+const allArticles = await getCollection('articulos');
+const articles = allArticles
+  .filter(a => !a.data.borrador)
+  .sort((a, b) => new Date(b.data.fecha).getTime() - new Date(a.data.fecha).getTime());
+
+const total = articles.length;
+const INITIAL_SHOW = 24;
+
+const CATEGORY_LABELS: Record<string, string> = {
+  ratones:    'Ratones',
+  teclados:   'Teclados',
+  monitores:  'Monitores',
+  portatiles: 'Portátiles',
+  setups:     'Setups',
+  guias:      'Guías',
+  auriculares:'Auriculares',
+};
+
+const categories = [...new Set(articles.map(a => a.data.categoria))].sort();
+
+function parsePriceAttr(precio?: string): string {
+  if (!precio || precio === 'pendiente') return '99999';
+  const n = parseFloat(precio.replace(/[^0-9,\.]/g, '').replace(',', '.'));
+  return isNaN(n) ? '99999' : String(n);
+}
+
+const collectionSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: 'Todos los análisis — FitzDesk',
+  description: 'Todos los productos analizados por Fitz: ratones, teclados, monitores, portátiles y setups de teletrabajo.',
+  url: Astro.url.href,
+};
+---
+
+<BaseLayout
+  title="Todos los análisis de periféricos y setups"
+  description="Encuentra el análisis que buscas entre todos los productos analizados por Fitz: ratones, teclados, monitores, portátiles y setups de teletrabajo."
+  schema={collectionSchema}
+>
+  <div class="analisis-page">
+    <div class="container">
+
+      <!-- Cabecera -->
+      <header class="page-header">
+        <h1>Todos los análisis</h1>
+        <p class="page-subtitle">
+          <span id="count-visible">{Math.min(total, INITIAL_SHOW)}</span> de
+          <strong>{total}</strong> productos analizados por Fitz
+        </p>
+      </header>
+
+      <!-- Toolbar -->
+      <div class="toolbar">
+        <div class="filter-pills" role="group" aria-label="Filtrar por categoría">
+          <button class="pill active" data-filter="all">Todos</button>
+          {categories.map(cat => (
+            <button class="pill" data-filter={cat}>
+              {CATEGORY_LABELS[cat] ?? cat}
+            </button>
+          ))}
+        </div>
+
+        <div class="toolbar-right">
+          <select class="sort-select" id="sort-select" aria-label="Ordenar por">
+            <option value="reciente">Más recientes</option>
+            <option value="puntuacion">Mejor puntuados</option>
+            <option value="precio-asc">Precio: menor a mayor</option>
+            <option value="precio-desc">Precio: mayor a menor</option>
+          </select>
+
+          <div class="view-toggle" role="group" aria-label="Cambiar vista">
+            <button class="view-btn active" id="view-grid" title="Vista grid" aria-pressed="true">
+              <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16" aria-hidden="true">
+                <rect x="2" y="2" width="7" height="7" rx="1.5"/>
+                <rect x="11" y="2" width="7" height="7" rx="1.5"/>
+                <rect x="2" y="11" width="7" height="7" rx="1.5"/>
+                <rect x="11" y="11" width="7" height="7" rx="1.5"/>
+              </svg>
+            </button>
+            <button class="view-btn" id="view-list" title="Vista lista" aria-pressed="false">
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true">
+                <line x1="3" y1="5" x2="17" y2="5" stroke-linecap="round"/>
+                <line x1="3" y1="10" x2="17" y2="10" stroke-linecap="round"/>
+                <line x1="3" y1="15" x2="17" y2="15" stroke-linecap="round"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Grid de artículos -->
+      <div class="articles-grid" id="articles-grid" data-view="grid">
+        {articles.map((art, i) => (
+          <div
+            class={`grid-item${i >= INITIAL_SHOW ? ' item-hidden' : ''}`}
+            data-cat={art.data.categoria}
+            data-fecha={art.data.fecha}
+            data-puntuacion={String(art.data.puntuacion)}
+            data-precio={parsePriceAttr(art.data.precio)}
+          >
+            <ArticleCard
+              title={art.data.title}
+              slug={art.slug}
+              categoria={art.data.categoria}
+              fecha={art.data.fecha}
+              descripcion={art.data.descripcion}
+              imagen={art.data.imagen}
+              puntuacion={art.data.puntuacion}
+              precio={art.data.precio}
+            />
+          </div>
+        ))}
+      </div>
+
+      <!-- Estado vacío -->
+      <div class="empty-state" id="empty-state" hidden>
+        <div class="empty-icon">🔍</div>
+        <p class="empty-title">Fitz aún no ha analizado nada en esta categoría</p>
+        <p class="empty-sub">Vuelve pronto, estamos trabajando en ello</p>
+      </div>
+
+      <!-- Cargar más -->
+      {total > INITIAL_SHOW && (
+        <div class="load-more-wrap" id="load-more-wrap">
+          <button class="btn-load-more" id="btn-load-more">
+            Cargar más análisis
+          </button>
+        </div>
+      )}
+
+    </div>
+  </div>
+</BaseLayout>
+
+<script>
+  const INITIAL_SHOW = 24;
+  const LOAD_STEP    = 12;
+
+  let currentFilter = 'all';
+  let currentSort   = 'reciente';
+  let visibleCount  = INITIAL_SHOW;
+
+  function getItems(): HTMLElement[] {
+    return Array.from(document.querySelectorAll<HTMLElement>('.grid-item'));
+  }
+
+  function parsePrice(str: string | undefined): number {
+    if (!str) return 99999;
+    const n = parseFloat(str);
+    return isNaN(n) ? 99999 : n;
+  }
+
+  function applyAll() {
+    const allItems = getItems();
+
+    const filtered = allItems.filter(el =>
+      currentFilter === 'all' || el.dataset.cat === currentFilter
+    );
+
+    // Sort
+    filtered.sort((a, b) => {
+      switch (currentSort) {
+        case 'puntuacion':
+          return Number(b.dataset.puntuacion) - Number(a.dataset.puntuacion);
+        case 'precio-asc':
+          return parsePrice(a.dataset.precio) - parsePrice(b.dataset.precio);
+        case 'precio-desc':
+          return parsePrice(b.dataset.precio) - parsePrice(a.dataset.precio);
+        default:
+          return new Date(b.dataset.fecha!).getTime() - new Date(a.dataset.fecha!).getTime();
+      }
+    });
+
+    const notFiltered = allItems.filter(el =>
+      currentFilter !== 'all' && el.dataset.cat !== currentFilter
+    );
+
+    // Reorder DOM: filtered (sorted) first, then others
+    const grid = document.getElementById('articles-grid')!;
+    filtered.forEach(el => grid.appendChild(el));
+    notFiltered.forEach(el => grid.appendChild(el));
+
+    // Show/hide
+    filtered.forEach((el, i) => {
+      el.classList.toggle('item-hidden', i >= visibleCount);
+    });
+    notFiltered.forEach(el => el.classList.add('item-hidden'));
+
+    // Counter
+    const shown = Math.min(filtered.length, visibleCount);
+    const countEl = document.getElementById('count-visible');
+    if (countEl) countEl.textContent = String(shown);
+
+    // Empty state
+    const empty = document.getElementById('empty-state') as HTMLElement;
+    if (empty) empty.hidden = filtered.length > 0;
+
+    // Load more button
+    const lmWrap = document.getElementById('load-more-wrap') as HTMLElement | null;
+    if (lmWrap) lmWrap.hidden = filtered.length <= visibleCount;
+  }
+
+  // Category pills
+  document.querySelectorAll<HTMLElement>('.pill').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.pill').forEach(b => {
+        b.classList.remove('active');
+        b.removeAttribute('aria-current');
+      });
+      btn.classList.add('active');
+      btn.setAttribute('aria-current', 'true');
+      currentFilter = btn.dataset.filter!;
+      visibleCount = INITIAL_SHOW;
+      applyAll();
+    });
+  });
+
+  // Sort
+  document.getElementById('sort-select')?.addEventListener('change', e => {
+    currentSort = (e.target as HTMLSelectElement).value;
+    applyAll();
+  });
+
+  // View toggle
+  function setView(view: 'grid' | 'list') {
+    currentSort;
+    document.getElementById('articles-grid')?.setAttribute('data-view', view);
+    const gBtn = document.getElementById('view-grid')!;
+    const lBtn = document.getElementById('view-list')!;
+    gBtn.classList.toggle('active', view === 'grid');
+    lBtn.classList.toggle('active', view === 'list');
+    gBtn.setAttribute('aria-pressed', String(view === 'grid'));
+    lBtn.setAttribute('aria-pressed', String(view === 'list'));
+  }
+
+  document.getElementById('view-grid')?.addEventListener('click', () => setView('grid'));
+  document.getElementById('view-list')?.addEventListener('click', () => setView('list'));
+
+  // Load more
+  document.getElementById('btn-load-more')?.addEventListener('click', () => {
+    visibleCount += LOAD_STEP;
+    applyAll();
+  });
+
+  // Initial run
+  applyAll();
+</script>
+
+<style>
+  .analisis-page {
+    padding: 3rem 0 5rem;
+  }
+
+  /* ── Cabecera ── */
+  .page-header {
+    margin-bottom: 2.5rem;
+  }
+
+  .page-header h1 {
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    margin-bottom: 0.5rem;
+  }
+
+  .page-subtitle {
+    font-size: 1rem;
+    color: var(--color-text-muted);
+  }
+
+  /* ── Toolbar ── */
+  .toolbar {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.25rem;
+  }
+
+  .filter-pills {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    flex: 1;
+  }
+
+  .pill {
+    padding: 0.4rem 1rem;
+    border-radius: 999px;
+    border: 1.5px solid var(--color-border);
+    background: white;
+    color: var(--color-text-muted);
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition);
+    white-space: nowrap;
+  }
+
+  .pill:hover {
+    border-color: var(--color-brand);
+    color: var(--color-brand);
+  }
+
+  .pill.active {
+    background: var(--color-brand);
+    border-color: var(--color-brand);
+    color: white;
+  }
+
+  .toolbar-right {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-shrink: 0;
+  }
+
+  .sort-select {
+    padding: 0.4rem 0.75rem;
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius);
+    background: white;
+    color: var(--color-text);
+    font-size: 0.875rem;
+    cursor: pointer;
+    outline: none;
+    transition: border-color var(--transition);
+  }
+
+  .sort-select:focus {
+    border-color: var(--color-brand);
+  }
+
+  .view-toggle {
+    display: flex;
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .view-btn {
+    padding: 0.4rem 0.65rem;
+    background: white;
+    border: none;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: all var(--transition);
+  }
+
+  .view-btn + .view-btn {
+    border-left: 1.5px solid var(--color-border);
+  }
+
+  .view-btn.active,
+  .view-btn:hover {
+    background: var(--color-bg-secondary);
+    color: var(--color-brand);
+  }
+
+  /* ── Grid de artículos ── */
+  .articles-grid[data-view="grid"] {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.75rem;
+  }
+
+  .articles-grid[data-view="list"] {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  /* ── Modo lista: sobreescribir ArticleCard ── */
+  :global([data-view="list"] .article-card) {
+    flex-direction: row;
+    align-items: stretch;
+  }
+
+  :global([data-view="list"] .card-image-link) {
+    width: 140px;
+    flex-shrink: 0;
+  }
+
+  :global([data-view="list"] .card-image-wrapper) {
+    height: 140px;
+    aspect-ratio: unset;
+  }
+
+  :global([data-view="list"] .card-body) {
+    padding: 1rem;
+  }
+
+  :global([data-view="list"] .card-desc) {
+    -webkit-line-clamp: 2;
+  }
+
+  /* ── Items ocultos ── */
+  .item-hidden {
+    display: none !important;
+  }
+
+  /* ── Estado vacío ── */
+  .empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+  }
+
+  .empty-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .empty-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: 0.5rem;
+  }
+
+  .empty-sub {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+  }
+
+  /* ── Cargar más ── */
+  .load-more-wrap {
+    text-align: center;
+    margin-top: 2.5rem;
+  }
+
+  .btn-load-more {
+    padding: 0.75rem 2rem;
+    background: white;
+    border: 2px solid var(--color-brand);
+    color: var(--color-brand);
+    border-radius: var(--radius);
+    font-weight: 600;
+    font-size: 0.9375rem;
+    cursor: pointer;
+    transition: all var(--transition);
+  }
+
+  .btn-load-more:hover {
+    background: var(--color-brand);
+    color: white;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 1024px) {
+    .articles-grid[data-view="grid"] {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .articles-grid[data-view="grid"] {
+      grid-template-columns: 1fr;
+    }
+
+    .toolbar {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    :global([data-view="list"] .card-image-link) {
+      width: 100px;
+    }
+
+    :global([data-view="list"] .card-image-wrapper) {
+      height: 100px;
+    }
+  }
+</style>

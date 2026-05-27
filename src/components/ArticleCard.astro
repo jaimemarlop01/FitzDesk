@@ -1,5 +1,6 @@
 ---
 import CategoryBadge from './CategoryBadge.astro';
+import PlaceholderImage from './PlaceholderImage.astro';
 import { u } from '../lib/url';
 
 export interface Props {
@@ -10,9 +11,10 @@ export interface Props {
   descripcion: string;
   imagen: string;
   puntuacion: number;
+  precio?: string;
 }
 
-const { title, slug, categoria, fecha, descripcion, imagen, puntuacion } = Astro.props;
+const { title, slug, categoria, fecha, descripcion, imagen, puntuacion, precio } = Astro.props;
 
 const articleHref = u(`/articulo/${slug}`);
 const imgSrc = u(imagen);
@@ -32,14 +34,18 @@ const fechaFormateada = new Date(fecha).toLocaleDateString('es-ES', {
 <article class="article-card">
   <a href={articleHref} class="card-image-link" tabindex="-1" aria-hidden="true">
     <div class="card-image-wrapper">
-      <img
-        src={imgSrc}
-        alt={title}
-        loading="lazy"
-        decoding="async"
-        width="400"
-        height="225"
-      />
+      {imagen ? (
+        <img
+          src={imgSrc}
+          alt={title}
+          loading="lazy"
+          decoding="async"
+          width="400"
+          height="225"
+          onerror="this.style.display='none';this.parentElement.querySelector('.placeholder-img')?.style.setProperty('display','flex')"
+        />
+      ) : null}
+      {!imagen && <PlaceholderImage categoria={categoria} />}
       <span class="card-score" style={`background: ${scoreColor}`}>
         {puntuacion}
       </span>
@@ -57,6 +63,10 @@ const fechaFormateada = new Date(fecha).toLocaleDateString('es-ES', {
     </h3>
 
     <p class="card-desc">{descripcion}</p>
+
+    {precio && precio !== 'pendiente' && (
+      <p class="card-price">{precio}</p>
+    )}
 
     <a href={articleHref} class="card-link" aria-label={`Leer análisis: ${title}`}>
       Leer análisis →
@@ -173,5 +183,12 @@ const fechaFormateada = new Date(fecha).toLocaleDateString('es-ES', {
 
   .card-link:hover {
     text-decoration: underline;
+  }
+
+  .card-price {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--color-text);
   }
 </style>

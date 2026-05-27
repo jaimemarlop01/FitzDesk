@@ -59,6 +59,7 @@ const CATEGORY_EMOJI = {
   teclados:   '⌨️',
   monitores:  '🖥️',
   portatiles: '💻',
+  auriculares:'🎧',
   setups:     '🏠',
   guias:      '📖',
 };
@@ -84,51 +85,52 @@ async function discordPost(payload) {
 // Notificación por borrador generado
 // ─────────────────────────────────────────────
 
-export async function notifyDraft({ title, slug, source, filePath, categoria, description }) {
+export async function notifyDraft({ title, slug, source, filePath, categoria, description, imageUrl, articleUrl }) {
   const msg = `BORRADOR GENERADO — "${title}" (fuente: ${source}) → ${filePath}`;
   logSuccess(msg);
 
-  const emoji = CATEGORY_EMOJI[categoria] ?? '📝';
-  const excerpt = description
-    ? description.slice(0, 180) + (description.length > 180 ? '…' : '')
-    : null;
+  const emoji    = CATEGORY_EMOJI[categoria] ?? '📝';
+  const catLabel = categoria
+    ? categoria.charAt(0).toUpperCase() + categoria.slice(1)
+    : 'General';
 
-  await discordPost({
-    embeds: [{
-      title: `${emoji} Nuevo borrador generado`,
-      description: `**${title}**`,
-      color: 0xF97316,  // naranja FitzDesk
-      fields: [
-        { name: 'Categoría', value: categoria ?? 'desconocida', inline: true },
-        { name: 'Fuente',    value: source,                    inline: true },
-        { name: 'Slug',      value: `\`${slug}\``,             inline: true },
-        ...(excerpt ? [{ name: 'Extracto', value: excerpt, inline: false }] : []),
-        {
-          name: 'Próximos pasos',
-          value: [
-            '1. Abrir el archivo `borrador-' + slug + '.md`',
-            '2. Completar precio, enlace de afiliado e imagen',
-            '3. Revisar y editar el contenido generado',
-            '4. Quitar `borrador: true` y renombrar el archivo',
-            '5. Ejecutar `npm run build` para publicar',
-          ].join('\n'),
-          inline: false,
-        },
-      ],
-      footer: { text: 'FitzDesk Monitor' },
-      timestamp: new Date().toISOString(),
-    }],
-  });
+  const embed = {
+    title: '🐿️ Fitz ha detectado una novedad',
+    color: 0xF97316,
+    fields: [
+      { name: '📦 Producto',    value: title.slice(0, 200),                          inline: false },
+      { name: `${emoji} Categoría`, value: catLabel,                                 inline: true  },
+      { name: '📡 Fuente',     value: articleUrl ? `[${source}](${articleUrl})` : source, inline: true },
+      { name: '📝 Borrador',   value: `\`borrador-${slug}.md\``,                     inline: false },
+      {
+        name: '✅ Siguientes pasos',
+        value: [
+          '1. Completar precio y enlace de afiliado',
+          '2. Revisar y editar el contenido generado',
+          '3. Quitar `borrador: true` del frontmatter',
+          '4. Renombrar el archivo (quitar prefijo `borrador-`)',
+          '5. Ejecutar `npm run build` para publicar',
+        ].join('\n'),
+        inline: false,
+      },
+    ],
+    footer: { text: `FitzDesk Monitor • ${timestamp()}` },
+  };
+
+  // Añadir imagen si se encontró una
+  if (imageUrl) {
+    embed.image = { url: imageUrl };
+  }
+
+  await discordPost({ embeds: [embed] });
 }
 
 // ─────────────────────────────────────────────
 // Resumen al final de cada ejecución
 // ─────────────────────────────────────────────
 
-export async function notifySummary({ totalNew, totalDrafts, errors }) {
+export async function notifySummary({ totalNew, totalDrafts, errors, totalDiscard = 0 }) {
   if (!process.env.DISCORD_WEBHOOK_URL) return;
-
-  // No enviar resumen si no encontramos nada y no hubo errores
   if (totalNew === 0 && errors.length === 0) return;
 
   const hasErrors = errors.length > 0;
@@ -136,13 +138,14 @@ export async function notifySummary({ totalNew, totalDrafts, errors }) {
   const emoji = hasErrors ? '⚠️' : totalDrafts > 0 ? '✅' : 'ℹ️';
 
   const fields = [
-    { name: 'Novedades detectadas', value: String(totalNew),    inline: true },
-    { name: 'Borradores generados', value: String(totalDrafts), inline: true },
+    { name: '✅ Relevantes',         value: String(totalNew),     inline: true },
+    { name: '📝 Borradores',         value: String(totalDrafts),  inline: true },
+    { name: '🗑️ Descartados',        value: String(totalDiscard), inline: true },
   ];
 
   if (hasErrors) {
     fields.push({
-      name: `Fuentes con error (${errors.length})`,
+      name:  `⚡ Fuentes con error (${errors.length})`,
       value: errors.map(e => `• ${e}`).join('\n'),
       inline: false,
     });
@@ -150,10 +153,41 @@ export async function notifySummary({ totalNew, totalDrafts, errors }) {
 
   await discordPost({
     embeds: [{
-      title: `${emoji} FitzDesk Monitor — Resumen de comprobación`,
+      title: `${emoji} FitzDesk Monitor — Resumen`,
       color,
       fields,
-      footer: { text: 'FitzDesk Monitor' },
+      footer: { text: `FitzDesk Monitor • ${timestamp()}` },
+    }],
+  });
+}
+
+// ─────────────────────────────────────────────
+// Resumen diario (se envía siempre a las 9 AM)
+// ─────────────────────────────────────────────
+
+export async function notifyDailySummary({ totalScanned, totalRelevant, totalDrafts, totalDiscard, errors, productos }) {
+  if (!process.env.DISCORD_WEBHOOK_URL) return;
+
+  const hasProducts = productos && productos.length > 0;
+
+  await discordPost({
+    embeds: [{
+      title: '📊 Resumen diario de FitzDesk Monitor',
+      color: 0xF97316,
+      description: 'Aquí tienes el resumen de las últimas 24 horas',
+      fields: [
+        { name: '🔍 Artículos analizados', value: String(totalScanned ?? 0),  inline: true },
+        { name: '✅ Relevantes',           value: String(totalRelevant ?? 0), inline: true },
+        { name: '📝 Borradores generados', value: String(totalDrafts ?? 0),  inline: true },
+        { name: '🗑️ Descartados',          value: String(totalDiscard ?? 0), inline: true },
+        { name: '⚡ Fuentes con error',    value: String(errors?.length ?? 0), inline: true },
+        ...(hasProducts ? [{
+          name:   '📦 Productos detectados',
+          value:  productos.slice(0, 10).join(', '),
+          inline: false,
+        }] : []),
+      ],
+      footer: { text: 'FitzDesk Monitor • Resumen diario' },
       timestamp: new Date().toISOString(),
     }],
   });

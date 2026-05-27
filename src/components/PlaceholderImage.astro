@@ -1,0 +1,58 @@
+---
+export interface Props {
+  categoria?: string;
+  title?: string;
+  class?: string;
+}
+
+const { categoria = 'setup', title = '', class: className = '' } = Astro.props;
+
+const ICONS: Record<string, string> = {
+  ratones:    `<path stroke-linecap="round" stroke-linejoin="round" d="M28 22C28 15 24.4 9 20 9C15.6 9 12 15 12 22V30C12 37 15.6 41 20 41C24.4 41 28 37 28 30V22Z"/><line x1="20" y1="9" x2="20" y2="23" stroke-linecap="round"/><rect x="17" y="13" width="6" height="10" rx="3"/>`,
+  teclados:   `<rect x="3" y="11" width="34" height="18" rx="3.5"/><path stroke-linecap="round" d="M7 17H11M15 17H19M23 17H27M31 17H35"/><path stroke-linecap="round" d="M8 22H12M16 22H20M24 22H28"/><path stroke-linecap="round" d="M11 27H29"/>`,
+  monitores:  `<rect x="4" y="5" width="32" height="22" rx="2.5"/><line x1="20" y1="27" x2="20" y2="34" stroke-linecap="round"/><line x1="13" y1="34" x2="27" y2="34" stroke-linecap="round"/>`,
+  portatiles: `<rect x="7" y="5" width="26" height="18" rx="2"/><line x1="7" y1="23" x2="33" y2="23" stroke-linecap="round"/><path stroke-linecap="round" stroke-linejoin="round" d="M3 28H37C37 28 35.5 33 34 33H6C4.5 33 3 28 3 28Z"/>`,
+  auriculares:`<path stroke-linecap="round" d="M10 22C10 14.27 14.48 8 20 8C25.52 8 30 14.27 30 22"/><rect x="7" y="21" width="5" height="9" rx="2.5"/><rect x="28" y="21" width="5" height="9" rx="2.5"/>`,
+  guias:      `<path stroke-linecap="round" stroke-linejoin="round" d="M8 9C11 8 16 8 20 11V35C16 33 11 33 8 37V9Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M32 9C29 8 24 8 20 11V35C24 33 29 33 32 37V9Z"/><line x1="12" y1="16" x2="17" y2="16" stroke-linecap="round"/><line x1="12" y1="21" x2="17" y2="21" stroke-linecap="round"/>`,
+  setups:     `<rect x="10" y="4" width="20" height="15" rx="2"/><line x1="20" y1="19" x2="20" y2="24" stroke-linecap="round"/><line x1="15" y1="24" x2="25" y2="24" stroke-linecap="round"/><line x1="4" y1="32" x2="36" y2="32" stroke-linecap="round"/><line x1="6" y1="24" x2="13" y2="24" stroke-linecap="round"/><line x1="27" y1="24" x2="34" y2="24" stroke-linecap="round"/>`,
+};
+
+const icon = ICONS[categoria] ?? ICONS.setups;
+const label = categoria.charAt(0).toUpperCase() + categoria.slice(1);
+---
+
+<div class={`placeholder-img ${className}`} aria-hidden="true">
+  <svg viewBox="0 0 40 40" fill="none" stroke="#F97316" stroke-width="1.5" class="placeholder-icon">
+    <Fragment set:html={icon} />
+  </svg>
+  <span class="placeholder-label">{label}</span>
+</div>
+
+<style>
+  .placeholder-img {
+    width: 100%;
+    height: 100%;
+    background: #FFF7ED;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    aspect-ratio: 16 / 9;
+  }
+
+  .placeholder-icon {
+    width: 48px;
+    height: 48px;
+    opacity: 0.7;
+  }
+
+  .placeholder-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #F97316;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    opacity: 0.8;
+  }
+</style>

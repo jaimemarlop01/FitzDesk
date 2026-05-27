@@ -5,27 +5,33 @@ import { join, resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import cron from 'node-cron';
 
-import { SOURCES, KEYWORDS } from './sources.js';
+import { SOURCES, passesStrictFilter } from './sources.js';
 import { isProcessed, markProcessed, getCacheStats } from './cache.js';
 import { generateDraft } from './analyzer.js';
-import { logInfo, logSuccess, logWarn, logError, notifyDraft, notifySummary } from './notifier.js';
+import { logInfo, logSuccess, logWarn, logError, notifyDraft, notifySummary, notifyDailySummary } from './notifier.js';
+import { findProductImage, downloadProductImage } from './imageSearch.js';
+import { verifyWithGemini } from './reviewer.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const parser = new Parser({ timeout: 10000 });
+const parser = new Parser({
+  timeout: 10000,
+  customFields: {
+    item: [
+      ['media:content', 'media:content', { keepArray: false }],
+      ['media:thumbnail', 'media:thumbnail', { keepArray: false }],
+    ],
+  },
+});
 
 const CONTENT_PATH = resolve(
   __dirname,
-  process.env.ASTRO_CONTENT_PATH ?? '../FitzDesk/src/content/articulos'
+  process.env.ASTRO_CONTENT_PATH ?? '../src/content/articulos'
 );
 const HOURS = parseInt(process.env.CHECK_INTERVAL_HOURS ?? '24', 10);
 
 // ─────────────────────────────────────────────
-// Relevancia
+// Helpers
 // ─────────────────────────────────────────────
-function isRelevant(item) {
-  const text = `${item.title ?? ''} ${item.contentSnippet ?? ''} ${item.content ?? ''}`.toLowerCase();
-  return KEYWORDS.some(kw => text.includes(kw.toLowerCase()));
-}
 
 function itemId(item) {
   return item.guid ?? item.link ?? item.title ?? String(Date.now());
@@ -33,18 +39,12 @@ function itemId(item) {
 
 function isRecent(item, hours = 24) {
   const date = item.pubDate ? new Date(item.pubDate) : null;
-  if (!date || isNaN(date)) return true; // si no hay fecha, incluir
-  const cutoff = new Date(Date.now() - hours * 60 * 60 * 1000);
-  return date > cutoff;
+  if (!date || isNaN(date)) return true;
+  return date > new Date(Date.now() - hours * 60 * 60 * 1000);
 }
 
-// ─────────────────────────────────────────────
-// Guardar borrador
-// ─────────────────────────────────────────────
 function saveDraft(filename, content) {
-  if (!existsSync(CONTENT_PATH)) {
-    mkdirSync(CONTENT_PATH, { recursive: true });
-  }
+  if (!existsSync(CONTENT_PATH)) mkdirSync(CONTENT_PATH, { recursive: true });
   const filePath = join(CONTENT_PATH, filename);
   writeFileSync(filePath, content, 'utf-8');
   return filePath;
@@ -53,13 +53,17 @@ function saveDraft(filename, content) {
 // ─────────────────────────────────────────────
 // Ciclo principal
 // ─────────────────────────────────────────────
+
 async function runCheck() {
   logInfo('━━━ Iniciando comprobación de novedades ━━━');
   logInfo(`Fuentes: ${SOURCES.filter(s => s.enabled).length} | Caché: ${getCacheStats().total} entradas`);
 
-  let totalNew = 0;
-  let totalDrafts = 0;
-  const errors = [];
+  let totalScanned  = 0;
+  let totalRelevant = 0;
+  let totalDrafts   = 0;
+  let totalDiscard  = 0;
+  const errors      = [];
+  const productos   = [];
 
   for (const source of SOURCES.filter(s => s.enabled)) {
     logInfo(`Leyendo feed: ${source.name}`);
@@ -75,19 +79,37 @@ async function runCheck() {
 
     const recentItems = feed.items.filter(item => isRecent(item, HOURS));
     logInfo(`  ${recentItems.length} artículos en las últimas ${HOURS}h`);
+    totalScanned += recentItems.length;
 
     for (const item of recentItems) {
       const id = itemId(item);
-
       if (isProcessed(id)) continue;
 
-      if (!isRelevant(item)) {
+      // ── Capa 1: filtro estricto por palabras clave ──
+      if (!passesStrictFilter(item)) {
         markProcessed(id);
+        totalDiscard++;
         continue;
       }
 
-      totalNew++;
-      logInfo(`  → Relevante: "${item.title}"`);
+      logInfo(`  → Candidato: "${item.title}"`);
+
+      // ── Capa 2: verificación con Gemini ──
+      const review = await verifyWithGemini({
+        title: item.title ?? '',
+        description: item.contentSnippet ?? item.content ?? '',
+      });
+
+      if (!review.relevante) {
+        logInfo(`  ✗ Descartado por Gemini: ${review.motivo}`);
+        markProcessed(id);
+        totalDiscard++;
+        continue;
+      }
+
+      totalRelevant++;
+      logInfo(`  ✓ Relevante: "${item.title}" [${review.categoria ?? '?'}]`);
+      if (review.producto) productos.push(review.producto);
 
       if (!process.env.GROQ_API_KEY) {
         logWarn('GROQ_API_KEY no configurada — saltando generación de borrador');
@@ -95,26 +117,46 @@ async function runCheck() {
         continue;
       }
 
+      // ── Buscar imagen del producto ──
+      const imageUrl = await findProductImage(item);
+
       try {
         const result = await generateDraft({
-          title: item.title ?? 'Sin título',
+          title:       item.title ?? 'Sin título',
           description: item.contentSnippet ?? item.content ?? '',
-          link: item.link ?? '',
-          source: source.name,
+          link:        item.link ?? '',
+          source:      source.name,
+          categoria:   review.categoria ?? null,
         });
 
         if (result) {
+          // Descargar imagen y actualizar frontmatter
+          let localImagePath = null;
+          if (imageUrl) {
+            const img = await downloadProductImage(imageUrl, result.slug);
+            if (img) {
+              localImagePath = img.localPath;
+              result.content = result.content.replace(
+                /imagen: "\/images\/[^"]+"/,
+                `imagen: "${img.localPath}"`
+              );
+            }
+          }
+
           const filename = `borrador-${result.slug}.md`;
           const filePath = saveDraft(filename, result.content);
           markProcessed(id);
           totalDrafts++;
+
           await notifyDraft({
-            title: item.title,
-            slug: result.slug,
-            source: source.name,
+            title:       item.title,
+            slug:        result.slug,
+            source:      source.name,
             filePath,
-            categoria: result.categoria,
+            categoria:   result.categoria,
             description: item.contentSnippet ?? item.content ?? '',
+            imageUrl,        // URL remota para el embed de Discord
+            articleUrl:  item.link,
           });
         } else {
           markProcessed(id);
@@ -124,26 +166,30 @@ async function runCheck() {
         markProcessed(id);
       }
 
-      // Pausa entre llamadas a la API para no superar rate limits
+      // Pausa entre llamadas a la API
       await new Promise(r => setTimeout(r, 1500));
     }
   }
 
-  const summary = `━━━ Resumen: ${totalNew} novedades relevantes encontradas, ${totalDrafts} borradores generados${errors.length ? ` (${errors.length} fuentes con error)` : ''} ━━━`;
+  const summary = `━━━ Resumen: ${totalScanned} escaneados, ${totalRelevant} relevantes, ${totalDrafts} borradores, ${totalDiscard} descartados${errors.length ? ` (${errors.length} fuentes con error)` : ''} ━━━`;
   logSuccess(summary);
-  await notifySummary({ totalNew, totalDrafts, errors });
-  return { totalNew, totalDrafts };
+  await notifySummary({ totalNew: totalRelevant, totalDrafts, errors, totalDiscard });
+  return { totalScanned, totalRelevant, totalDrafts, totalDiscard, errors, productos };
 }
 
 // ─────────────────────────────────────────────
 // Entrada principal
 // ─────────────────────────────────────────────
+
 const args = process.argv.slice(2);
 const isDaemon = args.includes('--daemon');
 const isOnce   = args.includes('--once') || !isDaemon;
 
 if (!process.env.GROQ_API_KEY) {
   logWarn('GROQ_API_KEY no configurada. Los borradores no se generarán (solo detección).');
+}
+if (!process.env.GEMINI_API_KEY) {
+  logWarn('GEMINI_API_KEY no configurada. Solo se usará el filtro de palabras clave (Capa 1).');
 }
 
 logInfo(`FitzDesk Monitor iniciado — modo: ${isDaemon ? 'daemon' : 'una vez'}`);
@@ -158,8 +204,21 @@ if (isOnce) {
 
 if (isDaemon) {
   const cronExpr = `0 */${HOURS} * * *`;
-  logInfo(`Programado con cron: "${cronExpr}" (cada ${HOURS} horas)`);
+  logInfo(`Comprobación programada: "${cronExpr}" (cada ${HOURS} horas)`);
   cron.schedule(cronExpr, () => {
     runCheck().catch(err => logError(`Error en ciclo programado: ${err.message}`));
+  });
+
+  // Resumen diario a las 9:00 AM
+  const dailyHour = parseInt(process.env.DAILY_SUMMARY_HOUR ?? '9', 10);
+  logInfo(`Resumen diario programado a las ${dailyHour}:00`);
+  cron.schedule(`0 ${dailyHour} * * *`, async () => {
+    logInfo('Enviando resumen diario a Discord...');
+    try {
+      const result = await runCheck();
+      await notifyDailySummary(result);
+    } catch (err) {
+      logError(`Error en resumen diario: ${err.message}`);
+    }
   });
 }
