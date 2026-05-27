@@ -10,7 +10,7 @@ import ArticleCard from '../../components/ArticleCard.astro';
 import { u, base } from '../../lib/url';
 
 export async function getStaticPaths() {
-  const articles = await getCollection('articulos');
+  const articles = (await getCollection('articulos')).filter(a => !a.data.borrador);
   return articles.map(article => ({
     params: { slug: article.slug },
     props: { article },
@@ -29,7 +29,7 @@ const fechaFormateada = new Date(fecha).toLocaleDateString('es-ES', {
   year: 'numeric', month: 'long', day: 'numeric',
 });
 
-const allArticles = await getCollection('articulos');
+const allArticles = (await getCollection('articulos')).filter(a => !a.data.borrador);
 const related = allArticles
   .filter(a => a.data.categoria === categoria && a.slug !== article.slug)
   .slice(0, 3);

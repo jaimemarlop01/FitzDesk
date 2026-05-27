@@ -6,7 +6,7 @@ import CategoryBadge from '../../components/CategoryBadge.astro';
 import { u, base } from '../../lib/url';
 
 export async function getStaticPaths() {
-  const allArticles = await getCollection('articulos');
+  const allArticles = (await getCollection('articulos')).filter(a => !a.data.borrador);
   const categories = [...new Set(allArticles.map(a => a.data.categoria))];
   const allCategories = [...new Set([...categories, 'ratones', 'teclados', 'monitores', 'portatiles', 'setups', 'guias'])];
 

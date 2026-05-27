@@ -4,7 +4,7 @@ import ArticleCard from '../components/ArticleCard.astro';
 import { u, base } from '../lib/url';
 import { getCollection } from 'astro:content';
 
-const allArticles = await getCollection('articulos');
+const allArticles = (await getCollection('articulos')).filter(a => !a.data.borrador);
 const latestArticles = allArticles
   .sort((a, b) => new Date(b.data.fecha).getTime() - new Date(a.data.fecha).getTime())
   .slice(0, 6);
