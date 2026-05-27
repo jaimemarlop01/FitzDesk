@@ -1,7 +1,7 @@
-import Anthropic from '@anthropic-ai/sdk';
+import Groq from 'groq-sdk';
 import { logInfo, logWarn } from './notifier.js';
 
-const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+const client = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 function slugify(text) {
   return text
@@ -97,16 +97,16 @@ donde falte información específica del producto:
 Escribe en español de España. Extensión: 600-800 palabras en el cuerpo.
 Recuerda que es un BORRADOR que necesita revisión humana.`;
 
-  const message = await client.messages.create({
-    model: 'claude-sonnet-4-20250514',
+  const completion = await client.chat.completions.create({
+    model: 'llama-3.3-70b-versatile',
     max_tokens: 2000,
     messages: [{ role: 'user', content: prompt }],
   });
 
-  const content = message.content[0].type === 'text' ? message.content[0].text : '';
+  const content = completion.choices[0]?.message?.content ?? '';
 
   if (!content) {
-    logWarn(`La API no devolvió contenido para "${title}"`);
+    logWarn(`Groq no devolvió contenido para "${title}"`);
     return null;
   }
 

@@ -89,8 +89,8 @@ async function runCheck() {
       totalNew++;
       logInfo(`  → Relevante: "${item.title}"`);
 
-      if (!process.env.ANTHROPIC_API_KEY) {
-        logWarn('ANTHROPIC_API_KEY no configurada — saltando generación de borrador');
+      if (!process.env.GROQ_API_KEY) {
+        logWarn('GROQ_API_KEY no configurada — saltando generación de borrador');
         markProcessed(id);
         continue;
       }
@@ -142,8 +142,8 @@ const args = process.argv.slice(2);
 const isDaemon = args.includes('--daemon');
 const isOnce   = args.includes('--once') || !isDaemon;
 
-if (!process.env.ANTHROPIC_API_KEY) {
-  logWarn('ANTHROPIC_API_KEY no configurada. Los borradores no se generarán (solo detección).');
+if (!process.env.GROQ_API_KEY) {
+  logWarn('GROQ_API_KEY no configurada. Los borradores no se generarán (solo detección).');
 }
 
 logInfo(`FitzDesk Monitor iniciado — modo: ${isDaemon ? 'daemon' : 'una vez'}`);
