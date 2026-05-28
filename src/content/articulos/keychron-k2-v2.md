@@ -3,7 +3,7 @@ title: "Análisis Keychron K2 V2: el teclado mecánico ideal para trabajar desde
 categoria: "teclados"
 fecha: "2026-05-15"
 descripcion: "El Keychron K2 V2 es el teclado mecánico inalámbrico más popular entre los trabajadores remotos. Analizamos si realmente merece su fama después de meses de uso."
-imagen: "/images/keychron-k2-v2.svg"
+imagen: "/images/articulos/keychron-k2-v2.webp"
 puntuacion: 8.8
 precio: "89€"
 enlace_afiliado: "https://www.pccomponentes.com"

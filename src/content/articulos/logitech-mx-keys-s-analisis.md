@@ -3,11 +3,17 @@ title: "Logitech MX Keys S: el teclado para quien no quiere complicaciones"
 categoria: "teclados"
 fecha: "2026-05-27"
 descripcion: "Análisis del Logitech MX Keys S: teclas de perfil bajo ultra cómodas, retroiluminación inteligente y Easy-Switch para 3 dispositivos. El teclado de los productivos."
-imagen: "/images/logitech-mx-keys-s-analisis.svg"
+imagen: "/images/articulos/logitech-mx-keys-s-analisis.webp"
 puntuacion: 8.8
 precio: "119€"
 enlace_afiliado: "https://www.pccomponentes.com"
 tiempo_lectura: "6 min"
+tipo: "analisis"
+keyword_principal: "teclado inalámbrico"
+keywords_secundarias:
+  - "teclados para oficina"
+  - "teclados bluetooth"
+  - "teclados logitech"
 fitzQuote: "No es mecánico, no tiene hot-swap, no es personalizable. Y sin embargo es el teclado que más veo en los escritorios de personas que trabajan en serio. La comodidad de sus teclas es adictiva, y el Easy-Switch para tres dispositivos es una funcionalidad que suena a detalle y termina siendo imprescindible. Mi nota: 8.8/10"
 especificaciones:
   Tipo: "Membrana de perfil bajo (scissor switch)"
@@ -65,6 +71,23 @@ El diseño es elegante y discreto, disponible en grafito y blanco perla. Es el t
 **Lo petará con:** profesionales que buscan comodidad y fluidez sin la curva de los mecánicos, usuarios de múltiples dispositivos que alternan constantemente, quienes valoran la integración con el ecosistema Logitech MX (ratón, teclado, Flow), usuarios de Mac con muchas horas de escritura al día.
 
 **Mejor busca otra opción si:** eres escritor o programador que disfruta la sensación táctil de un mecánico, buscas la mayor personalización posible, o tu presupuesto no justifica los 119€ (el Keychron V1 a 79€ es una alternativa muy sólida en mecánico).
+
+
+
+## Preguntas frecuentes
+
+**¿Merece la pena comprarlo?**
+Sí, si valoras la comodidad y la fluidez en el trabajo diario.
+
+**¿Cuál es su principal ventaja respecto a la competencia?**
+Su teclado de perfil bajo con cavidad esférica y el Easy-Switch para tres dispositivos.
+
+**¿Qué alternativa existe en el mismo rango de precio?**
+El Keychron V1 es una buena alternativa para quien busca un teclado mecánico.
+
+## 🐿️ Fitz recomienda
+
+Me encanta el teclado Logitech MX Keys S por su comodidad y fluidez, aunque el precio de 119€ es un poco elevado. La conectividad Bluetooth es rápida, pero puede tener un micro-lag en aplicaciones de tiempo crítico. Mi nota: 8.8/10
 
 ## Conclusión
 

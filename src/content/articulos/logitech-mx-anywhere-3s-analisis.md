@@ -3,11 +3,18 @@ title: "Logitech MX Anywhere 3S: el ratón de viaje que no es un compromiso"
 categoria: "ratones"
 fecha: "2026-05-27"
 descripcion: "Análisis del Logitech MX Anywhere 3S: compacto, con scroll MagSpeed y batería de 70 días. El mejor ratón para trabajar en movimiento."
-imagen: "/images/logitech-mx-anywhere-3s-analisis.svg"
+imagen: "/images/articulos/logitech-mx-anywhere-3s-analisis.webp"
 puntuacion: 8.7
 precio: "49€"
 enlace_afiliado: "https://www.pccomponentes.com"
 tiempo_lectura: "6 min"
+tipo: "analisis"
+keyword_principal: "ratón inalámbrico portátil"
+keywords_secundarias:
+  - "Logitech MX Anywhere 3S"
+  - "ratón de viaje"
+  - "scroll MagSpeed"
+  - "sensor Darkfield"
 fitzQuote: "El Anywhere 3S es el MX Master que cabe en el bolsillo. Si viajas o trabajas desde cafeterías y espacios compartidos, es el compañero perfecto: cabe en cualquier bolso, funciona en cualquier superficie y su batería dura más que tu proyecto más largo. Mi nota: 8.7/10"
 especificaciones:
   Conexion: "Bluetooth / Logi Bolt (2.4 GHz)"
@@ -65,6 +72,23 @@ La única limitación real del tamaño es para manos grandes: si tienes una palm
 **Lo petará con:** trabajadores en movilidad que alternan espacios, usuarios de portátil que no quieren depender del trackpad, personas que buscan el scroll MagSpeed sin gastar 99€, quienes tienen manos pequeñas o medianas.
 
 **Mejor busca otra opción si:** trabajas siempre desde el mismo escritorio fijo y priorizas ergonomía máxima (el MX Master 3S es mejor opción), tienes manos grandes y haces uso intensivo muchas horas seguidas.
+
+
+
+## Preguntas frecuentes
+
+**¿Merece la pena comprarlo?**
+Sí, si necesitas un ratón compacto y potente para trabajar en movilidad.
+
+**¿Cuál es su principal ventaja respecto a la competencia?**
+Su scroll MagSpeed y sensor Darkfield lo hacen destacar en el mercado.
+
+**¿Qué alternativa existe en el mismo rango de precio?**
+Una alternativa es el Logitech MX Master 3S, aunque es más grande y costoso.
+
+## 🐿️ Fitz recomienda
+
+Me encanta el scroll MagSpeed en este ratón compacto, aunque puede ser un poco pequeño para manos grandes. La batería de 70 días es un gran PLUS. Mi nota: 8.7/10
 
 ## Conclusión
 
