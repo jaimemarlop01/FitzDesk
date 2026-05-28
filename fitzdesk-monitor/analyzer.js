@@ -32,8 +32,13 @@ export async function generateDraft({ title, description, link, source }) {
   const slug = slugify(title);
   const categoria = detectCategory(title + ' ' + description);
 
-  const prompt = `Eres el redactor principal de FitzDesk, una web española de análisis de periféricos
-y setups de teletrabajo. Tu voz es cercana, honesta y técnica a la vez.
+  const prompt = `Eres el redactor principal de FitzDesk, una web española de análisis de periféricos y setups para teletrabajo y productividad. Tono: cercano, honesto y técnico. Audiencia: trabajadores remotos que quieren mejorar su setup sin ser expertos en hardware.
+
+PRINCIPIOS EDITORIALES OBLIGATORIOS:
+- VERACIDAD: Nunca inventes pruebas. Usa "Según sus especificaciones...", "Sobre el papel...", "Cabe esperar que..."
+- INDEPENDENCIA: No ocultes defectos importantes
+- SIN ABSOLUTOS: No uses "El mejor del mercado". Usa "Destaca dentro de su categoría"
+- Idioma: español de España
 
 Basándote en esta noticia detectada automáticamente:
 - Título: ${title}
@@ -41,61 +46,80 @@ Basándote en esta noticia detectada automáticamente:
 - Fuente: ${source}
 - URL original: ${link}
 
-Genera un borrador de análisis en Markdown con este frontmatter exacto al inicio:
+Genera un borrador de análisis en Markdown con este frontmatter exacto:
 
 ---
-title: "[título SEO optimizado del artículo, máximo 70 caracteres]"
+title: "[título SEO, máximo 70 caracteres]"
 categoria: "${categoria}"
 fecha: "${today()}"
-descripcion: "[descripción SEO de máximo 150 caracteres]"
-imagen: "/images/${slug}.jpg"
-puntuacion: 0
+descripcion: "[descripción SEO, máximo 150 caracteres]"
+imagen: "/images/articulos/${slug}.webp"
+puntuacion: [estimación del 1 al 10 basada en lo conocido]
 precio: "pendiente"
 enlace_afiliado: "https://www.pccomponentes.com"
-borrador: true
 tiempo_lectura: "7 min"
-fitzQuote: "pendiente de completar"
+tipo: "analisis"
+keyword_principal: "[keyword principal del producto]"
+keywords_secundarias:
+  - "[keyword 2]"
+  - "[keyword 3]"
+  - "[keyword 4]"
+fitzQuote: "[veredicto corto de Fitz en 2-3 frases, terminando con 'Mi nota: X/10']"
+borrador: true
 ---
 
 <!--
 ⚠️  BORRADOR AUTOMÁTICO — Revisar antes de publicar
-📋  Datos pendientes de completar:
-    - [ ] Precio real actual en PcComponentes
-    - [ ] Enlace de afiliado exacto al producto
-    - [ ] Imagen real del producto (reemplazar /images/${slug}.jpg)
-    - [ ] Puntuación (0-10) basada en análisis real
+📋  Pendiente:
+    - [ ] Precio real en PcComponentes
+    - [ ] Enlace de afiliado exacto
+    - [ ] Imagen real del producto
+    - [ ] Verificar puntuación con análisis real
     - [ ] Especificaciones técnicas detalladas
-    - [ ] FitzQuote personalizado
-    - [ ] Revisión y edición del contenido generado
+    - [ ] Eliminar borrador: true al publicar
 -->
 
-Incluye estas secciones en el cuerpo del artículo, marcando con [COMPLETAR: descripción]
-donde falte información específica del producto:
+Escribe el cuerpo del artículo con estas secciones. Marca con [COMPLETAR: descripción] donde falte información concreta:
 
-## Introducción (2 párrafos sobre relevancia para trabajadores remotos)
+## Introducción
+2 párrafos. Por qué este producto es relevante para el trabajador remoto. A quién va dirigido. Sin adelantar la conclusión.
 
-## Características técnicas principales
-(Basarte en lo conocido, marcar specs detalladas con [COMPLETAR])
+## Características técnicas explicadas
+Las 4-5 specs más importantes. Traduce cada spec a un beneficio real de uso. Nunca copies fichas técnicas literalmente.
 
 ## Experiencia de uso esperada
-(Basarte en la categoría y tipo de producto)
+Basada únicamente en especificaciones. Usa "cabe esperar que..." o "por sus características...". 2-3 escenarios reales de uso en teletrabajo.
 
 ## Lo mejor
-- [4-5 puntos fuertes conocidos o esperados]
+- **ventaja en negrita** + frase de explicación (4-5 puntos)
 
 ## Lo mejorable
-- [2-3 puntos débiles realistas]
+- 2-3 puntos débiles honestos
 
 ## ¿Para quién es ideal?
-(Perfil de usuario que se beneficia más)
+**Perfil A (sí):** usuario que sacará el máximo partido. Sé específico (horas de uso, necesidades concretas).
+**Perfil B (no):** usuario que debería buscar otra opción.
+
+## Preguntas frecuentes
+
+**¿Merece la pena comprarlo?**
+Respuesta directa en 2-3 líneas.
+
+**¿Cuál es su principal ventaja respecto a la competencia?**
+La ventaja más diferencial en 2-3 líneas.
+
+**¿Qué alternativa existe en el mismo rango de precio?**
+Nombra 1 alternativa concreta.
+
+## 🐿️ Fitz recomienda
+Veredicto en primera persona. Exactamente 3 frases: punto fuerte clave + punto débil más importante + frase de cierre con recomendación. Termina con: "Mi nota: X/10"
 
 ## Conclusión
-(Párrafo de cierre orientado a la acción)
+1 párrafo de cierre orientado a la acción. Sin ser agresivo.
 
-> **Aviso de afiliado**: Si compras a través de nuestros enlaces podemos recibir una comisión sin coste adicional para ti.
+> ⚠️ **Aviso de afiliado**: Si compras a través de nuestros enlaces podemos recibir una pequeña comisión sin coste adicional para ti. Esto nos ayuda a seguir publicando análisis honestos e independientes.
 
-Escribe en español de España. Extensión: 600-800 palabras en el cuerpo.
-Recuerda que es un BORRADOR que necesita revisión humana.`;
+Extensión: 900-1.100 palabras en el cuerpo. Español de España.`;
 
   const completion = await client.chat.completions.create({
     model: 'llama-3.3-70b-versatile',
