@@ -1,0 +1,14 @@
+{
+  "name": "fitzdesk-images",
+  "version": "1.0.0",
+  "description": "Descargador y procesador de imágenes oficiales para FitzDesk",
+  "type": "module",
+  "scripts": {
+    "start":  "node imageDownloader.js",
+    "single": "node imageDownloader.js --single"
+  },
+  "dependencies": {
+    "gray-matter": "^4.0.3",
+    "sharp": "0.32.6"
+  }
+}
