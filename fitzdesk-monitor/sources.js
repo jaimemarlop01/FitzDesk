@@ -17,8 +17,14 @@ export const SOURCES = [
   // PcComponentes bloquea scraping externo (403) — desactivado
   // { name: 'PcComponentes', url: 'https://www.pccomponentes.com/rss', enabled: false },
 
-  // Google Alerts — añade tus feeds RSS aquí:
-  // { name: 'Alert: teclado mecánico', url: 'https://www.google.com/alerts/feeds/TU_ID/...', enabled: true },
+  // Google Alerts
+  { name: 'Alert: nuevo ratón teletrabajo 2026',    url: 'https://www.google.com/alerts/feeds/07327459440318242948/6619462226204092208',   enabled: true },
+  { name: 'Alert: nuevo teclado mecánico 2026',     url: 'https://www.google.com/alerts/feeds/07327459440318242948/92159700337889665',    enabled: true },
+  { name: 'Alert: monitor USB-C teletrabajo',       url: 'https://www.google.com/alerts/feeds/07327459440318242948/15939236646229242629', enabled: true },
+  { name: 'Alert: portátil ultrabook 2026',         url: 'https://www.google.com/alerts/feeds/07327459440318242948/92159700337890514',    enabled: true },
+  { name: 'Alert: Logitech nuevo lanzamiento',      url: 'https://www.google.com/alerts/feeds/07327459440318242948/16253851313461134755', enabled: true },
+  { name: 'Alert: Keychron nuevo modelo',           url: 'https://www.google.com/alerts/feeds/07327459440318242948/15939236646229244074', enabled: true },
+  { name: 'Alert: periféricos productividad',       url: 'https://www.google.com/alerts/feeds/07327459440318242948/92159700337893097',    enabled: true },
 ];
 
 // ─────────────────────────────────────────────
