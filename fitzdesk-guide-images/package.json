@@ -1,0 +1,15 @@
+{
+  "name": "fitzdesk-guide-images",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "generate": "node generateGuideImages.js"
+  },
+  "dependencies": {
+    "@napi-rs/canvas": "^0.1.53",
+    "dotenv": "^16.0.0",
+    "gray-matter": "^4.0.3",
+    "openai": "^4.0.0",
+    "sharp": "0.32.6"
+  }
+}
