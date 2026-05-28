@@ -10,7 +10,7 @@ export interface Props {
   fecha: string;
   descripcion: string;
   imagen: string;
-  puntuacion: number;
+  puntuacion?: number;
   precio?: string;
 }
 
@@ -46,9 +46,11 @@ const fechaFormateada = new Date(fecha).toLocaleDateString('es-ES', {
         />
       ) : null}
       {!imagen && <PlaceholderImage categoria={categoria} />}
-      <span class="card-score" style={`background: ${scoreColor}`}>
-        {puntuacion}
-      </span>
+      {puntuacion && (
+        <span class="card-score" style={`background: ${scoreColor}`}>
+          {puntuacion}
+        </span>
+      )}
     </div>
   </a>
 

@@ -8,7 +8,7 @@ const articulosCollection = defineCollection({
     fecha: z.string(),
     descripcion: z.string(),
     imagen: z.string(),
-    puntuacion: z.number(),
+    puntuacion: z.number().optional(),
     precio: z.string(),
     enlace_afiliado: z.string(),
     tiempo_lectura: z.string().optional(),

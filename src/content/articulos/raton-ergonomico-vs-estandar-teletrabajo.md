@@ -1,13 +1,18 @@
----
+﻿---
 title: "Ratón ergonómico vs ratón estándar: ¿cuál necesitas para teletrabajar?"
 categoria: "guias"
 fecha: "2026-05-27"
 descripcion: "Comparativa honesta entre el Logitech Lift Vertical y el MX Master 3S. Cuándo merece la pena el cambio a ergonómico y cuándo no cambia nada."
-imagen: "/images/raton-ergonomico-vs-estandar-teletrabajo.svg"
-puntuacion: 9.0
+imagen: "/images/articulos/raton-ergonomico-vs-estandar-teletrabajo.webp"
 precio: "69€ - 99€"
 enlace_afiliado: "https://www.pccomponentes.com"
 tiempo_lectura: "7 min"
+tipo: "analisis"
+keyword_principal: "ratón ergonómico"
+keywords_secundarias:
+  - "ratón vertical"
+  - "ergonomía informática"
+  - "teletrabajo"
 fitzQuote: "La pregunta correcta no es 'ergonómico o estándar' sino '¿cuántas horas uso el ratón al día?'. Si son más de cuatro, la postura importa. Si son menos de dos, cualquier ratón razonablemente cómodo basta. Todo lo demás es marketing. Mi nota: 9.0/10"
 ---
 

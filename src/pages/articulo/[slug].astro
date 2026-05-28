@@ -34,7 +34,7 @@ const related = allArticles
   .filter(a => a.data.categoria === categoria && a.slug !== article.slug)
   .slice(0, 3);
 
-const reviewSchema = {
+const reviewSchema = puntuacion ? {
   '@context': 'https://schema.org',
   '@type': 'Review',
   name: title,
@@ -48,7 +48,7 @@ const reviewSchema = {
   author: { '@type': 'Organization', name: 'FitzDesk' },
   datePublished: fecha,
   url: Astro.url.href,
-};
+} : undefined;
 ---
 
 <BaseLayout
@@ -92,7 +92,7 @@ const reviewSchema = {
         <main class="article-main">
           <p class="article-lead">{descripcion}</p>
 
-          <ScoreBox puntuacion={puntuacion} precio={precio} />
+          {puntuacion && <ScoreBox puntuacion={puntuacion} precio={precio} />}
 
           <AffiliateButton href={enlace_afiliado} precio={precio} />
 
@@ -110,12 +110,14 @@ const reviewSchema = {
         </main>
 
         <aside class="article-sidebar">
-          <div class="sidebar-card">
-            <h3>Puntuación</h3>
-            <div class="sidebar-score" style={`color: ${puntuacion >= 9 ? '#16a34a' : puntuacion >= 7.5 ? '#F97316' : '#DC2626'}`}>
-              {puntuacion}<span>/10</span>
+          {puntuacion && (
+            <div class="sidebar-card">
+              <h3>Puntuación</h3>
+              <div class="sidebar-score" style={`color: ${puntuacion >= 9 ? '#16a34a' : puntuacion >= 7.5 ? '#F97316' : '#DC2626'}`}>
+                {puntuacion}<span>/10</span>
+              </div>
             </div>
-          </div>
+          )}
 
           {precio && (
             <div class="sidebar-card">
