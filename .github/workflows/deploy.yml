@@ -10,7 +10,6 @@ permissions:
   pages: write
   id-token: write
 
-# Solo un despliegue simultáneo; cancela ejecuciones en cola pero no la activa
 concurrency:
   group: pages
   cancel-in-progress: false
@@ -23,10 +22,25 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Build with Astro
-        uses: withastro/action@v3
+      - name: Setup Node 20
+        uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: npm
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v4
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build Astro
+        run: npm run build
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
 
   deploy:
     name: Deploy
