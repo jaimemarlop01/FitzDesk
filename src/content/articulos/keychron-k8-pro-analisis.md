@@ -6,7 +6,7 @@ descripcion: "Análisis del Keychron K8 Pro: formato TKL, hot-swap, triple conec
 imagen: "/images/articulos/keychron-k8-pro-analisis.webp"
 puntuacion: 9.0
 precio: "109€"
-enlace_afiliado: "https://www.pccomponentes.com"
+enlace_afiliado: "https://www.pccomponentes.com/keychron-k8-pro"
 tiempo_lectura: "7 min"
 tipo: "analisis"
 keyword_principal: "teclado mecánico Keychron K8 Pro"

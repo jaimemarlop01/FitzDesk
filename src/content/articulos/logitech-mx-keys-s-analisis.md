@@ -6,7 +6,7 @@ descripcion: "Análisis del Logitech MX Keys S: teclas de perfil bajo ultra cóm
 imagen: "/images/articulos/logitech-mx-keys-s-analisis.webp"
 puntuacion: 8.8
 precio: "119€"
-enlace_afiliado: "https://www.pccomponentes.com"
+enlace_afiliado: "https://www.pccomponentes.com/logitech-mx-keys-s"
 tiempo_lectura: "6 min"
 tipo: "analisis"
 keyword_principal: "teclado inalámbrico"

@@ -6,7 +6,7 @@ descripcion: "Análisis del Logitech MX Anywhere 3S: compacto, con scroll MagSpe
 imagen: "/images/articulos/logitech-mx-anywhere-3s-analisis.webp"
 puntuacion: 8.7
 precio: "49€"
-enlace_afiliado: "https://www.pccomponentes.com"
+enlace_afiliado: "https://www.pccomponentes.com/logitech-mx-anywhere-3s"
 tiempo_lectura: "6 min"
 tipo: "analisis"
 keyword_principal: "ratón inalámbrico portátil"

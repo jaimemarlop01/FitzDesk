@@ -6,7 +6,7 @@ descripcion: "Análisis del LG Gram 14 2025: menos de 1 kg, hasta 18 horas de ba
 imagen: "/images/articulos/lg-gram-14-2025-analisis.webp"
 puntuacion: 9.0
 precio: "1.099€"
-enlace_afiliado: "https://www.pccomponentes.com"
+enlace_afiliado: "https://www.pccomponentes.com/lg-gram-14"
 tiempo_lectura: "7 min"
 tipo: "analisis"
 keyword_principal: "portatil ligero"

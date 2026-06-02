@@ -6,7 +6,7 @@ descripcion: "Análisis del ASUS Vivobook 15 OLED 2025: pantalla OLED 15.6 pulga
 imagen: "/images/articulos/asus-vivobook-15-oled-analisis.webp"
 puntuacion: 8.6
 precio: "699€"
-enlace_afiliado: "https://www.pccomponentes.com"
+enlace_afiliado: "https://www.pccomponentes.com/asus-vivobook-15-oled"
 tiempo_lectura: "6 min"
 tipo: "analisis"
 keyword_principal: "-portatil con pantalla oled"

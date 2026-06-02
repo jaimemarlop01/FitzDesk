@@ -6,7 +6,7 @@ descripcion: "Análisis del BenQ GW2780: panel IPS 27 pulgadas con filtro de luz
 imagen: "/images/articulos/benq-gw2780-analisis.webp"
 puntuacion: 8.2
 precio: "149€"
-enlace_afiliado: "https://www.pccomponentes.com"
+enlace_afiliado: "https://www.pccomponentes.com/benq-gw2780"
 tiempo_lectura: "5 min"
 tipo: "analisis"
 keyword_principal: "monitor ips 27 pulgadas"

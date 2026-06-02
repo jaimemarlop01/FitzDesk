@@ -6,7 +6,7 @@ descripcion: "Análisis del ThinkPad E14 Gen 6: el mejor teclado de su categorí
 imagen: "/images/articulos/lenovo-thinkpad-e14-gen6-analisis.webp"
 puntuacion: 8.8
 precio: "849€"
-enlace_afiliado: "https://www.pccomponentes.com"
+enlace_afiliado: "https://www.pccomponentes.com/lenovo-thinkpad-e14"
 tiempo_lectura: "7 min"
 tipo: "analisis"
 keyword_principal: "Lenovo ThinkPad E14 Gen 6"

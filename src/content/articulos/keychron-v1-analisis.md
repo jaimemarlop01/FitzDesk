@@ -6,7 +6,7 @@ descripcion: "Análisis del Keychron V1: cuerpo de aluminio CNC, gasket mount, h
 imagen: "/images/articulos/keychron-v1-analisis.webp"
 puntuacion: 8.9
 precio: "79€"
-enlace_afiliado: "https://www.pccomponentes.com"
+enlace_afiliado: "https://www.pccomponentes.com/keychron-v1"
 tiempo_lectura: "7 min"
 tipo: "analisis"
 keyword_principal: "teclado mecánico económico"

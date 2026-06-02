@@ -6,7 +6,7 @@ descripcion: "Análisis completo del Logitech MX Master 3S: ergonomía premium, 
 imagen: "/images/articulos/logitech-mx-master-3s-analisis.webp"
 puntuacion: 9.2
 precio: "99€"
-enlace_afiliado: "https://www.pccomponentes.com"
+enlace_afiliado: "https://www.pccomponentes.com/logitech-mx-master-3s"
 tiempo_lectura: "7 min"
 tipo: "analisis"
 keyword_principal: "ratón ergonómico"

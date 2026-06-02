@@ -6,7 +6,7 @@ descripcion: "Análisis del Dell S2722QC: 4K IPS con USB-C 65W por 329€. La al
 imagen: "/images/articulos/dell-s2722qc-analisis.webp"
 puntuacion: 8.7
 precio: "329€"
-enlace_afiliado: "https://www.pccomponentes.com"
+enlace_afiliado: "https://www.pccomponentes.com/dell-s2722qc"
 tiempo_lectura: "6 min"
 tipo: "analisis"
 keyword_principal: "monitor 4K USB-C"

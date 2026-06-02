@@ -6,7 +6,7 @@ descripcion: "Análisis del LG 27UP850N-W: panel IPS 4K con USB-C 96W de carga. 
 imagen: "/images/articulos/lg-27up850n-analisis.webp"
 puntuacion: 9.1
 precio: "399€"
-enlace_afiliado: "https://www.pccomponentes.com"
+enlace_afiliado: "https://www.pccomponentes.com/lg-27up850n"
 tiempo_lectura: "7 min"
 tipo: "analisis"
 keyword_principal: "monitor 4K USB-C"

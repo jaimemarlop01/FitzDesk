@@ -6,7 +6,7 @@ descripcion: "Análisis del Logitech Lift Vertical: el ratón ergonómico compac
 imagen: "/images/articulos/logitech-lift-vertical-analisis.webp"
 puntuacion: 8.4
 precio: "69€"
-enlace_afiliado: "https://www.pccomponentes.com"
+enlace_afiliado: "https://www.pccomponentes.com/logitech-lift"
 tiempo_lectura: "6 min"
 tipo: "analisis"
 keyword_principal: "ratón vertical ergonómico"
