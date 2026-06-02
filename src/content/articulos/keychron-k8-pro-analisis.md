@@ -1,7 +1,7 @@
----
+﻿---
 title: "Keychron K8 Pro: el teclado mecánico que convierte a indecisos"
 categoria: "teclados"
-fecha: "2026-05-27"
+fecha: "2026-05-08"
 descripcion: "Análisis del Keychron K8 Pro: formato TKL, hot-swap, triple conectividad y compatibilidad Mac/Windows. El mejor primer mecánico para trabajo serio."
 imagen: "/images/articulos/keychron-k8-pro-analisis.webp"
 puntuacion: 9.0

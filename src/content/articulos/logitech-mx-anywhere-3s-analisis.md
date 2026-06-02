@@ -1,7 +1,7 @@
----
+﻿---
 title: "Logitech MX Anywhere 3S: el ratón de viaje que no es un compromiso"
 categoria: "ratones"
-fecha: "2026-05-27"
+fecha: "2026-05-05"
 descripcion: "Análisis del Logitech MX Anywhere 3S: compacto, con scroll MagSpeed y batería de 70 días. El mejor ratón para trabajar en movimiento."
 imagen: "/images/articulos/logitech-mx-anywhere-3s-analisis.webp"
 puntuacion: 8.7

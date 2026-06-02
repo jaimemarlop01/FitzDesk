@@ -1,7 +1,7 @@
----
+﻿---
 title: "Dell S2722QC: el monitor 4K USB-C que no vacía el bolsillo"
 categoria: "monitores"
-fecha: "2026-05-27"
+fecha: "2026-05-18"
 descripcion: "Análisis del Dell S2722QC: 4K IPS con USB-C 65W por 329€. La alternativa más sólida al LG 27UP850N para quien quiere 4K sin gastar 400€."
 imagen: "/images/articulos/dell-s2722qc-analisis.webp"
 puntuacion: 8.7

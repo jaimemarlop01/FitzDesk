@@ -1,7 +1,7 @@
----
+﻿---
 title: "Logitech MX Master 3S: el ratón definitivo para el trabajo intensivo"
 categoria: "ratones"
-fecha: "2026-05-27"
+fecha: "2026-05-01"
 descripcion: "Análisis completo del Logitech MX Master 3S: ergonomía premium, scroll MagSpeed y hasta 70 días de batería para profesionales exigentes."
 imagen: "/images/articulos/logitech-mx-master-3s-analisis.webp"
 puntuacion: 9.2

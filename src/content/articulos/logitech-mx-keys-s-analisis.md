@@ -1,7 +1,7 @@
----
+﻿---
 title: "Logitech MX Keys S: el teclado para quien no quiere complicaciones"
 categoria: "teclados"
-fecha: "2026-05-27"
+fecha: "2026-05-13"
 descripcion: "Análisis del Logitech MX Keys S: teclas de perfil bajo ultra cómodas, retroiluminación inteligente y Easy-Switch para 3 dispositivos. El teclado de los productivos."
 imagen: "/images/articulos/logitech-mx-keys-s-analisis.webp"
 puntuacion: 8.8

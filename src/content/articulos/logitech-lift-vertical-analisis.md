@@ -1,7 +1,7 @@
----
+﻿---
 title: "Logitech Lift Vertical: el antídoto para el dolor de muñeca"
 categoria: "ratones"
-fecha: "2026-05-27"
+fecha: "2026-05-03"
 descripcion: "Análisis del Logitech Lift Vertical: el ratón ergonómico compacto que reduce la tensión en muñeca y antebrazo para jornadas largas de teletrabajo."
 imagen: "/images/articulos/logitech-lift-vertical-analisis.webp"
 puntuacion: 8.4

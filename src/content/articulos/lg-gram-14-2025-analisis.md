@@ -1,4 +1,4 @@
----
+﻿---
 title: "LG Gram 14 (2025): el portátil que desafía las leyes de la física"
 categoria: "portatiles"
 fecha: "2026-05-27"
