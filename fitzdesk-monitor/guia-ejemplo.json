@@ -1,0 +1,28 @@
+{
+  "titulo": "El mejor setup de teletrabajo por menos de 500 euros en 2026",
+  "presupuesto": "500",
+  "perfil": "Trabajador remoto que busca comodidad y productividad sin gastar demasiado, con un espacio de trabajo en casa limitado y que ya tiene portátil",
+  "productos": [
+    {
+      "categoria": "monitor",
+      "nombre": "Dell S2722QC",
+      "precio": "279.99",
+      "enlace": "https://www.pccomponentes.com/dell-s2722qc-monitor-27-4k-usb-c-60w",
+      "justificacion": "Monitor 4K con USB-C que actúa como hub y carga el portátil con un solo cable, reduciendo el caos de cables en el escritorio"
+    },
+    {
+      "categoria": "teclado",
+      "nombre": "Keychron K8 Pro",
+      "precio": "109.99",
+      "enlace": "https://www.pccomponentes.com/keychron-k8-pro-teclado-mecanico-inalambrico-tkl",
+      "justificacion": "Teclado mecánico inalámbrico TKL que ahorra espacio en el escritorio sin renunciar a la comodidad de escribir durante horas"
+    },
+    {
+      "categoria": "raton",
+      "nombre": "Logitech MX Anywhere 3S",
+      "precio": "59.99",
+      "enlace": "https://www.pccomponentes.com/logitech-mx-anywhere-3s-raton-inalambrico-compacto",
+      "justificacion": "Ratón compacto pero con sensor de alta calidad que funciona en cualquier superficie, incluso en cristal o superficies irregulares"
+    }
+  ]
+}

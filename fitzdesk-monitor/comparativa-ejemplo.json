@@ -1,0 +1,16 @@
+{
+  "categoria": "ratones",
+  "dilema": "El lector duda entre pagar más por el MX Master 3S para uso en escritorio fijo o ahorrar con el MX Anywhere 3S si necesita movilidad",
+  "producto_a": {
+    "nombre": "Logitech MX Master 3S",
+    "precio": "99.99",
+    "enlace": "https://www.pccomponentes.com/logitech-mx-master-3s-raton-inalambrico-8000dpi-7-botones-bluetooth-grafito",
+    "specs": "Sensor Darkfield 8000 DPI, 7 botones programables, scroll MagSpeed electromagnético, batería 70 días (recarga USB-C), Bluetooth + receptor Logi Bolt, diseño ergonómico para diestros, peso 141 g"
+  },
+  "producto_b": {
+    "nombre": "Logitech MX Anywhere 3S",
+    "precio": "59.99",
+    "enlace": "https://www.pccomponentes.com/logitech-mx-anywhere-3s-raton-inalambrico-compacto-8000dpi-6-botones-grafito",
+    "specs": "Sensor Darkfield 8000 DPI, 6 botones programables, scroll MagSpeed, batería 70 días (recarga USB-C), Bluetooth + receptor Logi Bolt, diseño compacto ambidiestro, peso 99 g, funciona en cualquier superficie incluido cristal"
+  }
+}
