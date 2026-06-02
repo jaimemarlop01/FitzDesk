@@ -14,6 +14,7 @@ const articulosCollection = defineCollection({
     tiempo_lectura: z.string().optional(),
     fitzQuote: z.string().optional(),
     especificaciones: z.record(z.string()).optional(),
+    borrador: z.boolean().optional(),
   }),
 });
 
