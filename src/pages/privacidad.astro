@@ -1,0 +1,452 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { u, base } from '../lib/url';
+---
+
+<BaseLayout
+  title="Política de privacidad y cookies — FitzDesk"
+  description="Política de privacidad y cookies de FitzDesk. Información sobre el tratamiento de datos personales, cookies y el programa de afiliados."
+>
+  <div class="container privacy-page">
+
+    <nav class="breadcrumb" aria-label="Ruta de navegación">
+      <a href={base}>Inicio</a>
+      <span class="breadcrumb-sep" aria-hidden="true">›</span>
+      <span aria-current="page">Política de privacidad</span>
+    </nav>
+
+    <header class="privacy-header">
+      <h1>Política de privacidad y cookies</h1>
+      <p class="privacy-meta">Última actualización: junio de 2026</p>
+      <p class="privacy-intro">
+        En FitzDesk nos tomamos en serio la privacidad de nuestros usuarios. Esta política explica
+        qué datos recogemos, para qué los usamos y cuáles son tus derechos, de acuerdo con el
+        Reglamento General de Protección de Datos (RGPD) y la normativa española vigente.
+      </p>
+    </header>
+
+    <div class="privacy-content">
+
+      <!-- 1. Responsable -->
+      <section class="privacy-section" id="responsable">
+        <h2>1. Responsable del tratamiento</h2>
+        <table class="privacy-table">
+          <tbody>
+            <tr><th scope="row">Denominación</th><td>FitzDesk</td></tr>
+            <tr><th scope="row">Sitio web</th><td><a href="https://fitzdesk.com">fitzdesk.com</a></td></tr>
+            <tr><th scope="row">Email de contacto</th><td><a href="mailto:hola@fitzdesk.com">hola@fitzdesk.com</a></td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- 2. Datos que recogemos -->
+      <section class="privacy-section" id="datos">
+        <h2>2. Datos que recogemos</h2>
+        <p>FitzDesk recoge únicamente los datos estrictamente necesarios para su funcionamiento:</p>
+
+        <h3>Formulario de contacto</h3>
+        <p>
+          Cuando utilizas el formulario de contacto, recogemos tu <strong>nombre</strong> y tu
+          <strong>dirección de email</strong> con el único fin de responder tu consulta.
+          Estos datos no se ceden a terceros ni se utilizan con fines comerciales.
+        </p>
+
+        <h3>Datos de navegación</h3>
+        <p>
+          Como cualquier servidor web, registramos de forma automática datos técnicos anónimos
+          sobre las visitas: dirección IP anonimizada, tipo de navegador, sistema operativo,
+          páginas visitadas y duración de la sesión. Estos datos se usan exclusivamente para
+          análisis estadístico agregado y mejora de la web.
+        </p>
+
+        <h3>Lo que NO recogemos</h3>
+        <ul>
+          <li>Datos de pago ni información bancaria de ningún tipo.</li>
+          <li>Datos de categoría especial (salud, ideología, religión, etc.).</li>
+          <li>Datos de menores de 14 años. FitzDesk no está dirigida a menores.</li>
+        </ul>
+      </section>
+
+      <!-- 3. Finalidad del tratamiento -->
+      <section class="privacy-section" id="finalidad">
+        <h2>3. Finalidad y base legal del tratamiento</h2>
+        <table class="privacy-table">
+          <thead>
+            <tr>
+              <th>Finalidad</th>
+              <th>Base legal (RGPD)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Responder consultas enviadas por el formulario de contacto</td>
+              <td>Interés legítimo / consentimiento del usuario (art. 6.1.a y 6.1.f)</td>
+            </tr>
+            <tr>
+              <td>Analizar el uso de la web para mejorar el servicio</td>
+              <td>Interés legítimo (art. 6.1.f)</td>
+            </tr>
+            <tr>
+              <td>Gestionar el programa de afiliados con PcComponentes</td>
+              <td>Interés legítimo (art. 6.1.f)</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="privacy-note">
+          Los datos del formulario de contacto se conservan durante el tiempo necesario para
+          gestionar la consulta y, como máximo, durante 2 años desde la última comunicación.
+        </p>
+      </section>
+
+      <!-- 4. Cookies -->
+      <section class="privacy-section" id="cookies">
+        <h2>4. Política de cookies</h2>
+        <p>
+          Una cookie es un pequeño archivo de texto que un sitio web almacena en tu dispositivo.
+          FitzDesk utiliza cookies propias y de terceros para los siguientes fines:
+        </p>
+
+        <h3>Cookies propias</h3>
+        <table class="privacy-table">
+          <thead>
+            <tr><th>Nombre</th><th>Tipo</th><th>Duración</th><th>Finalidad</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>fitzdesk_session</code></td>
+              <td>Técnica</td>
+              <td>Sesión</td>
+              <td>Gestión de la sesión de navegación. Se elimina al cerrar el navegador.</td>
+            </tr>
+            <tr>
+              <td><code>fitzdesk_prefs</code></td>
+              <td>Preferencias</td>
+              <td>1 año</td>
+              <td>Guarda preferencias de visualización del usuario (ej. tema, consentimiento de cookies).</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Cookies de análisis (Google Analytics)</h3>
+        <p>
+          FitzDesk puede utilizar Google Analytics para medir el tráfico y el comportamiento
+          de los usuarios de forma agregada y anónima. Google Analytics establece cookies para
+          distinguir usuarios únicos y recopilar estadísticas de uso.
+        </p>
+        <table class="privacy-table">
+          <thead>
+            <tr><th>Nombre</th><th>Tipo</th><th>Duración</th><th>Finalidad</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>_ga</code></td>
+              <td>Análisis</td>
+              <td>2 años</td>
+              <td>Distingue usuarios únicos en Google Analytics.</td>
+            </tr>
+            <tr>
+              <td><code>_ga_*</code></td>
+              <td>Análisis</td>
+              <td>2 años</td>
+              <td>Mantiene el estado de la sesión en Google Analytics 4.</td>
+            </tr>
+            <tr>
+              <td><code>_gid</code></td>
+              <td>Análisis</td>
+              <td>24 horas</td>
+              <td>Distingue usuarios únicos durante una sesión.</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="privacy-note">
+          Google Analytics procesa los datos en servidores de Google LLC conforme a sus propias
+          condiciones de privacidad. Puedes obtener más información en
+          <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">policies.google.com/privacy</a>.
+        </p>
+
+        <h3>Cookies de afiliados (PcComponentes / Tradedoubler)</h3>
+        <p>
+          Cuando haces clic en un enlace de afiliado que dirige a PcComponentes, Tradedoubler
+          (la plataforma de afiliados) puede instalar una cookie en tu dispositivo para registrar
+          que la visita provino de FitzDesk. Esta cookie no recoge datos personales identificables
+          y se utiliza exclusivamente para calcular la posible comisión de afiliado.
+        </p>
+        <table class="privacy-table">
+          <thead>
+            <tr><th>Nombre</th><th>Tipo</th><th>Duración</th><th>Finalidad</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>tduid</code></td>
+              <td>Afiliado</td>
+              <td>30 días</td>
+              <td>Identifica que la visita a PcComponentes proviene de un enlace de FitzDesk vía Tradedoubler.</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="privacy-note">
+          Puedes consultar la política de privacidad de Tradedoubler en
+          <a href="https://www.tradedoubler.com/en/privacy-policy/" target="_blank" rel="noopener noreferrer">tradedoubler.com/en/privacy-policy</a>.
+        </p>
+
+        <h3>Cómo gestionar o desactivar las cookies</h3>
+        <p>
+          Puedes configurar tu navegador para rechazar todas las cookies o para que te avise
+          cuando se envía una. Ten en cuenta que algunas partes de la web pueden no funcionar
+          correctamente si desactivas las cookies.
+        </p>
+        <ul>
+          <li><a href="https://support.google.com/chrome/answer/95647" target="_blank" rel="noopener noreferrer">Chrome</a></li>
+          <li><a href="https://support.mozilla.org/es/kb/habilitar-y-deshabilitar-cookies-sitios-web-rastrear-preferencias" target="_blank" rel="noopener noreferrer">Firefox</a></li>
+          <li><a href="https://support.apple.com/es-es/guide/safari/sfri11471/mac" target="_blank" rel="noopener noreferrer">Safari</a></li>
+          <li><a href="https://support.microsoft.com/es-es/windows/eliminar-y-administrar-cookies-168dab11-0753-043d-7c16-ede5947fc64d" target="_blank" rel="noopener noreferrer">Edge</a></li>
+        </ul>
+      </section>
+
+      <!-- 5. Derechos del usuario -->
+      <section class="privacy-section" id="derechos">
+        <h2>5. Tus derechos</h2>
+        <p>
+          De acuerdo con el RGPD y la Ley Orgánica 3/2018 de Protección de Datos Personales
+          (LOPDGDD), tienes los siguientes derechos sobre tus datos personales:
+        </p>
+        <ul class="rights-list">
+          <li>
+            <strong>Acceso:</strong> puedes solicitar información sobre qué datos tuyos tratamos
+            y con qué finalidad.
+          </li>
+          <li>
+            <strong>Rectificación:</strong> puedes pedirnos que corrijamos datos inexactos o
+            incompletos.
+          </li>
+          <li>
+            <strong>Supresión («derecho al olvido»):</strong> puedes solicitar que eliminemos
+            tus datos cuando ya no sean necesarios para los fines para los que fueron recogidos.
+          </li>
+          <li>
+            <strong>Portabilidad:</strong> tienes derecho a recibir tus datos en un formato
+            estructurado y legible por máquina.
+          </li>
+          <li>
+            <strong>Oposición y limitación:</strong> puedes oponerte al tratamiento de tus
+            datos o solicitar que lo limitemos en determinadas circunstancias.
+          </li>
+        </ul>
+        <p>
+          Para ejercer cualquiera de estos derechos, escríbenos a
+          <a href="mailto:hola@fitzdesk.com">hola@fitzdesk.com</a> indicando tu solicitud.
+          Responderemos en un plazo máximo de 30 días. Si consideras que tus derechos no han
+          sido atendidos correctamente, puedes presentar una reclamación ante la
+          <a href="https://www.aepd.es" target="_blank" rel="noopener noreferrer">Agencia Española de Protección de Datos (AEPD)</a>.
+        </p>
+      </section>
+
+      <!-- 6. Programa de afiliados -->
+      <section class="privacy-section" id="afiliados">
+        <h2>6. Programa de afiliados</h2>
+        <p>
+          FitzDesk participa en el <strong>programa de afiliados de PcComponentes</strong>
+          gestionado a través de la plataforma <strong>Tradedoubler</strong>. Esto significa que
+          cuando haces clic en ciertos enlaces de nuestra web y realizas una compra en
+          PcComponentes, FitzDesk puede recibir una pequeña comisión económica sin ningún coste
+          adicional para ti.
+        </p>
+        <p>
+          Este sistema es la principal forma en que FitzDesk se financia para poder ofrecer
+          análisis independientes y gratuitos. Nuestras recomendaciones son siempre editorialmente
+          independientes: nunca favorecemos un producto por razones comerciales.
+        </p>
+
+        <h3>Qué datos se comparten con Tradedoubler y PcComponentes</h3>
+        <ul>
+          <li>Un <strong>identificador anónimo de sesión</strong> (cookie <code>tduid</code>)
+            que indica que la visita proviene de FitzDesk.</li>
+          <li>La <strong>URL del producto</strong> visitado en PcComponentes.</li>
+          <li>El <strong>importe de la compra</strong> si se realiza una transacción,
+            para calcular la comisión.</li>
+        </ul>
+        <p>
+          En ningún caso se comparten datos personales identificables contigo sin tu
+          conocimiento. Tradedoubler actúa como encargado del tratamiento bajo sus propias
+          condiciones. Puedes optar por no participar en el seguimiento de afiliados
+          desactivando las cookies de terceros en tu navegador.
+        </p>
+      </section>
+
+      <!-- 7. Cambios -->
+      <section class="privacy-section" id="cambios">
+        <h2>7. Cambios en esta política</h2>
+        <p>
+          FitzDesk se reserva el derecho a modificar esta política de privacidad para adaptarla
+          a novedades legislativas o cambios en el funcionamiento de la web. Cualquier cambio
+          relevante se comunicará mediante un aviso visible en la web. Te recomendamos revisar
+          esta página periódicamente.
+        </p>
+        <p class="privacy-note">
+          <strong>Última actualización:</strong> junio de 2026.
+        </p>
+      </section>
+
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .privacy-page {
+    padding: 2.5rem 0 5rem;
+    max-width: 820px;
+    margin: 0 auto;
+  }
+
+  .privacy-header {
+    margin: 1.5rem 0 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .privacy-header h1 {
+    font-size: clamp(1.6rem, 4vw, 2.25rem);
+    margin-bottom: 0.4rem;
+  }
+
+  .privacy-meta {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    margin-bottom: 1rem;
+  }
+
+  .privacy-intro {
+    font-size: 1rem;
+    color: var(--color-text-muted);
+    line-height: 1.7;
+  }
+
+  .privacy-content {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+  }
+
+  .privacy-section h2 {
+    font-size: 1.25rem;
+    font-family: var(--font-display);
+    color: var(--color-text);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--color-brand);
+    display: inline-block;
+  }
+
+  .privacy-section h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin: 1.5rem 0 0.6rem;
+  }
+
+  .privacy-section p,
+  .privacy-section li {
+    font-size: 0.95rem;
+    line-height: 1.75;
+    color: var(--color-text-muted);
+  }
+
+  .privacy-section ul {
+    padding-left: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .privacy-section a {
+    color: var(--color-brand);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .privacy-section a:hover {
+    color: var(--color-brand-dark);
+  }
+
+  .privacy-section code {
+    font-family: monospace;
+    font-size: 0.85rem;
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    padding: 0.1em 0.4em;
+    border-radius: 4px;
+    color: var(--color-text);
+  }
+
+  .privacy-note {
+    margin-top: 0.75rem;
+    padding: 0.75rem 1rem;
+    background: var(--color-bg-secondary);
+    border-left: 3px solid var(--color-brand);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    font-size: 0.875rem !important;
+  }
+
+  /* Tabla */
+  .privacy-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+    margin-top: 0.75rem;
+    overflow-x: auto;
+    display: block;
+  }
+
+  .privacy-table th,
+  .privacy-table td {
+    padding: 0.6rem 0.9rem;
+    text-align: left;
+    border: 1px solid var(--color-border);
+    color: var(--color-text-muted);
+    line-height: 1.5;
+  }
+
+  .privacy-table thead th {
+    background: var(--color-bg-secondary);
+    font-weight: 700;
+    color: var(--color-text);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .privacy-table tbody th {
+    font-weight: 600;
+    color: var(--color-text);
+    background: var(--color-bg-secondary);
+    white-space: nowrap;
+    width: 10rem;
+  }
+
+  .privacy-table tbody tr:nth-child(even) td {
+    background: var(--color-bg-tertiary);
+  }
+
+  .rights-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem !important;
+  }
+
+  .rights-list strong {
+    color: var(--color-text);
+  }
+
+  @media (max-width: 640px) {
+    .privacy-page {
+      padding: 1.5rem 0 3.5rem;
+    }
+    .privacy-table {
+      font-size: 0.8rem;
+    }
+    .privacy-table th,
+    .privacy-table td {
+      padding: 0.5rem 0.6rem;
+    }
+  }
+</style>
