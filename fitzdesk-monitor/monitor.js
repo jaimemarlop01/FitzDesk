@@ -1,12 +1,12 @@
 import 'dotenv/config';
 import Parser from 'rss-parser';
-import { writeFileSync, existsSync, mkdirSync } from 'fs';
+import { writeFileSync, existsSync, mkdirSync, readdirSync } from 'fs';
 import { join, resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import cron from 'node-cron';
 
-import { SOURCES, passesStrictFilter } from './sources.js';
-import { isProcessed, markProcessed, getCacheStats } from './cache.js';
+import { SOURCES, KEYWORDS_MARCA, passesStrictFilter } from './sources.js';
+import { isProcessed, isProcessedByUrl, isProcessedByTitleHash, markProcessed, getCacheStats, normalizeUrl, hashTitle } from './cache.js';
 import { generateDraft } from './analyzer.js';
 import { logInfo, logSuccess, logWarn, logError, notifyDraft, notifySummary, notifyDailySummary } from './notifier.js';
 import { findProductImage, downloadProductImage } from './imageSearch.js';
@@ -51,6 +51,40 @@ function saveDraft(filename, content) {
   return filePath;
 }
 
+/** Detecta qué marca de KEYWORDS_MARCA aparece en un texto */
+function detectBrand(text) {
+  const t = text.toLowerCase();
+  return KEYWORDS_MARCA.find(m => t.includes(m)) ?? null;
+}
+
+/**
+ * Busca en src/content/articulos/ si ya existe un artículo publicado
+ * cuyo slug comparte ≥2 palabras significativas con el slug del borrador.
+ */
+function findExistingArticle(slug) {
+  try {
+    const words = slug.split('-').filter(w => w.length > 3);
+    const files = readdirSync(CONTENT_PATH);
+    for (const file of files) {
+      if (file.startsWith('borrador-')) continue;
+      const matches = words.filter(w => file.includes(w));
+      if (matches.length >= 2) return file;
+    }
+  } catch {}
+  return null;
+}
+
+/** Añade aviso de posible duplicado al inicio del cuerpo del borrador */
+function addDuplicateWarning(content, existingFile) {
+  const warning = `\n> ⚠️ **POSIBLE DUPLICADO**: Ya existe un artículo sobre este producto. Revisa antes de publicar: \`${existingFile}\`\n`;
+  // Insertar después del bloque frontmatter (después del segundo ---)
+  const openEnd   = content.indexOf('\n', 3);
+  const closeIdx  = content.indexOf('\n---\n', openEnd);
+  if (closeIdx === -1) return warning + content;
+  const insertPos = closeIdx + 5;
+  return content.slice(0, insertPos) + warning + content.slice(insertPos);
+}
+
 // ─────────────────────────────────────────────
 // Ciclo principal
 // ─────────────────────────────────────────────
@@ -63,8 +97,8 @@ async function runCheck() {
   let totalRelevant = 0;
   let totalDrafts   = 0;
   let totalDiscard  = 0;
-  const errors      = [];
-  const productos   = [];
+  const errors    = [];
+  const productos = []; // [{brand, title, categoria}]
 
   for (const source of SOURCES.filter(s => s.enabled)) {
     logInfo(`Leyendo feed: ${source.name}`);
@@ -83,38 +117,65 @@ async function runCheck() {
     totalScanned += recentItems.length;
 
     for (const item of recentItems) {
-      const id = itemId(item);
+      const id        = itemId(item);
+      const itemUrl   = item.link ?? '';
+      const itemTitle = item.title ?? '';
+      const titleHash = hashTitle(itemTitle);
+
+      // ── Deduplicación: GUID/link ya procesado ──
       if (isProcessed(id)) continue;
 
-      // ── Capa 1: filtro estricto por palabras clave ──
-      if (!passesStrictFilter(item)) {
-        markProcessed(id);
+      // ── Deduplicación: URL normalizada ya procesada (CAMBIO 2) ──
+      if (itemUrl && isProcessedByUrl(itemUrl)) {
+        logInfo(`  ⟳ Duplicado ignorado: "${itemTitle}" (URL ya procesada)`);
+        markProcessed(id, { url: itemUrl, titleHash });
+        continue;
+      }
+
+      // ── Deduplicación: hash de título ya procesado (CAMBIO 6) ──
+      if (isProcessedByTitleHash(titleHash)) {
+        logInfo(`  ⟳ Artículo actualizado ignorado: "${itemTitle}" (mismo contenido, URL diferente)`);
+        markProcessed(id, { url: itemUrl, titleHash });
         totalDiscard++;
         continue;
       }
 
-      logInfo(`  → Candidato: "${item.title}"`);
+      // ── Capa 1: filtro estricto por palabras clave ──
+      if (!passesStrictFilter(item)) {
+        markProcessed(id, { url: itemUrl, titleHash });
+        totalDiscard++;
+        continue;
+      }
+
+      logInfo(`  → Candidato: "${itemTitle}"`);
 
       // ── Capa 2: verificación con Gemini ──
       const review = await verifyWithGemini({
-        title: item.title ?? '',
+        title:       itemTitle,
         description: item.contentSnippet ?? item.content ?? '',
       });
 
       if (!review.relevante) {
         logInfo(`  ✗ Descartado por Gemini: ${review.motivo}`);
-        markProcessed(id);
+        markProcessed(id, { url: itemUrl, titleHash });
         totalDiscard++;
         continue;
       }
 
       totalRelevant++;
-      logInfo(`  ✓ Relevante: "${item.title}" [${review.categoria ?? '?'}]`);
-      if (review.producto) productos.push(review.producto);
+      logInfo(`  ✓ Relevante: "${itemTitle}" [${review.categoria ?? '?'}]`);
+
+      if (review.producto) {
+        productos.push({
+          brand:    detectBrand(review.producto) ?? detectBrand(itemTitle),
+          title:    itemTitle,
+          categoria: review.categoria ?? 'general',
+        });
+      }
 
       if (!process.env.GROQ_API_KEY) {
         logWarn('GROQ_API_KEY no configurada — saltando generación de borrador');
-        markProcessed(id);
+        markProcessed(id, { url: itemUrl, titleHash });
         continue;
       }
 
@@ -123,20 +184,18 @@ async function runCheck() {
 
       try {
         const result = await generateDraft({
-          title:       item.title ?? 'Sin título',
+          title:       itemTitle,
           description: item.contentSnippet ?? item.content ?? '',
-          link:        item.link ?? '',
+          link:        itemUrl,
           source:      source.name,
           categoria:   review.categoria ?? null,
         });
 
         if (result) {
-          // Descargar imagen y actualizar frontmatter
-          let localImagePath = null;
+          // ── Descargar imagen y actualizar frontmatter ──
           if (imageUrl) {
             const img = await downloadProductImage(imageUrl, result.slug);
             if (img) {
-              localImagePath = img.localPath;
               result.content = result.content.replace(
                 /imagen: "\/images\/[^"]+"/,
                 `imagen: "${img.localPath}"`
@@ -144,27 +203,35 @@ async function runCheck() {
             }
           }
 
+          // ── Aviso de posible duplicado (CAMBIO 3) ──
+          const existingFile  = findExistingArticle(result.slug);
+          if (existingFile) {
+            logWarn(`  ⚠️ POSIBLE DUPLICADO: ya existe ${existingFile}`);
+            result.content = addDuplicateWarning(result.content, existingFile);
+          }
+
           const filename = `borrador-${result.slug}.md`;
           const filePath = saveDraft(filename, result.content);
-          markProcessed(id);
+          markProcessed(id, { url: itemUrl, titleHash });
           totalDrafts++;
 
           await notifyDraft({
-            title:       item.title,
-            slug:        result.slug,
-            source:      source.name,
+            title:             itemTitle,
+            slug:              result.slug,
+            source:            source.name,
             filePath,
-            categoria:   result.categoria,
-            description: item.contentSnippet ?? item.content ?? '',
-            imageUrl,        // URL remota para el embed de Discord
-            articleUrl:  item.link,
+            categoria:         result.categoria,
+            description:       item.contentSnippet ?? item.content ?? '',
+            imageUrl,
+            articleUrl:        itemUrl,
+            possibleDuplicate: existingFile,
           });
         } else {
-          markProcessed(id);
+          markProcessed(id, { url: itemUrl, titleHash });
         }
       } catch (err) {
-        logError(`Error generando borrador para "${item.title}": ${err.message}`);
-        markProcessed(id);
+        logError(`Error generando borrador para "${itemTitle}": ${err.message}`);
+        markProcessed(id, { url: itemUrl, titleHash });
       }
 
       // Pausa entre llamadas a la API
