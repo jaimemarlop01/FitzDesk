@@ -15,6 +15,7 @@ import { verifyWithGemini } from './reviewer.js';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const parser = new Parser({
   timeout: 10000,
+  headers: { 'User-Agent': 'Mozilla/5.0 (compatible; FitzDesk-Monitor/1.0; RSS reader)' },
   customFields: {
     item: [
       ['media:content', 'media:content', { keepArray: false }],

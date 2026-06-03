@@ -14,17 +14,29 @@ export const SOURCES = [
     url: 'https://feeds.weblogssl.com/genbeta',
     enabled: true,
   },
+  {
+    name: 'Hardzone',
+    url: 'https://hardzone.es/feed',
+    enabled: true,
+  },
+  {
+    name: 'El Chapuzas Informático',
+    url: 'https://elchapuzasinformatico.com/feed/',
+    enabled: true,
+  },
   // PcComponentes bloquea scraping externo (403) — desactivado
   // { name: 'PcComponentes', url: 'https://www.pccomponentes.com/rss', enabled: false },
 
   // Google Alerts
-  { name: 'Alert: nuevo ratón teletrabajo 2026',    url: 'https://www.google.com/alerts/feeds/07327459440318242948/6619462226204092208',   enabled: true },
-  { name: 'Alert: nuevo teclado mecánico 2026',     url: 'https://www.google.com/alerts/feeds/07327459440318242948/92159700337889665',    enabled: true },
-  { name: 'Alert: monitor USB-C teletrabajo',       url: 'https://www.google.com/alerts/feeds/07327459440318242948/15939236646229242629', enabled: true },
-  { name: 'Alert: portátil ultrabook 2026',         url: 'https://www.google.com/alerts/feeds/07327459440318242948/92159700337890514',    enabled: true },
-  { name: 'Alert: Logitech nuevo lanzamiento',      url: 'https://www.google.com/alerts/feeds/07327459440318242948/16253851313461134755', enabled: true },
-  { name: 'Alert: Keychron nuevo modelo',           url: 'https://www.google.com/alerts/feeds/07327459440318242948/15939236646229244074', enabled: true },
-  { name: 'Alert: periféricos productividad',       url: 'https://www.google.com/alerts/feeds/07327459440318242948/92159700337893097',    enabled: true },
+  { name: 'Alert: nuevo ratón teletrabajo 2026',       url: 'https://www.google.com/alerts/feeds/07327459440318242948/6619462226204092208',   enabled: true },
+  { name: 'Alert: nuevo teclado mecánico 2026',        url: 'https://www.google.com/alerts/feeds/07327459440318242948/92159700337889665',    enabled: true },
+  { name: 'Alert: monitor USB-C teletrabajo',          url: 'https://www.google.com/alerts/feeds/07327459440318242948/15939236646229242629', enabled: true },
+  { name: 'Alert: portátil ultrabook 2026',            url: 'https://www.google.com/alerts/feeds/07327459440318242948/92159700337890514',    enabled: true },
+  { name: 'Alert: Logitech nuevo lanzamiento',         url: 'https://www.google.com/alerts/feeds/07327459440318242948/16253851313461134755', enabled: true },
+  { name: 'Alert: Keychron nuevo modelo',              url: 'https://www.google.com/alerts/feeds/07327459440318242948/15939236646229244074', enabled: true },
+  { name: 'Alert: periféricos productividad',          url: 'https://www.google.com/alerts/feeds/07327459440318242948/92159700337893097',    enabled: true },
+  { name: 'Alert: Dell nuevo monitor 2026',            url: 'https://www.google.es/alerts/feeds/07327459440318242948/12175609179661096621',  enabled: true },
+  { name: 'Alert: LG nuevo monitor portátil 2026',     url: 'https://www.google.es/alerts/feeds/07327459440318242948/12175609179661097176',  enabled: true },
 ];
 
 // ─────────────────────────────────────────────
@@ -34,13 +46,10 @@ export const SOURCES = [
 /**
  * Regla 1 — Descarte obligatorio.
  * Si el texto contiene alguna de estas palabras, se descarta sin importar nada más.
- * Nota: "software" y "app" pueden aparecer en artículos válidos sobre hardware;
- * si genera demasiados falsos negativos, elimínalos de esta lista.
  */
 export const KEYWORDS_DESCARTE = [
   'gemini', 'chatgpt', 'inteligencia artificial', 'ia generativa',
   'modelo de lenguaje', 'openai',
-  'software', 'aplicación', 'aplicacion', 'app',
   'videojuego',
   'smartphone', 'móvil', 'movil', 'teléfono', 'telefono', 'tablet',
   'drone', 'vehículo', 'vehiculo', 'coche',
