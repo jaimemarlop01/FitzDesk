@@ -247,6 +247,12 @@ const categories = [
   function refresh() {
     const q = input.value.trim();
 
+    // Sincronizar URL: F5 siempre restaura el estado actual, no el inicial
+    const newUrl = q
+      ? `${window.location.pathname}?q=${encodeURIComponent(q)}`
+      : window.location.pathname;
+    history.replaceState(null, '', newUrl);
+
     // Sin texto y sin filtro → estado inicial con todos los artículos
     if (!q && !activeCategory) {
       initialGrid.innerHTML = allArticles.map(a => renderCard(a)).join('');
