@@ -149,7 +149,7 @@ const categories = [
           </div>
           <p class="initial-fitz-title">¿Qué periférico buscas hoy?</p>
           <p class="initial-fitz-sub">Escribe el nombre de un producto, marca o categoría</p>
-          <p class="initial-recent-label">Artículos recientes</p>
+          <p class="initial-recent-label">Todos los análisis</p>
           <div id="recent-grid" class="articles-grid" role="list"></div>
         </div>
       </div>
@@ -298,7 +298,7 @@ const categories = [
   }
 
   function showInitial() {
-    recentGrid.innerHTML = allArticles.slice(0, 6).map(a => renderCard(a)).join('');
+    recentGrid.innerHTML = allArticles.map(a => renderCard(a)).join('');
     resultsGrid.innerHTML = '';
     resultsMeta.textContent = '';
     enterState(initialState, emptyState);
