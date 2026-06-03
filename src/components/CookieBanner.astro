@@ -1,0 +1,121 @@
+---
+// Sin lógica servidor — todo en cliente via localStorage
+---
+
+<div id="cookie-banner" class="cookie-banner" role="dialog" aria-label="Aviso de cookies" style="display:none">
+  <div class="cookie-inner">
+    <p class="cookie-text">
+      FitzDesk usa cookies propias y de terceros para mejorar tu experiencia.
+      Puedes aceptarlas todas o elegir solo las esenciales.
+    </p>
+    <div class="cookie-actions">
+      <button id="cookie-accept-all" class="btn-accept">Aceptar todo</button>
+      <button id="cookie-essential" class="btn-essential">Solo esenciales</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const KEY    = 'fitzdesk_cookies';
+  const banner = document.getElementById('cookie-banner') as HTMLElement;
+
+  if (!localStorage.getItem(KEY)) {
+    banner.style.display = 'block';
+  }
+
+  function dismiss(value: string) {
+    localStorage.setItem(KEY, value);
+    banner.style.display = 'none';
+  }
+
+  document.getElementById('cookie-accept-all')
+    ?.addEventListener('click', () => dismiss('all'));
+  document.getElementById('cookie-essential')
+    ?.addEventListener('click', () => dismiss('essential'));
+</script>
+
+<style>
+  .cookie-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #1F2937;
+    color: white;
+    z-index: 9999;
+    box-shadow: 0 -2px 16px rgba(0,0,0,0.25);
+  }
+
+  .cookie-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .cookie-text {
+    flex: 1;
+    min-width: 200px;
+    font-size: 0.875rem;
+    line-height: 1.55;
+    color: #D1D5DB;
+    margin: 0;
+  }
+
+  .cookie-actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-shrink: 0;
+  }
+
+  .btn-accept {
+    background: #F97316;
+    color: white;
+    border: none;
+    padding: 0.55rem 1.25rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: background 0.15s;
+    white-space: nowrap;
+  }
+
+  .btn-accept:hover { background: #EA580C; }
+
+  .btn-essential {
+    background: transparent;
+    color: white;
+    border: 1.5px solid rgba(255,255,255,0.6);
+    padding: 0.55rem 1.25rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+    white-space: nowrap;
+  }
+
+  .btn-essential:hover {
+    background: rgba(255,255,255,0.08);
+    border-color: white;
+  }
+
+  @media (max-width: 600px) {
+    .cookie-inner {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 1rem;
+    }
+    .cookie-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    .btn-accept, .btn-essential {
+      text-align: center;
+    }
+  }
+</style>
