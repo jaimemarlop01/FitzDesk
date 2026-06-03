@@ -79,7 +79,7 @@ const categories = [
         <div id="results-meta" class="results-meta" aria-live="polite" aria-atomic="true"></div>
         <div id="results-grid" class="articles-grid" role="list"></div>
         <!-- Estado 3: sin resultados — Fitz triste -->
-        <div id="empty-state" class="empty-state" hidden>
+        <div id="empty-state" class="empty-state" style="display:none">
           <div class="empty-fitz" aria-hidden="true">
             <svg viewBox="0 0 120 140" xmlns="http://www.w3.org/2000/svg">
               <ellipse cx="60" cy="135" rx="35" ry="5" fill="#e5e7eb"/>
@@ -118,7 +118,7 @@ const categories = [
         </div>
 
         <!-- Estado 1: sin búsqueda — Fitz neutral + recientes -->
-        <div id="initial-state" class="initial-state" hidden>
+        <div id="initial-state" class="initial-state" style="display:none">
           <div class="initial-fitz" aria-hidden="true">
             <svg viewBox="0 0 120 140" xmlns="http://www.w3.org/2000/svg">
               <ellipse cx="60" cy="135" rx="35" ry="5" fill="#e5e7eb"/>
@@ -266,12 +266,10 @@ const categories = [
   // Garantiza que nunca haya más de un Fitz visible a la vez.
   function enterState(show: HTMLElement | null, ...hideEls: HTMLElement[]) {
     hideEls.forEach(el => {
-      el.hidden = true;
-      el.style.display = 'none'; // refuerzo inline sobre display:flex del CSS
+      el.style.display = 'none';  // inline style: máxima prioridad, no hay CSS que lo sobreescriba
     });
     if (!show) return;
-    show.style.display = '';     // restaura el display del CSS (flex, block…)
-    show.hidden = false;         // la animación CSS stateIn arranca sola al quitar hidden
+    show.style.removeProperty('display');  // elimina el inline none → CSS determina flex/block
   }
 
   function showResults(articles: Article[], query = '') {
@@ -639,22 +637,7 @@ const categories = [
   }
 
   /* ===== PANELES DE ESTADO ===== */
-  /* hidden gana siempre sobre display:flex del CSS */
-  #empty-state[hidden],
-  #initial-state[hidden] {
-    display: none !important;
-  }
-
-  /* Animación de entrada al quitar hidden — más fiable que transition+opacity en JS */
-  #empty-state:not([hidden]),
-  #initial-state:not([hidden]) {
-    animation: stateIn 0.18s ease both;
-  }
-
-  @keyframes stateIn {
-    from { opacity: 0; }
-    to   { opacity: 1; }
-  }
+  /* Visibilidad controlada 100% por JS con inline style.display — sin depender del cascade CSS */
 
   /* ===== EMPTY STATE ===== */
   .empty-state {
