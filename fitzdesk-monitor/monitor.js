@@ -204,6 +204,10 @@ if (isOnce) {
 }
 
 if (isDaemon) {
+  // Comprobación inmediata al arrancar para que Railway no considere el proceso inactivo
+  logInfo('Ejecutando comprobación inicial antes de programar el cron...');
+  runCheck().catch(err => logError(`Error en comprobación inicial: ${err.message}`));
+
   const cronExpr = `0 */${HOURS} * * *`;
   logInfo(`Comprobación programada: "${cronExpr}" (cada ${HOURS} horas)`);
   cron.schedule(cronExpr, () => {
@@ -221,5 +225,10 @@ if (isDaemon) {
     } catch (err) {
       logError(`Error en resumen diario: ${err.message}`);
     }
+  });
+
+  // Keep-alive: log cada 30 minutos para que Railway sepa que el proceso sigue vivo
+  cron.schedule('*/30 * * * *', () => {
+    logInfo(`Monitor activo — ${new Date().toLocaleString('es-ES')}`);
   });
 }
