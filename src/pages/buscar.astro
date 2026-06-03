@@ -267,15 +267,11 @@ const categories = [
   function enterState(show: HTMLElement | null, ...hideEls: HTMLElement[]) {
     hideEls.forEach(el => {
       el.hidden = true;
-      el.style.display = 'none'; // evita que display:flex del CSS sobreescriba hidden
-      el.style.opacity = '0';
+      el.style.display = 'none'; // refuerzo inline sobre display:flex del CSS
     });
     if (!show) return;
     show.style.display = '';     // restaura el display del CSS (flex, block…)
-    show.style.opacity = '0';
-    show.hidden = false;
-    void show.offsetHeight;      // force reflow para que la transición CSS arranque
-    show.style.opacity = '1';
+    show.hidden = false;         // la animación CSS stateIn arranca sola al quitar hidden
   }
 
   function showResults(articles: Article[], query = '') {
@@ -329,9 +325,6 @@ const categories = [
         includeMatches: true,
         minMatchCharLength: 2,
       });
-
-      // La transición se define en CSS; sólo forzar estado inicial limpio
-      initialState.style.opacity = '1';
 
       const params = new URLSearchParams(window.location.search);
       const q = params.get('q') ?? '';
@@ -645,15 +638,22 @@ const categories = [
     padding: 0 1px;
   }
 
-  /* ===== PANELES DE ESTADO: transición de opacidad ===== */
-  #initial-state,
-  #empty-state {
-    transition: opacity 0.2s ease;
-  }
-
+  /* ===== PANELES DE ESTADO ===== */
+  /* hidden gana siempre sobre display:flex del CSS */
   #empty-state[hidden],
   #initial-state[hidden] {
     display: none !important;
+  }
+
+  /* Animación de entrada al quitar hidden — más fiable que transition+opacity en JS */
+  #empty-state:not([hidden]),
+  #initial-state:not([hidden]) {
+    animation: stateIn 0.18s ease both;
+  }
+
+  @keyframes stateIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
   }
 
   /* ===== EMPTY STATE ===== */
