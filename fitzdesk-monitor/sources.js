@@ -75,6 +75,9 @@ export const KEYWORDS_PRODUCTO = [
   'silla ergonómica', 'silla ergonomica', 'silla de oficina',
   'setup escritorio', 'standing desk', 'mesa elevable',
   'setup teletrabajo', 'home office setup',
+  'ssd externo', 'ssd portatil', 'ssd portátil',
+  'disco duro externo', 'almacenamiento externo',
+  'usb-c ssd', 'nvme externo', 'pendrive', 'unidad externa',
 ];
 
 /**
@@ -86,6 +89,8 @@ export const KEYWORDS_MARCA = [
   'lg', 'dell', 'samsung', 'asus', 'lenovo',
   'microsoft surface', 'apple macbook',
   'hp',
+  'adata', 'samsung t9', 'sandisk', 'seagate',
+  'western digital', 'wd', 'crucial', 'kingston',
 ];
 
 /**
