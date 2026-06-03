@@ -21,8 +21,12 @@ const categories = [
   title="Buscador"
   description="Busca análisis de ratones, teclados, monitores y portátiles para teletrabajo en FitzDesk."
 >
-  <div id="search-app" data-index-url={indexUrl} data-base={base}>
-
+  <div
+    id="search-app"
+    data-index-url={indexUrl}
+    data-base={base}
+    data-buscar-url={u('/buscar')}
+  >
     <!-- Hero search -->
     <section class="search-hero">
       <div class="container search-hero-inner">
@@ -69,24 +73,13 @@ const categories = [
       </div>
     </section>
 
-    <!-- States area -->
+    <!-- Results area -->
     <section class="search-results-section">
       <div class="container">
-
-        <!-- Estado 1: inicial — todos los artículos, sin Fitz -->
-        <div id="state-initial" style="display:none">
-          <p class="section-label">Todos los análisis</p>
-          <div id="initial-grid" class="articles-grid" role="list"></div>
-        </div>
-
-        <!-- Estado 2: resultados de búsqueda o filtro -->
-        <div id="state-results" style="display:none">
-          <p id="results-meta" class="results-meta" aria-live="polite" aria-atomic="true"></p>
-          <div id="results-grid" class="articles-grid" role="list"></div>
-        </div>
-
+        <div id="results-meta" class="results-meta" aria-live="polite" aria-atomic="true"></div>
+        <div id="results-grid" class="articles-grid" role="list"></div>
         <!-- Estado 3: sin resultados — Fitz triste -->
-        <div id="state-empty" style="display:none">
+        <div id="empty-state" class="empty-state" style="display:none">
           <div class="empty-fitz" aria-hidden="true">
             <svg viewBox="0 0 120 140" xmlns="http://www.w3.org/2000/svg">
               <ellipse cx="60" cy="135" rx="35" ry="5" fill="#e5e7eb"/>
@@ -103,8 +96,10 @@ const categories = [
               <circle cx="73" cy="70" r="3.5" fill="#1a1a1a"/>
               <circle cx="52" cy="68" r="1.2" fill="white"/>
               <circle cx="74" cy="68" r="1.2" fill="white"/>
+              <!-- cejas fruncidas -->
               <path d="M 44 60 Q 49 58 54 60" stroke="#8B4513" stroke-width="1.5" fill="none" stroke-linecap="round"/>
               <path d="M 66 60 Q 71 58 76 60" stroke="#8B4513" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+              <!-- boca triste -->
               <path d="M 52 84 Q 60 90 68 84" stroke="#8B4513" stroke-width="1.8" fill="none" stroke-linecap="round"/>
               <ellipse cx="42" cy="78" rx="5" ry="5" fill="#f08080" opacity="0.4"/>
               <ellipse cx="78" cy="78" rx="5" ry="5" fill="#f08080" opacity="0.4"/>
@@ -112,7 +107,7 @@ const categories = [
               <ellipse cx="79" cy="120" rx="8" ry="12" fill="#CD853F" transform="rotate(18 79 120)"/>
             </svg>
           </div>
-          <p class="empty-title">Fitz no encuentra nada para <span id="empty-term"></span></p>
+          <p class="empty-title">Fitz no encuentra nada <span id="empty-prep">para </span><span id="empty-query"></span></p>
           <p class="empty-sub">Prueba con otros términos o explora las categorías</p>
           <div class="empty-cats">
             <a href={u('/categoria/ratones')}>Ratones</a>
@@ -122,6 +117,41 @@ const categories = [
           </div>
         </div>
 
+        <!-- Estado 1: sin búsqueda — Fitz neutral + recientes -->
+        <div id="initial-state" class="initial-state" style="display:none">
+          <div class="initial-fitz" aria-hidden="true">
+            <svg viewBox="0 0 120 140" xmlns="http://www.w3.org/2000/svg">
+              <ellipse cx="60" cy="135" rx="35" ry="5" fill="#e5e7eb"/>
+              <ellipse cx="60" cy="118" rx="22" ry="17" fill="#CD853F"/>
+              <circle cx="60" cy="72" r="28" fill="#DEB887"/>
+              <ellipse cx="38" cy="50" rx="10" ry="13" fill="#CD853F"/>
+              <ellipse cx="38" cy="50" rx="6" ry="9" fill="#F4A460"/>
+              <ellipse cx="82" cy="50" rx="10" ry="13" fill="#CD853F"/>
+              <ellipse cx="82" cy="50" rx="6" ry="9" fill="#F4A460"/>
+              <ellipse cx="60" cy="78" rx="18" ry="16" fill="#F4A460"/>
+              <circle cx="49" cy="67" r="7.5" fill="white"/>
+              <circle cx="71" cy="67" r="7.5" fill="white"/>
+              <!-- pupilas mirando arriba-derecha (curioso) -->
+              <circle cx="52" cy="66" r="3.5" fill="#1a1a1a"/>
+              <circle cx="74" cy="66" r="3.5" fill="#1a1a1a"/>
+              <circle cx="53" cy="64.5" r="1.2" fill="white"/>
+              <circle cx="75" cy="64.5" r="1.2" fill="white"/>
+              <!-- sonrisa amable -->
+              <path d="M 52 82 Q 60 78 68 82" stroke="#8B4513" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+              <ellipse cx="42" cy="78" rx="5" ry="5" fill="#f08080" opacity="0.3"/>
+              <ellipse cx="78" cy="78" rx="5" ry="5" fill="#f08080" opacity="0.3"/>
+              <!-- lupa -->
+              <circle cx="60" cy="104" r="6" fill="none" stroke="#F97316" stroke-width="2"/>
+              <line x1="65" y1="109" x2="69" y2="113" stroke="#F97316" stroke-width="2" stroke-linecap="round"/>
+              <ellipse cx="41" cy="120" rx="8" ry="12" fill="#CD853F" transform="rotate(-18 41 120)"/>
+              <ellipse cx="79" cy="120" rx="8" ry="12" fill="#CD853F" transform="rotate(18 79 120)"/>
+            </svg>
+          </div>
+          <p class="initial-fitz-title">¿Qué periférico buscas hoy?</p>
+          <p class="initial-fitz-sub">Escribe el nombre de un producto, marca o categoría</p>
+          <p class="initial-recent-label">Todos los análisis</p>
+          <div id="recent-grid" class="articles-grid" role="list"></div>
+        </div>
       </div>
     </section>
   </div>
@@ -130,21 +160,20 @@ const categories = [
 <script>
   import Fuse from 'fuse.js';
 
-  const app      = document.getElementById('search-app') as HTMLElement;
-  const indexUrl = app.dataset.indexUrl!;
-  const base     = app.dataset.base!;
+  const app        = document.getElementById('search-app') as HTMLElement;
+  const indexUrl   = app.dataset.indexUrl!;
+  const base       = app.dataset.base!;
 
   const input      = document.getElementById('search-input') as HTMLInputElement;
   const clearBtn   = document.getElementById('clear-btn') as HTMLButtonElement;
-  const filterBtns = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
-
-  const stInitial  = document.getElementById('state-initial')! as HTMLElement;
-  const stResults  = document.getElementById('state-results')! as HTMLElement;
-  const stEmpty    = document.getElementById('state-empty')!   as HTMLElement;
-  const initialGrid = document.getElementById('initial-grid')!;
-  const resultsGrid = document.getElementById('results-grid')!;
-  const resultsMeta = document.getElementById('results-meta')!;
-  const emptyTerm   = document.getElementById('empty-term')!;
+  const resultsMeta  = document.getElementById('results-meta')!;
+  const resultsGrid  = document.getElementById('results-grid')!;
+  const emptyState   = document.getElementById('empty-state')! as HTMLElement;
+  const emptyQuery   = document.getElementById('empty-query')!;
+  const emptyPrep    = document.getElementById('empty-prep')!;
+  const initialState = document.getElementById('initial-state')! as HTMLElement;
+  const recentGrid   = document.getElementById('recent-grid')!;
+  const filterBtns   = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
 
   let allArticles: Article[] = [];
   let fuse: Fuse<Article>;
@@ -211,7 +240,7 @@ const categories = [
     }
 
     const hasPrice = article.precio && article.precio !== 'pendiente' && article.precio !== 'Ver en PcComponentes';
-    const sep       = scoreHtml && hasPrice ? '<span class="card-sep" aria-hidden="true">·</span>' : '';
+    const sep      = scoreHtml && hasPrice ? '<span class="card-sep" aria-hidden="true">·</span>' : '';
     const priceHtml = hasPrice ? `<span class="card-price">${article.precio}</span>` : '';
 
     return `
@@ -232,51 +261,55 @@ const categories = [
       </article>`;
   }
 
-  // ── Gestión de estados ────────────────────────
-  // Solo display:none / display:block — sin hidden, sin opacity, sin transiciones.
-  function setState(s: 'initial' | 'results' | 'empty') {
-    stInitial.style.display = 'none';
-    stResults.style.display = 'none';
-    stEmpty.style.display   = 'none';
-    if      (s === 'initial') stInitial.style.display = 'block';
-    else if (s === 'results') stResults.style.display = 'block';
-    else                      stEmpty.style.display   = 'flex';
+  // ── State management ─────────────────────────
+  // Oculta todos los paneles sincrónicamente, luego muestra el elegido con fade.
+  // Garantiza que nunca haya más de un Fitz visible a la vez.
+  function enterState(show: HTMLElement | null, ...hideEls: HTMLElement[]) {
+    hideEls.forEach(el => {
+      el.style.display = 'none';  // inline style: máxima prioridad, no hay CSS que lo sobreescriba
+    });
+    if (!show) return;
+    // Explicit display — no depende del cascade CSS de Astro
+    show.style.display = (show === emptyState) ? 'flex' : 'block';
   }
 
-  // ── Actualizar vista ──────────────────────────
-  function refresh() {
-    const q = input.value.trim();
-
-    // Sin texto y sin filtro → estado inicial con todos los artículos
-    if (!q && !activeCategory) {
-      initialGrid.innerHTML = allArticles.map(a => renderCard(a)).join('');
-      setState('initial');
-      return;
-    }
-
-    // Calcular artículos filtrados
-    let filtered: Article[];
-    if (q) {
-      filtered = fuse.search(q).map(r => r.item);
-      if (activeCategory) filtered = filtered.filter(a => a.categoria === activeCategory);
-    } else {
-      filtered = allArticles.filter(a => a.categoria === activeCategory);
-    }
+  function showResults(articles: Article[], query = '') {
+    const filtered = activeCategory
+      ? articles.filter(a => a.categoria === activeCategory)
+      : articles;
 
     if (filtered.length === 0) {
-      emptyTerm.textContent = q ? `"${q}"` : catLabel(activeCategory);
-      setState('empty');
+      resultsGrid.innerHTML = '';
+      resultsMeta.textContent = '';
+      if (query) {
+        emptyPrep.textContent = 'para ';
+        emptyQuery.textContent = `"${query}"`;
+      } else {
+        emptyPrep.textContent = 'en ';
+        emptyQuery.textContent = catLabel(activeCategory);
+      }
+      enterState(emptyState, initialState);
     } else {
-      const n = filtered.length;
-      resultsMeta.textContent = q
-        ? `${n} ${n === 1 ? 'resultado' : 'resultados'} para "${q}"`
-        : `${n} ${n === 1 ? 'análisis' : 'análisis'} en ${catLabel(activeCategory)}`;
-      resultsGrid.innerHTML = filtered.map(a => renderCard(a, q)).join('');
-      setState('results');
+      enterState(null, initialState, emptyState);
+      resultsGrid.innerHTML = filtered.map(a => renderCard(a, query)).join('');
+      resultsMeta.textContent =
+        `${filtered.length} ${filtered.length === 1 ? 'resultado' : 'resultados'}${query ? ` para "${query}"` : ''}`;
     }
   }
 
-  // ── Bootstrap ─────────────────────────────────
+  function showInitial() {
+    recentGrid.innerHTML = allArticles.map(a => renderCard(a)).join('');
+    resultsGrid.innerHTML = '';
+    resultsMeta.textContent = '';
+    enterState(initialState, emptyState);
+  }
+
+  function runSearch(query: string) {
+    if (!query.trim()) { showInitial(); return; }
+    showResults(fuse.search(query).map(r => r.item), query);
+  }
+
+  // ── Bootstrap ────────────────────────────────
   fetch(indexUrl)
     .then(r => r.json())
     .then((data: Article[]) => {
@@ -294,27 +327,25 @@ const categories = [
 
       const params = new URLSearchParams(window.location.search);
       const q = params.get('q') ?? '';
-      if (q) { input.value = q; clearBtn.hidden = false; }
-      refresh();
+      if (q) { input.value = q; clearBtn.hidden = false; runSearch(q); }
+      else   { showInitial(); }
     })
-    .catch(() => {
-      stInitial.style.display = 'block';
-      initialGrid.innerHTML = '<p style="color:#6B7280;padding:2rem 0">Error al cargar el índice.</p>';
-    });
+    .catch(() => { resultsMeta.textContent = 'Error al cargar el índice de búsqueda.'; });
 
-  // ── Eventos ───────────────────────────────────
+  // ── Events ───────────────────────────────────
   let debounceTimer: ReturnType<typeof setTimeout>;
   input.addEventListener('input', () => {
-    clearBtn.hidden = !input.value;
+    const q = input.value;
+    clearBtn.hidden = !q;
     clearTimeout(debounceTimer);
-    debounceTimer = setTimeout(refresh, 200);
+    debounceTimer = setTimeout(() => runSearch(q), 200);
   });
 
   clearBtn.addEventListener('click', () => {
     input.value = '';
     clearBtn.hidden = true;
     input.focus();
-    refresh();
+    showInitial();
   });
 
   filterBtns.forEach(btn => {
@@ -322,7 +353,10 @@ const categories = [
       filterBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       activeCategory = btn.dataset.cat ?? '';
-      refresh();
+      const q = input.value;
+      if (!q.trim() && !activeCategory) showInitial();
+      else if (!q.trim() && activeCategory) showResults(allArticles, '');
+      else runSearch(q);
     });
   });
 </script>
@@ -450,22 +484,20 @@ const categories = [
     color: white;
   }
 
-  /* ===== STATES SECTION ===== */
+  /* ===== RESULTS ===== */
   .search-results-section {
-    padding: 1.5rem 0 5rem;
-  }
-
-  .section-label {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: var(--color-text);
-    margin: 0 0 1.5rem;
+    padding: 1rem 0 5rem;
   }
 
   .results-meta {
     font-size: 0.9rem;
     color: var(--color-text-muted);
     margin-bottom: 1.5rem;
+    min-height: 1.4em;
+  }
+
+  #results-meta:empty {
+    display: none;
   }
 
   /* ===== ARTICLE CARDS ===== */
@@ -600,18 +632,21 @@ const categories = [
 
   mark {
     background: rgba(249,115,22,0.18);
-    color: #EA580C;
+    color: var(--color-brand-dark);
     border-radius: 2px;
     padding: 0 1px;
   }
 
+  /* ===== PANELES DE ESTADO ===== */
+  /* Visibilidad controlada 100% por JS con inline style.display — sin depender del cascade CSS */
+
   /* ===== EMPTY STATE ===== */
-  /* display:flex se aplica solo vía JS (stEmpty.style.display = 'flex') */
-  #state-empty {
+  .empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    display: flex;
     flex-direction: column;
     align-items: center;
-    text-align: center;
-    padding: 3rem 2rem;
     gap: 1rem;
   }
 
@@ -621,10 +656,9 @@ const categories = [
     font-size: 1.125rem;
     font-weight: 600;
     color: #1F2937;
-    margin: 0;
   }
 
-  #empty-term {
+  #empty-query {
     color: #F97316;
     font-weight: 700;
   }
@@ -632,7 +666,6 @@ const categories = [
   .empty-sub {
     font-size: 0.9375rem;
     color: #6B7280;
-    margin: 0;
   }
 
   .empty-cats {
@@ -645,9 +678,9 @@ const categories = [
 
   .empty-cats a {
     padding: 0.4rem 1rem;
-    border: 1.5px solid #F97316;
+    border: 1.5px solid var(--color-brand);
     border-radius: 2rem;
-    color: #F97316;
+    color: var(--color-brand);
     font-size: 0.875rem;
     font-weight: 600;
     text-decoration: none;
@@ -655,9 +688,45 @@ const categories = [
   }
 
   .empty-cats a:hover {
-    background: #F97316;
+    background: var(--color-brand);
     color: white;
     text-decoration: none;
+  }
+
+  /* ===== INITIAL STATE ===== */
+  .initial-fitz {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.6rem;
+    margin-bottom: 1.75rem;
+  }
+
+  .initial-fitz svg {
+    width: 90px;
+    height: 105px;
+  }
+
+  .initial-fitz-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin: 0;
+  }
+
+  .initial-fitz-sub {
+    font-size: 0.9375rem;
+    color: var(--color-text-muted);
+    max-width: 420px;
+    margin: 0;
+  }
+
+  .initial-recent-label {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin: 0 0 1.25rem;
   }
 
   /* ===== A11Y ===== */
