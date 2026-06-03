@@ -10,9 +10,11 @@
     "check": "node monitor.js --once"
   },
   "dependencies": {
-    "groq-sdk": "^0.9.0",
     "dotenv": "^16.4.5",
+    "gray-matter": "^4.0.3",
+    "groq-sdk": "^0.9.0",
     "node-cron": "^3.0.3",
-    "rss-parser": "^3.13.0"
+    "rss-parser": "^3.13.0",
+    "sharp": "^0.32.6"
   }
 }

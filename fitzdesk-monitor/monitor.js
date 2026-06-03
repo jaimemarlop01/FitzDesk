@@ -10,6 +10,7 @@ import { isProcessed, isProcessedByUrl, isProcessedByTitleHash, markProcessed, g
 import { generateDraft } from './analyzer.js';
 import { logInfo, logSuccess, logWarn, logError, notifyDraft, notifySummary, notifyDailySummary } from './notifier.js';
 import { findProductImage, downloadProductImage } from './imageSearch.js';
+import { findAndDownloadImage } from './imageCollector.js';
 import { verifyWithGemini } from './reviewer.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -192,15 +193,25 @@ async function runCheck() {
         });
 
         if (result) {
-          // ── Descargar imagen y actualizar frontmatter ──
+          // ── Descargar imagen: RSS → fallback imageCollector ──
+          let imagePath = null;
           if (imageUrl) {
             const img = await downloadProductImage(imageUrl, result.slug);
-            if (img) {
-              result.content = result.content.replace(
-                /imagen: "\/images\/[^"]+"/,
-                `imagen: "${img.localPath}"`
-              );
+            imagePath = img?.localPath ?? null;
+          }
+          if (!imagePath) {
+            logInfo(`  🔍 Sin imagen RSS — buscando via imageCollector...`);
+            const collected = await findAndDownloadImage(itemTitle, result.slug, '');
+            if (collected) {
+              imagePath = collected.main;
+              logInfo(`  📸 Imagen obtenida via ${collected.method}`);
             }
+          }
+          if (imagePath) {
+            result.content = result.content.replace(
+              /imagen: "\/images\/[^"]+"/,
+              `imagen: "${imagePath}"`
+            );
           }
 
           // ── Aviso de posible duplicado (CAMBIO 3) ──
