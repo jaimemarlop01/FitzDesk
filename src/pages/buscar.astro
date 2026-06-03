@@ -107,7 +107,7 @@ const categories = [
               <ellipse cx="79" cy="120" rx="8" ry="12" fill="#CD853F" transform="rotate(18 79 120)"/>
             </svg>
           </div>
-          <p class="empty-title">Fitz no encuentra nada para <span id="empty-query"></span></p>
+          <p class="empty-title">Fitz no encuentra nada <span id="empty-prep">para </span><span id="empty-query"></span></p>
           <p class="empty-sub">Prueba con otros términos o explora las categorías</p>
           <div class="empty-cats">
             <a href={u('/categoria/ratones')}>Ratones</a>
@@ -170,6 +170,7 @@ const categories = [
   const resultsGrid  = document.getElementById('results-grid')!;
   const emptyState   = document.getElementById('empty-state')! as HTMLElement;
   const emptyQuery   = document.getElementById('empty-query')!;
+  const emptyPrep    = document.getElementById('empty-prep')!;
   const initialState = document.getElementById('initial-state')! as HTMLElement;
   const recentGrid   = document.getElementById('recent-grid')!;
   const filterBtns   = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
@@ -266,12 +267,14 @@ const categories = [
   function enterState(show: HTMLElement | null, ...hideEls: HTMLElement[]) {
     hideEls.forEach(el => {
       el.hidden = true;
+      el.style.display = 'none'; // evita que display:flex del CSS sobreescriba hidden
       el.style.opacity = '0';
     });
     if (!show) return;
+    show.style.display = '';     // restaura el display del CSS (flex, block…)
     show.style.opacity = '0';
     show.hidden = false;
-    void show.offsetHeight; // force reflow para que la transición CSS arranque
+    void show.offsetHeight;      // force reflow para que la transición CSS arranque
     show.style.opacity = '1';
   }
 
@@ -283,7 +286,13 @@ const categories = [
     if (filtered.length === 0) {
       resultsGrid.innerHTML = '';
       resultsMeta.textContent = '';
-      emptyQuery.textContent = `"${query || activeCategory}"`;
+      if (query) {
+        emptyPrep.textContent = 'para ';
+        emptyQuery.textContent = `"${query}"`;
+      } else {
+        emptyPrep.textContent = 'en ';
+        emptyQuery.textContent = catLabel(activeCategory);
+      }
       enterState(emptyState, initialState);
     } else {
       enterState(null, initialState, emptyState);
