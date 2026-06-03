@@ -118,7 +118,7 @@ const categories = [
         </div>
 
         <!-- Estado 1: sin búsqueda — Fitz neutral + recientes -->
-        <div id="initial-state" class="initial-state">
+        <div id="initial-state" class="initial-state" hidden>
           <div class="initial-fitz" aria-hidden="true">
             <svg viewBox="0 0 120 140" xmlns="http://www.w3.org/2000/svg">
               <ellipse cx="60" cy="135" rx="35" ry="5" fill="#e5e7eb"/>
@@ -649,6 +649,11 @@ const categories = [
   #initial-state,
   #empty-state {
     transition: opacity 0.2s ease;
+  }
+
+  #empty-state[hidden],
+  #initial-state[hidden] {
+    display: none !important;
   }
 
   /* ===== EMPTY STATE ===== */
