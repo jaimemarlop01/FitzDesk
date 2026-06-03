@@ -78,6 +78,7 @@ const categories = [
       <div class="container">
         <div id="results-meta" class="results-meta" aria-live="polite" aria-atomic="true"></div>
         <div id="results-grid" class="articles-grid" role="list"></div>
+        <!-- Estado 3: sin resultados — Fitz triste -->
         <div id="empty-state" class="empty-state" hidden>
           <div class="empty-fitz" aria-hidden="true">
             <svg viewBox="0 0 120 140" xmlns="http://www.w3.org/2000/svg">
@@ -91,15 +92,17 @@ const categories = [
               <ellipse cx="60" cy="78" rx="18" ry="16" fill="#F4A460"/>
               <circle cx="49" cy="67" r="7.5" fill="white"/>
               <circle cx="71" cy="67" r="7.5" fill="white"/>
-              <circle cx="51" cy="69" r="3.5" fill="#1a1a1a"/>
-              <circle cx="73" cy="69" r="3.5" fill="#1a1a1a"/>
-              <circle cx="52" cy="67" r="1.2" fill="white"/>
-              <circle cx="74" cy="67" r="1.2" fill="white"/>
-              <path d="M 52 82 Q 60 78 68 82" stroke="#8B4513" stroke-width="1.8" fill="none" stroke-linecap="round"/>
-              <ellipse cx="42" cy="78" rx="5" ry="5" fill="#f08080" opacity="0.3"/>
-              <ellipse cx="78" cy="78" rx="5" ry="5" fill="#f08080" opacity="0.3"/>
-              <polygon points="52,102 60,97 68,102 60,107" fill="#DC2626"/>
-              <circle cx="60" cy="103" r="3" fill="#EF4444"/>
+              <circle cx="51" cy="70" r="3.5" fill="#1a1a1a"/>
+              <circle cx="73" cy="70" r="3.5" fill="#1a1a1a"/>
+              <circle cx="52" cy="68" r="1.2" fill="white"/>
+              <circle cx="74" cy="68" r="1.2" fill="white"/>
+              <!-- cejas fruncidas -->
+              <path d="M 44 60 Q 49 58 54 60" stroke="#8B4513" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+              <path d="M 66 60 Q 71 58 76 60" stroke="#8B4513" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+              <!-- boca triste -->
+              <path d="M 52 84 Q 60 90 68 84" stroke="#8B4513" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+              <ellipse cx="42" cy="78" rx="5" ry="5" fill="#f08080" opacity="0.4"/>
+              <ellipse cx="78" cy="78" rx="5" ry="5" fill="#f08080" opacity="0.4"/>
               <ellipse cx="41" cy="120" rx="8" ry="12" fill="#CD853F" transform="rotate(-18 41 120)"/>
               <ellipse cx="79" cy="120" rx="8" ry="12" fill="#CD853F" transform="rotate(18 79 120)"/>
             </svg>
@@ -113,8 +116,40 @@ const categories = [
             <a href={u('/categoria/portatiles')}>Portátiles</a>
           </div>
         </div>
+
+        <!-- Estado 1: sin búsqueda — Fitz neutral + recientes -->
         <div id="initial-state" class="initial-state">
-          <p class="initial-title">Artículos recientes</p>
+          <div class="initial-fitz" aria-hidden="true">
+            <svg viewBox="0 0 120 140" xmlns="http://www.w3.org/2000/svg">
+              <ellipse cx="60" cy="135" rx="35" ry="5" fill="#e5e7eb"/>
+              <ellipse cx="60" cy="118" rx="22" ry="17" fill="#CD853F"/>
+              <circle cx="60" cy="72" r="28" fill="#DEB887"/>
+              <ellipse cx="38" cy="50" rx="10" ry="13" fill="#CD853F"/>
+              <ellipse cx="38" cy="50" rx="6" ry="9" fill="#F4A460"/>
+              <ellipse cx="82" cy="50" rx="10" ry="13" fill="#CD853F"/>
+              <ellipse cx="82" cy="50" rx="6" ry="9" fill="#F4A460"/>
+              <ellipse cx="60" cy="78" rx="18" ry="16" fill="#F4A460"/>
+              <circle cx="49" cy="67" r="7.5" fill="white"/>
+              <circle cx="71" cy="67" r="7.5" fill="white"/>
+              <!-- pupilas mirando arriba-derecha (curioso) -->
+              <circle cx="52" cy="66" r="3.5" fill="#1a1a1a"/>
+              <circle cx="74" cy="66" r="3.5" fill="#1a1a1a"/>
+              <circle cx="53" cy="64.5" r="1.2" fill="white"/>
+              <circle cx="75" cy="64.5" r="1.2" fill="white"/>
+              <!-- sonrisa amable -->
+              <path d="M 52 82 Q 60 78 68 82" stroke="#8B4513" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+              <ellipse cx="42" cy="78" rx="5" ry="5" fill="#f08080" opacity="0.3"/>
+              <ellipse cx="78" cy="78" rx="5" ry="5" fill="#f08080" opacity="0.3"/>
+              <!-- lupa -->
+              <circle cx="60" cy="104" r="6" fill="none" stroke="#F97316" stroke-width="2"/>
+              <line x1="65" y1="109" x2="69" y2="113" stroke="#F97316" stroke-width="2" stroke-linecap="round"/>
+              <ellipse cx="41" cy="120" rx="8" ry="12" fill="#CD853F" transform="rotate(-18 41 120)"/>
+              <ellipse cx="79" cy="120" rx="8" ry="12" fill="#CD853F" transform="rotate(18 79 120)"/>
+            </svg>
+          </div>
+          <p class="initial-fitz-title">¿Qué periférico buscas hoy?</p>
+          <p class="initial-fitz-sub">Escribe el nombre de un producto, marca o categoría</p>
+          <p class="initial-recent-label">Artículos recientes</p>
           <div id="recent-grid" class="articles-grid" role="list"></div>
         </div>
       </div>
@@ -125,20 +160,19 @@ const categories = [
 <script>
   import Fuse from 'fuse.js';
 
-  const app = document.getElementById('search-app') as HTMLElement;
-  const indexUrl = app.dataset.indexUrl!;
-  const base = app.dataset.base!;
-  const buscarUrl = app.dataset.buscarUrl!;
+  const app        = document.getElementById('search-app') as HTMLElement;
+  const indexUrl   = app.dataset.indexUrl!;
+  const base       = app.dataset.base!;
 
-  const input = document.getElementById('search-input') as HTMLInputElement;
-  const clearBtn = document.getElementById('clear-btn') as HTMLButtonElement;
-  const resultsMeta = document.getElementById('results-meta')!;
-  const resultsGrid = document.getElementById('results-grid')!;
-  const emptyState = document.getElementById('empty-state')!;
-  const emptyQuery = document.getElementById('empty-query')!;
-  const initialState = document.getElementById('initial-state')!;
-  const recentGrid = document.getElementById('recent-grid')!;
-  const filterBtns = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
+  const input      = document.getElementById('search-input') as HTMLInputElement;
+  const clearBtn   = document.getElementById('clear-btn') as HTMLButtonElement;
+  const resultsMeta  = document.getElementById('results-meta')!;
+  const resultsGrid  = document.getElementById('results-grid')!;
+  const emptyState   = document.getElementById('empty-state')! as HTMLElement;
+  const emptyQuery   = document.getElementById('empty-query')!;
+  const initialState = document.getElementById('initial-state')! as HTMLElement;
+  const recentGrid   = document.getElementById('recent-grid')!;
+  const filterBtns   = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
 
   let allArticles: Article[] = [];
   let fuse: Fuse<Article>;
@@ -149,13 +183,21 @@ const categories = [
     slug: string;
     categoria: string;
     descripcion: string;
-    puntuacion: number;
+    puntuacion?: number;
     precio: string;
     imagen: string;
     fecha: string;
+    tipo?: string;
   }
 
-  function scoreColor(n: number) {
+  const TIPO_LABELS: Record<string, string> = {
+    comparativa: 'Comparativa',
+    guia: 'Guía',
+    lanzamiento: 'Próximamente',
+  };
+
+  function scoreColor(n?: number | null) {
+    if (n == null || isNaN(n)) return '#F97316';
     if (n >= 9) return '#16a34a';
     if (n >= 7.5) return '#F97316';
     return '#DC2626';
@@ -186,7 +228,20 @@ const categories = [
 
   function renderCard(article: Article, query = ''): string {
     const title = highlight(article.title, query);
-    const desc = highlight(article.descripcion, query);
+    const desc  = highlight(article.descripcion, query);
+
+    const hasScore = article.puntuacion != null && !isNaN(Number(article.puntuacion));
+    let scoreHtml = '';
+    if (hasScore) {
+      scoreHtml = `<span class="card-score" style="color:${scoreColor(article.puntuacion)}">${article.puntuacion}/10</span>`;
+    } else if (article.tipo && TIPO_LABELS[article.tipo]) {
+      scoreHtml = `<span class="card-tipo-badge">${TIPO_LABELS[article.tipo]}</span>`;
+    }
+
+    const hasPrice = article.precio && article.precio !== 'pendiente' && article.precio !== 'Ver en PcComponentes';
+    const sep      = scoreHtml && hasPrice ? '<span class="card-sep" aria-hidden="true">·</span>' : '';
+    const priceHtml = hasPrice ? `<span class="card-price">${article.precio}</span>` : '';
+
     return `
       <article class="article-card" role="listitem">
         <a href="${articleUrl(article.slug)}" class="card-link">
@@ -198,12 +253,26 @@ const categories = [
             <h3 class="card-title">${title}</h3>
             <p class="card-desc">${desc}</p>
             <div class="card-footer">
-              <span class="card-score" style="color:${scoreColor(article.puntuacion)}">${article.puntuacion}/10</span>
-              <span class="card-price">${article.precio}</span>
+              ${scoreHtml}${sep}${priceHtml}
             </div>
           </div>
         </a>
       </article>`;
+  }
+
+  // ── State management ─────────────────────────
+  // Oculta todos los paneles sincrónicamente, luego muestra el elegido con fade.
+  // Garantiza que nunca haya más de un Fitz visible a la vez.
+  function enterState(show: HTMLElement | null, ...hideEls: HTMLElement[]) {
+    hideEls.forEach(el => {
+      el.hidden = true;
+      el.style.opacity = '0';
+    });
+    if (!show) return;
+    show.style.opacity = '0';
+    show.hidden = false;
+    void show.offsetHeight; // force reflow para que la transición CSS arranque
+    show.style.opacity = '1';
   }
 
   function showResults(articles: Article[], query = '') {
@@ -211,71 +280,58 @@ const categories = [
       ? articles.filter(a => a.categoria === activeCategory)
       : articles;
 
-    resultsGrid.innerHTML = filtered.map(a => renderCard(a, query)).join('');
-    initialState.hidden = true;
-
     if (filtered.length === 0) {
-      emptyState.hidden = false;
-      emptyQuery.textContent = `"${query || activeCategory}"`;
-      resultsMeta.textContent = '';
       resultsGrid.innerHTML = '';
+      resultsMeta.textContent = '';
+      emptyQuery.textContent = `"${query || activeCategory}"`;
+      enterState(emptyState, initialState);
     } else {
-      emptyState.hidden = true;
+      enterState(null, initialState, emptyState);
+      resultsGrid.innerHTML = filtered.map(a => renderCard(a, query)).join('');
       resultsMeta.textContent =
         `${filtered.length} ${filtered.length === 1 ? 'resultado' : 'resultados'}${query ? ` para "${query}"` : ''}`;
     }
   }
 
   function showInitial() {
-    const recent = allArticles.slice(0, 6);
-    recentGrid.innerHTML = recent.map(a => renderCard(a)).join('');
-    initialState.hidden = false;
-    emptyState.hidden = true;
+    recentGrid.innerHTML = allArticles.slice(0, 6).map(a => renderCard(a)).join('');
     resultsGrid.innerHTML = '';
     resultsMeta.textContent = '';
+    enterState(initialState, emptyState);
   }
 
   function runSearch(query: string) {
-    if (!query.trim()) {
-      showInitial();
-      return;
-    }
-    const results = fuse.search(query).map(r => r.item);
-    showResults(results, query);
+    if (!query.trim()) { showInitial(); return; }
+    showResults(fuse.search(query).map(r => r.item), query);
   }
 
-  // Load index and boot
+  // ── Bootstrap ────────────────────────────────
   fetch(indexUrl)
     .then(r => r.json())
     .then((data: Article[]) => {
       allArticles = data;
       fuse = new Fuse(allArticles, {
         keys: [
-          { name: 'title', weight: 0.6 },
+          { name: 'title',       weight: 0.6 },
           { name: 'descripcion', weight: 0.3 },
-          { name: 'categoria', weight: 0.1 },
+          { name: 'categoria',   weight: 0.1 },
         ],
         threshold: 0.3,
         includeMatches: true,
         minMatchCharLength: 2,
       });
 
-      // Read ?q= from URL
+      // La transición se define en CSS; sólo forzar estado inicial limpio
+      initialState.style.opacity = '1';
+
       const params = new URLSearchParams(window.location.search);
       const q = params.get('q') ?? '';
-      if (q) {
-        input.value = q;
-        clearBtn.hidden = false;
-        runSearch(q);
-      } else {
-        showInitial();
-      }
+      if (q) { input.value = q; clearBtn.hidden = false; runSearch(q); }
+      else   { showInitial(); }
     })
-    .catch(() => {
-      resultsMeta.textContent = 'Error al cargar el índice de búsqueda.';
-    });
+    .catch(() => { resultsMeta.textContent = 'Error al cargar el índice de búsqueda.'; });
 
-  // Input events
+  // ── Events ───────────────────────────────────
   let debounceTimer: ReturnType<typeof setTimeout>;
   input.addEventListener('input', () => {
     const q = input.value;
@@ -291,20 +347,15 @@ const categories = [
     showInitial();
   });
 
-  // Category filters
   filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       filterBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       activeCategory = btn.dataset.cat ?? '';
       const q = input.value;
-      if (!q.trim() && !activeCategory) {
-        showInitial();
-      } else if (!q.trim() && activeCategory) {
-        showResults(allArticles, '');
-      } else {
-        runSearch(q);
-      }
+      if (!q.trim() && !activeCategory) showInitial();
+      else if (!q.trim() && activeCategory) showResults(allArticles, '');
+      else runSearch(q);
     });
   });
 </script>
@@ -313,7 +364,7 @@ const categories = [
   /* ===== HERO ===== */
   .search-hero {
     background: linear-gradient(135deg, #fff7ed 0%, #fef3c7 100%);
-    padding: 3rem 0 2.5rem;
+    padding: 3rem 0 1.75rem;
   }
 
   .search-hero-inner {
@@ -434,7 +485,7 @@ const categories = [
 
   /* ===== RESULTS ===== */
   .search-results-section {
-    padding: 2.5rem 0 5rem;
+    padding: 1rem 0 5rem;
   }
 
   .results-meta {
@@ -442,6 +493,10 @@ const categories = [
     color: var(--color-text-muted);
     margin-bottom: 1.5rem;
     min-height: 1.4em;
+  }
+
+  #results-meta:empty {
+    display: none;
   }
 
   /* ===== ARTICLE CARDS ===== */
@@ -527,7 +582,7 @@ const categories = [
 
   .card-desc {
     font-size: 0.85rem;
-    color: var(--color-text-muted);
+    color: #374151;
     line-height: 1.55;
     flex: 1;
     display: -webkit-box;
@@ -539,7 +594,7 @@ const categories = [
   .card-footer {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    gap: 0.35rem;
     padding-top: 0.5rem;
     border-top: 1px solid var(--color-border);
     margin-top: auto;
@@ -547,13 +602,30 @@ const categories = [
 
   .card-score {
     font-family: var(--font-display);
-    font-size: 1rem;
+    font-size: 0.9rem;
     font-weight: 800;
+  }
+
+  .card-tipo-badge {
+    font-size: 0.72rem;
+    font-weight: 700;
+    background: #FEF3C7;
+    color: #92400E;
+    padding: 0.2rem 0.55rem;
+    border-radius: 2rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .card-sep {
+    color: #9CA3AF;
+    font-size: 0.85rem;
+    line-height: 1;
   }
 
   .card-price {
     font-size: 0.85rem;
-    color: var(--color-text-muted);
+    color: #6B7280;
     font-weight: 500;
   }
 
@@ -562,6 +634,12 @@ const categories = [
     color: var(--color-brand-dark);
     border-radius: 2px;
     padding: 0 1px;
+  }
+
+  /* ===== PANELES DE ESTADO: transición de opacidad ===== */
+  #initial-state,
+  #empty-state {
+    transition: opacity 0.2s ease;
   }
 
   /* ===== EMPTY STATE ===== */
@@ -580,6 +658,11 @@ const categories = [
     font-size: 1.125rem;
     font-weight: 600;
     color: var(--color-text);
+  }
+
+  #empty-query {
+    color: var(--color-brand);
+    font-weight: 700;
   }
 
   .empty-sub {
@@ -613,13 +696,39 @@ const categories = [
   }
 
   /* ===== INITIAL STATE ===== */
-  .initial-state {}
+  .initial-fitz {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.6rem;
+    margin-bottom: 1.75rem;
+  }
 
-  .initial-title {
-    font-size: 1.1rem;
+  .initial-fitz svg {
+    width: 90px;
+    height: 105px;
+  }
+
+  .initial-fitz-title {
+    font-size: 1.25rem;
     font-weight: 700;
     color: var(--color-text);
-    margin-bottom: 1.5rem;
+    margin: 0;
+  }
+
+  .initial-fitz-sub {
+    font-size: 0.9375rem;
+    color: var(--color-text-muted);
+    max-width: 420px;
+    margin: 0;
+  }
+
+  .initial-recent-label {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin: 0 0 1.25rem;
   }
 
   /* ===== A11Y ===== */
