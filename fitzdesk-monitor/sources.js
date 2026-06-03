@@ -50,7 +50,9 @@ export const SOURCES = [
 export const KEYWORDS_DESCARTE = [
   'gemini', 'chatgpt', 'inteligencia artificial', 'ia generativa',
   'modelo de lenguaje', 'openai',
-  'videojuego',
+  'videojuego', 'gaming', 'game', 'juego', 'fps', 'rpg',
+  'xbox', 'playstation', 'nintendo', 'consola',
+  'steam deck', 'rog ally', 'legion go', 'ally',
   'smartphone', 'móvil', 'movil', 'teléfono', 'telefono', 'tablet',
   'drone', 'vehículo', 'vehiculo', 'coche',
   'economía', 'economia', 'bolsa', 'inversión', 'inversion',
