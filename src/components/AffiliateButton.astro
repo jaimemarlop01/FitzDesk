@@ -20,12 +20,11 @@ const { href, precio, tienda = 'PcComponentes' } = Astro.props;
       <line x1="3" y1="6" x2="21" y2="6"/>
       <path d="M16 10a4 4 0 01-8 0"/>
     </svg>
-    Ver precio en {tienda}
+    Buscar en {tienda}
     {precio && <span class="btn-price">{precio}</span>}
   </a>
   <p class="affiliate-notice">
-    Enlace de afiliado. Si compras a través de este enlace podemos recibir una comisión
-    sin coste adicional para ti.
+    Los precios mostrados son orientativos. Te recomendamos verificar el precio actual antes de comprar.
   </p>
 </div>
 

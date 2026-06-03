@@ -96,4 +96,4 @@ Me encanta el teclado ThinkPad, es el mejor que he probado en un portátil de 14
 
 El Lenovo ThinkPad E14 Gen 6 es la elección del profesional que entiende que un portátil es una herramienta de trabajo, no un objeto de deseo. El mejor teclado de su clase, construcción robusta, puertos completos y soporte a largo plazo por 849€ es una propuesta muy sólida. No es el portátil más emocionante del mercado. Es, sin embargo, el que mejor envejece y el que menos problemas va a dar en cinco años de uso intensivo.
 
-> **Aviso de afiliado**: Si compras a través de nuestros enlaces podemos recibir una comisión sin coste adicional para ti.
+> ⚠️ **Aviso**: Los precios mostrados son orientativos. Te recomendamos verificar el precio actual antes de comprar.

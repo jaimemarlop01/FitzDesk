@@ -16,6 +16,7 @@ keywords_secundarias:
   - "periféricos para teletrabajo"
 fitzQuote: "El CORSAIR CLIPPER PRO MINI 60 es un teclado que destaca dentro de su categoría por su diseño compacto y funcionalidades avanzadas. Cabe esperar que ofrezca una gran experiencia de uso para trabajadores remotos y gamers. Mi nota: 8/10"
 borrador: true
+imagen_thumb: "/images/articulos/corsair-presenta-en-computex-b2026b-el-teclado-clipper-pro-mini-60-el-raton---ge-thumb.webp"
 ---
 
 <!--

@@ -94,4 +94,4 @@ Me encanta su ergonomía que ha reducido la fatiga en mis jornadas largas, aunqu
 
 El Logitech MX Master 3S es el estándar de referencia en ratones de productividad en 2026. Ningún otro ratón en este segmento combina de forma tan equilibrada ergonomía, funcionalidades avanzadas y calidad de construcción. Los 99€ son una inversión que se amortiza en comodidad en las primeras semanas de uso intensivo. Si buscas el mejor ratón para trabajar, la búsqueda termina aquí.
 
-> **Aviso de afiliado**: Si compras a través de nuestros enlaces podemos recibir una comisión sin coste adicional para ti.
+> ⚠️ **Aviso**: Los precios mostrados son orientativos. Te recomendamos verificar el precio actual antes de comprar.

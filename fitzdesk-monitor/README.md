@@ -1,7 +1,7 @@
 # FitzDesk Monitor
 
 Sistema automático de alertas de novedades tech para FitzDesk. Monitoriza feeds RSS,
-detecta productos relevantes y genera borradores de análisis usando la API de Claude.
+detecta productos relevantes y genera borradores de análisis usando la API de Groq.
 
 ## Instalación
 
@@ -9,22 +9,22 @@ detecta productos relevantes y genera borradores de análisis usando la API de C
 cd fitzdesk-monitor
 npm install
 cp .env.example .env
-# Editar .env con tu API key de Anthropic
+# Editar .env con tu API key de Groq
 ```
 
-## Cómo obtener la API key de Anthropic
+## Cómo obtener la API key de Groq
 
-1. Ve a [console.anthropic.com](https://console.anthropic.com)
+1. Ve a [console.groq.com](https://console.groq.com)
 2. Crea una cuenta o inicia sesión
 3. En el menú lateral, ve a **API Keys**
-4. Haz clic en **Create Key** y copia la clave
-5. Pégala en el `.env` como `ANTHROPIC_API_KEY=sk-ant-...`
+4. Haz clic en **Create API Key** y copia la clave
+5. Pégala en el `.env` como `GROQ_API_KEY=gsk_...`
 
 ## Configuración (.env)
 
 | Variable | Descripción | Por defecto |
 |---|---|---|
-| `ANTHROPIC_API_KEY` | API key de Anthropic | **Requerida** |
+| `GROQ_API_KEY` | API key de Groq | **Requerida** |
 | `ASTRO_CONTENT_PATH` | Ruta a los artículos de FitzDesk | `../FitzDesk/src/content/articulos` |
 | `CHECK_INTERVAL_HOURS` | Horas entre comprobaciones (daemon) | `24` |
 | `DISCORD_WEBHOOK_URL` | Webhook de Discord (opcional) | vacío |
@@ -48,7 +48,7 @@ npm run daemon
 
 ### Solo detección (sin generar borradores — no necesita API key)
 ```bash
-# Deja ANTHROPIC_API_KEY vacía en .env y ejecuta:
+# Deja GROQ_API_KEY vacía en .env y ejecuta:
 node monitor.js
 ```
 
@@ -80,7 +80,7 @@ Cada borrador incluye:
 - Frontmatter completo con campos marcados como `pendiente`
 - Aviso de revisión al inicio del archivo
 - Checklist de datos a completar antes de publicar
-- Contenido generado por Claude listo para editar
+- Contenido generado por Groq listo para editar
 
 ## Logs
 

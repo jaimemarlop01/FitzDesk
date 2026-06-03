@@ -94,4 +94,4 @@ Me encanta el scroll MagSpeed en este ratón compacto, aunque puede ser un poco 
 
 El MX Anywhere 3S es la mejor opción en ratones compactos del mercado en 2026. A 49€ ofrece el sensor Darkfield, el scroll MagSpeed y 70 días de batería en un cuerpo que cabe en cualquier bolsillo. Para trabajo en movilidad, es difícil justificar pagar más. Y si trabajas desde casa con manos pequeñas o medianas, funciona perfectamente como ratón principal sin necesitar el MX Master.
 
-> **Aviso de afiliado**: Si compras a través de nuestros enlaces podemos recibir una comisión sin coste adicional para ti.
+> ⚠️ **Aviso**: Los precios mostrados son orientativos. Te recomendamos verificar el precio actual antes de comprar.

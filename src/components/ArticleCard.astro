@@ -12,17 +12,25 @@ export interface Props {
   imagen: string;
   puntuacion?: number;
   precio?: string;
+  tipo?: string;
 }
 
-const { title, slug, categoria, fecha, descripcion, imagen, puntuacion, precio } = Astro.props;
+const { title, slug, categoria, fecha, descripcion, imagen, puntuacion, precio, tipo } = Astro.props;
 
 const articleHref = u(`/articulo/${slug}`);
 const imgSrc = u(imagen);
 
 const scoreColor =
-  puntuacion >= 9 ? '#16a34a' :
-  puntuacion >= 7.5 ? '#F97316' :
+  puntuacion != null && puntuacion >= 9 ? '#16a34a' :
+  puntuacion != null && puntuacion >= 7.5 ? '#F97316' :
   '#DC2626';
+
+const TIPO_LABELS: Record<string, string> = {
+  comparativa: 'Comparativa',
+  guia: 'Guía',
+  lanzamiento: 'Próximamente',
+};
+const tipoLabel = tipo ? (TIPO_LABELS[tipo] ?? '') : '';
 
 const fechaFormateada = new Date(fecha).toLocaleDateString('es-ES', {
   year: 'numeric',
@@ -46,11 +54,13 @@ const fechaFormateada = new Date(fecha).toLocaleDateString('es-ES', {
         />
       ) : null}
       {!imagen && <PlaceholderImage categoria={categoria} />}
-      {puntuacion && (
+      {puntuacion != null ? (
         <span class="card-score" style={`background: ${scoreColor}`}>
           {puntuacion}
         </span>
-      )}
+      ) : tipoLabel ? (
+        <span class="card-tipo-badge">{tipoLabel}</span>
+      ) : null}
     </div>
   </a>
 
@@ -126,6 +136,22 @@ const fechaFormateada = new Date(fecha).toLocaleDateString('es-ES', {
     padding: 0.25rem 0.6rem;
     border-radius: var(--radius);
     box-shadow: var(--shadow);
+  }
+
+  .card-tipo-badge {
+    position: absolute;
+    bottom: 0.75rem;
+    right: 0.75rem;
+    background: #FEF3C7;
+    color: #92400E;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 0.72rem;
+    padding: 0.25rem 0.6rem;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
   }
 
   .card-body {

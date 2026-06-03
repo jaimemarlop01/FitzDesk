@@ -29,6 +29,10 @@ const fechaFormateada = new Date(fecha).toLocaleDateString('es-ES', {
   year: 'numeric', month: 'long', day: 'numeric',
 });
 
+// Construir URL de búsqueda en PcComponentes desde el nombre del producto
+const productName = title.split(':')[0].trim();
+const pcSearchUrl = `https://www.pccomponentes.com/buscar/?query=${encodeURIComponent(productName)}`;
+
 const allArticles = (await getCollection('articulos')).filter(a => !a.data.borrador);
 const related = allArticles
   .filter(a => a.data.categoria === categoria && a.slug !== article.slug)
@@ -94,7 +98,7 @@ const reviewSchema = puntuacion ? {
 
           {puntuacion && <ScoreBox puntuacion={puntuacion} precio={precio} />}
 
-          <AffiliateButton href={enlace_afiliado} precio={precio} />
+          <AffiliateButton href={pcSearchUrl} precio={precio} />
 
           {fitzQuote && <FitzQuote quote={fitzQuote} />}
 
@@ -106,7 +110,7 @@ const reviewSchema = puntuacion ? {
             <SpecsTable especificaciones={especificaciones} />
           )}
 
-          <AffiliateButton href={enlace_afiliado} precio={precio} />
+          <AffiliateButton href={pcSearchUrl} precio={precio} />
         </main>
 
         <aside class="article-sidebar">
@@ -123,8 +127,8 @@ const reviewSchema = puntuacion ? {
             <div class="sidebar-card">
               <h3>Precio</h3>
               <p class="sidebar-price">{precio}</p>
-              <a href={enlace_afiliado} target="_blank" rel="noopener noreferrer sponsored" class="sidebar-btn">
-                Ver en PcComponentes →
+              <a href={pcSearchUrl} target="_blank" rel="noopener noreferrer" class="sidebar-btn">
+                Buscar en PcComponentes →
               </a>
             </div>
           )}

@@ -7,7 +7,7 @@ import cron from 'node-cron';
 
 import { SOURCES, KEYWORDS_MARCA, passesStrictFilter } from './sources.js';
 import { isProcessed, isProcessedByUrl, isProcessedByTitleHash, markProcessed, getCacheStats, normalizeUrl, hashTitle } from './cache.js';
-import { generateDraft } from './analyzer.js';
+import { generateDraft, searchPcComponentes } from './analyzer.js';
 import { logInfo, logSuccess, logWarn, logError, notifyDraft, notifySummary, notifyDailySummary } from './notifier.js';
 import { findProductImage, downloadProductImage } from './imageSearch.js';
 import { findAndDownloadImage } from './imageCollector.js';
@@ -236,6 +236,8 @@ async function runCheck() {
             imageUrl,
             articleUrl:        itemUrl,
             possibleDuplicate: existingFile,
+            pcPrice:           result.pcPrice,
+            pcUrl:             result.pcUrl,
           });
         } else {
           markProcessed(id, { url: itemUrl, titleHash });
@@ -262,7 +264,30 @@ async function runCheck() {
 
 const args = process.argv.slice(2);
 const isDaemon = args.includes('--daemon');
-const isOnce   = args.includes('--once') || !isDaemon;
+const isTest   = args.includes('--test');
+const isOnce   = args.includes('--once') || (!isDaemon && !isTest);
+
+if (isTest) {
+  const testIdx = args.indexOf('--test');
+  const testProduct = (args[testIdx + 1] && !args[testIdx + 1].startsWith('--'))
+    ? args[testIdx + 1]
+    : 'Logitech MX Master 3S';
+
+  logInfo(`🧪 TEST MODE — Buscando precio en PcComponentes para: "${testProduct}"`);
+  const pcResult = await searchPcComponentes(testProduct);
+
+  console.log('\n━━━ Resultado en frontmatter ━━━');
+  console.log(`precio: "${pcResult.precio}"`);
+  console.log(`enlace_afiliado: "${pcResult.url}"`);
+  if (pcResult.found) console.log('precio_encontrado_automaticamente: true');
+
+  console.log('\n━━━ Nota añadida al inicio del borrador ━━━');
+  console.log(`> 💰 **Precio detectado automáticamente**: ${pcResult.precio}`);
+  console.log(`> 🔗 **Enlace PcComponentes**: ${pcResult.url}`);
+  console.log('> ⚠️ Verifica el precio antes de publicar ya que puede haber cambiado desde la generación del borrador.');
+
+  process.exit(0);
+}
 
 if (!process.env.GROQ_API_KEY) {
   logWarn('GROQ_API_KEY no configurada. Los borradores no se generarán (solo detección).');

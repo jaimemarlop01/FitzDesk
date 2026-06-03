@@ -96,4 +96,4 @@ Me encanta el Keychron K8 Pro por su excelente calidad de construcción y la fle
 
 El Keychron K8 Pro justifica su precio con creces. El hot-swap, la triple conectividad y la calidad de construcción lo sitúan varios escalones por encima de la mayoría de mecánicos en esta franja de precio. Si vas a comprarte un mecánico para trabajar, este es el punto de partida inteligente. Y si ya tienes uno más básico, el K8 Pro es el salto que nota.
 
-> **Aviso de afiliado**: Si compras a través de nuestros enlaces podemos recibir una comisión sin coste adicional para ti.
+> ⚠️ **Aviso**: Los precios mostrados son orientativos. Te recomendamos verificar el precio actual antes de comprar.

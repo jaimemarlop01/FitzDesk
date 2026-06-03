@@ -91,4 +91,4 @@ Me encanta el Dell S2722QC por su excelente relación calidad-precio, aunque ech
 
 El Dell S2722QC es la opción más inteligente para quien quiere 4K con USB-C sin llegar a los 400€. Los 70€ de diferencia respecto al LG 27UP850N-W se traducen en menos watts de carga y soporte sin altura ajustable. Para el 80% de los usuarios con portátiles modernos, ninguno de esos factores cambia el uso real. El resultado es prácticamente el mismo: escritorio limpio, imagen 4K, un solo cable.
 
-> **Aviso de afiliado**: Si compras a través de nuestros enlaces podemos recibir una comisión sin coste adicional para ti.
+> ⚠️ **Aviso**: Los precios mostrados son orientativos. Te recomendamos verificar el precio actual antes de comprar.

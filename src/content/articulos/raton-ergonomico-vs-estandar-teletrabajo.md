@@ -90,4 +90,4 @@ Fitz, nuestra ardilla mascota, sin dudarlo, elegiría el ratón vertical si tuvi
 
 No hay un ganador universal en esta comparativa, ya que la elección entre el Logitech Lift Vertical y el Logitech MX Master 3S depende en gran medida de las necesidades y preferencias individuales de cada usuario. Si experimentas dolores de muñeca o antebrazo, el Lift Vertical puede ser la mejor opción. Sin embargo, si buscas la máxima precisión y comodidad en un ratón estándar, el MX Master 3S es una excelente elección. Te invitamos a explorar más a fondo cada modelo y a considerar tus necesidades específicas antes de tomar una decisión. Recuerda que la salud de tus muñecas es importante, y elegir el ratón adecuado puede hacer una gran diferencia en tu productividad y comodidad a largo plazo.
 
-> ⚠️ **Aviso de afiliado**: Si compras a través de nuestros enlaces podemos recibir una pequeña comisión sin coste adicional para ti. Esto nos ayuda a seguir publicando análisis honestos e independientes.
+> ⚠️ **Aviso**: Los precios mostrados son orientativos. Te recomendamos verificar el precio actual antes de comprar.

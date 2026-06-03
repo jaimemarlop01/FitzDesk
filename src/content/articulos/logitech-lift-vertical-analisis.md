@@ -93,4 +93,4 @@ El Logitech Lift Vertical me ha sorprendido por su capacidad para reducir la ten
 
 El Logitech Lift Vertical cumple exactamente lo que promete: reducir la fatiga en la muñeca para quienes trabajan muchas horas al día. La inversión de 69€ se justifica si tienes cualquier molestia en la muñeca, o como medida preventiva si tu jornada implica muchas horas con el ratón. La curva de adaptación existe y hay que respetarla, pero el resultado merece la espera. Para zurdos que buscan ergonomía, es directamente una de las pocas opciones serias del mercado.
 
-> **Aviso de afiliado**: Si compras a través de nuestros enlaces podemos recibir una comisión sin coste adicional para ti.
+> ⚠️ **Aviso**: Los precios mostrados son orientativos. Te recomendamos verificar el precio actual antes de comprar.

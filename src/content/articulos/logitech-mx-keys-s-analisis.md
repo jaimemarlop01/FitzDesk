@@ -93,4 +93,4 @@ Me encanta el teclado Logitech MX Keys S por su comodidad y fluidez, aunque el p
 
 El Logitech MX Keys S es el teclado de los profesionales que quieren que el teclado haga su trabajo sin protagonismo. Cómodo desde el primer minuto, bien integrado con el ecosistema Logitech y con el Easy-Switch como funcionalidad diferencial. El precio de 119€ es elevado para lo que es técnicamente, pero la experiencia de uso justifica la inversión para quien lo usa más de cuatro horas diarias.
 
-> **Aviso de afiliado**: Si compras a través de nuestros enlaces podemos recibir una comisión sin coste adicional para ti.
+> ⚠️ **Aviso**: Los precios mostrados son orientativos. Te recomendamos verificar el precio actual antes de comprar.

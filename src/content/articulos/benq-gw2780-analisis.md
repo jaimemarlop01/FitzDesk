@@ -94,4 +94,4 @@ Considero que el BenQ GW2780 es un monitor ideal para aquellos que buscan calida
 
 El BenQ GW2780 hace lo básico muy bien a un precio que nadie puede discutir. Panel IPS de 27 pulgadas con protección ocular activa por 149€ es una propuesta honesta para quien da el primer paso. No va a impresionar a nadie con sus especificaciones, pero a quien solo tiene la pantalla del portátil le va a cambiar la forma de trabajar desde el primer día.
 
-> **Aviso de afiliado**: Si compras a través de nuestros enlaces podemos recibir una comisión sin coste adicional para ti.
+> ⚠️ **Aviso**: Los precios mostrados son orientativos. Te recomendamos verificar el precio actual antes de comprar.

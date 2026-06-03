@@ -93,4 +93,4 @@ Me encanta la comodidad de tener un solo cable para conectar mi portátil, carga
 
 El LG 27UP850N-W justifica su precio con la propuesta del cable único: 4K + carga de 96W + datos en un solo conector. Para quien trabaja con portátil, este monitor simplifica el escritorio y mejora visiblemente la calidad de la imagen de trabajo diaria. Es la inversión más transformadora que puedes hacer en tu setup si aún trabajas con Full HD o con varios cables y adaptadores.
 
-> **Aviso de afiliado**: Si compras a través de nuestros enlaces podemos recibir una comisión sin coste adicional para ti.
+> ⚠️ **Aviso**: Los precios mostrados son orientativos. Te recomendamos verificar el precio actual antes de comprar.

@@ -85,7 +85,7 @@ async function discordPost(payload) {
 // Notificación por borrador generado
 // ─────────────────────────────────────────────
 
-export async function notifyDraft({ title, slug, source, filePath, categoria, description, imageUrl, articleUrl, possibleDuplicate }) {
+export async function notifyDraft({ title, slug, source, filePath, categoria, description, imageUrl, articleUrl, possibleDuplicate, pcPrice, pcUrl }) {
   const msg = `BORRADOR GENERADO — "${title}" (fuente: ${source}) → ${filePath}`;
   logSuccess(msg);
 
@@ -98,8 +98,18 @@ export async function notifyDraft({ title, slug, source, filePath, categoria, de
     { name: '📦 Producto',        value: title.slice(0, 200),                                inline: false },
     { name: `${emoji} Categoría`, value: catLabel,                                            inline: true  },
     { name: '📡 Fuente',          value: articleUrl ? `[${source}](${articleUrl})` : source, inline: true  },
-    { name: '📝 Borrador',        value: `\`borrador-${slug}.md\``,                           inline: false },
   ];
+
+  if (pcPrice) {
+    fields.push({ name: '💰 Precio en PcComponentes', value: pcPrice, inline: true });
+  }
+  if (pcUrl) {
+    fields.push({ name: '🛒 Ver producto', value: `[PcComponentes](${pcUrl})`, inline: false });
+  }
+
+  fields.push(
+    { name: '📝 Borrador', value: `\`borrador-${slug}.md\``, inline: false },
+  );
 
   if (possibleDuplicate) {
     fields.push({

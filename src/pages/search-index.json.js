@@ -13,6 +13,7 @@ export async function GET() {
       categoria: a.data.categoria,
       descripcion: a.data.descripcion,
       puntuacion: a.data.puntuacion,
+      tipo: a.data.tipo,
       precio: a.data.precio,
       imagen: a.data.imagen,
       fecha: a.data.fecha,

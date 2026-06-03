@@ -94,4 +94,4 @@ Me encanta el LG Gram 14 por su ligereza y batería larga, aunque su precio es e
 
 El LG Gram 14 2025 es el mejor portátil del mercado para trabajadores en movilidad que no quieren comprometer ni el peso ni la batería. El precio de 1.099€ es elevado, pero pocas opciones en el mercado combinan menos de un kilo con más de 15 horas de autonomía real y resistencia militar. Para quien necesita estas tres cosas a la vez, no hay alternativa comparable.
 
-> **Aviso de afiliado**: Si compras a través de nuestros enlaces podemos recibir una comisión sin coste adicional para ti.
+> ⚠️ **Aviso**: Los precios mostrados son orientativos. Te recomendamos verificar el precio actual antes de comprar.

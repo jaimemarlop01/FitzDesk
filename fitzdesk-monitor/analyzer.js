@@ -1,4 +1,5 @@
 import Groq from 'groq-sdk';
+import { parse as parseHtml } from 'node-html-parser';
 import { logInfo, logWarn } from './notifier.js';
 
 const client = new Groq({ apiKey: process.env.GROQ_API_KEY });
@@ -24,6 +25,85 @@ function detectCategory(text) {
   if (/monitor|pantalla|display|benq|dell s\d|lg \d+u/.test(t)) return 'monitores';
   if (/portátil|portatil|laptop|notebook|macbook|thinkpad|gram/.test(t)) return 'portatiles';
   return 'setups';
+}
+
+export async function searchPcComponentes(productName) {
+  const query = encodeURIComponent(productName);
+  const searchUrl = `https://www.pccomponentes.com/buscador/?query=${query}`;
+
+  try {
+    const res = await fetch(searchUrl, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+        'Accept-Language': 'es-ES,es;q=0.9',
+        'Accept': 'text/html,application/xhtml+xml',
+      },
+      signal: AbortSignal.timeout(10000),
+    });
+
+    if (!res.ok) {
+      logWarn(`⚠️ PcComponentes respondió ${res.status} → usando enlace de búsqueda`);
+      return { found: false, precio: 'Ver en PcComponentes', url: searchUrl };
+    }
+
+    const html = await res.text();
+    const root = parseHtml(html);
+
+    let precio = null;
+    let url = null;
+
+    const card = root.querySelector('[class*="product-card"]');
+    if (card) {
+      const priceEl = card.querySelector('[class*="product-card__price"],[class*="price"],[data-price]');
+      const anchor  = card.querySelector('a[href]');
+      const rawPrice = priceEl?.text?.trim() ?? '';
+      const href     = anchor?.getAttribute('href') ?? '';
+      if (rawPrice) precio = rawPrice.replace(/\s+/g, ' ').trim();
+      if (href) url = href.startsWith('http') ? href : `https://www.pccomponentes.com${href}`;
+    }
+
+    if (precio && url) {
+      logInfo(`✅ Precio encontrado: ${precio} → ${url}`);
+      return { found: true, precio, url };
+    }
+
+    logWarn(`⚠️ Precio no encontrado → usando enlace de búsqueda`);
+    return { found: false, precio: 'Ver en PcComponentes', url: searchUrl };
+
+  } catch (err) {
+    logWarn(`⚠️ Error buscando en PcComponentes: ${err.message} → usando enlace de búsqueda`);
+    return { found: false, precio: 'Ver en PcComponentes', url: searchUrl };
+  }
+}
+
+function injectPcData(content, pcResult) {
+  const { precio, url, found } = pcResult;
+  const precioDisplay = found ? precio : 'Ver en PcComponentes';
+
+  let updated = content
+    .replace(/^precio:\s*"[^"]*"/m, `precio: "${precioDisplay}"`)
+    .replace(/^enlace_afiliado:\s*"[^"]*"/m, `enlace_afiliado: "${url}"`);
+
+  if (found) {
+    updated = updated.replace(
+      /^(enlace_afiliado:\s*"[^"]*")$/m,
+      `$1\nprecio_encontrado_automaticamente: true`,
+    );
+  }
+
+  // Insertar nota de precio después del cierre del frontmatter
+  const fmEnd = updated.indexOf('\n---\n');
+  if (fmEnd !== -1) {
+    const note = [
+      `> 💰 **Precio detectado automáticamente**: ${precioDisplay}`,
+      `> 🔗 **Enlace PcComponentes**: ${url}`,
+      `> ⚠️ Verifica el precio antes de publicar ya que puede haber cambiado desde la generación del borrador.`,
+      '',
+    ].join('\n');
+    updated = updated.slice(0, fmEnd + 5) + note + updated.slice(fmEnd + 5);
+  }
+
+  return updated;
 }
 
 export async function generateDraft({ title, description, link, source }) {
@@ -134,5 +214,17 @@ Extensión: 900-1.100 palabras en el cuerpo. Español de España.`;
     return null;
   }
 
-  return { content, slug, categoria };
+  // Buscar precio real en PcComponentes
+  logInfo(`  🔍 Buscando precio en PcComponentes para: "${title}"`);
+  const pcResult = await searchPcComponentes(title);
+  const enrichedContent = injectPcData(content, pcResult);
+
+  return {
+    content: enrichedContent,
+    slug,
+    categoria,
+    pcPrice: pcResult.precio,
+    pcUrl:   pcResult.url,
+    pcFound: pcResult.found,
+  };
 }
