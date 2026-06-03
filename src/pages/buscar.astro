@@ -269,7 +269,8 @@ const categories = [
       el.style.display = 'none';  // inline style: máxima prioridad, no hay CSS que lo sobreescriba
     });
     if (!show) return;
-    show.style.removeProperty('display');  // elimina el inline none → CSS determina flex/block
+    // Explicit display — no depende del cascade CSS de Astro
+    show.style.display = (show === emptyState) ? 'flex' : 'block';
   }
 
   function showResults(articles: Article[], query = '') {
@@ -654,17 +655,17 @@ const categories = [
   .empty-title {
     font-size: 1.125rem;
     font-weight: 600;
-    color: var(--color-text);
+    color: #1F2937;
   }
 
   #empty-query {
-    color: var(--color-brand);
+    color: #F97316;
     font-weight: 700;
   }
 
   .empty-sub {
     font-size: 0.9375rem;
-    color: var(--color-text-muted);
+    color: #6B7280;
   }
 
   .empty-cats {
