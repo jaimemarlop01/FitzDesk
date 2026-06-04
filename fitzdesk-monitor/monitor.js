@@ -60,19 +60,41 @@ function detectBrand(text) {
 }
 
 /**
- * Busca en src/content/articulos/ si ya existe un artículo publicado
- * cuyo slug comparte ≥2 palabras significativas con el slug del borrador.
+ * Busca si ya existe un artículo publicado cuyo slug comparte ≥2 palabras
+ * significativas con el slug del borrador.
+ * En Railway usa la API de GitHub; en local usa el sistema de archivos.
  */
-function findExistingArticle(slug) {
-  try {
-    const words = slug.split('-').filter(w => w.length > 3);
-    const files = readdirSync(CONTENT_PATH);
-    for (const file of files) {
-      if (file.startsWith('borrador-')) continue;
-      const matches = words.filter(w => file.includes(w));
-      if (matches.length >= 2) return file;
-    }
-  } catch {}
+async function findExistingArticle(slug) {
+  const words = slug.split('-').filter(w => w.length > 3);
+  let files = [];
+
+  if (githubAvailable()) {
+    try {
+      const owner  = process.env.GITHUB_OWNER  ?? 'jaimemarlop01';
+      const repo   = process.env.GITHUB_REPO   ?? 'FitzDesk';
+      const branch = process.env.GITHUB_BRANCH ?? 'main';
+      const url    = `https://api.github.com/repos/${owner}/${repo}/contents/src/content/articulos?ref=${branch}`;
+      const res    = await fetch(url, {
+        headers: {
+          'Authorization':        `Bearer ${process.env.GITHUB_TOKEN}`,
+          'Accept':               'application/vnd.github+json',
+          'X-GitHub-Api-Version': '2022-11-28',
+        },
+      });
+      if (res.ok) {
+        const data = await res.json();
+        files = Array.isArray(data) ? data.map(f => f.name) : [];
+      }
+    } catch { /* si falla, files queda vacío → sin detección de duplicados */ }
+  } else {
+    try { files = readdirSync(CONTENT_PATH); } catch { /* no hay acceso local */ }
+  }
+
+  for (const file of files) {
+    if (file.startsWith('borrador-') || !file.endsWith('.md')) continue;
+    const matches = words.filter(w => file.includes(w));
+    if (matches.length >= 2) return file;
+  }
   return null;
 }
 
@@ -215,8 +237,8 @@ async function runCheck() {
             );
           }
 
-          // ── Aviso de posible duplicado (CAMBIO 3) ──
-          const existingFile  = findExistingArticle(result.slug);
+          // ── Aviso de posible duplicado ──
+          const existingFile  = await findExistingArticle(result.slug);
           if (existingFile) {
             logWarn(`  ⚠️ POSIBLE DUPLICADO: ya existe ${existingFile}`);
             result.content = addDuplicateWarning(result.content, existingFile);

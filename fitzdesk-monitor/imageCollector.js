@@ -368,7 +368,11 @@ async function main() {
   console.log('━'.repeat(52));
 }
 
-main().catch(e => {
-  console.error('Error:', e.message);
-  process.exit(1);
-});
+// Solo ejecutar main() cuando el script se lanza directamente.
+// Si se importa como módulo (monitor.js), no ejecutar nada.
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  main().catch(e => {
+    console.error('Error:', e.message);
+    process.exit(1);
+  });
+}
