@@ -1,6 +1,6 @@
 ---
 title: "Ratón ergonómico vs estándar: ¿cuál necesitas para teletrabajar?"
-categoria: "setups"
+categoria: "comparativas"
 fecha: "2026-05-31"
 descripcion: "Logitech Lift Vertical vs MX Master 3S: comparativa honesta para saber si el ratón vertical merece la pena en tu setup de teletrabajo."
 imagen: "/images/articulos/raton-ergonomico-vs-estandar-teletrabajo.webp"

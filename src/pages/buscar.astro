@@ -12,8 +12,9 @@ const categories = [
   { label: 'Teclados',   value: 'teclados' },
   { label: 'Monitores',  value: 'monitores' },
   { label: 'Portátiles', value: 'portatiles' },
-  { label: 'Setups',     value: 'setups' },
-  { label: 'Guías',      value: 'guias' },
+  { label: 'Setups',       value: 'setups' },
+  { label: 'Comparativas', value: 'comparativas' },
+  { label: 'Guías',        value: 'guias' },
 ];
 ---
 
@@ -178,7 +179,7 @@ const categories = [
   function catLabel(cat: string) {
     const map: Record<string, string> = {
       ratones: 'Ratones', teclados: 'Teclados', monitores: 'Monitores',
-      portatiles: 'Portátiles', setups: 'Setups', guias: 'Guías de compra',
+      portatiles: 'Portátiles', setups: 'Setups', comparativas: 'Comparativas', guias: 'Guías de compra',
     };
     return map[cat] ?? cat;
   }
