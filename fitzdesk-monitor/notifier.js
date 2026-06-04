@@ -85,7 +85,7 @@ async function discordPost(payload) {
 // Notificación por borrador generado
 // ─────────────────────────────────────────────
 
-export async function notifyDraft({ title, slug, source, filePath, categoria, description, imageUrl, articleUrl, possibleDuplicate, pcPrice, pcUrl }) {
+export async function notifyDraft({ title, slug, source, filePath, categoria, description, imageUrl, articleUrl, possibleDuplicate, pcPrice, pcUrl, usedGitHub }) {
   const msg = `BORRADOR GENERADO — "${title}" (fuente: ${source}) → ${filePath}`;
   logSuccess(msg);
 
@@ -110,6 +110,14 @@ export async function notifyDraft({ title, slug, source, filePath, categoria, de
   fields.push(
     { name: '📝 Borrador', value: `\`borrador-${slug}.md\``, inline: false },
   );
+
+  if (usedGitHub) {
+    fields.push({
+      name:   '🚀 Desplegando en',
+      value:  'https://jaimemarlop01.github.io/FitzDesk/',
+      inline: false,
+    });
+  }
 
   if (possibleDuplicate) {
     fields.push({

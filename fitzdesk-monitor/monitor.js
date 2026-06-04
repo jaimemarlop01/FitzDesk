@@ -8,6 +8,7 @@ import cron from 'node-cron';
 import { SOURCES, KEYWORDS_MARCA, passesStrictFilter } from './sources.js';
 import { isProcessed, isProcessedByUrl, isProcessedByTitleHash, markProcessed, getCacheStats, normalizeUrl, hashTitle } from './cache.js';
 import { generateDraft, searchPcComponentes } from './analyzer.js';
+import { createDraft as githubCreateDraft, isAvailable as githubAvailable } from './githubPublisher.js';
 import { logInfo, logSuccess, logWarn, logError, notifyDraft, notifySummary, notifyDailySummary } from './notifier.js';
 import { findProductImage, downloadProductImage } from './imageSearch.js';
 import { findAndDownloadImage } from './imageCollector.js';
@@ -222,7 +223,23 @@ async function runCheck() {
           }
 
           const filename = `borrador-${result.slug}.md`;
-          const filePath = saveDraft(filename, result.content);
+          let filePath;
+          let usedGitHub = false;
+
+          if (githubAvailable()) {
+            // ── Producción (Railway): escribir directo en GitHub ──
+            try {
+              filePath   = await githubCreateDraft(result.slug, result.content);
+              usedGitHub = true;
+            } catch (ghErr) {
+              logWarn(`⚠️ Error al crear en GitHub: ${ghErr.message} — guardando localmente`);
+              filePath = saveDraft(filename, result.content);
+            }
+          } else {
+            // ── Local (desarrollo): escribir en sistema de archivos ──
+            filePath = saveDraft(filename, result.content);
+          }
+
           markProcessed(id, { url: itemUrl, titleHash });
           totalDrafts++;
 
@@ -238,6 +255,7 @@ async function runCheck() {
             possibleDuplicate: existingFile,
             pcPrice:           result.pcPrice,
             pcUrl:             result.pcUrl,
+            usedGitHub,
           });
         } else {
           markProcessed(id, { url: itemUrl, titleHash });
