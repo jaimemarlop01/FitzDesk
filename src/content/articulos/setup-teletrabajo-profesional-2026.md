@@ -1,6 +1,6 @@
 ---
 title: "Setup de teletrabajo profesional: la configuración para trabajar en serio"
-categoria: "guias"
+categoria: "setups"
 fecha: "2026-06-02"
 descripcion: "Monitor 4K LG, Keychron K8 Pro y MX Master 3S: el setup de teletrabajo profesional definitivo por 607€ en 2026."
 imagen: "/images/articulos/setup-teletrabajo-profesional-2026.webp"
