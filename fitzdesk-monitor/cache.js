@@ -100,3 +100,12 @@ export function markProcessed(id, { url = '', titleHash = '' } = {}) {
 export function getCacheStats() {
   return { total: _cache.entries.length };
 }
+
+/**
+ * Recarga el caché desde disco (usado tras downloadCache en Railway).
+ * Necesario porque _cache se inicializa al importar el módulo.
+ */
+export function reloadFromDisk() {
+  const fresh = initCache();
+  _cache.entries = fresh.entries;
+}

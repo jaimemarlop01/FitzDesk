@@ -6,13 +6,14 @@ import { fileURLToPath } from 'url';
 import cron from 'node-cron';
 
 import { SOURCES, KEYWORDS_MARCA, passesStrictFilter } from './sources.js';
-import { isProcessed, isProcessedByUrl, isProcessedByTitleHash, markProcessed, getCacheStats, normalizeUrl, hashTitle } from './cache.js';
+import { isProcessed, isProcessedByUrl, isProcessedByTitleHash, markProcessed, getCacheStats, normalizeUrl, hashTitle, reloadFromDisk } from './cache.js';
 import { generateDraft, searchPcComponentes } from './analyzer.js';
-import { createDraft as githubCreateDraft, isAvailable as githubAvailable } from './githubPublisher.js';
+import { createDraft as githubCreateDraft, isAvailable as githubAvailable, downloadCache, uploadCache } from './githubPublisher.js';
 import { logInfo, logSuccess, logWarn, logError, notifyDraft, notifySummary, notifyDailySummary } from './notifier.js';
 import { findProductImage, downloadProductImage } from './imageSearch.js';
 import { findAndDownloadImage } from './imageCollector.js';
 import { verifyWithGemini } from './reviewer.js';
+import { getTokensUsed, isTokenLimitReached, addTokens, DAILY_LIMIT } from './tokenTracker.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const parser = new Parser({
@@ -30,6 +31,7 @@ const CONTENT_PATH = resolve(
   __dirname,
   process.env.ASTRO_CONTENT_PATH ?? '../src/content/articulos'
 );
+const CACHE_FILE = join(__dirname, 'data', 'cache.json');
 const HOURS = parseInt(process.env.CHECK_INTERVAL_HOURS ?? '24', 10);
 
 // ─────────────────────────────────────────────
@@ -114,13 +116,22 @@ function addDuplicateWarning(content, existingFile) {
 // ─────────────────────────────────────────────
 
 async function runCheck() {
+  // Sincronizar caché desde GitHub (Railway tiene disco efímero)
+  if (githubAvailable()) {
+    const downloaded = await downloadCache(CACHE_FILE);
+    if (downloaded) reloadFromDisk();
+  }
+
   logInfo('━━━ Iniciando comprobación de novedades ━━━');
+  logInfo(`Tokens Groq hoy: ${getTokensUsed()}/${DAILY_LIMIT} usados`);
   logInfo(`Fuentes: ${SOURCES.filter(s => s.enabled).length} | Caché: ${getCacheStats().total} entradas`);
 
-  let totalScanned  = 0;
-  let totalRelevant = 0;
-  let totalDrafts   = 0;
-  let totalDiscard  = 0;
+  let totalScanned    = 0;
+  let totalRelevant   = 0;
+  let totalDrafts     = 0;
+  let totalDiscard    = 0;
+  let tokenLimitReached = false;
+  let pendingSkipped  = 0;
   const errors    = [];
   const productos = []; // [{brand, title, categoria}]
 
@@ -203,6 +214,13 @@ async function runCheck() {
         continue;
       }
 
+      // ── Control de tokens diarios ──
+      if (tokenLimitReached || isTokenLimitReached()) {
+        tokenLimitReached = true;
+        pendingSkipped++;
+        continue; // NO markProcessed — se reintentará en el próximo ciclo
+      }
+
       // ── Buscar imagen del producto ──
       const imageUrl = await findProductImage(item);
 
@@ -243,6 +261,8 @@ async function runCheck() {
             logWarn(`  ⚠️ POSIBLE DUPLICADO: ya existe ${existingFile}`);
             result.content = addDuplicateWarning(result.content, existingFile);
           }
+
+          addTokens(result.tokensUsed);
 
           const filename = `borrador-${result.slug}.md`;
           let filePath;
@@ -292,8 +312,16 @@ async function runCheck() {
     }
   }
 
+  if (pendingSkipped > 0) {
+    logWarn(`Límite diario de tokens alcanzado (70.000). Quedan ${pendingSkipped} noticias sin procesar para mañana.`);
+  }
+
   const summary = `━━━ Resumen: ${totalScanned} escaneados, ${totalRelevant} relevantes, ${totalDrafts} borradores, ${totalDiscard} descartados${errors.length ? ` (${errors.length} fuentes con error)` : ''} ━━━`;
   logSuccess(summary);
+
+  // Persistir caché en GitHub para que sobreviva reinicios de Railway
+  if (githubAvailable()) await uploadCache(CACHE_FILE);
+
   await notifySummary({ totalNew: totalRelevant, totalDrafts, errors, totalDiscard });
   return { totalScanned, totalRelevant, totalDrafts, totalDiscard, errors, productos };
 }
@@ -308,6 +336,8 @@ const isTest   = args.includes('--test');
 const isOnce   = args.includes('--once') || (!isDaemon && !isTest);
 
 if (isTest) {
+  logInfo(`Tokens Groq hoy: ${getTokensUsed()}/${DAILY_LIMIT} usados`);
+
   const testIdx = args.indexOf('--test');
   const testProduct = (args[testIdx + 1] && !args[testIdx + 1].startsWith('--'))
     ? args[testIdx + 1]
