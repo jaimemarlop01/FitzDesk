@@ -7,7 +7,6 @@ descripcion: "¿Teclado mecánico o de membrana para trabajar desde casa? Descub
 imagen: "/images/articulos/teclado-mecanico-vs-membrana-teletrabajo-2026.webp"
 tiempo_lectura: "7 min"
 tipo: "guia"
-borrador: true
 ---
 
 Si en tu setup de teletrabajo hay una silla, una pantalla y un teclado, el teclado es el único de los tres con el que tienes contacto físico durante horas. Cada palabra que escribes, cada atajo de teclado, cada videollamada en la que intentas teclear sin hacer ruido: todo pasa por él. Y sin embargo, la mayoría de la gente usa el teclado que venía en la caja o el que compró sin pensarlo mucho.
