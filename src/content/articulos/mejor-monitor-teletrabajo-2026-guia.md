@@ -8,7 +8,7 @@ imagen: "/images/articulos/mejor-monitor-teletrabajo-2026-guia.webp"
 tiempo_lectura: "8 min"
 tipo: "guia"
 presupuesto: "149€ - 399€"
-borrador: true
+borrador: false
 ---
 
 El monitor es la única pantalla que vas a mirar durante ocho horas al día. No el portátil, no el móvil: el monitor. Y sin embargo, es el periférico al que menos atención se le presta cuando alguien monta su primer setup de teletrabajo. Esta guía está pensada para que tomes una decisión informada, no para que te abrumes con especificaciones que no vas a usar nunca.
