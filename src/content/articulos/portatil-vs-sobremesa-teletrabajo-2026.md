@@ -7,7 +7,7 @@ descripcion: "¿Portátil o sobremesa para trabajar desde casa? Analizamos pros,
 imagen: "/images/articulos/portatil-vs-sobremesa-teletrabajo-2026.webp"
 tiempo_lectura: "7 min"
 tipo: "guia"
-borrador: true
+borrador: false
 ---
 
 Hay una pregunta que aparece constantemente cuando alguien se monta un setup de teletrabajo serio: ¿portátil o sobremesa? No hay una respuesta correcta para todo el mundo, pero sí hay una respuesta correcta para tu situación concreta. Esta guía te ayuda a encontrarla.
