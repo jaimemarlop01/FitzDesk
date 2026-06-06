@@ -34,11 +34,13 @@ El punto débil del portátil es conocido: a igual precio, un sobremesa ofrece m
 
 La sobremesa gana en tres escenarios claros: **presupuesto ajustado**, **necesidad de potencia** y **trabajo siempre en el mismo sitio**.
 
-A igualdad de precio, un sobremesa tiene mejor procesador, más memoria y almacenamiento más rápido que un portátil. Si tu trabajo requiere edición de vídeo, renders 3D, desarrollo con builds pesados o análisis de datos, el sobremesa da más por menos dinero.
+A igualdad de precio, un sobremesa tiene mejor procesador, más memoria y almacenamiento más rápido que un portátil. Es la opción natural si trabajas siempre desde el mismo lugar, priorizas el máximo rendimiento por el dinero invertido y sabes con certeza que nunca vas a necesitar llevarte el ordenador a otro sitio.
 
 También es la opción si tienes un escritorio fijo y nunca necesitas mover el ordenador. Sin compromisos de diseño para reducir peso o calor, el sobremesa puede refrigerarse mejor, hacer menos ruido en carga y durar más años antes de quedarse obsoleto.
 
 El inconveniente es obvio: si necesitas llevártelo, no puedes. Y el setup tiene más cables, ocupa más espacio y requiere monitor, teclado y ratón como periféricos separados —aunque esto también aplica al portátil cuando se usa en escritorio.
+
+En FitzDesk nos especializamos en portátiles y periféricos, por lo que no analizamos sobremesas. Si te decides por esta opción, te recomendamos consultar webs especializadas como Xataka o El Chapuzas Informático para elegir los componentes.
 
 ---
 
