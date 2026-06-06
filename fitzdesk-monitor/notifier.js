@@ -111,10 +111,10 @@ export async function notifyDraft({ title, slug, source, filePath, categoria, de
     { name: '📝 Borrador', value: `\`borrador-${slug}.md\``, inline: false },
   );
 
-  if (usedGitHub) {
+  if (usedGitHub && filePath) {
     fields.push({
-      name:   '🚀 Desplegando en',
-      value:  'https://jaimemarlop01.github.io/FitzDesk/',
+      name:   '📄 Ver borrador',
+      value:  `[Abrir en GitHub](${filePath})`,
       inline: false,
     });
   }
@@ -127,17 +127,31 @@ export async function notifyDraft({ title, slug, source, filePath, categoria, de
     });
   }
 
-  fields.push({
-    name: '✅ Siguientes pasos',
-    value: [
-      '1. Completar precio y enlace de afiliado',
-      '2. Revisar y editar el contenido generado',
-      '3. Quitar `borrador: true` del frontmatter',
-      '4. Renombrar el archivo (quitar prefijo `borrador-`)',
-      '5. Ejecutar `npm run build` para publicar',
-    ].join('\n'),
-    inline: false,
-  });
+  if (usedGitHub) {
+    fields.push({
+      name: '✅ Siguientes pasos',
+      value: [
+        '1. Revisa el borrador en GitHub (enlace de arriba)',
+        '2. Completa precio, enlace de afiliado e imagen',
+        '3. Quita `borrador: true` del frontmatter',
+        '4. Renombra el archivo (quita el prefijo `borrador-`)',
+        '5. Haz merge de la rama `borradores` a `main` para publicarlo',
+      ].join('\n'),
+      inline: false,
+    });
+  } else {
+    fields.push({
+      name: '✅ Siguientes pasos',
+      value: [
+        '1. Completar precio y enlace de afiliado',
+        '2. Revisar y editar el contenido generado',
+        '3. Quitar `borrador: true` del frontmatter',
+        '4. Renombrar el archivo (quitar prefijo `borrador-`)',
+        '5. Ejecutar `npm run build` para publicar',
+      ].join('\n'),
+      inline: false,
+    });
+  }
 
   const embed = {
     title: possibleDuplicate ? '🐿️ Fitz ha detectado una novedad ⚠️' : '🐿️ Fitz ha detectado una novedad',
