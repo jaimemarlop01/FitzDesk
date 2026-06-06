@@ -1,6 +1,6 @@
 ---
 title: "El mejor setup para teletrabajo por menos de 500€ en 2026"
-categoria: "guias"
+categoria: "setups"
 fecha: "2026-05-29"
 descripcion: "Monitor BenQ, teclado mecánico Keychron y ratón Logitech: el setup de teletrabajo más completo por solo 277€ en 2026."
 imagen: "/images/articulos/mejor-setup-teletrabajo-500-euros-2026.webp"
