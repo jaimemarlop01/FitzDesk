@@ -81,6 +81,11 @@ import { base } from '../lib/url';
             Respondemos en menos de 48 horas. Tu email no se compartirá con terceros.
           </p>
         </form>
+
+        <p class="direct-email">
+          También puedes escribirnos directamente a
+          <a href="mailto:infofitzdesk@gmail.com">infofitzdesk@gmail.com</a>
+        </p>
       </div>
 
       <div class="contact-info">
@@ -99,6 +104,12 @@ import { base } from '../lib/url';
           <div class="info-icon">⏱️</div>
           <h3>Tiempo de respuesta</h3>
           <p>Normalmente respondemos en menos de 48 horas. Los fines de semana puede tardar un poco más, Fitz también descansa.</p>
+        </div>
+
+        <div class="info-card">
+          <div class="info-icon">✉️</div>
+          <h3>Email directo</h3>
+          <p><a href="mailto:infofitzdesk@gmail.com" class="email-link">infofitzdesk@gmail.com</a></p>
         </div>
       </div>
     </div>
@@ -202,6 +213,24 @@ import { base } from '../lib/url';
   .form-notice {
     font-size: 0.8rem;
     color: var(--color-text-muted);
+  }
+
+  .direct-email {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+  }
+
+  .direct-email a,
+  .email-link {
+    color: var(--color-brand);
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .direct-email a:hover,
+  .email-link:hover {
+    text-decoration: underline;
   }
 
   /* INFO CARDS */
