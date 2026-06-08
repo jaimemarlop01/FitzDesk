@@ -19,8 +19,18 @@
   const KEY    = 'fitzdesk_cookies';
   const banner = document.getElementById('cookie-banner') as HTMLElement;
 
-  if (!localStorage.getItem(KEY)) {
-    banner.style.display = 'block';
+  function grantAnalytics() {
+    (window as any).gtag?.('consent', 'update', {
+      analytics_storage: 'granted',
+      ad_storage: 'denied',
+    });
+  }
+
+  function denyAnalytics() {
+    (window as any).gtag?.('consent', 'update', {
+      analytics_storage: 'denied',
+      ad_storage: 'denied',
+    });
   }
 
   function dismiss(value: string) {
@@ -28,10 +38,26 @@
     banner.style.display = 'none';
   }
 
+  // Restaurar decisión previa sin mostrar el banner
+  const saved = localStorage.getItem(KEY);
+  if (saved === 'all') {
+    grantAnalytics();
+  } else if (!saved) {
+    banner.style.display = 'block';
+  }
+  // saved === 'essential': consent ya denegado por defecto, no hay que hacer nada
+
   document.getElementById('cookie-accept-all')
-    ?.addEventListener('click', () => dismiss('all'));
+    ?.addEventListener('click', () => {
+      grantAnalytics();
+      dismiss('all');
+    });
+
   document.getElementById('cookie-essential')
-    ?.addEventListener('click', () => dismiss('essential'));
+    ?.addEventListener('click', () => {
+      denyAnalytics();
+      dismiss('essential');
+    });
 </script>
 
 <style>
