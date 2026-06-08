@@ -11,6 +11,33 @@ Web de análisis y recomendaciones de setups de trabajo, periféricos y componen
 | `npm run build`  | Build de producción en `./dist/`     |
 | `npm run preview`| Preview local de la build            |
 
+## Flujo de trabajo
+
+El repositorio tiene tres ramas con funciones distintas:
+
+| Rama | Uso |
+|---|---|
+| `main` | Producción — cada push despliega en [fitzdesk.com](https://fitzdesk.com) |
+| `develop` | Desarrollo — aquí se trabajan los cambios antes de publicar |
+| `borradores` | Exclusiva del monitor de Railway — no tocar manualmente |
+
+### Ciclo de desarrollo
+
+```bash
+# 1. Cambiar a develop para trabajar
+git checkout develop
+
+# 2. Hacer cambios y probarlos en local
+npm run dev          # http://localhost:4321/
+
+# 3. Cuando el cambio está listo, mergear a main
+git checkout main
+git merge develop
+git push             # dispara el deploy automático a fitzdesk.com
+```
+
+El deploy a GitHub Pages es automático al hacer push a `main`. La rama `develop` nunca dispara deploys.
+
 ## Añadir un artículo nuevo
 
 1. Crea un archivo `.md` en `src/content/articulos/`
