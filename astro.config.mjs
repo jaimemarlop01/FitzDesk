@@ -5,7 +5,7 @@ import mdx from '@astrojs/mdx';
 
 export default defineConfig({
   site: 'https://fitzdesk.com',
-  base: '/FitzDesk',          // sirve en http://localhost/FitzDesk/
+  base: '/',
   integrations: [mdx()],
   image: {
     service: squooshImageService(),
