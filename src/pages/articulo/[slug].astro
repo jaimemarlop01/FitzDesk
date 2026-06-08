@@ -29,9 +29,9 @@ const fechaFormateada = new Date(fecha).toLocaleDateString('es-ES', {
   year: 'numeric', month: 'long', day: 'numeric',
 });
 
-// Construir URL de búsqueda en PcComponentes desde el nombre del producto
+// Construir URL de búsqueda en Google Shopping desde el nombre del producto
 const productName = title.split(':')[0].trim();
-const pcSearchUrl = `https://www.pccomponentes.com/buscar/?query=${encodeURIComponent(productName)}`;
+const pcSearchUrl = `https://www.google.com/search?q=${encodeURIComponent(productName)}&tbm=shop`;
 
 const allArticles = (await getCollection('articulos')).filter(a => !a.data.borrador);
 const related = allArticles
@@ -128,7 +128,7 @@ const reviewSchema = puntuacion ? {
               <h3>Precio</h3>
               <p class="sidebar-price">{precio}</p>
               <a href={pcSearchUrl} target="_blank" rel="noopener noreferrer" class="sidebar-btn">
-                Buscar en PcComponentes →
+                Ver precio actual →
               </a>
             </div>
           )}
