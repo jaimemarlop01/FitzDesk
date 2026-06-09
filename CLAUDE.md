@@ -125,6 +125,14 @@ GEMINI_API_KEY (opcional)
 - Artículos con precio desactualizado: 0
 - Artículos pendientes de revisión (>30 días): 5 (keychron-k8-pro, lg-27un880, logitech-lift-vertical, logitech-mx-anywhere-3s, logitech-mx-master-3s)
 
+## Estado del calendario de publicaciones
+- Calendario generado: 2026-06-09
+- Próxima publicación: 2026-06-10 — LG OLED 2000 nits (monitores)
+- Semanas de contenido disponibles: 4
+- Borradores listos para publicar: 9
+- Borradores incompletos (no planificados): 0
+- Sin programar (semana 5+): NVIDIA RTX Spark (portatiles)
+
 ---
 
 ## Archivos clave del monitor

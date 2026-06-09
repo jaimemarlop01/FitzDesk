@@ -1,0 +1,69 @@
+{
+  "generado": "2026-06-09",
+  "publicaciones": [
+    {
+      "fecha": "2026-06-10",
+      "diaSemana": "miércoles",
+      "slug": "borrador-lg-display-muestra-el-futuro-de-los-monitores-oled-gaming-con-2000-nits-5k-27-22",
+      "titulo": "LG OLED 2000 nits",
+      "categoria": "monitores",
+      "prioridad": "ALTA"
+    },
+    {
+      "fecha": "2026-06-11",
+      "diaSemana": "jueves",
+      "slug": "borrador-el-nuevo-surface-ultra-con-el-rtx-spark-de-nvidia-cuenta-con-un-misterioso-puert",
+      "titulo": "Surface Ultra con RTX Spark",
+      "categoria": "portatiles",
+      "prioridad": "ALTA"
+    },
+    {
+      "fecha": "2026-06-16",
+      "diaSemana": "martes",
+      "slug": "borrador-corsair-presenta-en-computex-b2026b-el-teclado-clipper-pro-mini-60-el-raton---ge",
+      "titulo": "Corsair Clipper Pro Mini 60",
+      "categoria": "teclados",
+      "prioridad": "ALTA"
+    },
+    {
+      "fecha": "2026-06-18",
+      "diaSemana": "jueves",
+      "slug": "borrador-equipos-para-jugar-para-nomadas-digitales-o-para-las-tareas-mas-exigentes-cinco-",
+      "titulo": "ASUS Weeks: 5 portátiles para todos los gustos",
+      "categoria": "portatiles",
+      "prioridad": "ALTA"
+    },
+    {
+      "fecha": "2026-06-23",
+      "diaSemana": "martes",
+      "slug": "borrador-adata-lleva-a-computex-b2026b-el-urban-tapsafe-un-ssd-externo-que-se-desbloquea-",
+      "titulo": "ADATA Urban TapSafe",
+      "categoria": "setups",
+      "prioridad": "ALTA"
+    },
+    {
+      "fecha": "2026-06-25",
+      "diaSemana": "jueves",
+      "slug": "borrador-intel-wildcat-lake-golpeara-al-apple-macbook-neo-los-portatiles-x86-podran-usar-",
+      "titulo": "Intel Wildcat Lake",
+      "categoria": "portatiles",
+      "prioridad": "ALTA"
+    },
+    {
+      "fecha": "2026-06-30",
+      "diaSemana": "martes",
+      "slug": "borrador-corsair-renueva-su-catalogo-de-perifericos-en-computex-b2026b-con-bnuevos-teclad",
+      "titulo": "Corsair Nuevos Teclados",
+      "categoria": "teclados",
+      "prioridad": "ALTA"
+    },
+    {
+      "fecha": "2026-07-02",
+      "diaSemana": "jueves",
+      "slug": "borrador-6-tb-por-160-euros-la-oferta-de-amazon-que-no-puedes-dejar-escapar",
+      "titulo": "Disco duro 6TB a 160 euros",
+      "categoria": "setups",
+      "prioridad": "ALTA"
+    }
+  ]
+}
