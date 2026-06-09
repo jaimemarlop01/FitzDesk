@@ -1,11 +1,11 @@
 ---
 title: "Disco duro 6TB a 160 euros"
-categoria: "perifericos"
+categoria: "setups"
 fecha: "2026-06-06"
 descripcion: "Disco duro externo de 6TB a un precio atractivo"
-imagen: "/images/borradores/6-tb-por-160-euros-la-oferta-de-amazon-que-no-puedes-dejar-escapar.jpg"
+imagen: "/images/articulos/borrador-6-tb-por-160-euros-la-oferta-de-amazon-que-no-puedes-dejar-escapar.webp"
 puntuacion: 8
-precio: "Ver en PcComponentes"
+precio: "Ver precio"
 enlace_afiliado: "https://www.pccomponentes.com/buscador/?query=6%20TB%20por%20160%20euros%3A%20la%20oferta%20de%20Amazon%20que%20no%20puedes%20dejar%20escapar"
 tiempo_lectura: "7 min"
 tipo: "analisis"
@@ -14,12 +14,8 @@ keywords_secundarias:
   - "Almacenamiento externo"
   - "WD My Passport"
   - "Ofertas en Amazon"
-fitzQuote: "El disco duro externo de 6TB de WD es una excelente opción para aquellos que necesitan almacenamiento adicional a un precio razonable. Con su capacidad de 6TB y velocidad de transferencia rápida, es ideal para trabajadores remotos que necesitan almacenar grandes cantidades de datos. Mi nota: 8/10"
 borrador: true
 ---
-> 💰 **Precio detectado automáticamente**: Ver en PcComponentes
-> 🔗 **Enlace PcComponentes**: https://www.pccomponentes.com/buscador/?query=6%20TB%20por%20160%20euros%3A%20la%20oferta%20de%20Amazon%20que%20no%20puedes%20dejar%20escapar
-> ⚠️ Verifica el precio antes de publicar ya que puede haber cambiado desde la generación del borrador.
 
 <!--
 ⚠️  BORRADOR AUTOMÁTICO — Revisar antes de publicar
@@ -92,5 +88,3 @@ El disco duro externo de 6TB de WD es una excelente opción para aquellos que ne
 ## Conclusión
 
 En conclusión, el disco duro externo de 6TB de WD es una buena opción para aquellos que necesitan almacenar grandes cantidades de datos y que buscan un disco duro externo con velocidad de transferencia rápida. Aunque el precio podría ser más asequible para algunos usuarios, la capacidad de 6TB y la velocidad de transferencia rápida del disco duro externo de WD lo hacen una excelente opción para trabajadores remotos que necesitan almacenar y transferir archivos grandes. Si estás buscando un disco duro externo con estas características, te recomiendo considerar el disco duro externo de 6TB de WD.
-
-> ⚠️ **Aviso de afiliado**: Si compras a través de nuestros enlaces podemos recibir una pequeña comisión sin coste adicional para ti. Esto nos ayuda a seguir publicando análisis honestos e independientes.

@@ -107,6 +107,24 @@ GEMINI_API_KEY (opcional)
 - [ ] Gap visual excesivo en la home entre categorías y últimos análisis
 - [ ] Banner de cookies (obligatorio RGPD España)
 
+## Estado de borradores
+- Última revisión: 2026-06-09
+- Última ejecución de completar-borradores: 2026-06-09 (2ª pasada)
+- Borradores descartados (total): 4 (xbox-ally, asus-rog-strix, corsair-anade-icue, antec-computex)
+- Borradores completados: 9
+- Borradores listos para revisión humana: 9
+
+## Estado del código
+- Última revisión: 2026-06-09
+- Errores críticos pendientes: 0 | Estado: ✅ Sin errores críticos
+- Advertencias (6): analyzer.js prompt incluye aviso afiliado obsoleto · buscar.astro colores hardcodeados (#F97316, #EA580C, inline styles) · scoreColor() duplicada en 3 archivos
+- Sugerencias (4): notifier.js entrada 'auriculares' obsoleta · fitzQuote en schema · validación GROQ_API_KEY en CLIs · variables badge-guide ausentes
+
+## Estado de precios
+- Última revisión de precios: 2026-06-09
+- Artículos con precio desactualizado: 0
+- Artículos pendientes de revisión (>30 días): 5 (keychron-k8-pro, lg-27un880, logitech-lift-vertical, logitech-mx-anywhere-3s, logitech-mx-master-3s)
+
 ---
 
 ## Archivos clave del monitor

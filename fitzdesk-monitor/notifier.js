@@ -264,3 +264,43 @@ export async function notifyDailySummary({ totalScanned, totalRelevant, totalDra
     }],
   });
 }
+
+// ─────────────────────────────────────────────
+// Recordatorio de publicación
+// ─────────────────────────────────────────────
+
+export async function notifyPublicationReminder({ slug, titulo, categoria, prioridad }) {
+  const githubUrl = `https://github.com/jaimemarlop01/FitzDesk/blob/borradores/src/content/articulos/${slug}.md`;
+
+  await discordPost({
+    embeds: [{
+      title:       '📅 Recordatorio de publicación',
+      color:       16345364,
+      description: 'Hoy toca publicar un artículo en FitzDesk',
+      fields: [
+        { name: '📝 Artículo',  value: titulo,    inline: false },
+        { name: '📂 Categoría', value: categoria, inline: true  },
+        { name: '⭐ Prioridad', value: prioridad, inline: true  },
+        {
+          name: '✅ Checklist',
+          value: [
+            '□ Revisar el artículo',
+            '□ Verificar precio en PcComponentes',
+            '□ Comprobar que la imagen carga',
+            '□ Eliminar borrador: true',
+            '□ Ejecutar agente publicar-borrador',
+            '□ Verificar en fitzdesk.com',
+          ].join('\n'),
+          inline: false,
+        },
+        {
+          name:  '🔗 Borrador en GitHub',
+          value: `[Abrir en GitHub](${githubUrl})`,
+          inline: false,
+        },
+      ],
+      footer: { text: 'FitzDesk · Recordatorio de publicación' },
+    }],
+  });
+  logSuccess(`📅 Recordatorio de publicación enviado: "${titulo}"`);
+}

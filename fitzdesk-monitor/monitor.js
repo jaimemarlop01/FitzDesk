@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import Parser from 'rss-parser';
-import { writeFileSync, existsSync, mkdirSync, readdirSync } from 'fs';
+import { writeFileSync, readFileSync, existsSync, mkdirSync, readdirSync } from 'fs';
 import { join, resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import cron from 'node-cron';
@@ -9,7 +9,7 @@ import { SOURCES, KEYWORDS_MARCA, passesStrictFilter } from './sources.js';
 import { isProcessed, isProcessedByUrl, isProcessedByTitleHash, markProcessed, getCacheStats, normalizeUrl, hashTitle, reloadFromDisk } from './cache.js';
 import { generateDraft, searchPcComponentes } from './analyzer.js';
 import { createDraft as githubCreateDraft, isAvailable as githubAvailable, downloadCache, uploadCache } from './githubPublisher.js';
-import { logInfo, logSuccess, logWarn, logError, notifyDraft, notifySummary, notifyDailySummary } from './notifier.js';
+import { logInfo, logSuccess, logWarn, logError, notifyDraft, notifySummary, notifyDailySummary, notifyPublicationReminder } from './notifier.js';
 import { findProductImage, downloadProductImage } from './imageSearch.js';
 import { findAndDownloadImage } from './imageCollector.js';
 import { verifyWithGemini } from './reviewer.js';
@@ -31,7 +31,8 @@ const CONTENT_PATH = resolve(
   __dirname,
   process.env.ASTRO_CONTENT_PATH ?? '../src/content/articulos'
 );
-const CACHE_FILE = join(__dirname, 'data', 'cache.json');
+const CACHE_FILE    = join(__dirname, 'data', 'cache.json');
+const CALENDAR_FILE = join(__dirname, 'data', 'calendario-publicaciones.json');
 const HOURS = parseInt(process.env.CHECK_INTERVAL_HOURS ?? '24', 10);
 
 // ─────────────────────────────────────────────
@@ -109,6 +110,50 @@ function addDuplicateWarning(content, existingFile) {
   if (closeIdx === -1) return warning + content;
   const insertPos = closeIdx + 5;
   return content.slice(0, insertPos) + warning + content.slice(insertPos);
+}
+
+// ─────────────────────────────────────────────
+// Recordatorios de publicación
+// ─────────────────────────────────────────────
+
+async function checkPublicationReminders() {
+  if (!existsSync(CALENDAR_FILE)) {
+    logInfo('No hay calendario de publicaciones generado. Ejecuta el agente planificar-publicaciones en Claude Code.');
+    return;
+  }
+
+  let calendar;
+  try {
+    calendar = JSON.parse(readFileSync(CALENDAR_FILE, 'utf-8'));
+  } catch (err) {
+    logWarn(`Error leyendo calendario-publicaciones.json: ${err.message}`);
+    return;
+  }
+
+  const publicaciones = calendar.publicaciones ?? [];
+  if (publicaciones.length === 0) {
+    logInfo('No hay calendario de publicaciones generado. Ejecuta el agente planificar-publicaciones en Claude Code.');
+    return;
+  }
+
+  const now  = new Date();
+  const today = now.toISOString().slice(0, 10); // YYYY-MM-DD
+  const hour  = now.getHours();
+  const day   = now.getDay(); // 0=Dom 1=Lun 2=Mar 3=Mié 4=Jue 5=Vie 6=Sáb
+
+  // Solo martes (2), miércoles (3), jueves (4)
+  if (![2, 3, 4].includes(day)) return;
+
+  // Solo entre las 9:00 y las 9:59
+  if (hour !== 9) return;
+
+  const pub = publicaciones.find(p => p.fecha === today && !p.enviado);
+  if (!pub) return;
+
+  await notifyPublicationReminder(pub);
+
+  pub.enviado = true;
+  writeFileSync(CALENDAR_FILE, JSON.stringify(calendar, null, 2), 'utf-8');
 }
 
 // ─────────────────────────────────────────────
@@ -338,6 +383,20 @@ const isOnce   = args.includes('--once') || (!isDaemon && !isTest);
 if (isTest) {
   logInfo(`Tokens Groq hoy: ${getTokensUsed()}/${DAILY_LIMIT} usados`);
 
+  // Verificar sistema de recordatorios
+  logInfo('🧪 Verificando sistema de recordatorios de publicación...');
+  if (existsSync(CALENDAR_FILE)) {
+    try {
+      const cal = JSON.parse(readFileSync(CALENDAR_FILE, 'utf-8'));
+      const pendientes = (cal.publicaciones ?? []).filter(p => !p.enviado).length;
+      logInfo(`✅ Calendario cargado — generado: ${cal.generado} — ${pendientes} publicaciones pendientes`);
+    } catch (err) {
+      logWarn(`⚠️ calendario-publicaciones.json existe pero no se puede leer: ${err.message}`);
+    }
+  } else {
+    logInfo('ℹ️  No hay calendario de publicaciones generado. Ejecuta el agente planificar-publicaciones en Claude Code.');
+  }
+
   const testIdx = args.indexOf('--test');
   const testProduct = (args[testIdx + 1] && !args[testIdx + 1].startsWith('--'))
     ? args[testIdx + 1]
@@ -381,13 +440,16 @@ if (isDaemon) {
   logInfo('Ejecutando comprobación inicial antes de programar el cron...');
   runCheck().catch(err => logError(`Error en comprobación inicial: ${err.message}`));
 
+  // Recordatorio de publicación al arrancar (por si arranca entre las 9 y las 10)
+  checkPublicationReminders().catch(err => logError(`Error en recordatorio de publicación: ${err.message}`));
+
   const cronExpr = `0 */${HOURS} * * *`;
   logInfo(`Comprobación programada: "${cronExpr}" (cada ${HOURS} horas)`);
   cron.schedule(cronExpr, () => {
     runCheck().catch(err => logError(`Error en ciclo programado: ${err.message}`));
   });
 
-  // Resumen diario a las 9:00 AM
+  // Resumen diario a las 9:00 AM — incluye recordatorio de publicación
   const dailyHour = parseInt(process.env.DAILY_SUMMARY_HOUR ?? '9', 10);
   logInfo(`Resumen diario programado a las ${dailyHour}:00`);
   cron.schedule(`0 ${dailyHour} * * *`, async () => {
@@ -398,6 +460,8 @@ if (isDaemon) {
     } catch (err) {
       logError(`Error en resumen diario: ${err.message}`);
     }
+    // Recordatorio de publicación (si hoy toca y está en el calendario)
+    checkPublicationReminders().catch(err => logError(`Error en recordatorio de publicación: ${err.message}`));
   });
 
   // Keep-alive: log cada 30 minutos para que Railway sepa que el proceso sigue vivo

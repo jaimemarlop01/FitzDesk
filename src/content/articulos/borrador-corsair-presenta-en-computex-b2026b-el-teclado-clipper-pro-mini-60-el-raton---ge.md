@@ -1,11 +1,11 @@
 ---
-title: "CORSAIR CLIPPER PRO MINI 60"
+title: "Corsair Clipper Pro Mini 60"
 categoria: "teclados"
 fecha: "2026-06-03"
 descripcion: "Análisis del teclado CORSAIR CLIPPER PRO MINI 60"
 imagen: "/images/articulos/corsair-presenta-en-computex-b2026b-el-teclado-clipper-pro-mini-60-el-raton---ge.webp"
 puntuacion: 8
-precio: "pendiente"
+precio: "Ver precio"
 enlace_afiliado: "https://www.pccomponentes.com"
 tiempo_lectura: "7 min"
 tipo: "analisis"
@@ -14,9 +14,7 @@ keywords_secundarias:
   - "teclados gaming"
   - "teclados mini"
   - "periféricos para teletrabajo"
-fitzQuote: "El CORSAIR CLIPPER PRO MINI 60 es un teclado que destaca dentro de su categoría por su diseño compacto y funcionalidades avanzadas. Cabe esperar que ofrezca una gran experiencia de uso para trabajadores remotos y gamers. Mi nota: 8/10"
 borrador: true
-imagen_thumb: "/images/articulos/corsair-presenta-en-computex-b2026b-el-teclado-clipper-pro-mini-60-el-raton---ge-thumb.webp"
 ---
 
 <!--
@@ -84,4 +82,5 @@ Una alternativa al CLIPPER PRO MINI 60 es el teclado Logitech G512, que ofrece u
 El CLIPPER PRO MINI 60 es un teclado que destaca dentro de su categoría por su diseño compacto y funcionalidades avanzadas. Sin embargo, el precio puede ser un poco alto para algunos usuarios. En general, es un teclado que ofrece una gran experiencia de uso y que es ideal para trabajadores remotos y gamers que buscan un teclado de alta calidad. Mi nota: 8/10
 
 ## Conclusión
-En conclusión, el CLIPPER PRO MINI 
+
+En conclusión, el Corsair Clipper Pro Mini 60 es una opción compacta y sólida para trabajadores remotos que buscan un teclado mecánico sin renunciar al espacio en el escritorio. Su diseño 60%, las teclas mecánicas y la conectividad inalámbrica lo hacen especialmente práctico en setups con poco espacio. El precio puede ser algo elevado frente a alternativas, pero la calidad de construcción de Corsair respalda la inversión.

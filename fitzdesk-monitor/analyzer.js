@@ -208,6 +208,7 @@ Extensión: 900-1.100 palabras en el cuerpo. Español de España.`;
   });
 
   const content = completion.choices[0]?.message?.content ?? '';
+  const tokensUsed = completion.usage?.total_tokens ?? 0;
 
   if (!content) {
     logWarn(`Groq no devolvió contenido para "${title}"`);
@@ -223,8 +224,9 @@ Extensión: 900-1.100 palabras en el cuerpo. Español de España.`;
     content: enrichedContent,
     slug,
     categoria,
-    pcPrice: pcResult.precio,
-    pcUrl:   pcResult.url,
-    pcFound: pcResult.found,
+    pcPrice:     pcResult.precio,
+    pcUrl:       pcResult.url,
+    pcFound:     pcResult.found,
+    tokensUsed,
   };
 }
