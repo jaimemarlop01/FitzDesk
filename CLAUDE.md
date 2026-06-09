@@ -127,11 +127,14 @@ GEMINI_API_KEY (opcional)
 
 ## Estado del calendario de publicaciones
 - Calendario generado: 2026-06-09
-- Próxima publicación: 2026-06-10 — LG OLED 2000 nits (monitores)
-- Semanas de contenido disponibles: 4
-- Borradores listos para publicar: 9
+- Próxima publicación: 2026-06-11 — Surface Ultra con RTX Spark (portatiles)
+- Semanas de contenido disponibles: 5
+- Borradores listos para publicar: 8
 - Borradores incompletos (no planificados): 0
-- Sin programar (semana 5+): NVIDIA RTX Spark (portatiles)
+- Sin programar: ninguno (todos planificados hasta 2026-07-07)
+
+## Últimas publicaciones
+- Última publicación: 2026-06-09 — "LG OLED 27\" 5K 2000 nits: el monitor premium para teletrabajo que lo cambia todo"
 
 ---
 
