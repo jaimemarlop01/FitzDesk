@@ -205,21 +205,70 @@ export async function notifySummary({ totalNew, totalDrafts, errors, totalDiscar
 // Resumen diario (se envía siempre a las 9 AM)
 // ─────────────────────────────────────────────
 
-export async function notifyDailySummary({ totalScanned, totalRelevant, totalDrafts, totalDiscard, errors, productos }) {
+export async function notifyDailySummary({ totalScanned, totalRelevant, totalDrafts, totalDiscard, totalCached, discardLayer1, discardLayer2, discardLayer3, dudosos, draftTitles, errors, productos }) {
   if (!process.env.DISCORD_WEBHOOK_URL) return;
 
+  const l1 = discardLayer1 ?? 0;
+  const l2 = discardLayer2 ?? 0;
+  const l3 = discardLayer3 ?? 0;
+  const cached = totalCached ?? 0;
+
   const fields = [
-    { name: '🔍 Artículos analizados', value: String(totalScanned ?? 0),    inline: true },
-    { name: '✅ Relevantes',           value: String(totalRelevant ?? 0),   inline: true },
-    { name: '📝 Borradores generados', value: String(totalDrafts ?? 0),     inline: true },
-    { name: '🗑️ Descartados',          value: String(totalDiscard ?? 0),    inline: true },
-    { name: '⚡ Fuentes con error',    value: String(errors?.length ?? 0),  inline: true },
+    {
+      name:   '🔍 Artículos escaneados',
+      value:  `${totalScanned ?? 0} artículos revisados`,
+      inline: true,
+    },
+    {
+      name:   '✅ Borradores generados',
+      value:  `${totalDrafts ?? 0} nuevos borradores`,
+      inline: true,
+    },
+    {
+      name:   '💾 Ya en caché',
+      value:  `${cached} artículos ya procesados anteriormente`,
+      inline: true,
+    },
+    {
+      name:   '❌ Descartados por filtro',
+      value:  `${totalDiscard ?? 0} artículos — desglose:\n• Capa 1 (palabras descarte): ${l1}\n• Capa 2 (sin producto físico): ${l2}\n• Capa 3 (sin marca reconocida): ${l3}`,
+      inline: false,
+    },
   ];
 
-  // ── Agrupamiento por marca (CAMBIO 5) ──
+  // ── Casos dudosos ──
+  const dudosoList = Array.isArray(dudosos) ? dudosos : [];
+  if (dudosoList.length > 0) {
+    const lines = dudosoList.slice(0, 8).map(d =>
+      `⚠️ ${d.title.slice(0, 80)}\n   _${d.hint}_`
+    );
+    if (dudosoList.length > 8) lines.push(`_…y ${dudosoList.length - 8} más_`);
+    fields.push({
+      name:   '⚠️ Casos dudosos',
+      value:  lines.join('\n\n').slice(0, 1024),
+      inline: false,
+    });
+  } else {
+    fields.push({
+      name:   '⚠️ Casos dudosos',
+      value:  'Sin casos dudosos hoy ✅',
+      inline: false,
+    });
+  }
+
+  // ── Borradores generados hoy ──
+  const titles = Array.isArray(draftTitles) ? draftTitles : [];
+  fields.push({
+    name:   '📦 Borradores generados hoy',
+    value:  titles.length > 0
+      ? titles.slice(0, 10).map(t => `• ${t.slice(0, 90)}`).join('\n').slice(0, 1024)
+      : 'Ninguno hoy',
+    inline: false,
+  });
+
+  // ── Agrupamiento por marca ──
   if (Array.isArray(productos) && productos.length > 0) {
-    // Agrupar por marca cuando hay 2+ artículos de la misma marca
-    const byBrand = {};
+    const byBrand  = {};
     const sinMarca = [];
 
     for (const p of productos) {
@@ -234,9 +283,9 @@ export async function notifyDailySummary({ totalScanned, totalRelevant, totalDra
     for (const [brand, items] of Object.entries(byBrand)) {
       if (items.length >= 2) {
         fields.push({
-          name:  `⚠️ ${items.length} artículos sobre ${brand.toUpperCase()} detectados hoy`,
-          value: items.map(i => `• ${i.title.slice(0, 80)} _(${i.categoria})_`).join('\n') +
-                 '\n→ Revisa cuál tiene más interés para FitzDesk antes de publicar los tres.',
+          name:  `⚠️ ${items.length} artículos de ${brand.toUpperCase()} detectados hoy`,
+          value: (items.map(i => `• ${i.title.slice(0, 80)} _(${i.categoria})_`).join('\n') +
+                 '\n→ Revisa cuál tiene más interés para FitzDesk antes de publicar.').slice(0, 1024),
           inline: false,
         });
       } else {
@@ -247,17 +296,24 @@ export async function notifyDailySummary({ totalScanned, totalRelevant, totalDra
     if (sinMarca.length > 0) {
       fields.push({
         name:   '📦 Otros productos detectados',
-        value:  sinMarca.slice(0, 8).map(p => `• ${p.title.slice(0, 80)}`).join('\n'),
+        value:  sinMarca.slice(0, 8).map(p => `• ${p.title.slice(0, 80)}`).join('\n').slice(0, 1024),
         inline: false,
       });
     }
   }
 
+  if ((errors?.length ?? 0) > 0) {
+    fields.push({
+      name:   `⚡ Fuentes con error (${errors.length})`,
+      value:  errors.map(e => `• ${e}`).join('\n').slice(0, 1024),
+      inline: false,
+    });
+  }
+
   await discordPost({
     embeds: [{
-      title:       '📊 Resumen diario de FitzDesk Monitor',
-      color:       0xF97316,
-      description: 'Aquí tienes el resumen de las últimas 24 horas',
+      title:     '📊 Resumen diario de FitzDesk Monitor',
+      color:     0xF97316,
       fields,
       footer:    { text: 'FitzDesk Monitor • Resumen diario' },
       timestamp: new Date().toISOString(),

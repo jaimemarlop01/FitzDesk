@@ -5,7 +5,7 @@ import { join, resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import cron from 'node-cron';
 
-import { SOURCES, KEYWORDS_MARCA, passesStrictFilter } from './sources.js';
+import { SOURCES, KEYWORDS_MARCA, passesStrictFilter, diagnoseFilter } from './sources.js';
 import { isProcessed, isProcessedByUrl, isProcessedByTitleHash, markProcessed, getCacheStats, normalizeUrl, hashTitle, reloadFromDisk } from './cache.js';
 import { generateDraft, searchPcComponentes } from './analyzer.js';
 import { createDraft as githubCreateDraft, isAvailable as githubAvailable, downloadCache, uploadCache } from './githubPublisher.js';
@@ -61,6 +61,44 @@ function saveDraft(filename, content) {
 function detectBrand(text) {
   const t = text.toLowerCase();
   return KEYWORDS_MARCA.find(m => t.includes(m)) ?? null;
+}
+
+/**
+ * Decide si un artículo descartado merece revisión manual.
+ * Retorna un string con la sugerencia, o null si no es dudoso.
+ */
+function isDudoso(itemTitle, diagnosis) {
+  if (diagnosis.pass) return null;
+  const title = itemTitle.toLowerCase();
+
+  // Descartado por "gaming" pero el título sugiere contexto de trabajo
+  if (diagnosis.layer === 1 && diagnosis.reason.includes('"gaming"')) {
+    const workHints = ['no gaming', 'para trabajo', 'productividad', 'teletrabajo', 'oficina'];
+    const found = workHints.find(h => title.includes(h));
+    if (found) return `Descartado por "gaming" pero título dice "${found}" — ¿añadir excepción?`;
+  }
+
+  // Auriculares o sillas descartados por Capa 1
+  if (diagnosis.layer === 1) {
+    const workCats = [
+      { kw: 'auricular', label: 'auriculares' },
+      { kw: 'headset',   label: 'auriculares' },
+      { kw: 'headphone', label: 'auriculares' },
+      { kw: 'silla',     label: 'silla de trabajo' },
+      { kw: 'chair',     label: 'silla de trabajo' },
+    ];
+    const cat = workCats.find(c => title.includes(c.kw));
+    if (cat) return `${cat.label} descartado por Capa 1 — podría ser válido para teletrabajo`;
+  }
+
+  // Marca reconocida descartada por Capa 1
+  if (diagnosis.layer === 1) {
+    const watchBrands = ['logitech', 'keychron', 'lg ', ' lg,', 'dell', 'asus', 'lenovo', 'corsair'];
+    const brand = watchBrands.find(b => title.includes(b));
+    if (brand) return `marca "${brand.trim()}" descartada por Capa 1 — revisar manualmente`;
+  }
+
+  return null;
 }
 
 /**
@@ -223,10 +261,16 @@ async function runCheck() {
   let totalRelevant   = 0;
   let totalDrafts     = 0;
   let totalDiscard    = 0;
+  let totalCached     = 0;
+  let discardLayer1   = 0;
+  let discardLayer2   = 0;
+  let discardLayer3   = 0;
   let tokenLimitReached = false;
   let pendingSkipped  = 0;
-  const errors    = [];
-  const productos = []; // [{brand, title, categoria}]
+  const errors      = [];
+  const productos   = []; // [{brand, title, categoria}]
+  const dudosos     = []; // [{title, reason, hint}]
+  const draftTitles = []; // titulares de borradores generados en este ciclo
 
   for (const source of SOURCES.filter(s => s.enabled)) {
     logInfo(`Leyendo feed: ${source.name}`);
@@ -251,25 +295,35 @@ async function runCheck() {
       const titleHash = hashTitle(itemTitle);
 
       // ── Deduplicación: GUID/link ya procesado ──
-      if (isProcessed(id)) continue;
+      if (isProcessed(id)) { totalCached++; continue; }
 
-      // ── Deduplicación: URL normalizada ya procesada (CAMBIO 2) ──
+      // ── Deduplicación: URL normalizada ya procesada ──
       if (itemUrl && isProcessedByUrl(itemUrl)) {
         logInfo(`  ⟳ Duplicado ignorado: "${itemTitle}" (URL ya procesada)`);
         markProcessed(id, { url: itemUrl, titleHash });
+        totalCached++;
         continue;
       }
 
-      // ── Deduplicación: hash de título ya procesado (CAMBIO 6) ──
+      // ── Deduplicación: hash de título ya procesado ──
       if (isProcessedByTitleHash(titleHash)) {
         logInfo(`  ⟳ Artículo actualizado ignorado: "${itemTitle}" (mismo contenido, URL diferente)`);
         markProcessed(id, { url: itemUrl, titleHash });
+        totalCached++;
         totalDiscard++;
         continue;
       }
 
-      // ── Capa 1: filtro estricto por palabras clave ──
-      if (!passesStrictFilter(item)) {
+      // ── Capas 1-3: filtro estricto con diagnóstico ──
+      const diag = diagnoseFilter(item);
+      if (!diag.pass) {
+        if (diag.layer === 1)      discardLayer1++;
+        else if (diag.layer === 2) discardLayer2++;
+        else if (diag.layer === 3) discardLayer3++;
+
+        const hint = isDudoso(itemTitle, diag);
+        if (hint) dudosos.push({ title: itemTitle, reason: diag.reason, hint });
+
         markProcessed(id, { url: itemUrl, titleHash });
         totalDiscard++;
         continue;
@@ -377,6 +431,7 @@ async function runCheck() {
 
           markProcessed(id, { url: itemUrl, titleHash });
           totalDrafts++;
+          draftTitles.push(itemTitle);
 
           await notifyDraft({
             title:             itemTitle,
@@ -416,7 +471,7 @@ async function runCheck() {
   if (githubAvailable()) await uploadCache(CACHE_FILE);
 
   await notifySummary({ totalNew: totalRelevant, totalDrafts, errors, totalDiscard });
-  return { totalScanned, totalRelevant, totalDrafts, totalDiscard, errors, productos };
+  return { totalScanned, totalRelevant, totalDrafts, totalDiscard, totalCached, discardLayer1, discardLayer2, discardLayer3, dudosos, draftTitles, errors, productos };
 }
 
 // ─────────────────────────────────────────────
@@ -431,7 +486,7 @@ const isOnce   = args.includes('--once') || (!isDaemon && !isTest);
 if (isTest) {
   logInfo(`Tokens Groq hoy: ${getTokensUsed()}/${DAILY_LIMIT} usados`);
 
-  // Verificar sistema de recordatorios
+  // ── Verificar calendario ──
   logInfo('🧪 Verificando sistema de recordatorios de publicación...');
   if (existsSync(CALENDAR_FILE)) {
     try {
@@ -442,26 +497,104 @@ if (isTest) {
       logWarn(`⚠️ calendario-publicaciones.json existe pero no se puede leer: ${err.message}`);
     }
   } else {
-    logInfo('ℹ️  No hay calendario de publicaciones generado. Ejecuta el agente planificar-publicaciones en Claude Code.');
+    logInfo('ℹ️  No hay calendario de publicaciones. Ejecuta el agente planificar-publicaciones en Claude Code.');
   }
 
+  // ── Dry-run: escanear feeds y diagnosticar descartes ──
+  console.log('\n━━━ ESCANEANDO FEEDS — DRY RUN (sin guardar caché ni generar borradores) ━━━\n');
+
+  const rejected = [];
+  const passed   = [];
+  let totalScanned = 0;
+  let totalCached  = 0;
+
+  for (const source of SOURCES.filter(s => s.enabled)) {
+    logInfo(`Leyendo feed: ${source.name}`);
+    let feed;
+    try {
+      feed = await parser.parseURL(source.url);
+    } catch (err) {
+      logWarn(`  No se pudo leer ${source.name}: ${err.message}`);
+      continue;
+    }
+
+    const recentItems = feed.items.filter(item => isRecent(item, HOURS));
+    logInfo(`  ${recentItems.length} artículos en las últimas ${HOURS}h`);
+    totalScanned += recentItems.length;
+
+    for (const item of recentItems) {
+      const id        = itemId(item);
+      const itemUrl   = item.link ?? '';
+      const itemTitle = item.title ?? '(sin título)';
+      const titleHash = hashTitle(itemTitle);
+
+      // Ya en caché — no es un candidato nuevo
+      if (isProcessed(id) || (itemUrl && isProcessedByUrl(itemUrl)) || isProcessedByTitleHash(titleHash)) {
+        totalCached++;
+        continue;
+      }
+
+      const diag = diagnoseFilter(item);
+      if (!diag.pass) {
+        const hint = isDudoso(itemTitle, diag);
+        rejected.push({ title: itemTitle, source: source.name, layer: diag.layer, reason: diag.reason, hint });
+      } else {
+        passed.push({ title: itemTitle, source: source.name, reason: diag.reason });
+      }
+    }
+  }
+
+  // ── Imprimir descartados ──
+  const layerLabel = { 1: 'Descarte obligatorio', 2: 'Sin producto físico', 3: 'Sin marca reconocida' };
+  console.log(`━━━ ARTÍCULOS DESCARTADOS POR FILTRO (${rejected.length}) ━━━\n`);
+  rejected.forEach((item, i) => {
+    const num = String(i + 1).padStart(2, ' ');
+    console.log(`${num}. [Capa ${item.layer} — ${layerLabel[item.layer]}]`);
+    console.log(`    Titular : "${item.title}"`);
+    console.log(`    Motivo  : ${item.reason}`);
+    console.log(`    Fuente  : ${item.source}\n`);
+  });
+
+  // ── Imprimir los que pasarían ──
+  if (passed.length > 0) {
+    console.log(`━━━ PASARÍAN EL FILTRO (${passed.length}) ━━━\n`);
+    passed.forEach((item, i) => {
+      const num = String(i + 1).padStart(2, ' ');
+      console.log(` ${num}. "${item.title}"`);
+      console.log(`     ${item.reason}`);
+      console.log(`     Fuente: ${item.source}\n`);
+    });
+  }
+
+  // ── Casos dudosos ──
+  const testDudosos = rejected.filter(r => r.hint);
+  if (testDudosos.length > 0) {
+    console.log(`━━━ CASOS DUDOSOS — REVISAR (${testDudosos.length}) ━━━\n`);
+    testDudosos.forEach((item, i) => {
+      console.log(` ${i + 1}. ⚠️ "${item.title}"`);
+      console.log(`    ${item.hint}`);
+      console.log(`    Fuente: ${item.source}\n`);
+    });
+  }
+
+  console.log(`━━━ RESUMEN ━━━`);
+  console.log(`Escaneados : ${totalScanned}`);
+  console.log(`En caché   : ${totalCached} (ya procesados en ciclos anteriores)`);
+  console.log(`Descartados: ${rejected.length}  (Capa 1: ${rejected.filter(r=>r.layer===1).length} · Capa 2: ${rejected.filter(r=>r.layer===2).length} · Capa 3: ${rejected.filter(r=>r.layer===3).length})`);
+  console.log(`Dudosos    : ${testDudosos.length}`);
+  console.log(`Pasarían   : ${passed.length}`);
+
+  // ── Test precio PcComponentes ──
   const testIdx = args.indexOf('--test');
   const testProduct = (args[testIdx + 1] && !args[testIdx + 1].startsWith('--'))
     ? args[testIdx + 1]
     : 'Logitech MX Master 3S';
 
-  logInfo(`🧪 TEST MODE — Buscando precio en PcComponentes para: "${testProduct}"`);
+  console.log(`\n━━━ TEST PRECIO PcComponentes — "${testProduct}" ━━━`);
   const pcResult = await searchPcComponentes(testProduct);
-
-  console.log('\n━━━ Resultado en frontmatter ━━━');
   console.log(`precio: "${pcResult.precio}"`);
   console.log(`enlace_afiliado: "${pcResult.url}"`);
   if (pcResult.found) console.log('precio_encontrado_automaticamente: true');
-
-  console.log('\n━━━ Nota añadida al inicio del borrador ━━━');
-  console.log(`> 💰 **Precio detectado automáticamente**: ${pcResult.precio}`);
-  console.log(`> 🔗 **Enlace PcComponentes**: ${pcResult.url}`);
-  console.log('> ⚠️ Verifica el precio antes de publicar ya que puede haber cambiado desde la generación del borrador.');
 
   process.exit(0);
 }

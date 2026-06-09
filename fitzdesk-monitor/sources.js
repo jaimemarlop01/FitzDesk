@@ -134,3 +134,32 @@ export function passesStrictFilter(item) {
 
   return hasProducto && hasMarca;
 }
+
+/**
+ * Diagnostica por qué un item pasa o es descartado.
+ * Retorna: { pass: boolean, layer: 0|1|2|3, reason: string }
+ *   layer 0 → pasa todos los filtros
+ *   layer 1 → descartado por palabra prohibida (KEYWORDS_DESCARTE)
+ *   layer 2 → no menciona ningún producto físico (KEYWORDS_PRODUCTO)
+ *   layer 3 → menciona producto pero no marca reconocida (KEYWORDS_MARCA)
+ */
+export function diagnoseFilter(item) {
+  const text = `${item.title ?? ''} ${item.contentSnippet ?? ''} ${item.content ?? ''}`.toLowerCase();
+
+  const matchedDescarte = KEYWORDS_DESCARTE.find(kw => hasWord(text, kw));
+  if (matchedDescarte) {
+    return { pass: false, layer: 1, reason: `Palabra de descarte: "${matchedDescarte}"` };
+  }
+
+  const matchedProducto = KEYWORDS_PRODUCTO.find(kw => hasWord(text, kw));
+  if (!matchedProducto) {
+    return { pass: false, layer: 2, reason: 'Sin producto físico reconocido (ratón, teclado, monitor, portátil, SSD…)' };
+  }
+
+  const matchedMarca = KEYWORDS_MARCA.find(kw => hasWord(text, kw));
+  if (!matchedMarca) {
+    return { pass: false, layer: 3, reason: `Producto detectado ("${matchedProducto}") pero sin marca reconocida` };
+  }
+
+  return { pass: true, layer: 0, reason: `Producto: "${matchedProducto}" · Marca: "${matchedMarca}"` };
+}
