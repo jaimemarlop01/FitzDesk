@@ -9,8 +9,8 @@
       "categoria": "monitores",
       "prioridad": "ALTA",
       "enviado": true,
-      "publicado": false,
-      "nota": "Convertido a lanzamiento — pendiente de disponibilidad en España"
+      "publicado": true,
+      "nota": "Publicado como lanzamiento — actualizar cuando llegue al mercado con agente actualizar-lanzamiento"
     },
     {
       "fecha": "2026-06-11",
