@@ -470,7 +470,7 @@ async function runCheck() {
   // Persistir caché en GitHub para que sobreviva reinicios de Railway
   if (githubAvailable()) await uploadCache(CACHE_FILE);
 
-  await notifySummary({ totalNew: totalRelevant, totalDrafts, errors, totalDiscard });
+  await notifyDailySummary({ totalScanned, totalRelevant, totalDrafts, totalDiscard, totalCached, discardLayer1, discardLayer2, discardLayer3, dudosos, draftTitles, errors, productos });
   return { totalScanned, totalRelevant, totalDrafts, totalDiscard, totalCached, discardLayer1, discardLayer2, discardLayer3, dudosos, draftTitles, errors, productos };
 }
 
