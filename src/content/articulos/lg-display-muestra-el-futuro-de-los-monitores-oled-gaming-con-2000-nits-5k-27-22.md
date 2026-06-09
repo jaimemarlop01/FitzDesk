@@ -15,7 +15,6 @@ keywords_secundarias:
   - "monitores gaming"
   - "OLED 2000 nits"
   - "5K 27 pulgadas"
-borrador: true
 ---
 
 > 📅 **Producto no disponible aún en España**: Recogemos toda la información conocida sobre este monitor antes de su lanzamiento oficial. Lo actualizaremos con análisis completo y precio real en cuanto llegue a PcComponentes. Las especificaciones aquí recogidas provienen de los paneles prototipo presentados por LG Display en Computex 2026 — aún no hay monitor de consumo final anunciado.
