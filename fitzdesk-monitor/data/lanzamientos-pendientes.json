@@ -1,6 +1,20 @@
 {
   "lanzamientos": [
     {
+      "slug": "el-nuevo-surface-ultra-con-el-rtx-spark-de-nvidia-cuenta-con-un-misterioso-puert",
+      "titulo": "Surface Laptop Ultra: el portátil con NVIDIA RTX Spark que redefine Windows",
+      "fecha_lanzamiento": "Otoño 2026",
+      "fecha_seguimiento": "2026-07-09",
+      "tiendas_a_revisar": [
+        "https://www.pccomponentes.com/buscar/?query=Surface+Laptop+Ultra+RTX+Spark",
+        "https://www.amazon.es/s?k=Surface+Laptop+Ultra+RTX+Spark",
+        "https://www.mediamarkt.es/es/search.html?query=Surface+Laptop+Ultra+RTX+Spark"
+      ],
+      "notificado": false,
+      "fecha_ultima_notificacion": null,
+      "publicado": false
+    },
+    {
       "slug": "lg-display-muestra-el-futuro-de-los-monitores-oled-gaming-con-2000-nits-5k-27-22",
       "titulo": "LG OLED 27\" 5K 2000 nits: el monitor premium para teletrabajo que lo cambia todo",
       "fecha_lanzamiento": "Próximamente",

@@ -610,10 +610,12 @@ logInfo(`FitzDesk Monitor iniciado — modo: ${isDaemon ? 'daemon' : 'una vez'}`
 logInfo(`Ruta de contenido: ${CONTENT_PATH}`);
 
 if (isOnce) {
-  runCheck().catch(err => {
-    logError(`Error crítico: ${err.message}`);
-    process.exit(1);
-  });
+  runCheck()
+    .then(() => process.exit(0))
+    .catch(err => {
+      logError(`Error crítico: ${err.message}`);
+      process.exit(1);
+    });
 }
 
 if (isDaemon) {

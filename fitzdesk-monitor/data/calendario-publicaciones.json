@@ -2,23 +2,24 @@
   "generado": "2026-06-09",
   "publicaciones": [
     {
-      "fecha": "2026-06-09",
-      "diaSemana": "martes",
-      "slug": "borrador-lg-display-muestra-el-futuro-de-los-monitores-oled-gaming-con-2000-nits-5k-27-22",
+      "fecha": "2026-06-10",
+      "diaSemana": "miércoles",
+      "slug": "lg-display-muestra-el-futuro-de-los-monitores-oled-gaming-con-2000-nits-5k-27-22",
       "titulo": "LG OLED 27\" 5K 2000 nits: el monitor premium para teletrabajo que lo cambia todo",
       "categoria": "monitores",
       "prioridad": "ALTA",
       "enviado": true,
       "publicado": true,
-      "nota": "Publicado como lanzamiento — actualizar cuando llegue al mercado con agente actualizar-lanzamiento"
+      "nota": "Merge a main el 2026-06-10 — publicado como lanzamiento, actualizar con agente actualizar-lanzamiento cuando llegue al mercado"
     },
     {
       "fecha": "2026-06-11",
       "diaSemana": "jueves",
-      "slug": "borrador-el-nuevo-surface-ultra-con-el-rtx-spark-de-nvidia-cuenta-con-un-misterioso-puert",
-      "titulo": "Surface Ultra con RTX Spark",
+      "slug": "el-nuevo-surface-ultra-con-el-rtx-spark-de-nvidia-cuenta-con-un-misterioso-puert",
+      "titulo": "Surface Laptop Ultra: el portátil con NVIDIA RTX Spark que redefine Windows",
       "categoria": "portatiles",
-      "prioridad": "ALTA"
+      "prioridad": "ALTA",
+      "nota": "Listo para publicar — ejecutar agente publicar-borrador el jueves 2026-06-11"
     },
     {
       "fecha": "2026-06-16",

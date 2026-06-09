@@ -1,0 +1,43 @@
+name: FitzDesk Monitor
+
+on:
+  schedule:
+    - cron: '0 7 * * *'  # Cada día a las 8:00 hora España (UTC+1)
+  workflow_dispatch:      # Permite ejecutarlo manualmente desde GitHub
+
+permissions:
+  contents: write  # necesario para que el monitor escriba borradores y caché via API
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repositorio
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: fitzdesk-monitor/package-lock.json
+
+      - name: Instalar dependencias
+        run: |
+          cd fitzdesk-monitor
+          npm install
+
+      - name: Ejecutar monitor
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_OWNER: ${{ github.repository_owner }}
+          GITHUB_REPO: ${{ github.event.repository.name }}
+          ASTRO_CONTENT_PATH: ${{ github.workspace }}/src/content/articulos
+        run: |
+          cd fitzdesk-monitor
+          node monitor.js

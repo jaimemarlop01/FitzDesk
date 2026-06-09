@@ -22,7 +22,7 @@ C:\xampp\htdocs\FitzDesk\fitzdesk-monitor\data\    → Caché persistente
 - **Web**: Astro v4, CSS vanilla, JS vanilla, Fuse.js (buscador)
 - **Monitor**: Node.js, Groq (llama-3.3-70b-versatile), Discord webhooks
 - **Deploy web**: GitHub Actions → GitHub Pages
-- **Deploy monitor**: Railway (24/7)
+- **Deploy monitor**: GitHub Actions (diario 8:00 ES) — migrado desde Railway el 2026-06-10
 - **URL**: https://jaimemarlop01.github.io/FitzDesk/
 
 ---
@@ -109,10 +109,11 @@ GEMINI_API_KEY (opcional)
 
 ## Estado de borradores
 - Última revisión: 2026-06-09 (3ª pasada — cadena completa de agentes)
-- Última ejecución de completar-borradores: 2026-06-09 (3ª pasada)
+- Última ejecución de completar-borradores: 2026-06-09
 - Borradores descartados (total): 4 (xbox-ally, asus-rog-strix, corsair-anade-icue, antec-computex)
-- Borradores listos para publicar: 8 (tipo: analisis) · 1 lanzamiento pendiente (LG OLED)
-- Imágenes placeholder: 7/8 (resoluble con imageCollector al publicar)
+- Borradores completados: 1 (Surface Laptop Ultra — tipo cambiado a lanzamiento)
+- Borradores listos para revisión humana: 9 (8 tipo: analisis + 1 lanzamiento Surface Ultra) · 1 lanzamiento pendiente adicional (LG OLED)
+- Imágenes placeholder: 6/9 (Surface Ultra ya tiene imagen WebP real; resoluble con imageCollector al publicar el resto)
 
 ## Estado del código
 - Última revisión: 2026-06-09 (2ª pasada — confirma 0 nuevos errores tras cambios de lanzamiento)
@@ -127,20 +128,32 @@ GEMINI_API_KEY (opcional)
 
 ## Estado del calendario de publicaciones
 - Calendario generado: 2026-06-09
-- Próxima publicación: 2026-06-11 — Surface Ultra con RTX Spark (portatiles)
+- Próxima publicación: 2026-06-10 — LG OLED 27" lanzamiento (pendiente merge a main)
+- Siguiente publicación: 2026-06-11 — Surface Laptop Ultra RTX Spark (portatiles) — listo para publicar
 - Semanas de contenido disponibles: 5
-- Borradores listos para publicar: 8
+- Borradores listos para publicar: 7 analisis + 2 lanzamientos preparados (LG OLED y Surface Ultra)
 - Borradores incompletos (no planificados): 0
 - Sin programar: ninguno (todos planificados hasta 2026-07-07)
 
 ## Lanzamientos en seguimiento
 - LG OLED 27" 5K 2000 nits — próxima revisión: 2026-07-09 — slug: lg-display-muestra-el-futuro-de-los-monitores-oled-gaming-con-2000-nits-5k-27-22
-- Cuando llegue al mercado: ejecutar agente actualizar-lanzamiento con el slug
+- Surface Laptop Ultra RTX Spark — próxima revisión: 2026-07-09 — slug: el-nuevo-surface-ultra-con-el-rtx-spark-de-nvidia-cuenta-con-un-misterioso-puert
+- Cuando lleguen al mercado: ejecutar agente actualizar-lanzamiento con el slug correspondiente
 
 ## Últimas publicaciones
-- Última publicación: 2026-06-09 — "LG OLED 27\" 5K 2000 nits" (tipo: lanzamiento)
+- Pendiente (2026-06-10) — "LG OLED 27\" 5K 2000 nits" (tipo: lanzamiento) — merge a main pendiente
+- Pendiente (2026-06-11) — "Surface Laptop Ultra: el portátil con NVIDIA RTX Spark que redefine Windows" (tipo: lanzamiento) — ejecutar publicar-borrador el jueves entre las 9:00 y las 11:00
 
 ---
+
+## Monitor — GitHub Actions
+
+- Migrado de Railway a GitHub Actions el 2026-06-10
+- Se ejecuta diariamente a las 8:00 (UTC+1) — cron: `0 7 * * *`
+- Para ejecutar manualmente: GitHub → Actions → FitzDesk Monitor → Run workflow
+- Workflow: `.github/workflows/monitor.yml`
+- Secrets necesarios en el repo: `GROQ_API_KEY`, `DISCORD_WEBHOOK_URL`
+- `GITHUB_TOKEN` y `GITHUB_REPO`/`GITHUB_OWNER` se inyectan automáticamente
 
 ## Archivos clave del monitor
 
