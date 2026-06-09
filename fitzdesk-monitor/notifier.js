@@ -304,3 +304,39 @@ export async function notifyPublicationReminder({ slug, titulo, categoria, prior
   });
   logSuccess(`📅 Recordatorio de publicación enviado: "${titulo}"`);
 }
+
+// ─────────────────────────────────────────────
+// Seguimiento de lanzamientos pendientes
+// ─────────────────────────────────────────────
+
+export async function notifyLaunchReminder({ slug, titulo, fecha_lanzamiento, tiendas_a_revisar }) {
+  const tiendasText = (tiendas_a_revisar ?? [])
+    .map(url => {
+      const name = url.includes('pccomponentes') ? 'PcComponentes'
+                 : url.includes('amazon')        ? 'Amazon España'
+                 : url.includes('mediamarkt')    ? 'MediaMarkt'
+                 : url;
+      return `[${name}](${url})`;
+    })
+    .join('\n');
+
+  await discordPost({
+    embeds: [{
+      title:       '🚀 Seguimiento de lanzamiento pendiente',
+      color:       16345364,
+      description: `Es momento de revisar si ya está disponible`,
+      fields: [
+        { name: '📦 Producto',       value: titulo,            inline: false },
+        { name: '📅 Fecha prevista', value: fecha_lanzamiento, inline: true  },
+        { name: '🔍 Revisar disponibilidad en', value: tiendasText, inline: false },
+        {
+          name:  '✅ Siguiente paso',
+          value: `Si ya está disponible ejecuta el agente actualizar-lanzamiento con slug: \`${slug}\``,
+          inline: false,
+        },
+      ],
+      footer: { text: 'FitzDesk · Seguimiento de lanzamientos' },
+    }],
+  });
+  logSuccess(`🚀 Recordatorio de lanzamiento enviado: "${titulo}"`);
+}

@@ -9,7 +9,7 @@ import { SOURCES, KEYWORDS_MARCA, passesStrictFilter } from './sources.js';
 import { isProcessed, isProcessedByUrl, isProcessedByTitleHash, markProcessed, getCacheStats, normalizeUrl, hashTitle, reloadFromDisk } from './cache.js';
 import { generateDraft, searchPcComponentes } from './analyzer.js';
 import { createDraft as githubCreateDraft, isAvailable as githubAvailable, downloadCache, uploadCache } from './githubPublisher.js';
-import { logInfo, logSuccess, logWarn, logError, notifyDraft, notifySummary, notifyDailySummary, notifyPublicationReminder } from './notifier.js';
+import { logInfo, logSuccess, logWarn, logError, notifyDraft, notifySummary, notifyDailySummary, notifyPublicationReminder, notifyLaunchReminder } from './notifier.js';
 import { findProductImage, downloadProductImage } from './imageSearch.js';
 import { findAndDownloadImage } from './imageCollector.js';
 import { verifyWithGemini } from './reviewer.js';
@@ -33,6 +33,7 @@ const CONTENT_PATH = resolve(
 );
 const CACHE_FILE    = join(__dirname, 'data', 'cache.json');
 const CALENDAR_FILE = join(__dirname, 'data', 'calendario-publicaciones.json');
+const LAUNCHES_FILE = join(__dirname, 'data', 'lanzamientos-pendientes.json');
 const HOURS = parseInt(process.env.CHECK_INTERVAL_HOURS ?? '24', 10);
 
 // ─────────────────────────────────────────────
@@ -154,6 +155,53 @@ async function checkPublicationReminders() {
 
   pub.enviado = true;
   writeFileSync(CALENDAR_FILE, JSON.stringify(calendar, null, 2), 'utf-8');
+}
+
+// ─────────────────────────────────────────────
+// Seguimiento de lanzamientos pendientes
+// ─────────────────────────────────────────────
+
+async function checkLaunchReminders() {
+  if (!existsSync(LAUNCHES_FILE)) return;
+
+  let data;
+  try {
+    data = JSON.parse(readFileSync(LAUNCHES_FILE, 'utf-8'));
+  } catch (err) {
+    logWarn(`Error leyendo lanzamientos-pendientes.json: ${err.message}`);
+    return;
+  }
+
+  const lanzamientos = data.lanzamientos ?? [];
+  if (lanzamientos.length === 0) return;
+
+  const today = new Date().toISOString().slice(0, 10);
+  let changed = false;
+
+  for (const item of lanzamientos) {
+    if (item.publicado) continue;
+    if (today < item.fecha_seguimiento) continue;
+
+    // No volver a notificar hasta 7 días después de la última notificación
+    if (item.notificado && item.fecha_ultima_notificacion) {
+      const lastNotif = new Date(item.fecha_ultima_notificacion);
+      const daysSince = (Date.now() - lastNotif.getTime()) / (1000 * 60 * 60 * 24);
+      if (daysSince < 7) continue;
+    }
+
+    await notifyLaunchReminder(item);
+    item.notificado = true;
+    item.fecha_ultima_notificacion = today;
+    // Programar próxima revisión en 7 días
+    const next = new Date(today);
+    next.setDate(next.getDate() + 7);
+    item.fecha_seguimiento = next.toISOString().slice(0, 10);
+    changed = true;
+  }
+
+  if (changed) {
+    writeFileSync(LAUNCHES_FILE, JSON.stringify(data, null, 2), 'utf-8');
+  }
 }
 
 // ─────────────────────────────────────────────
@@ -442,6 +490,7 @@ if (isDaemon) {
 
   // Recordatorio de publicación al arrancar (por si arranca entre las 9 y las 10)
   checkPublicationReminders().catch(err => logError(`Error en recordatorio de publicación: ${err.message}`));
+  checkLaunchReminders().catch(err => logError(`Error en seguimiento de lanzamientos: ${err.message}`));
 
   const cronExpr = `0 */${HOURS} * * *`;
   logInfo(`Comprobación programada: "${cronExpr}" (cada ${HOURS} horas)`);
@@ -462,6 +511,8 @@ if (isDaemon) {
     }
     // Recordatorio de publicación (si hoy toca y está en el calendario)
     checkPublicationReminders().catch(err => logError(`Error en recordatorio de publicación: ${err.message}`));
+    // Seguimiento de lanzamientos pendientes
+    checkLaunchReminders().catch(err => logError(`Error en seguimiento de lanzamientos: ${err.message}`));
   });
 
   // Keep-alive: log cada 30 minutos para que Railway sepa que el proceso sigue vivo

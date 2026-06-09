@@ -133,8 +133,9 @@ GEMINI_API_KEY (opcional)
 - Borradores incompletos (no planificados): 0
 - Sin programar: ninguno (todos planificados hasta 2026-07-07)
 
-## Últimas publicaciones
-- Última publicación: 2026-06-09 — "LG OLED 27\" 5K 2000 nits: el monitor premium para teletrabajo que lo cambia todo"
+## Lanzamientos en seguimiento
+- LG OLED 27" 5K 2000 nits — próxima revisión: 2026-07-09 — slug: lg-display-muestra-el-futuro-de-los-monitores-oled-gaming-con-2000-nits-5k-27-22
+- Cuando llegue al mercado: ejecutar agente actualizar-lanzamiento con el slug
 
 ---
 
