@@ -108,16 +108,16 @@ GEMINI_API_KEY (opcional)
 - [ ] Banner de cookies (obligatorio RGPD España)
 
 ## Estado de borradores
-- Última revisión: 2026-06-09
-- Última ejecución de completar-borradores: 2026-06-09 (2ª pasada)
+- Última revisión: 2026-06-09 (3ª pasada — cadena completa de agentes)
+- Última ejecución de completar-borradores: 2026-06-09 (3ª pasada)
 - Borradores descartados (total): 4 (xbox-ally, asus-rog-strix, corsair-anade-icue, antec-computex)
-- Borradores completados: 9
-- Borradores listos para revisión humana: 9
+- Borradores listos para publicar: 8 (tipo: analisis) · 1 lanzamiento pendiente (LG OLED)
+- Imágenes placeholder: 7/8 (resoluble con imageCollector al publicar)
 
 ## Estado del código
-- Última revisión: 2026-06-09
+- Última revisión: 2026-06-09 (2ª pasada — confirma 0 nuevos errores tras cambios de lanzamiento)
 - Errores críticos pendientes: 0 | Estado: ✅ Sin errores críticos
-- Advertencias (6): analyzer.js prompt incluye aviso afiliado obsoleto · buscar.astro colores hardcodeados (#F97316, #EA580C, inline styles) · scoreColor() duplicada en 3 archivos
+- Advertencias (6): analyzer.js prompt incluye aviso afiliado obsoleto · buscar.astro colores hardcodeados (#F97316, #EA580C, inline styles) · scoreColor() duplicada en 3 archivos · CookieBanner.astro usa hex en lugar de var CSS · about.astro gradient hardcodeado
 - Sugerencias (4): notifier.js entrada 'auriculares' obsoleta · fitzQuote en schema · validación GROQ_API_KEY en CLIs · variables badge-guide ausentes
 
 ## Estado de precios
