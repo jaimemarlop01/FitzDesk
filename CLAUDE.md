@@ -64,7 +64,7 @@ git add . && git commit -m "mensaje" && git push  # publicar
 
 # Monitor
 node monitor.js --test         # comprobación manual sin guardar
-node monitor.js --daemon       # modo continuo 24h
+node monitor.js --daemon       # modo continuo 24h (solo local — en producción usa GitHub Actions)
 node test-discord.js           # probar Discord
 node articleUpdater.js --slug [slug] --precio [precio]€
 node compareGenerator.js --config comparativa.json
@@ -128,10 +128,9 @@ GEMINI_API_KEY (opcional)
 
 ## Estado del calendario de publicaciones
 - Calendario generado: 2026-06-09
-- Próxima publicación: 2026-06-10 — LG OLED 27" lanzamiento (pendiente merge a main)
-- Siguiente publicación: 2026-06-11 — Surface Laptop Ultra RTX Spark (portatiles) — listo para publicar
-- Semanas de contenido disponibles: 5
-- Borradores listos para publicar: 7 analisis + 2 lanzamientos preparados (LG OLED y Surface Ultra)
+- Próxima publicación: 2026-06-11 — Surface Laptop Ultra RTX Spark (portatiles) — listo para publicar
+- Semanas de contenido disponibles: 4
+- Borradores listos para publicar: 7 analisis + 1 lanzamiento preparado (Surface Ultra)
 - Borradores incompletos (no planificados): 0
 - Sin programar: ninguno (todos planificados hasta 2026-07-07)
 
@@ -141,7 +140,7 @@ GEMINI_API_KEY (opcional)
 - Cuando lleguen al mercado: ejecutar agente actualizar-lanzamiento con el slug correspondiente
 
 ## Últimas publicaciones
-- Pendiente (2026-06-10) — "LG OLED 27\" 5K 2000 nits" (tipo: lanzamiento) — merge a main pendiente
+- 2026-06-10 — "LG OLED 27\" 5K 2000 nits" (tipo: lanzamiento) — publicado en main
 - Pendiente (2026-06-11) — "Surface Laptop Ultra: el portátil con NVIDIA RTX Spark que redefine Windows" (tipo: lanzamiento) — ejecutar publicar-borrador el jueves entre las 9:00 y las 11:00
 
 ---
