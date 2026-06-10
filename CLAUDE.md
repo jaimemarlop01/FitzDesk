@@ -121,7 +121,7 @@ Hitos:
 - Web publicada en fitzdesk.com ✅
 - Google Analytics instalado ✅
 - GitHub Actions corriendo ✅
-- [ ] Solicitar cuenta en Awin
+- [x] ✅ Cuenta Awin registrada (junio 2026)
 
 **Julio 2026 — Primer mes completo**
 Publicaciones: 10 artículos
