@@ -107,6 +107,148 @@ GEMINI_API_KEY (opcional)
 - [ ] Gap visual excesivo en la home entre categorías y últimos análisis
 - [ ] Banner de cookies (obligatorio RGPD España)
 
+---
+
+## Hoja de ruta FitzDesk
+
+### FASE 1 — Consolidación teletrabajo (Junio - Diciembre 2026)
+
+**Junio 2026 — Arranque**
+Publicaciones: 8 artículos
+- Martes/Jueves: análisis de productos
+- Sin guías dominicales este mes
+Hitos:
+- Web publicada en fitzdesk.com ✅
+- Google Analytics instalado ✅
+- GitHub Actions corriendo ✅
+- [ ] Solicitar cuenta en Awin
+
+**Julio 2026 — Primer mes completo**
+Publicaciones: 10 artículos
+- 2 domingos: guías o comparativas
+- 8 martes/jueves: análisis de productos
+Hitos:
+- [ ] 30+ artículos publicados
+- [ ] Solicitar programa PcComponentes en Awin
+- [ ] Configurar Google Search Console
+- [ ] Registrar @fitzdesk en redes sociales
+
+**Agosto 2026 — Crecimiento**
+Publicaciones: 10 artículos
+- 2 domingos: guías o comparativas
+- 8 martes/jueves: análisis de productos
+Hitos:
+- [ ] Alta en Awin esperando respuesta
+- [ ] Activar enlaces de afiliado si aprobado
+- [ ] Primeras comisiones potenciales
+
+**Septiembre 2026 — Monetización**
+Publicaciones: 10 artículos
+- 2 domingos: guías o comparativas
+- 8 martes/jueves: análisis de productos
+Hitos:
+- [ ] 50+ artículos publicados
+- [ ] Enlaces de afiliado activos
+- [ ] Primeras comisiones reales
+- [ ] Crear email hola@fitzdesk.com
+
+**Octubre - Noviembre 2026 — Consolidación**
+Publicaciones: 10 artículos/mes
+- 2 domingos: guías o comparativas
+- 8 martes/jueves: análisis de productos
+Hitos:
+- [ ] 70+ artículos publicados
+- [ ] 1.000 visitas/mes objetivo
+- [ ] Newsletter con Mailchimp
+
+**Diciembre 2026 — Balance anual**
+Publicaciones: 10 artículos
+- Artículos "Mejores productos del año"
+- Guías de regalos de Navidad
+Hitos:
+- [ ] 80+ artículos publicados
+- [ ] Balance de tráfico y primeros ingresos
+- [ ] Planificación Fase 2
+
+---
+
+### FASE 2 — Expansión tecnología profesional (2027 Q1-Q2)
+
+**Enero - Febrero 2027**
+Publicaciones: 12 artículos/mes (3/semana)
+Nuevas categorías:
+- Auriculares con cancelación de ruido
+- Webcams para videollamadas
+- Micrófonos para home office
+Hitos:
+- [ ] 100+ artículos publicados
+- [ ] 2.000 visitas/mes objetivo
+- [ ] 100€/mes en comisiones
+
+**Marzo - Abril 2027**
+Publicaciones: 16 artículos/mes (4/semana)
+Nuevas categorías:
+- Iluminación LED para escritorio
+- Hubs y docks USB-C
+- Soportes de monitor
+- Sillas ergonómicas
+Hitos:
+- [ ] 5.000 visitas/mes objetivo
+- [ ] 200€/mes en comisiones
+- [ ] Newsletter activa con suscriptores
+
+**Mayo - Junio 2027**
+Publicaciones: 16 artículos/mes
+Hitos:
+- [ ] 120+ artículos publicados
+- [ ] Presencia activa en redes sociales
+- [ ] Primeras colaboraciones con marcas
+
+---
+
+### FASE 3 — Tecnología cotidiana (2027 Q3-Q4)
+
+**Julio - Septiembre 2027**
+Publicaciones: 20 artículos/mes (5/semana)
+Nuevas categorías:
+- Smartphones para productividad
+- Tablets e iPads para trabajo
+- Smart home aplicado al trabajo
+- Comparativas entre ecosistemas
+Hitos:
+- [ ] 15.000 visitas/mes objetivo
+- [ ] 500€/mes en comisiones
+- [ ] Canal de YouTube con Fitz lanzado
+- [ ] Múltiples programas de afiliados
+
+**Octubre - Diciembre 2027**
+Publicaciones: 20 artículos/mes
+Hitos:
+- [ ] 200+ artículos publicados
+- [ ] YouTube consolidado
+- [ ] 1.000€/mes en ingresos totales
+
+---
+
+### FASE 4 — Web de referencia (2028+)
+
+Objetivos:
+- [ ] 50.000+ visitas/mes
+- [ ] 2.000€+/mes en ingresos
+- [ ] Newsletter 10.000+ suscriptores
+- [ ] Referencia tecnológica en España
+- [ ] Afiliados + publicidad + patrocinios
+- [ ] Comparador de precios propio
+
+---
+
+### Próximas acciones inmediatas
+- [ ] Publicar artículo del jueves esta semana
+- [ ] Lanzar prompt de búsqueda de productos cuando queden menos de 6 borradores
+- [ ] Solicitar alta en Awin en Julio 2026 cuando haya 30+ artículos publicados
+- [ ] Configurar Google Search Console
+- [ ] Registrar @fitzdesk en redes sociales
+
 ## Estado de borradores
 - Última revisión: 2026-06-10 (revisión completa — 11 borradores analizados)
 - Última ejecución de completar-borradores: 2026-06-10
