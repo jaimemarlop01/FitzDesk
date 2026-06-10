@@ -4,7 +4,7 @@ slug: "hp-935-creator-wireless-analisis"
 categoria: "ratones"
 fecha: "2026-06-10"
 descripcion: "Análisis del HP 935 Creator Wireless: ratón láser multi-dispositivo con recarga USB-C para teletrabajadores con varios equipos y monitores 4K."
-imagen: "/images/articulos/hp-935-creator-wireless-analisis.webp"
+imagen: "/images/articulos/borrador-hp-935-creator-wireless-analisis.webp"
 puntuacion: 8.3
 precio: "59,99€"
 enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=hp+935+creator+wireless"

@@ -250,17 +250,18 @@ Objetivos:
 - [ ] Registrar @fitzdesk en redes sociales
 
 ## Estado de borradores
-- Última revisión: 2026-06-10 (revisión completa — 11 borradores analizados)
+- Última revisión: 2026-06-10 (revisión completa — 17 borradores analizados)
 - Última ejecución de completar-borradores: 2026-06-10
-- Borradores descartados (total acumulado): 8 (xbox-ally, asus-rog-strix, corsair-anade-icue, antec-computex + 6-tb-oferta-amazon, corsair-renueva-catalogo, nvidia-rtx-spark, borrador-surface-ultra-duplicado) — asus-equipos-5-portatiles recuperado y reescrito tras cambio de política editorial
-- Borradores completados en esta pasada: 6 (3 guias + 3 lanzamientos)
-- Borradores listos para revisión humana: 12 (8 analisis publicables + 3 guias completadas + 3 lanzamientos Computex)
-- Guias completadas (listas para publicar): dolor-muneca-teletrabajo-perifericos-ergonomicos, monitor-4k-vs-full-hd-teletrabajo-2026, mejor-raton-teletrabajo-presupuesto-2026 — imágenes pendientes (ejecutar imageCollector al publicar)
-- Lanzamientos Computex (tipo cambiado a lanzamiento): borrador-adata-urban-tapsafe, borrador-corsair-clipper-pro-mini-60, borrador-intel-wildcat-lake — pendientes de disponibilidad comercial
-- Motivos de descarte en esta pasada: 6-tb (almacenamiento masivo no focal para teletrabajo + contenido especulativo), corsair-renueva (placeholder [Insertar modelo competidor] irrecuperable), nvidia-rtx-spark (incoherencia título/cuerpo monitor vs portátiles + placeholders), asus-equipos (incluye ROG Strix G18 y TUF Gaming A16 — violación norma Sin gaming), borrador-surface-ultra (duplicado del artículo ya publicado)
+- Borradores descartados (total acumulado): 9 (xbox-ally, asus-rog-strix, corsair-anade-icue, antec-computex + 6-tb-oferta-amazon, corsair-renueva-catalogo, nvidia-rtx-spark, borrador-surface-ultra-duplicado, razer-seiren-v3-pro) — asus-equipos-5-portatiles recuperado y completado
+- Borradores completados en esta pasada: 10 (9 análisis con imagen corregida + borrador-equipos con aviso afiliado eliminado e imagen corregida)
+- Borradores listos para revisión humana: 16 (3 guias + 3 lanzamientos Computex + 9 análisis nuevos + 1 guia ASUS portátiles)
+- Guias completadas (listas para publicar): dolor-muneca-teletrabajo-perifericos-ergonomicos, monitor-4k-vs-full-hd-teletrabajo-2026, mejor-raton-teletrabajo-presupuesto-2026, asus-portatiles-trabajo-exigente-2026 — imágenes pendientes (ejecutar imageCollector al publicar)
+- Lanzamientos Computex pendientes: borrador-adata-urban-tapsafe, borrador-corsair-clipper-pro-mini-60, borrador-intel-wildcat-lake — pendientes de disponibilidad comercial
+- Análisis nuevos completados: borrador-razer-pro-click, borrador-hp-935-creator-wireless, borrador-cherry-kc-6000-slim, borrador-trust-tk-350-silent, borrador-aoc-q27p3cv, borrador-samsung-s27a600, borrador-hp-probook-455-g10, borrador-jabra-evolve2-30-se, borrador-logitech-k380 — imágenes placeholder asignadas (ejecutar imageCollector al publicar)
+- Motivos de descarte en esta pasada: razer-seiren-v3-pro (placeholder irrecuperable "[nombra un micrófono similar]" en cuerpo)
 
 ## Estado del código
-- Última revisión: 2026-06-10 (3ª pasada completa — web + monitor + workflows)
+- Última revisión: 2026-06-10 (4ª pasada completa — web + monitor + workflows)
 - Errores críticos pendientes: 0 | Estado: ✅ Sin errores críticos
 - Advertencias (8):
   - BaseLayout.astro:37 — google-site-verification con valor PENDIENTE_DE_CONFIGURAR (publicado en producción)
@@ -271,8 +272,7 @@ Objetivos:
   - buscar.astro — colores hardcodeados (#F97316, #EA580C, #64748b, #1F2937, #6B7280…) en estilos y en lógica JS
   - CookieBanner.astro — colores hardcodeados (#1F2937, #F97316, #EA580C, #D1D5DB) en lugar de var CSS
   - about.astro / index.astro / buscar.astro — gradients hardcodeados (#fff7ed, #fef3c7, #fdf2f8) en lugar de var CSS
-- Sugerencias (4): scoreColor() duplicada en ArticleCard + buscar.astro + [slug].astro · PlaceholderImage hardcodea #F97316/#FFF7ED · imageCollector console.error debería ser logWarn · CategoryBadge colores hardcodeados por diseño (aceptable)
-- Sugerencias (4): notifier.js entrada 'auriculares' obsoleta · fitzQuote en schema · validación GROQ_API_KEY en CLIs · variables badge-guide ausentes
+- Sugerencias (6): scoreColor() duplicada en ArticleCard + buscar.astro + [slug].astro · PlaceholderImage hardcodea #F97316/#FFF7ED · imageCollector console.error debería ser logWarn · CategoryBadge colores hardcodeados por diseño (aceptable) · imageCollector.js:225 console.error en findAndDownloadImage debería ser logWarn · monitor.yml no invalida caché npm entre runs (no usa cache-dependency-path para web)
 
 ## Estado de precios
 - Última revisión de precios: 2026-06-10
@@ -282,12 +282,13 @@ Objetivos:
 ## Estado del calendario de publicaciones
 - Ritmo: Domingo c/2 semanas (guía/comparativa) · Martes y jueves (análisis/lanzamiento, 9:00–11:00)
 - Calendario generado: 2026-06-10
-- Próxima publicación: 2026-06-11 — Surface Laptop Ultra RTX Spark (portatiles) — ejecutar publicar-borrador entre las 9:00 y las 11:00
-- Semanas de contenido disponibles: 4 (Sem1: Surface Ultra + guía ratón · Sem2: Corsair Clipper + Intel Wildcat · Sem3: ADATA TapSafe + guía monitores · Sem5: guía dolor muñeca)
-- Borradores listos para publicar: 3 lanzamientos (Corsair, Intel, ADATA) + 1 pendiente mañana (Surface Ultra) + 3 guías
+- Próxima publicación: 2026-06-12 — Samsung S27A600NAU (monitores) — ejecutar publicar-borrador entre las 9:00 y las 11:00
+- Semanas de contenido disponibles: 4
+- Borradores listos para publicar: 7 análisis + 2 lanzamientos planificados + 2 guías planificadas
 - Borradores incompletos (no planificados): 0
-- Sin programar: dolor-muneca-teletrabajo-perifericos-ergonomicos (semana 5, 2026-07-13 — fuera del horizonte de 4 semanas)
-- Imágenes pendientes (3 guías): ejecutar imageCollector con cada slug al publicar
+- Sin programar (fuera del horizonte de 4 semanas): Cherry KC 6000 Slim (teclados, MEDIA), AOC Q27P3CV (monitores, MEDIA), Jabra Evolve2 30 SE (setups, MEDIA), Trust TK-350 Silent (teclados, BAJA), ADATA Urban TapSafe (setups, BAJA), dolor-muneca-teletrabajo-perifericos-ergonomicos (guia, jul 2026), asus-portatiles-trabajo-exigente-2026 (guia)
+- Imágenes pendientes: ejecutar imageCollector con cada slug antes de publicar (guías + análisis nuevos)
+- PENDIENTE: notifier.js no tiene lógica para disparar el recordatorio de domingo el sábado anterior a las 20:00 — checkPublicationReminders() solo actúa los días 2, 3 y 4 (mar, mié, jue). Para guías dominicales el recordatorio del sábado debe implementarse manualmente o extender la función.
 
 ## Lanzamientos en seguimiento
 - LG OLED 27" 5K 2000 nits — próxima revisión: 2026-07-09 — slug: lg-display-muestra-el-futuro-de-los-monitores-oled-gaming-con-2000-nits-5k-27-22

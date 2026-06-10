@@ -4,7 +4,7 @@ slug: "samsung-s27a600-analisis"
 categoria: "monitores"
 fecha: "2026-06-10"
 descripcion: "Análisis del Samsung S27A600NAU: monitor 27\" QHD IPS con diseño ultrafino y calibración de fábrica para el escritorio profesional por ~200€."
-imagen: "/images/articulos/samsung-s27a600-analisis.webp"
+imagen: "/images/articulos/borrador-samsung-s27a600-analisis.webp"
 puntuacion: 8.4
 precio: "199,99€"
 enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=samsung+s27a600"

@@ -4,7 +4,7 @@ slug: "aoc-q27p3cv-analisis"
 categoria: "monitores"
 fecha: "2026-06-10"
 descripcion: "Análisis del AOC Q27P3CV: monitor 27\" QHD IPS con USB-C 65W, hub USB integrado y ajuste ergonómico completo por menos de 300€."
-imagen: "/images/articulos/aoc-q27p3cv-analisis.webp"
+imagen: "/images/articulos/borrador-aoc-q27p3cv-analisis.webp"
 puntuacion: 9.0
 precio: "279,99€"
 enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=aoc+q27p3cv"

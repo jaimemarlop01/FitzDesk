@@ -4,7 +4,7 @@ slug: "cherry-kc-6000-slim-analisis"
 categoria: "teclados"
 fecha: "2026-06-10"
 descripcion: "Análisis del Cherry KC 6000 Slim: teclado scissor de bajo perfil, ultra-silencioso y con USB para el teletrabajo diario sin ruido."
-imagen: "/images/articulos/cherry-kc-6000-slim-analisis.webp"
+imagen: "/images/articulos/borrador-cherry-kc-6000-slim-analisis.webp"
 puntuacion: 8.0
 precio: "49,99€"
 enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=cherry+kc+6000+slim"

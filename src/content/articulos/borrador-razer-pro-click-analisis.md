@@ -4,7 +4,7 @@ slug: "razer-pro-click-analisis"
 categoria: "ratones"
 fecha: "2026-06-10"
 descripcion: "Análisis del Razer Pro Click: ratón inalámbrico ergonómico para trabajo de oficina con sensor de precisión y hasta 400h de batería."
-imagen: "/images/articulos/razer-pro-click-analisis.webp"
+imagen: "/images/articulos/borrador-razer-pro-click-analisis.webp"
 puntuacion: 8.5
 precio: "79,99€"
 enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=razer+pro+click"

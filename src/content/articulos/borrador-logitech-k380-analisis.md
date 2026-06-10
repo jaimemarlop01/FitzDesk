@@ -4,7 +4,7 @@ slug: "logitech-k380-analisis"
 categoria: "teclados"
 fecha: "2026-06-10"
 descripcion: "Análisis del Logitech K380: teclado Bluetooth compacto multi-dispositivo compatible con Windows, Mac, iOS y Android por menos de 40€."
-imagen: "/images/articulos/logitech-k380-analisis.webp"
+imagen: "/images/articulos/borrador-logitech-k380-analisis.webp"
 puntuacion: 8.7
 precio: "39,99€"
 enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=logitech+k380"
