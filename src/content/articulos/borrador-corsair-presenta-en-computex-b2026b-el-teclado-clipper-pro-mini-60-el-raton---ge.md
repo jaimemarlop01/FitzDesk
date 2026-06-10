@@ -1,19 +1,12 @@
 ---
-title: "Corsair Clipper Pro Mini 60"
+title: "Corsair Clipper Pro Mini 60: teclado mecánico compacto e inalámbrico"
 categoria: "teclados"
 fecha: "2026-06-03"
-descripcion: "Análisis del teclado CORSAIR CLIPPER PRO MINI 60"
+descripcion: "Corsair presenta en Computex 2026 el Clipper Pro Mini 60: teclado mecánico compacto con interruptores magnéticos e iluminación RGB."
 imagen: "/images/articulos/corsair-presenta-en-computex-b2026b-el-teclado-clipper-pro-mini-60-el-raton---ge.webp"
-puntuacion: 8
 precio: "Ver precio"
-enlace_afiliado: "https://www.pccomponentes.com"
 tiempo_lectura: "7 min"
-tipo: "analisis"
-keyword_principal: "CORSAIR CLIPPER PRO MINI 60"
-keywords_secundarias:
-  - "teclados gaming"
-  - "teclados mini"
-  - "periféricos para teletrabajo"
+tipo: "lanzamiento"
 borrador: true
 ---
 

@@ -1,19 +1,12 @@
 ---
-title: "Intel Wildcat Lake"
+title: "Intel Wildcat Lake: portátiles ultrafinos sin ventilador"
 categoria: "portatiles"
 fecha: "2026-06-04"
-descripcion: "Análisis de Intel Wildcat Lake con refrigeración por membranas"
+descripcion: "Intel Wildcat Lake llega con refrigeración Frore AirJet Mini G2: portátiles de 11,3 mm, silenciosos y con 15W sostenidos."
 imagen: "/images/articulos/borrador-intel-wildcat-lake-golpeara-al-apple-macbook-neo-los-portatiles-x86-podran-usar-.webp"
-puntuacion: 8
 precio: "Ver precio"
-enlace_afiliado: "https://www.pccomponentes.com/buscador/?query=Intel%20Wildcat%20Lake%20golpear%C3%A1%20al%20Apple%20MacBook%20Neo%3A%20los%20port%C3%A1tiles%20x86%20podr%C3%A1n%20usar%20refrigeraci%C3%B3n%20por%20membranas%20Frore%20AirJet%20Mini"
 tiempo_lectura: "7 min"
-tipo: "analisis"
-keyword_principal: "Intel Wildcat Lake"
-keywords_secundarias:
-  - "refrigeración por membranas"
-  - "portátiles x86"
-  - "Frore AirJet Mini G2"
+tipo: "lanzamiento"
 borrador: true
 ---
 

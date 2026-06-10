@@ -92,7 +92,7 @@ GEMINI_API_KEY (opcional)
 2. **CSS**: usar siempre las variables CSS, nunca colores hardcodeados
 3. **Imágenes**: formato WebP, ratio 16:9, guardar en `/public/images/articulos/`
 4. **Borradores**: siempre con `borrador: true` hasta revisión humana
-5. **Sin gaming**: FitzDesk es teletrabajo y productividad, no gaming
+5. **Enfoque editorial**: FitzDesk cubre todo lo que mejora el trabajo desde casa — incluyendo productos de origen gaming si son válidos para teletrabajo. El enfoque siempre es productividad, no ocio. NO cubrir: videojuegos, consolas, accesorios puramente de ocio sin utilidad laboral.
 6. **Fitz**: aparece en sección `## 🐿️ Fitz recomienda` en cada artículo
 7. **Afiliados**: aviso legal obligatorio al final de cada artículo
 
@@ -108,31 +108,44 @@ GEMINI_API_KEY (opcional)
 - [ ] Banner de cookies (obligatorio RGPD España)
 
 ## Estado de borradores
-- Última revisión: 2026-06-09 (3ª pasada — cadena completa de agentes)
-- Última ejecución de completar-borradores: 2026-06-09
-- Borradores descartados (total): 4 (xbox-ally, asus-rog-strix, corsair-anade-icue, antec-computex)
-- Borradores completados: 1 (Surface Laptop Ultra — tipo cambiado a lanzamiento)
-- Borradores listos para revisión humana: 9 (8 tipo: analisis + 1 lanzamiento Surface Ultra) · 1 lanzamiento pendiente adicional (LG OLED)
-- Imágenes placeholder: 6/9 (Surface Ultra ya tiene imagen WebP real; resoluble con imageCollector al publicar el resto)
+- Última revisión: 2026-06-10 (revisión completa — 11 borradores analizados)
+- Última ejecución de completar-borradores: 2026-06-10
+- Borradores descartados (total acumulado): 8 (xbox-ally, asus-rog-strix, corsair-anade-icue, antec-computex + 6-tb-oferta-amazon, corsair-renueva-catalogo, nvidia-rtx-spark, borrador-surface-ultra-duplicado) — asus-equipos-5-portatiles recuperado y reescrito tras cambio de política editorial
+- Borradores completados en esta pasada: 6 (3 guias + 3 lanzamientos)
+- Borradores listos para revisión humana: 12 (8 analisis publicables + 3 guias completadas + 3 lanzamientos Computex)
+- Guias completadas (listas para publicar): dolor-muneca-teletrabajo-perifericos-ergonomicos, monitor-4k-vs-full-hd-teletrabajo-2026, mejor-raton-teletrabajo-presupuesto-2026 — imágenes pendientes (ejecutar imageCollector al publicar)
+- Lanzamientos Computex (tipo cambiado a lanzamiento): borrador-adata-urban-tapsafe, borrador-corsair-clipper-pro-mini-60, borrador-intel-wildcat-lake — pendientes de disponibilidad comercial
+- Motivos de descarte en esta pasada: 6-tb (almacenamiento masivo no focal para teletrabajo + contenido especulativo), corsair-renueva (placeholder [Insertar modelo competidor] irrecuperable), nvidia-rtx-spark (incoherencia título/cuerpo monitor vs portátiles + placeholders), asus-equipos (incluye ROG Strix G18 y TUF Gaming A16 — violación norma Sin gaming), borrador-surface-ultra (duplicado del artículo ya publicado)
 
 ## Estado del código
-- Última revisión: 2026-06-09 (2ª pasada — confirma 0 nuevos errores tras cambios de lanzamiento)
+- Última revisión: 2026-06-10 (3ª pasada completa — web + monitor + workflows)
 - Errores críticos pendientes: 0 | Estado: ✅ Sin errores críticos
-- Advertencias (6): analyzer.js prompt incluye aviso afiliado obsoleto · buscar.astro colores hardcodeados (#F97316, #EA580C, inline styles) · scoreColor() duplicada en 3 archivos · CookieBanner.astro usa hex en lugar de var CSS · about.astro gradient hardcodeado
+- Advertencias (8):
+  - BaseLayout.astro:37 — google-site-verification con valor PENDIENTE_DE_CONFIGURAR (publicado en producción)
+  - astro.config.mjs:7 — site='https://fitzdesk.com' pero deploy real es github.io (desalineado hasta tener dominio propio)
+  - analyzer.js:5 — Groq client instanciado en top-level sin validar GROQ_API_KEY; falla con undefined si no está en env
+  - articleUpdater.js:20 — mismo problema: Groq client top-level sin guardia
+  - analisis.astro:234 — variable currentSort referenciada sin efecto en setView() (expresión sin usar)
+  - buscar.astro — colores hardcodeados (#F97316, #EA580C, #64748b, #1F2937, #6B7280…) en estilos y en lógica JS
+  - CookieBanner.astro — colores hardcodeados (#1F2937, #F97316, #EA580C, #D1D5DB) en lugar de var CSS
+  - about.astro / index.astro / buscar.astro — gradients hardcodeados (#fff7ed, #fef3c7, #fdf2f8) en lugar de var CSS
+- Sugerencias (4): scoreColor() duplicada en ArticleCard + buscar.astro + [slug].astro · PlaceholderImage hardcodea #F97316/#FFF7ED · imageCollector console.error debería ser logWarn · CategoryBadge colores hardcodeados por diseño (aceptable)
 - Sugerencias (4): notifier.js entrada 'auriculares' obsoleta · fitzQuote en schema · validación GROQ_API_KEY en CLIs · variables badge-guide ausentes
 
 ## Estado de precios
-- Última revisión de precios: 2026-06-09
+- Última revisión de precios: 2026-06-10
 - Artículos con precio desactualizado: 0
-- Artículos pendientes de revisión (>30 días): 5 (keychron-k8-pro, lg-27un880, logitech-lift-vertical, logitech-mx-anywhere-3s, logitech-mx-master-3s)
+- Artículos pendientes de revisión (>30 días): 6 (logitech-mx-master-3s, logitech-lift-vertical, logitech-mx-anywhere-3s, lg-27un880, keychron-k8-pro, keychron-v1)
 
 ## Estado del calendario de publicaciones
-- Calendario generado: 2026-06-09
-- Próxima publicación: 2026-06-11 — Surface Laptop Ultra RTX Spark (portatiles) — listo para publicar
-- Semanas de contenido disponibles: 4
-- Borradores listos para publicar: 7 analisis + 1 lanzamiento preparado (Surface Ultra)
+- Ritmo: Domingo c/2 semanas (guía/comparativa) · Martes y jueves (análisis/lanzamiento, 9:00–11:00)
+- Calendario generado: 2026-06-10
+- Próxima publicación: 2026-06-11 — Surface Laptop Ultra RTX Spark (portatiles) — ejecutar publicar-borrador entre las 9:00 y las 11:00
+- Semanas de contenido disponibles: 4 (Sem1: Surface Ultra + guía ratón · Sem2: Corsair Clipper + Intel Wildcat · Sem3: ADATA TapSafe + guía monitores · Sem5: guía dolor muñeca)
+- Borradores listos para publicar: 3 lanzamientos (Corsair, Intel, ADATA) + 1 pendiente mañana (Surface Ultra) + 3 guías
 - Borradores incompletos (no planificados): 0
-- Sin programar: ninguno (todos planificados hasta 2026-07-07)
+- Sin programar: dolor-muneca-teletrabajo-perifericos-ergonomicos (semana 5, 2026-07-13 — fuera del horizonte de 4 semanas)
+- Imágenes pendientes (3 guías): ejecutar imageCollector con cada slug al publicar
 
 ## Lanzamientos en seguimiento
 - LG OLED 27" 5K 2000 nits — próxima revisión: 2026-07-09 — slug: lg-display-muestra-el-futuro-de-los-monitores-oled-gaming-con-2000-nits-5k-27-22

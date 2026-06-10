@@ -338,6 +338,11 @@ export async function notifyPublicationReminder({ slug, titulo, categoria, prior
         { name: '📂 Categoría', value: categoria, inline: true  },
         { name: '⭐ Prioridad', value: prioridad, inline: true  },
         {
+          name:  '⏰ Horario de publicación',
+          value: 'Recuerda publicar entre las **9:00 y las 11:00** para maximizar el tráfico',
+          inline: false,
+        },
+        {
           name: '✅ Checklist',
           value: [
             '□ Revisar el artículo',
