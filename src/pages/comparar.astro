@@ -522,14 +522,14 @@ const dataJson = JSON.stringify({ byCategory, validCats, catLabels: CAT_LABELS }
   function renderAfiliadoBtns(artA, artB) {
     afiliadoBtns.innerHTML = '';
     [artA, artB].forEach(function(art, i) {
-      var href  = art.enlace_afiliado || ('https://www.pccomponentes.com/buscar/?query=' + encodeURIComponent(art.title));
-      var cls   = i === 0 ? 'btn-aff-a' : 'btn-aff-b';
-      var a     = document.createElement('a');
-      a.href    = href;
+      if (!art.enlace_afiliado) return;
+      var cls = i === 0 ? 'btn-aff-a' : 'btn-aff-b';
+      var a   = document.createElement('a');
+      a.href  = art.enlace_afiliado;
       a.target  = '_blank';
       a.rel     = 'noopener noreferrer nofollow';
       a.className = 'btn-aff ' + cls;
-      a.textContent = 'Ver ' + shortTitle(art.title) + ' en PcComponentes';
+      a.textContent = 'Ver precio de ' + shortTitle(art.title);
       afiliadoBtns.appendChild(a);
     });
   }
