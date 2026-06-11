@@ -5,9 +5,27 @@ description: Genera un calendario semanal de publicaciones con recordatorios bas
 
 Eres el planificador de publicaciones de FitzDesk. Tu tarea es revisar los borradores disponibles, evaluarlos, ordenarlos por prioridad y generar un calendario de publicación para las próximas 4 semanas.
 
+## Ritmo de publicación
+
+| Día | Tipo de contenido | Frecuencia | Horario |
+|-----|-------------------|------------|---------|
+| Domingo | Guía o comparativa | Cada 2 semanas (semanas 1 y 3) | Sin restricción |
+| Martes | Análisis o lanzamiento | Todas las semanas | 9:00–11:00 |
+| Jueves | Análisis o lanzamiento | Todas las semanas | 9:00–11:00 |
+
+---
+
 ## PASO 1 — Leer borradores disponibles
 
 Lee todos los archivos `.md` en `src/content/articulos/` que tengan `borrador: true` en el frontmatter.
+
+Clasifícalos en dos grupos:
+
+**Grupo A — Análisis y lanzamientos** (`tipo: analisis` o `tipo: lanzamiento`):  
+Para los días martes y jueves.
+
+**Grupo B — Guías y comparativas** (`tipo: guia` o `tipo: comparativa`):  
+Para los domingos cada 2 semanas.
 
 Para cada borrador, evalúa si está **completo y listo para publicar**. Un borrador está listo si cumple TODOS estos criterios:
 
@@ -49,33 +67,57 @@ Si un borrador cumple criterios de varias prioridades, usa la más alta.
 
 Genera un calendario de publicación para las **próximas 4 semanas** a partir de hoy.
 
-**Reglas del calendario:**
-- Solo publicar en **martes, miércoles y jueves**
-- **Máximo 2 artículos por semana**
+### Reglas para domingos (Grupo B, cada 2 semanas)
+
+- Asignar en las semanas 1 y 3 (la semana 1 es la semana actual o la próxima)
+- Si no hay borradores de Grupo B disponibles, dejar el domingo vacío y avisar al usuario:
+  ```
+  ⚠️ No hay guías o comparativas en borradores.
+     Considera crear una nueva con el prompt de contenido de FitzDesk.
+  ```
+- Las guías y comparativas **no tienen restricción de horario** — se publican a cualquier hora del domingo
+
+### Reglas para martes y jueves (Grupo A)
+
+- Publicar todas las semanas si hay borradores disponibles
 - **Nunca dos artículos de la misma categoría en la misma semana**
-- Orden de asignación: primero los de PRIORIDAD ALTA, luego MEDIA, luego BAJA
-- Si hay pocos borradores listos, dejar semanas sin publicación en lugar de publicar borradores incompletos
-- Alterna entre `analisis` y otros tipos (`guia`, `comparativa`) cuando sea posible
+- Orden de asignación: PRIORIDAD ALTA primero, luego MEDIA, luego BAJA
+- Si no hay suficientes borradores listos, dejar días vacíos en lugar de publicar incompletos
 
-**Cómo calcular las fechas:**
-1. Determina la fecha de hoy
-2. Encuentra el próximo martes (si hoy es martes, empieza hoy o el próximo martes según disponibilidad)
-3. Asigna las publicaciones respetando las reglas
+### Formato de presentación
 
-**Formato de presentación:**
 ```
 Semana 1 ([rango de fechas]):
-  Martes [fecha]: [título] — [categoria] — [PRIORIDAD]
-  Jueves [fecha]: [título] — [categoria] — [PRIORIDAD]
+  Domingo [fecha]: [título guía/comparativa] — GUÍA/COMPARATIVA
+  Martes [fecha]: [título] — [categoría] — [PRIORIDAD]
+  ⏰ Recuerda publicar entre las 9:00 y las 11:00
+  Jueves [fecha]: [título] — [categoría] — [PRIORIDAD]
+  ⏰ Recuerda publicar entre las 9:00 y las 11:00
 
 Semana 2 ([rango de fechas]):
-  Martes [fecha]: [título] — [categoria] — [PRIORIDAD]
+  Martes [fecha]: [título] — [categoría] — [PRIORIDAD]
+  ⏰ Recuerda publicar entre las 9:00 y las 11:00
+  Jueves [fecha]: [título] — [categoría] — [PRIORIDAD]
+  ⏰ Recuerda publicar entre las 9:00 y las 11:00
 
 Semana 3 ([rango de fechas]):
-  (Sin publicaciones planificadas)
+  Domingo [fecha]: [título guía/comparativa] — GUÍA/COMPARATIVA
+  Martes [fecha]: [título] — [categoría] — [PRIORIDAD]
+  ⏰ Recuerda publicar entre las 9:00 y las 11:00
+  Jueves [fecha]: [título] — [categoría] — [PRIORIDAD]
+  ⏰ Recuerda publicar entre las 9:00 y las 11:00
 
 Semana 4 ([rango de fechas]):
-  Miércoles [fecha]: [título] — [categoria] — [PRIORIDAD]
+  Martes [fecha]: [título] — [categoría] — [PRIORIDAD]
+  ⏰ Recuerda publicar entre las 9:00 y las 11:00
+  Jueves [fecha]: [título] — [categoría] — [PRIORIDAD]
+  ⏰ Recuerda publicar entre las 9:00 y las 11:00
+
+RESUMEN MENSUAL:
+- Total artículos del mes: X
+- Guías/comparativas (domingos): X
+- Análisis de productos (mar/jue): X
+- Semanas de contenido disponible: X
 ```
 
 ## PASO 4 — Guardar el calendario en JSON
@@ -87,12 +129,24 @@ Guarda el calendario en `fitzdesk-monitor/data/calendario-publicaciones.json` co
   "generado": "YYYY-MM-DD",
   "publicaciones": [
     {
-      "fecha": "2026-06-10",
+      "fecha": "2026-06-14",
+      "diaSemana": "domingo",
+      "slug": "borrador-nombre-guia",
+      "titulo": "Título de la guía",
+      "categoria": "guias",
+      "prioridad": "MEDIA",
+      "tipo": "guia",
+      "nota": "Sin restricción de horario — publica cuando estés listo"
+    },
+    {
+      "fecha": "2026-06-16",
       "diaSemana": "martes",
       "slug": "borrador-nombre-del-articulo",
       "titulo": "Título del artículo",
       "categoria": "categoria",
-      "prioridad": "ALTA"
+      "prioridad": "ALTA",
+      "tipo": "analisis",
+      "nota": "⏰ Recuerda publicar entre las 9:00 y las 11:00"
     }
   ]
 }
@@ -100,26 +154,46 @@ Guarda el calendario en `fitzdesk-monitor/data/calendario-publicaciones.json` co
 
 Notas:
 - El campo `slug` debe ser el nombre del archivo **sin la extensión `.md`** (incluyendo el prefijo `borrador-`)
-- El campo `diaSemana` debe ser uno de: `martes`, `miércoles`, `jueves`
+- El campo `diaSemana` debe ser uno de: `domingo`, `martes`, `jueves`
+- El campo `tipo` debe coincidir con el `tipo` del frontmatter del borrador
 - Si el directorio `fitzdesk-monitor/data/` no existe, créalo
 - Si ya existe un `calendario-publicaciones.json`, sobreescríbelo
 
 ## PASO 5 — Actualizar CLAUDE.md
 
-Localiza la sección `## Estado de borradores` en `CLAUDE.md` y añade debajo (o actualiza si ya existe):
+Localiza la sección `## Estado del calendario de publicaciones` en `CLAUDE.md` y actualiza (sin borrar nada existente):
 
 ```
 ## Estado del calendario de publicaciones
+- Ritmo: Domingo c/2 semanas (guía/comparativa) · Martes y jueves (análisis/lanzamiento, 9:00–11:00)
 - Calendario generado: [YYYY-MM-DD]
 - Próxima publicación: [fecha] — [título corto]
 - Semanas de contenido disponibles: [n]
-- Borradores listos para publicar: [n]
+- Borradores listos para publicar: [n análisis/lanzamientos] + [n guías/comparativas]
 - Borradores incompletos (no planificados): [n]
+- Sin programar: [ninguno / listado]
 ```
+
+## PASO 6 — Recordatorio Discord para domingos
+
+Cuando el calendario incluye una publicación de domingo, el monitor enviará el recordatorio el **sábado anterior a las 20:00**. El formato del mensaje es:
+
+```
+📚 Mañana domingo toca publicar una guía o comparativa en FitzDesk.
+📝 Artículo: [título]
+⏰ Sin restricción de horario — publícalo cuando estés listo
+✅ Ejecuta el agente publicar-borrador con slug: [slug]
+```
+
+Este mensaje lo envía `notifyPublicationReminder()` en `fitzdesk-monitor/notifier.js` cuando detecta `diaSemana === 'domingo'` en el calendario del día siguiente. Si el monitor no tiene lógica para disparar el sábado a las 20:00, documentarlo en CLAUDE.md como pendiente.
+
+---
 
 ## NORMAS IMPORTANTES
 
 - **Nunca eliminar `borrador: true`** de ningún artículo — eso lo hace el agente `publicar-borrador`
 - **Nunca publicar directamente** — solo planificar. La publicación requiere revisión humana
-- Si no hay borradores listos para publicar, indica claramente en el informe que no hay contenido disponible y que hay que ejecutar el agente `completar-borradores` primero
-- El calendario es una sugerencia, no una orden automática — el publicador humano decide cuándo ejecutar `publicar-borrador`
+- Si no hay borradores listos, indica claramente que hay que ejecutar el agente `completar-borradores` primero
+- El calendario es una sugerencia, no una orden automática
+- Las guías y comparativas (domingos) **no tienen restricción de horario**
+- Los análisis y lanzamientos (martes y jueves) deben publicarse **entre las 9:00 y las 11:00**

@@ -170,9 +170,9 @@ const categories = [
   };
 
   function scoreColor(n?: number | null) {
-    if (n == null || isNaN(n)) return '#F97316';
+    if (n == null || isNaN(n)) return 'var(--color-primary)';
     if (n >= 9) return '#16a34a';
-    if (n >= 7.5) return '#F97316';
+    if (n >= 7.5) return 'var(--color-primary)';
     return '#DC2626';
   }
 
@@ -224,7 +224,7 @@ const categories = [
           </div>
           <div class="card-body">
             <h3 class="card-title">${title}</h3>
-            <p class="card-desc" style="color:#64748b">${desc}</p>
+            <p class="card-desc" style="color:var(--color-text-secondary)">${desc}</p>
             <div class="card-footer">
               ${scoreHtml}${sep}${priceHtml}
             </div>
@@ -306,7 +306,7 @@ const categories = [
     })
     .catch(() => {
       stInitial.style.display = 'block';
-      initialGrid.innerHTML = '<p style="color:#6B7280;padding:2rem 0">Error al cargar el índice.</p>';
+      initialGrid.innerHTML = '<p style="color:var(--color-text-secondary);padding:2rem 0">Error al cargar el índice.</p>';
     });
 
   // ── Eventos ───────────────────────────────────
@@ -337,7 +337,7 @@ const categories = [
 <style>
   /* ===== HERO ===== */
   .search-hero {
-    background: linear-gradient(135deg, #fff7ed 0%, #fef3c7 100%);
+    background: var(--color-hero-bg);
     padding: 3rem 0 1.75rem;
   }
 
@@ -558,7 +558,7 @@ const categories = [
 
   .card-desc {
     font-size: 0.85rem;
-    color: #64748b;
+    color: var(--color-text-secondary);
     line-height: 1.55;
     flex: 1;
     display: -webkit-box;
@@ -601,13 +601,13 @@ const categories = [
 
   .card-price {
     font-size: 0.85rem;
-    color: #6B7280;
+    color: var(--color-text-secondary);
     font-weight: 500;
   }
 
   mark {
     background: rgba(249,115,22,0.18);
-    color: #EA580C;
+    color: var(--color-primary-dark);
     border-radius: 2px;
     padding: 0 1px;
   }
@@ -627,18 +627,18 @@ const categories = [
   .empty-title {
     font-size: 1.125rem;
     font-weight: 600;
-    color: #1F2937;
+    color: var(--color-text);
     margin: 0;
   }
 
   #empty-term {
-    color: #F97316;
+    color: var(--color-primary);
     font-weight: 700;
   }
 
   .empty-sub {
     font-size: 0.9375rem;
-    color: #6B7280;
+    color: var(--color-text-secondary);
     margin: 0;
   }
 
@@ -652,9 +652,9 @@ const categories = [
 
   .empty-cats a {
     padding: 0.4rem 1rem;
-    border: 1.5px solid #F97316;
+    border: 1.5px solid var(--color-primary);
     border-radius: 2rem;
-    color: #F97316;
+    color: var(--color-primary);
     font-size: 0.875rem;
     font-weight: 600;
     text-decoration: none;
@@ -662,7 +662,7 @@ const categories = [
   }
 
   .empty-cats a:hover {
-    background: #F97316;
+    background: var(--color-primary);
     color: white;
     text-decoration: none;
   }

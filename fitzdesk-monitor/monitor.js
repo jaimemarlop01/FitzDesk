@@ -639,8 +639,7 @@ if (isDaemon) {
   cron.schedule(`0 ${dailyHour} * * *`, async () => {
     logInfo('Enviando resumen diario a Discord...');
     try {
-      const result = await runCheck();
-      await notifyDailySummary(result);
+      await runCheck();
     } catch (err) {
       logError(`Error en resumen diario: ${err.message}`);
     }

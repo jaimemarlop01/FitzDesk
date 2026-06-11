@@ -1,19 +1,12 @@
 ---
-title: "ADATA Urban TapSafe"
+title: "ADATA Urban TapSafe: SSD externo con desbloqueo NFC para teletrabajo"
 categoria: "setups"
 fecha: "2026-06-03"
-descripcion: "Análisis del SSD externo ADATA Urban TapSafe con desbloqueo NFC"
-imagen: "/images/articulos/adata-lleva-a-computex-b2026b-el-urban-tapsafe-un-ssd-externo-que-se-desbloquea-.webp"
-puntuacion: 8
+descripcion: "ADATA presenta en Computex 2026 el Urban TapSafe, SSD externo con desbloqueo NFC y hasta 1900 MB/s."
+imagen: "/images/articulos/borrador-adata-lleva-a-computex-b2026b-el-urban-tapsafe-un-ssd-externo-que-se-desbloquea-.webp"
 precio: "Ver precio"
-enlace_afiliado: "https://www.pccomponentes.com"
 tiempo_lectura: "7 min"
-tipo: "analisis"
-keyword_principal: "ADATA Urban TapSafe"
-keywords_secundarias:
-  - "SSD externo"
-  - "desbloqueo NFC"
-  - "teletrabajo"
+tipo: "lanzamiento"
 borrador: true
 ---
 

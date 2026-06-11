@@ -17,7 +17,12 @@ import { fileURLToPath } from 'url';
 
 const __dirname   = dirname(fileURLToPath(import.meta.url));
 const CONTENT_DIR = resolve(__dirname, '../src/content/articulos');
-const client      = new Groq({ apiKey: process.env.GROQ_API_KEY });
+
+if (!process.env.GROQ_API_KEY) {
+  console.error('ERROR: GROQ_API_KEY no definida');
+  process.exit(1);
+}
+const client = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 // ─── Utilidades ───────────────────────────────────────────────────────────────
 

@@ -10,7 +10,12 @@ import { fileURLToPath } from 'url';
 
 const __dirname   = dirname(fileURLToPath(import.meta.url));
 const CONTENT_DIR = resolve(__dirname, '../src/content/articulos');
-const client      = new Groq({ apiKey: process.env.GROQ_API_KEY });
+
+if (!process.env.GROQ_API_KEY) {
+  console.error('ERROR: GROQ_API_KEY no definida');
+  process.exit(1);
+}
+const client = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 const CONTEXTO = `Eres el redactor principal de FitzDesk, una web española de análisis de periféricos y setups para teletrabajo y productividad. Tono: cercano, honesto y técnico. Audiencia: trabajadores remotos que quieren mejorar su setup sin ser expertos en hardware. Mascota: Fitz, una ardilla con gafas y pajarita roja que da el veredicto final.
 

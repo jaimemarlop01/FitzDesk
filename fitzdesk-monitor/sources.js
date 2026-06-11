@@ -46,13 +46,19 @@ export const SOURCES = [
 /**
  * Regla 1 — Descarte obligatorio.
  * Si el texto contiene alguna de estas palabras, se descarta sin importar nada más.
+ *
+ * Nota editorial: "gaming" NO está en esta lista — productos de origen gaming
+ * pueden ser válidos para teletrabajo (ratones de precisión, teclados mecánicos,
+ * monitores de alta resolución, portátiles potentes). Solo se descartan los
+ * artículos sobre ocio puro: videojuegos, consolas, mandos, etc.
  */
 export const KEYWORDS_DESCARTE = [
   'gemini', 'chatgpt', 'inteligencia artificial', 'ia generativa',
   'modelo de lenguaje', 'openai',
-  'videojuego', 'gaming', 'game', 'juego', 'fps', 'rpg',
-  'xbox', 'playstation', 'nintendo', 'consola',
-  'steam deck', 'rog ally', 'legion go', 'ally',
+  'videojuego', 'juego pc', 'mmorpg', 'fps', 'rpg',
+  'xbox', 'playstation', 'ps5', 'nintendo', 'consola',
+  'steam deck', 'rog ally', 'legion go',
+  'game', 'juego',
   'smartphone', 'móvil', 'movil', 'teléfono', 'telefono', 'tablet',
   'drone', 'vehículo', 'vehiculo', 'coche',
   'economía', 'economia', 'bolsa', 'inversión', 'inversion',
