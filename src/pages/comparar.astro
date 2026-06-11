@@ -648,9 +648,10 @@ const dataJson = JSON.stringify({ byCategory, validCats, catLabels: CAT_LABELS }
   :root {
     --color-compare-b: #3B82F6;
   }
-</style>
 
-<style>
+  /* ─── Todo el CSS de /comparar va en is:global porque la mayoría
+         de elementos se crean dinámicamente con JS y Astro no puede
+         añadirles el atributo de scope en build time ─── */
   /* ===== HERO ===== */
   .comparar-hero {
     background: var(--color-hero-bg);
@@ -1218,4 +1219,4 @@ const dataJson = JSON.stringify({ byCategory, validCats, catLabels: CAT_LABELS }
     .afiliado-btns { flex-direction: column; }
     .btn-aff       { width: 100%; }
   }
-</style>
+</style is:global>
