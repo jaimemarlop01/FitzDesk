@@ -250,15 +250,11 @@ Objetivos:
 - [ ] Registrar @fitzdesk en redes sociales
 
 ## Estado de borradores
-- Última revisión: 2026-06-10 (revisión completa — 17 borradores analizados)
-- Última ejecución de completar-borradores: 2026-06-10
-- Borradores descartados (total acumulado): 9 (xbox-ally, asus-rog-strix, corsair-anade-icue, antec-computex + 6-tb-oferta-amazon, corsair-renueva-catalogo, nvidia-rtx-spark, borrador-surface-ultra-duplicado, razer-seiren-v3-pro) — asus-equipos-5-portatiles recuperado y completado
-- Borradores completados en esta pasada: 10 (9 análisis con imagen corregida + borrador-equipos con aviso afiliado eliminado e imagen corregida)
-- Borradores listos para revisión humana: 16 (3 guias + 3 lanzamientos Computex + 9 análisis nuevos + 1 guia ASUS portátiles)
-- Guias completadas (listas para publicar): dolor-muneca-teletrabajo-perifericos-ergonomicos, monitor-4k-vs-full-hd-teletrabajo-2026, mejor-raton-teletrabajo-presupuesto-2026, asus-portatiles-trabajo-exigente-2026 — imágenes pendientes (ejecutar imageCollector al publicar)
-- Lanzamientos Computex pendientes: borrador-adata-urban-tapsafe, borrador-corsair-clipper-pro-mini-60, borrador-intel-wildcat-lake — pendientes de disponibilidad comercial
-- Análisis nuevos completados: borrador-razer-pro-click, borrador-hp-935-creator-wireless, borrador-cherry-kc-6000-slim, borrador-trust-tk-350-silent, borrador-aoc-q27p3cv, borrador-samsung-s27a600, borrador-hp-probook-455-g10, borrador-jabra-evolve2-30-se, borrador-logitech-k380 — imágenes placeholder asignadas (ejecutar imageCollector al publicar)
-- Motivos de descarte en esta pasada: razer-seiren-v3-pro (placeholder irrecuperable "[nombra un micrófono similar]" en cuerpo)
+- Última revisión: 2026-06-11
+- Borradores descartados (total acumulado): 9 (xbox-ally, asus-rog-strix, corsair-anade-icue, antec-computex + 6-tb-oferta-amazon, corsair-renueva-catalogo, nvidia-rtx-spark, borrador-surface-ultra-duplicado, razer-seiren-v3-pro)
+- Borradores en calendario con imagen y fecha listos: 9 (samsung-s27a600, hp-probook-455-g10, razer-pro-click, logitech-k380, monitor-4k-vs-full-hd, intel-wildcat-lake, corsair-clipper-pro-mini-60, hp-935-creator-wireless, mejor-raton-presupuesto) — imágenes descargadas el 2026-06-11, sin pendientes
+- Sin programar (fuera del horizonte de 4 semanas): Cherry KC 6000 Slim (teclados), AOC Q27P3CV (monitores), Jabra Evolve2 30 SE (setups), Trust TK-350 Silent (teclados), ADATA Urban TapSafe (setups), dolor-muneca-teletrabajo-perifericos-ergonomicos (guia), asus-portatiles-trabajo-exigente-2026 (guia)
+- Lanzamientos Computex pendientes de disponibilidad: borrador-adata-urban-tapsafe
 
 ## Estado del código
 - Última revisión: 2026-06-10 (4ª pasada completa — web + monitor + workflows)
@@ -281,13 +277,11 @@ Objetivos:
 
 ## Estado del calendario de publicaciones
 - Ritmo: Domingo c/2 semanas (guía/comparativa) · Martes y jueves (análisis/lanzamiento, 9:00–11:00)
-- Calendario generado: 2026-06-10
-- Próxima publicación: 2026-06-12 — Samsung S27A600NAU (monitores) — ejecutar publicar-borrador entre las 9:00 y las 11:00
-- Semanas de contenido disponibles: 4
-- Borradores listos para publicar: 7 análisis + 2 lanzamientos planificados + 2 guías planificadas
-- Borradores incompletos (no planificados): 0
-- Sin programar (fuera del horizonte de 4 semanas): Cherry KC 6000 Slim (teclados, MEDIA), AOC Q27P3CV (monitores, MEDIA), Jabra Evolve2 30 SE (setups, MEDIA), Trust TK-350 Silent (teclados, BAJA), ADATA Urban TapSafe (setups, BAJA), dolor-muneca-teletrabajo-perifericos-ergonomicos (guia, jul 2026), asus-portatiles-trabajo-exigente-2026 (guia)
-- Imágenes pendientes: ejecutar imageCollector con cada slug antes de publicar (guías + análisis nuevos)
+- Calendario actualizado: 2026-06-11
+- Próxima publicación: 2026-06-14 — mejor-raton-teletrabajo-presupuesto-2026 (guia, domingo) — publicación automática vía workflow
+- Calendario completo hasta 2026-07-07 (9 publicaciones programadas, todas con imagen)
+- Workflow automático: `.github/workflows/publicar-automatico.yml` — Dom/Mar/Jue a las 9:00 CEST, lee calendario y publica solo si hay entrada para hoy; notifica a Discord en caso de error
+- Imágenes pendientes: ninguna — todas descargadas el 2026-06-11
 - PENDIENTE: notifier.js no tiene lógica para disparar el recordatorio de domingo el sábado anterior a las 20:00 — checkPublicationReminders() solo actúa los días 2, 3 y 4 (mar, mié, jue). Para guías dominicales el recordatorio del sábado debe implementarse manualmente o extender la función.
 
 ## Lanzamientos en seguimiento
@@ -310,6 +304,16 @@ Objetivos:
 - Secrets necesarios en el repo: `GROQ_API_KEY`, `DISCORD_WEBHOOK_URL`
 - `GITHUB_TOKEN` y `GITHUB_REPO`/`GITHUB_OWNER` se inyectan automáticamente
 
+## Publicación automática — GitHub Actions
+
+- Workflow: `.github/workflows/publicar-automatico.yml`
+- Se ejecuta Dom/Mar/Jue a las 9:00 CEST (7:00 UTC) — cron: `0 7 * * 0,2,4`
+- Lee `fitzdesk-monitor/data/calendario-publicaciones.json`, busca entrada para hoy
+- Si hay publicación: obtiene el borrador desde `develop`, elimina `borrador: true`, renombra el archivo y hace push a `main` (dispara deploy automáticamente)
+- Si falta imagen o frontmatter inválido: notifica a Discord y no publica
+- Para probar: GitHub → Actions → Publicar automático FitzDesk → Run workflow → `fecha_override: YYYY-MM-DD`
+- Script helper: `fitzdesk-monitor/auto-publisher.js` (modos `--check` y `--process`)
+
 ## Archivos clave del monitor
 
 | Archivo | Función |
@@ -321,6 +325,7 @@ Objetivos:
 | `notifier.js` | Notificaciones Discord con embeds e imagen |
 | `imageCollector.js` | Busca y descarga imágenes de productos |
 | `articleUpdater.js` | Actualiza precio, descatalogados, nuevos modelos |
+| `auto-publisher.js` | Valida y procesa borradores para publicación automática |
 
 ---
 

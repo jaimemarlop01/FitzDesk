@@ -2,13 +2,14 @@
 title: "Monitor 4K vs Full HD para teletrabajo: ¿merece la pena en 2026?"
 slug: "monitor-4k-vs-full-hd-teletrabajo-2026"
 categoria: "guias"
-fecha: "2026-06-29"
+fecha: "2026-06-28"
 descripcion: "¿Vale la pena comprar un monitor 4K para trabajar desde casa? Comparamos 4K vs Full HD para teletrabajo con ejemplos reales."
 imagen: "/images/articulos/monitor-4k-vs-full-hd-teletrabajo-2026.webp"
 tiempo_lectura: "8 min"
 tipo: "guia"
 presupuesto: "149€ - 399€"
 borrador: true
+imagen_thumb: "/images/articulos/monitor-4k-vs-full-hd-teletrabajo-2026-thumb.webp"
 ---
 
 La pregunta llega invariablemente cuando alguien va a comprarse un monitor para trabajar desde casa: ¿pago 150€ por un Full HD o me estiro hasta 300€ por uno 4K? La respuesta honesta es que depende, pero no de lo que suele decirse.

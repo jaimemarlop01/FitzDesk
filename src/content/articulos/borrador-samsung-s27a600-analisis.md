@@ -2,15 +2,16 @@
 title: "Samsung S27A600NAU: QHD de 27\" sin USB-C pero sin compromisos en imagen"
 slug: "samsung-s27a600-analisis"
 categoria: "monitores"
-fecha: "2026-06-10"
+fecha: "2026-06-16"
 descripcion: "Análisis del Samsung S27A600NAU: monitor 27\" QHD IPS con diseño ultrafino y calibración de fábrica para el escritorio profesional por ~200€."
-imagen: "/images/articulos/borrador-samsung-s27a600-analisis.webp"
+imagen: "/images/articulos/samsung-s27a600-analisis.webp"
 puntuacion: 8.4
 precio: "199,99€"
 enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=samsung+s27a600"
 tiempo_lectura: "5 min"
 tipo: "analisis"
 borrador: true
+imagen_thumb: "/images/articulos/samsung-s27a600-analisis-thumb.webp"
 ---
 
 En el catálogo de monitores para teletrabajo hay una franja de precio que el mercado no siempre cubre bien: los 180-220€ donde el Full HD ya queda escaso pero el QHD con USB-C está por encima del presupuesto. El Samsung S27A600 vive exactamente ahí: QHD de 27 pulgadas, panel IPS con buena calibración y un diseño slim que encaja en cualquier escritorio, todo por alrededor de 200€.

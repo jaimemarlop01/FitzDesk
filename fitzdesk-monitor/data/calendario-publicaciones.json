@@ -1,16 +1,6 @@
 {
-  "generado": "2026-06-10",
+  "generado": "2026-06-11",
   "publicaciones": [
-    {
-      "fecha": "2026-06-12",
-      "diaSemana": "jueves",
-      "slug": "borrador-samsung-s27a600-analisis",
-      "titulo": "Samsung S27A600NAU: QHD de 27\" sin USB-C pero sin compromisos en imagen",
-      "categoria": "monitores",
-      "prioridad": "ALTA",
-      "tipo": "analisis",
-      "nota": "⏰ Recuerda publicar entre las 9:00 y las 11:00"
-    },
     {
       "fecha": "2026-06-14",
       "diaSemana": "domingo",
@@ -24,6 +14,16 @@
     {
       "fecha": "2026-06-16",
       "diaSemana": "martes",
+      "slug": "borrador-samsung-s27a600-analisis",
+      "titulo": "Samsung S27A600NAU: QHD de 27\" sin USB-C pero sin compromisos en imagen",
+      "categoria": "monitores",
+      "prioridad": "ALTA",
+      "tipo": "analisis",
+      "nota": "⏰ Recuerda publicar entre las 9:00 y las 11:00"
+    },
+    {
+      "fecha": "2026-06-18",
+      "diaSemana": "jueves",
       "slug": "borrador-hp-probook-455-g10-analisis",
       "titulo": "HP ProBook 455 G10: AMD Ryzen empresarial sin precio empresarial",
       "categoria": "portatiles",
@@ -32,8 +32,8 @@
       "nota": "⏰ Recuerda publicar entre las 9:00 y las 11:00"
     },
     {
-      "fecha": "2026-06-18",
-      "diaSemana": "jueves",
+      "fecha": "2026-06-23",
+      "diaSemana": "martes",
       "slug": "borrador-razer-pro-click-analisis",
       "titulo": "Razer Pro Click: el ratón profesional de Razer que olvida los LEDs",
       "categoria": "ratones",
@@ -42,23 +42,13 @@
       "nota": "⏰ Recuerda publicar entre las 9:00 y las 11:00"
     },
     {
-      "fecha": "2026-06-23",
-      "diaSemana": "martes",
+      "fecha": "2026-06-25",
+      "diaSemana": "jueves",
       "slug": "borrador-logitech-k380-analisis",
       "titulo": "Logitech K380: el teclado Bluetooth que se adapta a todo",
       "categoria": "teclados",
       "prioridad": "ALTA",
       "tipo": "analisis",
-      "nota": "⏰ Recuerda publicar entre las 9:00 y las 11:00"
-    },
-    {
-      "fecha": "2026-06-25",
-      "diaSemana": "jueves",
-      "slug": "borrador-intel-wildcat-lake-golpeara-al-apple-macbook-neo-los-portatiles-x86-podran-usar-",
-      "titulo": "Intel Wildcat Lake: portátiles ultrafinos sin ventilador",
-      "categoria": "portatiles",
-      "prioridad": "ALTA",
-      "tipo": "lanzamiento",
       "nota": "⏰ Recuerda publicar entre las 9:00 y las 11:00"
     },
     {
@@ -74,6 +64,16 @@
     {
       "fecha": "2026-06-30",
       "diaSemana": "martes",
+      "slug": "borrador-intel-wildcat-lake-golpeara-al-apple-macbook-neo-los-portatiles-x86-podran-usar-",
+      "titulo": "Intel Wildcat Lake: portátiles ultrafinos sin ventilador",
+      "categoria": "portatiles",
+      "prioridad": "ALTA",
+      "tipo": "lanzamiento",
+      "nota": "⏰ Recuerda publicar entre las 9:00 y las 11:00"
+    },
+    {
+      "fecha": "2026-07-02",
+      "diaSemana": "jueves",
       "slug": "borrador-corsair-presenta-en-computex-b2026b-el-teclado-clipper-pro-mini-60-el-raton---ge",
       "titulo": "Corsair Clipper Pro Mini 60: teclado mecánico compacto e inalámbrico",
       "categoria": "teclados",
@@ -82,8 +82,8 @@
       "nota": "⏰ Recuerda publicar entre las 9:00 y las 11:00"
     },
     {
-      "fecha": "2026-07-02",
-      "diaSemana": "jueves",
+      "fecha": "2026-07-07",
+      "diaSemana": "martes",
       "slug": "borrador-hp-935-creator-wireless-analisis",
       "titulo": "HP 935 Creator Wireless: el ratón multi-dispositivo para pantallas 4K",
       "categoria": "ratones",

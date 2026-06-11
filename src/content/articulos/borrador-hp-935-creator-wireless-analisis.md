@@ -2,15 +2,16 @@
 title: "HP 935 Creator Wireless: el ratón multi-dispositivo para pantallas 4K"
 slug: "hp-935-creator-wireless-analisis"
 categoria: "ratones"
-fecha: "2026-06-10"
+fecha: "2026-07-07"
 descripcion: "Análisis del HP 935 Creator Wireless: ratón láser multi-dispositivo con recarga USB-C para teletrabajadores con varios equipos y monitores 4K."
-imagen: "/images/articulos/borrador-hp-935-creator-wireless-analisis.webp"
+imagen: "/images/articulos/hp-935-creator-wireless-analisis.webp"
 puntuacion: 8.3
 precio: "59,99€"
 enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=hp+935+creator+wireless"
 tiempo_lectura: "5 min"
 tipo: "analisis"
 borrador: true
+imagen_thumb: "/images/articulos/hp-935-creator-wireless-analisis-thumb.webp"
 ---
 
 HP es una marca que no suele aparecer en las primeras conversaciones sobre periféricos de teletrabajo, pero tiene una línea de accesorios para creadores y profesionales que merece más atención. El HP 935 Creator Wireless es un buen ejemplo: ratón láser inalámbrico con conectividad triple, recarga USB-C y especificaciones orientadas a quienes trabajan con monitores de alta resolución y más de un equipo.

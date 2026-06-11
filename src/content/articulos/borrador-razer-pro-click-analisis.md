@@ -2,15 +2,16 @@
 title: "Razer Pro Click: el ratón profesional de Razer que olvida los LEDs"
 slug: "razer-pro-click-analisis"
 categoria: "ratones"
-fecha: "2026-06-10"
+fecha: "2026-06-23"
 descripcion: "Análisis del Razer Pro Click: ratón inalámbrico ergonómico para trabajo de oficina con sensor de precisión y hasta 400h de batería."
-imagen: "/images/articulos/borrador-razer-pro-click-analisis.webp"
+imagen: "/images/articulos/razer-pro-click-analisis.webp"
 puntuacion: 8.5
 precio: "79,99€"
 enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=razer+pro+click"
 tiempo_lectura: "6 min"
 tipo: "analisis"
 borrador: true
+imagen_thumb: "/images/articulos/razer-pro-click-analisis-thumb.webp"
 ---
 
 Razer lleva décadas construyendo su reputación sobre ratones para videojuegos. Por eso resulta llamativo cuando la misma empresa lanza un ratón pensado explícitamente para el trabajo de oficina, sin iluminación RGB, sin perfiles de DPI agresivos y sin el diseño alienígena habitual. El Razer Pro Click es exactamente eso: el intento de Razer de trasladar sus tecnologías de precisión al escritorio profesional en un formato discreto.

@@ -2,15 +2,16 @@
 title: "Logitech K380: el teclado Bluetooth que se adapta a todo"
 slug: "logitech-k380-analisis"
 categoria: "teclados"
-fecha: "2026-06-10"
+fecha: "2026-06-25"
 descripcion: "Análisis del Logitech K380: teclado Bluetooth compacto multi-dispositivo compatible con Windows, Mac, iOS y Android por menos de 40€."
-imagen: "/images/articulos/borrador-logitech-k380-analisis.webp"
+imagen: "/images/articulos/logitech-k380-analisis.webp"
 puntuacion: 8.7
 precio: "39,99€"
 enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=logitech+k380"
 tiempo_lectura: "5 min"
 tipo: "analisis"
 borrador: true
+imagen_thumb: "/images/articulos/logitech-k380-analisis-thumb.webp"
 ---
 
 Hay productos que se venden solos porque resuelven un problema real a un precio justo. El Logitech K380 es uno de ellos: teclado Bluetooth compacto que conecta tres dispositivos simultáneamente, funciona con Windows, Mac, Android e iOS, tiene teclas con un tacto sorprendentemente agradable para su precio y una batería de hasta dos años. Todo por unos 40€.

@@ -1,0 +1,147 @@
+name: Publicar automático FitzDesk
+
+# Domingo, martes y jueves a las 9:00 hora España.
+# España está en CEST (UTC+2) de marzo a octubre → 9:00 CEST = 7:00 UTC.
+# En invierno (CET = UTC+1) ejecutará a las 8:00 local — aceptable.
+on:
+  schedule:
+    - cron: '0 7 * * 0,2,4'
+  workflow_dispatch:
+    inputs:
+      fecha_override:
+        description: 'Simular una fecha concreta (YYYY-MM-DD). Vacío = hoy en Madrid.'
+        required: false
+        default: ''
+
+permissions:
+  contents: write
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+
+    steps:
+      # ── 1. Checkout de main con acceso completo al historial ─────────────────
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      # ── 2. Node.js para ejecutar auto-publisher.js ───────────────────────────
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # ── 3. Leer calendario y decidir qué publicar ────────────────────────────
+      - name: Comprobar calendario
+        id: check
+        env:
+          FECHA_OVERRIDE: ${{ inputs.fecha_override }}
+        run: node fitzdesk-monitor/auto-publisher.js --check
+
+      # ── 4. Traer borrador e imagen desde la rama develop ─────────────────────
+      - name: Obtener borrador e imagen desde develop
+        if: steps.check.outputs.status == 'ready'
+        run: |
+          git fetch origin develop
+
+          DRAFT_FILE="src/content/articulos/${{ steps.check.outputs.draft_slug }}.md"
+          IMAGE_FILE="public/images/articulos/${{ steps.check.outputs.image_filename }}"
+
+          # El borrador siempre debe estar en develop
+          git checkout origin/develop -- "$DRAFT_FILE"
+          echo "Borrador obtenido: $DRAFT_FILE"
+
+          # La imagen puede no existir si imageCollector no se ejecutó aún
+          if git cat-file -e "origin/develop:${IMAGE_FILE}" 2>/dev/null; then
+            git checkout origin/develop -- "$IMAGE_FILE"
+            echo "Imagen obtenida: $IMAGE_FILE"
+          else
+            echo "⚠️  Imagen no encontrada en develop: $IMAGE_FILE"
+            echo "    El paso --process detectará esto y enviará notificación a Discord"
+          fi
+
+      # ── 5. Editar frontmatter y renombrar el archivo ─────────────────────────
+      - name: Procesar borrador
+        id: process
+        if: steps.check.outputs.status == 'ready'
+        continue-on-error: true
+        env:
+          DRAFT_SLUG:     ${{ steps.check.outputs.draft_slug }}
+          PUBLISHED_SLUG: ${{ steps.check.outputs.published_slug }}
+        run: node fitzdesk-monitor/auto-publisher.js --process
+
+      # ── 6. Commit y push a main (dispara deploy.yml automáticamente) ─────────
+      - name: Publicar en main
+        if: steps.check.outputs.status == 'ready' && steps.process.outcome == 'success'
+        run: |
+          git config user.name  "FitzDesk Bot"
+          git config user.email "bot@fitzdesk.com"
+
+          PUB_FILE="src/content/articulos/${{ steps.check.outputs.published_slug }}.md"
+          DRF_FILE="src/content/articulos/${{ steps.check.outputs.draft_slug }}.md"
+          IMG_FILE="public/images/articulos/${{ steps.check.outputs.image_filename }}"
+
+          git add "$PUB_FILE"
+
+          # Si se renombró el archivo, quitar el draft del índice git
+          if [ "${{ steps.check.outputs.draft_slug }}" != "${{ steps.check.outputs.published_slug }}" ]; then
+            git rm --cached "$DRF_FILE" 2>/dev/null || true
+          fi
+
+          [ -f "$IMG_FILE" ] && git add "$IMG_FILE"
+
+          git commit -m "feat: publicar ${{ steps.check.outputs.titulo }}"
+          git push origin main
+
+      # ── 7. Notificación Discord — éxito ──────────────────────────────────────
+      - name: Discord — publicación exitosa
+        if: steps.check.outputs.status == 'ready' && steps.process.outcome == 'success'
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          jq -n \
+            --arg titulo "${{ steps.check.outputs.titulo }}" \
+            --arg slug   "${{ steps.check.outputs.published_slug }}" \
+            --arg fecha  "${{ steps.check.outputs.fecha }}" \
+            '{
+              embeds: [{
+                title:       "✅ Publicado automáticamente",
+                description: ("**" + $titulo + "**"),
+                color:       5763719,
+                fields: [
+                  { name: "Slug",  value: $slug,  inline: true },
+                  { name: "Fecha", value: $fecha, inline: true }
+                ]
+              }]
+            }' \
+          | curl -s -X POST "$DISCORD_WEBHOOK_URL" \
+              -H "Content-Type: application/json" \
+              --data-binary @-
+
+      # ── 8. Notificación Discord — error (imagen faltante, frontmatter roto…) ──
+      - name: Discord — error de publicación
+        if: steps.check.outputs.status == 'ready' && steps.process.outcome == 'failure'
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          jq -n \
+            --arg slug "${{ steps.check.outputs.draft_slug }}" \
+            --arg msg  "${{ steps.process.outputs.error_msg }}" \
+            '{
+              content: "⚠️ Publicación automática fallida",
+              embeds: [{
+                title: ("No se pudo publicar " + $slug),
+                color: 15548997,
+                fields: [
+                  { name: "Motivo",           value: $msg },
+                  { name: "Acción requerida", value: "Revisa el borrador y publica manualmente" }
+                ]
+              }]
+            }' \
+          | curl -s -X POST "$DISCORD_WEBHOOK_URL" \
+              -H "Content-Type: application/json" \
+              --data-binary @-

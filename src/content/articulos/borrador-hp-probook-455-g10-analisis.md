@@ -2,15 +2,16 @@
 title: "HP ProBook 455 G10: AMD Ryzen empresarial sin precio empresarial"
 slug: "hp-probook-455-g10-analisis"
 categoria: "portatiles"
-fecha: "2026-06-10"
+fecha: "2026-06-18"
 descripcion: "Análisis del HP ProBook 455 G10: portátil empresarial AMD con lector de huella, teclado retroiluminado y batería larga por menos de 600€."
-imagen: "/images/articulos/borrador-hp-probook-455-g10-analisis.webp"
+imagen: "/images/articulos/hp-probook-455-g10-analisis.webp"
 puntuacion: 8.6
 precio: "549,99€"
 enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=hp+probook+455+g10"
 tiempo_lectura: "6 min"
 tipo: "analisis"
 borrador: true
+imagen_thumb: "/images/articulos/hp-probook-455-g10-analisis-thumb.webp"
 ---
 
 La gama ProBook de HP lleva décadas siendo el portátil del autónomo que necesita fiabilidad empresarial sin pagar el precio de un ThinkPad X1 o un Dell XPS. El ProBook 455 G10 es la versión AMD de esa propuesta: procesadores Ryzen de eficiencia energética, construcción sólida, pantalla decente y las funciones de seguridad que el trabajo profesional exige, todo por debajo de los 600€.
