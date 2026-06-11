@@ -5,6 +5,7 @@
   --color-brand-dark: #EA6A00;
   --color-brand-light: #FED7AA;
   --color-brand-bg: #FFF7ED;
+  --color-hero-bg: linear-gradient(135deg, #fff7ed 0%, #fef3c7 100%);
   --color-text: #1F2937;
   --color-text-muted: #6B7280;
   --color-bg: #FFFFFF;
