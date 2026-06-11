@@ -526,10 +526,17 @@ const dataJson = JSON.stringify({ byCategory, validCats, catLabels: CAT_LABELS }
       var cls = i === 0 ? 'btn-aff-a' : 'btn-aff-b';
       var a   = document.createElement('a');
       a.href  = art.enlace_afiliado;
-      a.target  = '_blank';
-      a.rel     = 'noopener noreferrer nofollow';
+      a.target    = '_blank';
+      a.rel       = 'noopener noreferrer sponsored';
       a.className = 'btn-aff ' + cls;
-      a.textContent = 'Ver precio de ' + shortTitle(art.title);
+      a.innerHTML =
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" style="width:18px;height:18px;flex-shrink:0">' +
+          '<path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>' +
+          '<line x1="3" y1="6" x2="21" y2="6"/>' +
+          '<path d="M16 10a4 4 0 01-8 0"/>' +
+        '</svg>' +
+        'Ver precio actual' +
+        (art.precio ? '<span class="btn-aff-price">' + esc(art.precio) + '</span>' : '');
       afiliadoBtns.appendChild(a);
     });
   }
@@ -1195,10 +1202,18 @@ const dataJson = JSON.stringify({ byCategory, validCats, catLabels: CAT_LABELS }
     text-align: center;
   }
 
-  .btn-aff:hover { opacity: 0.88; transform: translateY(-1px); text-decoration: none; }
+  .btn-aff:hover { opacity: 0.88; transform: translateY(-1px); text-decoration: none; color: white; }
 
   .btn-aff-a { background: var(--color-primary); color: white; }
   .btn-aff-b { background: var(--color-compare-b); color: white; }
+
+  .btn-aff-price {
+    background: rgba(255,255,255,0.25);
+    padding: 0.15rem 0.5rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.85rem;
+    margin-left: 0.4rem;
+  }
 
   /* ===== RESPONSIVE ===== */
   @media (max-width: 768px) {
