@@ -296,8 +296,8 @@ Objetivos:
 - Cuando lleguen al mercado: ejecutar agente actualizar-lanzamiento con el slug correspondiente
 
 ## Últimas publicaciones
+- Última publicación: 2026-06-11 — "Surface Laptop Ultra: el portátil con NVIDIA RTX Spark que redefine Windows"
 - 2026-06-10 — "LG OLED 27\" 5K 2000 nits" (tipo: lanzamiento) — publicado en main
-- Pendiente (2026-06-11) — "Surface Laptop Ultra: el portátil con NVIDIA RTX Spark que redefine Windows" (tipo: lanzamiento) — ejecutar publicar-borrador el jueves entre las 9:00 y las 11:00
 
 ---
 
