@@ -344,3 +344,4 @@ Objetivos:
 | `/privacidad` | `src/pages/privacidad.astro` |
 | `/articulo/[slug]` | `src/pages/articulo/[slug].astro` |
 | `/categoria/[slug]` | `src/pages/categoria/[slug].astro` |
+| `/comparar` | `src/pages/comparar.astro` |

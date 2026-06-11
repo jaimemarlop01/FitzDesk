@@ -1,0 +1,931 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import { u } from '../lib/url';
+
+const allArticles = await getCollection('articulos');
+
+type ArticleItem = {
+  slug: string;
+  title: string;
+  categoria: string;
+  imagen: string;
+  puntuacion: number;
+  precio: string;
+  enlace_afiliado: string;
+};
+
+const comparables: ArticleItem[] = allArticles
+  .filter(a => !a.data.borrador && a.data.tipo === 'analisis' && a.data.puntuacion != null)
+  .map(a => ({
+    slug: a.slug,
+    title: a.data.title,
+    categoria: a.data.categoria,
+    imagen: u(a.data.imagen),
+    puntuacion: a.data.puntuacion as number,
+    precio: a.data.precio ?? 'Ver precio',
+    enlace_afiliado: a.data.enlace_afiliado ?? '',
+  }));
+
+const byCategory: Record<string, ArticleItem[]> = {};
+for (const art of comparables) {
+  if (!byCategory[art.categoria]) byCategory[art.categoria] = [];
+  byCategory[art.categoria].push(art);
+}
+
+const CAT_ORDER = ['ratones', 'teclados', 'monitores', 'portatiles', 'setups'];
+const CAT_LABELS: Record<string, string> = {
+  ratones: 'Ratones', teclados: 'Teclados', monitores: 'Monitores',
+  portatiles: 'Portátiles', setups: 'Setups',
+};
+const validCats = CAT_ORDER.filter(c => (byCategory[c]?.length ?? 0) >= 2);
+
+const dataJson = JSON.stringify({ byCategory, validCats, catLabels: CAT_LABELS });
+---
+
+<BaseLayout
+  title="Comparar periféricos para teletrabajo — FitzDesk"
+  description="Compara ratones, teclados, monitores y portátiles para teletrabajo lado a lado. Gráfico de radar y tabla comparativa instantánea."
+>
+  <Fragment slot="head">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+    <script type="application/json" id="comparar-data" set:html={dataJson}></script>
+  </Fragment>
+
+  <!-- HERO -->
+  <section class="comparar-hero">
+    <div class="container hero-inner">
+      <div>
+        <h1>Compara periféricos <em>lado a lado</em></h1>
+        <p class="hero-lead">Elige dos productos y obtén una comparativa instantánea con gráfico de radar y tabla detallada.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PASO A — Categorías -->
+  <section class="comparar-section" id="step-cats">
+    <div class="container">
+      <div class="step-label"><span class="step-num">1</span> Elige una categoría</div>
+      <div class="cat-pills" id="cat-pills" role="group" aria-label="Categorías disponibles"></div>
+    </div>
+  </section>
+
+  <!-- PASO B — Productos -->
+  <section class="comparar-section" id="step-products" hidden>
+    <div class="container">
+      <div class="step-label"><span class="step-num">2</span> Selecciona 2 productos
+        <span class="step-hint" id="selection-hint">Selecciona el primer producto</span>
+      </div>
+      <div class="products-grid" id="products-grid" role="list"></div>
+      <div class="compare-cta">
+        <button class="btn-compare" id="btn-compare" disabled aria-disabled="true">
+          Comparar →
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- PASO C — Resultado -->
+  <section class="comparar-result" id="step-compare" hidden>
+    <div class="container">
+      <div class="result-topbar">
+        <h2 class="compare-vs-title" id="compare-title">vs</h2>
+        <button class="btn-back" id="btn-back">← Cambiar productos</button>
+      </div>
+
+      <!-- Cabecera de productos -->
+      <div class="compare-heads" id="compare-heads"></div>
+
+      <!-- Radar + Tabla -->
+      <div class="compare-body">
+        <div class="radar-wrap">
+          <canvas id="radar-chart" role="img" aria-label="Gráfico radar de comparativa"></canvas>
+          <div class="radar-legend" id="radar-legend"></div>
+        </div>
+        <div class="table-wrap">
+          <table class="compare-table" id="compare-table">
+            <thead><tr><th>Criterio</th><th id="th-a">Producto A</th><th id="th-b">Producto B</th></tr></thead>
+            <tbody id="compare-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ¿Cuál elegir? -->
+      <div class="recommendation" id="recommendation"></div>
+
+      <!-- Botones afiliado -->
+      <div class="afiliado-btns" id="afiliado-btns"></div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script is:inline>
+(function () {
+  /* ── DATA ── */
+  var DATA = JSON.parse(document.getElementById('comparar-data').textContent);
+  var byCategory = DATA.byCategory;
+  var validCats  = DATA.validCats;
+  var catLabels  = DATA.catLabels;
+
+  /* ── CRITERIA ── */
+  var CRITERIA = {
+    ratones:   ['Ergonomía', 'Precisión', 'Autonomía', 'Conectividad', 'Calidad/Precio'],
+    teclados:  ['Tacto', 'Silencio', 'Conectividad', 'Personalización', 'Calidad/Precio'],
+    monitores: ['Calidad imagen', 'Conectividad', 'Ergonomía soporte', 'Brillo/Contraste', 'Calidad/Precio'],
+    portatiles:['Rendimiento', 'Batería', 'Pantalla', 'Teclado/Trackpad', 'Calidad/Precio'],
+    setups:    ['Construcción', 'Facilidad uso', 'Compatibilidad', 'Sonido/Imagen', 'Calidad/Precio'],
+  };
+
+  var CAT_SEARCH_TEXT = {
+    ratones: 'un ratón cómodo y preciso',
+    teclados: 'el mejor teclado para tu flujo de trabajo',
+    monitores: 'una pantalla para trabajar durante horas',
+    portatiles: 'potencia y portabilidad en un portátil',
+    setups: 'mejorar tu setup de teletrabajo',
+  };
+
+  /* ── STATE ── */
+  var selectedCat = null;
+  var selA = null;
+  var selB = null;
+  var radarChart = null;
+
+  /* ── SCORE ── */
+  function hashSeed(str) {
+    var h = 0;
+    for (var i = 0; i < str.length; i++) h = (Math.imul(31, h) + str.charCodeAt(i)) | 0;
+    return Math.abs(h);
+  }
+
+  function priceScore(priceStr) {
+    var p = parseFloat((priceStr || '').replace(/[^0-9,.]/g, '').replace(',', '.'));
+    if (isNaN(p)) return 7;
+    if (p < 50) return 9.5;
+    if (p < 100) return 8.5;
+    if (p < 200) return 7;
+    if (p < 400) return 6;
+    return 5;
+  }
+
+  function criteriaScores(article, cat) {
+    var base = article.puntuacion;
+    var criteria = CRITERIA[cat] || [];
+    return criteria.map(function(_, i) {
+      if (i === criteria.length - 1) {
+        var ps = priceScore(article.precio);
+        return +((base * 0.55 + ps * 0.45).toFixed(1));
+      }
+      var seed = hashSeed(article.slug + ':' + i);
+      var variation = ((seed % 31) - 15) / 10; // -1.5 … +1.5
+      return Math.max(1, Math.min(10, +(base + variation).toFixed(1)));
+    });
+  }
+
+  /* ── DOM REFS ── */
+  var stepCats     = document.getElementById('step-cats');
+  var stepProducts = document.getElementById('step-products');
+  var stepCompare  = document.getElementById('step-compare');
+  var catPills     = document.getElementById('cat-pills');
+  var productsGrid = document.getElementById('products-grid');
+  var btnCompare   = document.getElementById('btn-compare');
+  var btnBack      = document.getElementById('btn-back');
+  var selectionHint= document.getElementById('selection-hint');
+  var compareTitle = document.getElementById('compare-title');
+  var compareHeads = document.getElementById('compare-heads');
+  var compareTbody = document.getElementById('compare-tbody');
+  var thA          = document.getElementById('th-a');
+  var thB          = document.getElementById('th-b');
+  var recommendation = document.getElementById('recommendation');
+  var afiliadoBtns = document.getElementById('afiliado-btns');
+  var radarLegend  = document.getElementById('radar-legend');
+
+  /* ── RENDER PILLS ── */
+  validCats.forEach(function(cat) {
+    var btn = document.createElement('button');
+    btn.className = 'cat-pill';
+    btn.textContent = catLabels[cat] || cat;
+    btn.dataset.cat = cat;
+    btn.addEventListener('click', function() { selectCat(cat); });
+    catPills.appendChild(btn);
+  });
+
+  /* ── SELECT CATEGORY ── */
+  function selectCat(cat) {
+    selectedCat = cat;
+    selA = null; selB = null;
+
+    catPills.querySelectorAll('.cat-pill').forEach(function(p) {
+      p.classList.toggle('active', p.dataset.cat === cat);
+    });
+
+    renderProducts(cat);
+    stepProducts.hidden = false;
+    stepCompare.hidden = true;
+    updateHint();
+    updateCompareBtn();
+
+    if (!stepProducts.dataset.scrolled) {
+      stepProducts.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      stepProducts.dataset.scrolled = '1';
+    }
+  }
+
+  /* ── RENDER PRODUCT CARDS ── */
+  function renderProducts(cat) {
+    var articles = byCategory[cat] || [];
+    productsGrid.innerHTML = '';
+    articles.forEach(function(art) {
+      var card = document.createElement('div');
+      card.className = 'product-card';
+      card.dataset.slug = art.slug;
+      card.setAttribute('role', 'listitem');
+      card.innerHTML =
+        '<div class="pc-img"><img src="' + esc(art.imagen) + '" alt="' + esc(art.title) + '" loading="lazy" width="320" height="180"></div>' +
+        '<div class="pc-body">' +
+          '<p class="pc-title">' + esc(art.title) + '</p>' +
+          (art.puntuacion != null ? '<p class="pc-score">' + art.puntuacion + '/10</p>' : '') +
+          (art.precio ? '<p class="pc-price">' + esc(art.precio) + '</p>' : '') +
+        '</div>';
+      card.addEventListener('click', function() { toggleProduct(art.slug); });
+      productsGrid.appendChild(card);
+    });
+  }
+
+  /* ── TOGGLE PRODUCT ── */
+  function toggleProduct(slug) {
+    if (selA === slug) { selA = null; }
+    else if (selB === slug) { selB = null; }
+    else if (selA == null) { selA = slug; }
+    else if (selB == null) { selB = slug; }
+    else { selA = selB; selB = slug; } // desplaza el primero
+
+    productsGrid.querySelectorAll('.product-card').forEach(function(c) {
+      var s = c.dataset.slug;
+      c.classList.remove('sel-a', 'sel-b');
+      if (s === selA) c.classList.add('sel-a');
+      if (s === selB) c.classList.add('sel-b');
+    });
+    updateHint();
+    updateCompareBtn();
+  }
+
+  function updateHint() {
+    var count = (selA ? 1 : 0) + (selB ? 1 : 0);
+    selectionHint.textContent = count === 0 ? 'Selecciona el primer producto'
+      : count === 1 ? 'Selecciona un segundo producto'
+      : '¡Listo para comparar!';
+  }
+
+  function updateCompareBtn() {
+    var ready = selA != null && selB != null;
+    btnCompare.disabled = !ready;
+    btnCompare.setAttribute('aria-disabled', String(!ready));
+  }
+
+  /* ── COMPARE ── */
+  btnCompare.addEventListener('click', function() {
+    if (!selA || !selB) return;
+    var artA = findArticle(selA);
+    var artB = findArticle(selB);
+    if (!artA || !artB) return;
+    showComparison(artA, artB);
+  });
+
+  btnBack.addEventListener('click', function() {
+    stepCompare.hidden = true;
+    stepProducts.hidden = false;
+    stepProducts.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    history.replaceState(null, '', location.pathname);
+    document.title = 'Comparar periféricos para teletrabajo — FitzDesk';
+  });
+
+  function findArticle(slug) {
+    var arts = byCategory[selectedCat] || [];
+    return arts.find(function(a) { return a.slug === slug; }) || null;
+  }
+
+  /* ── SHOW COMPARISON ── */
+  function showComparison(artA, artB) {
+    var cat = selectedCat;
+    var criteria = CRITERIA[cat] || [];
+    var scoresA = criteriaScores(artA, cat);
+    var scoresB = criteriaScores(artB, cat);
+
+    // Title & URL
+    var vsTitle = shortTitle(artA.title) + ' vs ' + shortTitle(artB.title);
+    compareTitle.textContent = vsTitle;
+    document.title = vsTitle + ' — FitzDesk';
+    updateURL(artA.slug, artB.slug);
+
+    // Heads
+    compareHeads.innerHTML =
+      headCard(artA, '#F97316') +
+      '<div class="vs-badge">VS</div>' +
+      headCard(artB, '#3B82F6');
+
+    // Table headers
+    thA.textContent = shortTitle(artA.title);
+    thB.textContent = shortTitle(artB.title);
+
+    // Table rows
+    compareTbody.innerHTML = '';
+    // Overall row first
+    compareTbody.innerHTML += tableRow('Puntuación general',
+      artA.puntuacion + '/10', artB.puntuacion + '/10',
+      artA.puntuacion > artB.puntuacion + 0.5 ? 'a' :
+      artB.puntuacion > artA.puntuacion + 0.5 ? 'b' : 'tie');
+
+    criteria.forEach(function(label, i) {
+      var sA = scoresA[i], sB = scoresB[i];
+      var winner = sA > sB + 0.5 ? 'a' : sB > sA + 0.5 ? 'b' : 'tie';
+      compareTbody.innerHTML += tableRow(label, sA.toFixed(1), sB.toFixed(1), winner);
+    });
+
+    // Radar
+    renderRadar(artA, artB, criteria, scoresA, scoresB);
+
+    // Legend
+    radarLegend.innerHTML =
+      '<span class="leg-a"><span class="leg-dot"></span>' + esc(shortTitle(artA.title)) + '</span>' +
+      '<span class="leg-b"><span class="leg-dot"></span>' + esc(shortTitle(artB.title)) + '</span>';
+
+    // Recommendation
+    renderRecommendation(artA, artB, cat);
+
+    // Affiliate buttons
+    renderAfiliadoBtns(artA, artB);
+
+    stepProducts.hidden = true;
+    stepCompare.hidden = false;
+    stepCompare.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function headCard(art, color) {
+    return '<div class="head-card">' +
+      '<div class="head-img"><img src="' + esc(art.imagen) + '" alt="' + esc(art.title) + '" loading="lazy"></div>' +
+      '<h3 class="head-title">' + esc(art.title) + '</h3>' +
+      '<p class="head-score" style="color:' + color + '">' + (art.puntuacion != null ? art.puntuacion + '/10' : '') + '</p>' +
+      '<p class="head-price">' + esc(art.precio) + '</p>' +
+    '</div>';
+  }
+
+  function tableRow(label, valA, valB, winner) {
+    var iconA = winner === 'a' ? '✅' : winner === 'tie' ? '⚠️' : '❌';
+    var iconB = winner === 'b' ? '✅' : winner === 'tie' ? '⚠️' : '❌';
+    return '<tr><td class="crit-label">' + esc(label) + '</td>' +
+      '<td class="crit-val val-a">' + iconA + ' ' + valA + '</td>' +
+      '<td class="crit-val val-b">' + iconB + ' ' + valB + '</td></tr>';
+  }
+
+  function renderRecommendation(artA, artB, cat) {
+    var diff = artA.puntuacion - artB.puntuacion;
+    var searchText = CAT_SEARCH_TEXT[cat] || 'el mejor producto';
+    var text;
+    if (diff > 0.5) {
+      text = 'Si buscas ' + searchText + ', <strong>' + esc(shortTitle(artA.title)) + '</strong> es la mejor opción con ' + artA.puntuacion + '/10 frente a ' + artB.puntuacion + '/10.';
+    } else if (diff < -0.5) {
+      text = 'Si buscas ' + searchText + ', <strong>' + esc(shortTitle(artB.title)) + '</strong> es la mejor opción con ' + artB.puntuacion + '/10 frente a ' + artA.puntuacion + '/10.';
+    } else {
+      var cheaper = parsePrice(artA.precio) < parsePrice(artB.precio) ? shortTitle(artA.title) : shortTitle(artB.title);
+      text = 'Ambos son excelentes opciones con puntuaciones muy similares. La diferencia principal está en el precio — <strong>' + esc(cheaper) + '</strong> es la opción más económica.';
+    }
+    recommendation.innerHTML = '<div class="rec-inner"><span class="rec-fitz">🐿️</span><p>' + text + '</p></div>';
+  }
+
+  function renderAfiliadoBtns(artA, artB) {
+    afiliadoBtns.innerHTML = '';
+    [artA, artB].forEach(function(art, i) {
+      var href = art.enlace_afiliado || ('https://www.pccomponentes.com/buscar/?query=' + encodeURIComponent(art.title));
+      var color = i === 0 ? 'btn-aff-a' : 'btn-aff-b';
+      var a = document.createElement('a');
+      a.href = href;
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer nofollow';
+      a.className = 'btn-aff ' + color;
+      a.textContent = 'Ver ' + shortTitle(art.title) + ' en PcComponentes';
+      afiliadoBtns.appendChild(a);
+    });
+  }
+
+  /* ── RADAR ── */
+  function renderRadar(artA, artB, criteria, scoresA, scoresB) {
+    var canvas = document.getElementById('radar-chart');
+    if (radarChart) { radarChart.destroy(); radarChart = null; }
+    if (!window.Chart) return;
+    radarChart = new window.Chart(canvas, {
+      type: 'radar',
+      data: {
+        labels: criteria,
+        datasets: [
+          {
+            label: shortTitle(artA.title),
+            data: scoresA,
+            backgroundColor: 'rgba(249,115,22,0.25)',
+            borderColor: 'rgba(249,115,22,0.9)',
+            borderWidth: 2,
+            pointBackgroundColor: 'rgba(249,115,22,0.9)',
+            pointRadius: 4,
+          },
+          {
+            label: shortTitle(artB.title),
+            data: scoresB,
+            backgroundColor: 'rgba(59,130,246,0.2)',
+            borderColor: 'rgba(59,130,246,0.85)',
+            borderWidth: 2,
+            pointBackgroundColor: 'rgba(59,130,246,0.85)',
+            pointRadius: 4,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        scales: {
+          r: {
+            min: 0, max: 10,
+            ticks: { stepSize: 2, font: { size: 11 } },
+            pointLabels: { font: { size: 12 } },
+          },
+        },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: function(ctx) { return ctx.dataset.label + ': ' + ctx.parsed.r + '/10'; },
+            },
+          },
+        },
+      },
+    });
+  }
+
+  /* ── URL ── */
+  function updateURL(slugA, slugB) {
+    var url = new URL(location.href);
+    url.searchParams.set('a', slugA);
+    url.searchParams.set('b', slugB);
+    history.replaceState(null, '', url.toString());
+  }
+
+  function loadFromURL() {
+    var params = new URLSearchParams(location.search);
+    var slugA = params.get('a');
+    var slugB = params.get('b');
+    if (!slugA || !slugB) return;
+    // Find category containing both
+    var cat = null;
+    var artA = null, artB = null;
+    Object.keys(byCategory).forEach(function(c) {
+      var arts = byCategory[c];
+      var a = arts.find(function(x) { return x.slug === slugA; });
+      var b = arts.find(function(x) { return x.slug === slugB; });
+      if (a && b) { cat = c; artA = a; artB = b; }
+    });
+    if (!cat || !artA || !artB) return;
+    selectedCat = cat;
+    selA = artA.slug;
+    selB = artB.slug;
+    selectCat(cat); // renders pills + products
+    // Mark cards as selected
+    setTimeout(function() {
+      productsGrid.querySelectorAll('.product-card').forEach(function(c) {
+        if (c.dataset.slug === selA) c.classList.add('sel-a');
+        if (c.dataset.slug === selB) c.classList.add('sel-b');
+      });
+      showComparison(artA, artB);
+    }, 50);
+  }
+
+  /* ── HELPERS ── */
+  function esc(str) {
+    return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function shortTitle(title) {
+    var parts = title.split(':');
+    return parts[0].trim();
+  }
+
+  function parsePrice(priceStr) {
+    var p = parseFloat((priceStr || '').replace(/[^0-9,.]/g, '').replace(',', '.'));
+    return isNaN(p) ? 9999 : p;
+  }
+
+  /* ── INIT ── */
+  loadFromURL();
+})();
+</script>
+
+<style>
+  /* ===== HERO ===== */
+  .comparar-hero {
+    background: var(--color-hero-bg);
+    padding: 3rem 0 2rem;
+  }
+
+  .comparar-hero .hero-inner {
+    display: flex;
+    align-items: center;
+  }
+
+  .comparar-hero h1 {
+    font-size: clamp(1.75rem, 4vw, 2.75rem);
+    line-height: 1.2;
+    margin-bottom: 0.75rem;
+  }
+
+  .comparar-hero h1 em { color: var(--color-brand); font-style: normal; }
+
+  .hero-lead {
+    color: var(--color-text-muted);
+    font-size: 1.05rem;
+    max-width: 55ch;
+  }
+
+  /* ===== SECTIONS ===== */
+  .comparar-section {
+    padding: 2.5rem 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .step-label {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .step-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    background: var(--color-primary);
+    color: white;
+    border-radius: 50%;
+    font-size: 0.9rem;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .step-hint {
+    font-size: 0.875rem;
+    font-weight: 400;
+    color: var(--color-text-secondary);
+    margin-left: 0.25rem;
+  }
+
+  /* ===== CATEGORY PILLS ===== */
+  .cat-pills {
+    display: flex;
+    gap: 0.625rem;
+    flex-wrap: wrap;
+  }
+
+  .cat-pill {
+    padding: 0.5rem 1.25rem;
+    border: 2px solid var(--color-border);
+    border-radius: 999px;
+    background: white;
+    color: var(--color-text);
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s, color 0.15s;
+  }
+
+  .cat-pill:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
+
+  .cat-pill.active {
+    border-color: var(--color-primary);
+    background: var(--color-primary);
+    color: white;
+  }
+
+  /* ===== PRODUCT GRID ===== */
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .product-card {
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    cursor: pointer;
+    transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
+    background: white;
+    user-select: none;
+  }
+
+  .product-card:hover {
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
+
+  .product-card.sel-a {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(249,115,22,0.25);
+  }
+
+  .product-card.sel-b {
+    border-color: #3B82F6;
+    box-shadow: 0 0 0 3px rgba(59,130,246,0.22);
+  }
+
+  .pc-img {
+    aspect-ratio: 16/9;
+    overflow: hidden;
+    background: var(--color-bg-secondary);
+  }
+
+  .pc-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.2s;
+  }
+
+  .product-card:hover .pc-img img { transform: scale(1.04); }
+
+  .pc-body {
+    padding: 0.875rem 1rem;
+  }
+
+  .pc-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-text);
+    line-height: 1.35;
+    margin-bottom: 0.35rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .pc-score {
+    font-weight: 800;
+    font-size: 0.9rem;
+    color: var(--color-primary);
+    font-family: var(--font-display);
+  }
+
+  .pc-price {
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+    margin-top: 0.2rem;
+  }
+
+  /* ===== CTA ===== */
+  .compare-cta { text-align: center; }
+
+  .btn-compare {
+    padding: 0.85rem 2.5rem;
+    background: var(--color-primary);
+    color: white;
+    border: none;
+    border-radius: var(--radius-lg);
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s, opacity 0.15s, transform 0.15s;
+  }
+
+  .btn-compare:not(:disabled):hover {
+    background: var(--color-primary-dark);
+    transform: translateY(-1px);
+  }
+
+  .btn-compare:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
+  /* ===== RESULT ===== */
+  .comparar-result { padding: 2.5rem 0 4rem; }
+
+  .result-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .compare-vs-title {
+    font-size: clamp(1.1rem, 3vw, 1.6rem);
+    font-family: var(--font-display);
+    color: var(--color-text);
+  }
+
+  .btn-back {
+    background: none;
+    border: 1.5px solid var(--color-border);
+    padding: 0.45rem 1rem;
+    border-radius: var(--radius);
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s;
+  }
+
+  .btn-back:hover { border-color: var(--color-primary); color: var(--color-primary); }
+
+  /* ===== COMPARE HEADS ===== */
+  .compare-heads {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 1rem;
+    align-items: center;
+    margin-bottom: 2.5rem;
+  }
+
+  .head-card {
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: white;
+  }
+
+  .head-img {
+    aspect-ratio: 16/9;
+    overflow: hidden;
+    background: var(--color-bg-secondary);
+  }
+
+  .head-img img { width: 100%; height: 100%; object-fit: cover; }
+
+  .head-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--color-text);
+    padding: 0.75rem 1rem 0.25rem;
+    line-height: 1.3;
+  }
+
+  .head-score {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.25rem;
+    padding: 0 1rem 0.2rem;
+  }
+
+  .head-price {
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+    padding: 0 1rem 0.875rem;
+  }
+
+  .vs-badge {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: var(--color-text-secondary);
+    padding: 0.5rem;
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  /* ===== COMPARE BODY ===== */
+  .compare-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    align-items: start;
+    margin-bottom: 2.5rem;
+  }
+
+  .radar-wrap {
+    position: relative;
+    max-width: 420px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .radar-legend {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 0.75rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+
+  .leg-a, .leg-b { display: flex; align-items: center; gap: 0.4rem; }
+
+  .leg-a .leg-dot {
+    width: 12px; height: 12px; border-radius: 50%;
+    background: rgba(249,115,22,0.9);
+    flex-shrink: 0;
+  }
+
+  .leg-b .leg-dot {
+    width: 12px; height: 12px; border-radius: 50%;
+    background: rgba(59,130,246,0.85);
+    flex-shrink: 0;
+  }
+
+  .table-wrap { overflow-x: auto; }
+
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+  }
+
+  .compare-table th {
+    padding: 0.6rem 0.875rem;
+    background: var(--color-bg-secondary);
+    color: var(--color-text);
+    font-weight: 700;
+    text-align: left;
+    border-bottom: 2px solid var(--color-border);
+  }
+
+  .compare-table td {
+    padding: 0.55rem 0.875rem;
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-text);
+  }
+
+  .compare-table tr:last-child td { border-bottom: none; }
+
+  .crit-label { color: var(--color-text-secondary); font-weight: 500; }
+  .crit-val { font-weight: 600; text-align: center; white-space: nowrap; }
+
+  /* ===== RECOMMENDATION ===== */
+  .recommendation { margin-bottom: 2rem; }
+
+  .rec-inner {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    background: var(--color-bg-secondary);
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem 1.5rem;
+  }
+
+  .rec-fitz { font-size: 1.75rem; flex-shrink: 0; }
+
+  .rec-inner p {
+    font-size: 0.9375rem;
+    color: var(--color-text);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* ===== AFFILIATE BUTTONS ===== */
+  .afiliado-btns {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 1rem;
+  }
+
+  .btn-aff {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-lg);
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: opacity 0.15s, transform 0.15s;
+    text-align: center;
+  }
+
+  .btn-aff:hover { opacity: 0.88; transform: translateY(-1px); text-decoration: none; }
+
+  .btn-aff-a { background: var(--color-primary); color: white; }
+  .btn-aff-b { background: #3B82F6; color: white; }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 768px) {
+    .products-grid { grid-template-columns: repeat(2, 1fr); }
+    .compare-heads { grid-template-columns: 1fr auto 1fr; }
+    .compare-body { grid-template-columns: 1fr; }
+    .radar-wrap { max-width: 100%; }
+  }
+
+  @media (max-width: 480px) {
+    .products-grid { grid-template-columns: 1fr; }
+    .compare-heads { grid-template-columns: 1fr; }
+    .vs-badge { display: none; }
+    .afiliado-btns { flex-direction: column; }
+    .btn-aff { width: 100%; }
+  }
+</style>
