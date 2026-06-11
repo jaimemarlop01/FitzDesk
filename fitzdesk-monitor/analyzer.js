@@ -2,6 +2,10 @@ import Groq from 'groq-sdk';
 import { parse as parseHtml } from 'node-html-parser';
 import { logInfo, logWarn } from './notifier.js';
 
+if (!process.env.GROQ_API_KEY) {
+  console.error('ERROR: GROQ_API_KEY no definida');
+  process.exit(1);
+}
 const client = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 function slugify(text) {

@@ -257,18 +257,21 @@ Objetivos:
 - Lanzamientos Computex pendientes de disponibilidad: borrador-adata-urban-tapsafe
 
 ## Estado del código
-- Última revisión: 2026-06-10 (4ª pasada completa — web + monitor + workflows)
+- Última revisión: 2026-06-11 (5ª pasada — correcciones de advertencias conocidas + revisión agente)
 - Errores críticos pendientes: 0 | Estado: ✅ Sin errores críticos
-- Advertencias (8):
-  - BaseLayout.astro:37 — google-site-verification con valor PENDIENTE_DE_CONFIGURAR (publicado en producción)
+- Advertencias (2):
   - astro.config.mjs:7 — site='https://fitzdesk.com' pero deploy real es github.io (desalineado hasta tener dominio propio)
-  - analyzer.js:5 — Groq client instanciado en top-level sin validar GROQ_API_KEY; falla con undefined si no está en env
-  - articleUpdater.js:20 — mismo problema: Groq client top-level sin guardia
-  - analisis.astro:234 — variable currentSort referenciada sin efecto en setView() (expresión sin usar)
-  - buscar.astro — colores hardcodeados (#F97316, #EA580C, #64748b, #1F2937, #6B7280…) en estilos y en lógica JS
-  - CookieBanner.astro — colores hardcodeados (#1F2937, #F97316, #EA580C, #D1D5DB) en lugar de var CSS
-  - about.astro / index.astro / buscar.astro — gradients hardcodeados (#fff7ed, #fef3c7, #fdf2f8) en lugar de var CSS
-- Sugerencias (6): scoreColor() duplicada en ArticleCard + buscar.astro + [slug].astro · PlaceholderImage hardcodea #F97316/#FFF7ED · imageCollector console.error debería ser logWarn · CategoryBadge colores hardcodeados por diseño (aceptable) · imageCollector.js:225 console.error en findAndDownloadImage debería ser logWarn · monitor.yml no invalida caché npm entre runs (no usa cache-dependency-path para web)
+  - [slug].astro:120 — scoreColor inline con colores hardcodeados (#16a34a, #F97316, #DC2626); misma lógica ya triplicada, pendiente extraer a src/lib/score.ts
+- Correcciones aplicadas en esta pasada (8 archivos):
+  - BaseLayout.astro — meta google-site-verification reemplazada por comentario HTML
+  - buscar.astro — todos los colores hardcodeados → CSS vars; gradient → var(--color-background)
+  - CookieBanner.astro — colores hardcodeados → CSS vars
+  - about.astro / index.astro — gradients → var(--color-background)
+  - analyzer.js / articleUpdater.js / guideGenerator.js / compareGenerator.js / launchGenerator.js / generateSetups.js — GROQ_API_KEY guard añadida antes de instanciar cliente
+  - analisis.astro:234 — expresión sin efecto `currentSort;` eliminada
+  - monitor.js:643 — doble llamada a notifyDailySummary() en modo daemon corregida
+  - src/content/config.ts — campos opcionales del monitor añadidos al schema Zod (imagen_thumb, presupuesto, enlace_a, enlace_b, enlaces, keyword_principal, keywords_secundarias, fecha_actualizacion, actualizado)
+- Sugerencias (5): scoreColor() triplicada (ArticleCard + buscar.astro + [slug].astro) · PlaceholderImage hardcodea #F97316/#FFF7ED · imageCollector console.error debería ser logWarn · CategoryBadge colores hardcodeados por diseño (aceptable) · monitor.yml no invalida caché npm entre runs del build web
 
 ## Estado de precios
 - Última revisión de precios: 2026-06-10

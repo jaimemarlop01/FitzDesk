@@ -231,7 +231,6 @@ const collectionSchema = {
 
   // View toggle
   function setView(view: 'grid' | 'list') {
-    currentSort;
     document.getElementById('articles-grid')?.setAttribute('data-view', view);
     const gBtn = document.getElementById('view-grid')!;
     const lBtn = document.getElementById('view-list')!;

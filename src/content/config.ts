@@ -16,6 +16,15 @@ const articulosCollection = defineCollection({
     fitzQuote: z.string().optional(),
     especificaciones: z.record(z.string()).optional(),
     borrador: z.boolean().optional(),
+    imagen_thumb: z.string().optional(),
+    presupuesto: z.string().optional(),
+    enlace_a: z.string().optional(),
+    enlace_b: z.string().optional(),
+    enlaces: z.array(z.string()).optional(),
+    keyword_principal: z.string().optional(),
+    keywords_secundarias: z.array(z.string()).optional(),
+    fecha_actualizacion: z.string().optional(),
+    actualizado: z.boolean().optional(),
   }),
 });
 
