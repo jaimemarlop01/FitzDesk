@@ -6,6 +6,12 @@
   --color-brand-light: #FED7AA;
   --color-brand-bg: #FFF7ED;
   --color-hero-bg: linear-gradient(135deg, #fff7ed 0%, #fef3c7 50%, #fdf2f8 100%);
+
+  /* Aliases semánticos usados en componentes */
+  --color-primary: #F97316;
+  --color-primary-dark: #EA580C;
+  --color-text-secondary: #6B7280;
+  --color-background: #F9FAFB;
   --color-text: #1F2937;
   --color-text-muted: #6B7280;
   --color-bg: #FFFFFF;
