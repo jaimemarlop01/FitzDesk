@@ -73,10 +73,38 @@ const dataJson = JSON.stringify({ byCategory, validCats, catLabels: CAT_LABELS }
   <!-- PASO B — Productos -->
   <section class="comparar-section" id="step-products" hidden>
     <div class="container">
-      <div class="step-label"><span class="step-num">2</span> Selecciona 2 productos
-        <span class="step-hint" id="selection-hint">Selecciona el primer producto</span>
+      <div class="step-label"><span class="step-num">2</span> Selecciona 2 productos</div>
+
+      <!-- MEJORA 2 — Indicador de selección -->
+      <div class="selection-indicator" id="selection-indicator">
+        <p class="sel-empty-msg" id="sel-empty-msg">Selecciona 2 productos para comparar</p>
+        <div class="sel-slots" id="sel-slots" hidden>
+          <div class="sel-slot" id="sel-slot-a"></div>
+          <div class="sel-slot" id="sel-slot-b"></div>
+        </div>
       </div>
+
+      <!-- MEJORA 3 — Buscador de productos -->
+      <div class="product-search" id="product-search">
+        <div class="ps-input-wrap">
+          <svg class="ps-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+          </svg>
+          <input type="search" id="ps-input" placeholder="Buscar producto..." autocomplete="off" aria-label="Buscar producto en esta categoría">
+          <button id="ps-clear" class="ps-clear" aria-label="Limpiar búsqueda" hidden>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+              <path d="M18 6 6 18M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
       <div class="products-grid" id="products-grid" role="list"></div>
+
+      <div class="search-empty" id="search-empty" hidden>
+        <p>🐿️ Fitz no encuentra ningún producto con ese nombre en esta categoría</p>
+      </div>
+
       <div class="compare-cta">
         <button class="btn-compare" id="btn-compare" disabled aria-disabled="true">
           Comparar →
@@ -93,10 +121,8 @@ const dataJson = JSON.stringify({ byCategory, validCats, catLabels: CAT_LABELS }
         <button class="btn-back" id="btn-back">← Cambiar productos</button>
       </div>
 
-      <!-- Cabecera de productos -->
       <div class="compare-heads" id="compare-heads"></div>
 
-      <!-- Radar + Tabla -->
       <div class="compare-body">
         <div class="radar-wrap">
           <canvas id="radar-chart" role="img" aria-label="Gráfico radar de comparativa"></canvas>
@@ -110,10 +136,7 @@ const dataJson = JSON.stringify({ byCategory, validCats, catLabels: CAT_LABELS }
         </div>
       </div>
 
-      <!-- ¿Cuál elegir? -->
       <div class="recommendation" id="recommendation"></div>
-
-      <!-- Botones afiliado -->
       <div class="afiliado-btns" id="afiliado-btns"></div>
     </div>
   </section>
@@ -137,12 +160,18 @@ const dataJson = JSON.stringify({ byCategory, validCats, catLabels: CAT_LABELS }
   };
 
   var CAT_SEARCH_TEXT = {
-    ratones: 'un ratón cómodo y preciso',
-    teclados: 'el mejor teclado para tu flujo de trabajo',
+    ratones:   'un ratón cómodo y preciso',
+    teclados:  'el mejor teclado para tu flujo de trabajo',
     monitores: 'una pantalla para trabajar durante horas',
-    portatiles: 'potencia y portabilidad en un portátil',
-    setups: 'mejorar tu setup de teletrabajo',
+    portatiles:'potencia y portabilidad en un portátil',
+    setups:    'mejorar tu setup de teletrabajo',
   };
+
+  /* ── CHART COLORS (JS constants: Chart.js no acepta CSS vars) ── */
+  var CHART_A_FILL   = 'rgba(249,115,22,0.25)';
+  var CHART_A_STROKE = 'rgba(249,115,22,0.9)';
+  var CHART_B_FILL   = 'rgba(59,130,246,0.2)';
+  var CHART_B_STROKE = 'rgba(59,130,246,0.85)';
 
   /* ── STATE ── */
   var selectedCat = null;
@@ -160,7 +189,7 @@ const dataJson = JSON.stringify({ byCategory, validCats, catLabels: CAT_LABELS }
   function priceScore(priceStr) {
     var p = parseFloat((priceStr || '').replace(/[^0-9,.]/g, '').replace(',', '.'));
     if (isNaN(p)) return 7;
-    if (p < 50) return 9.5;
+    if (p < 50)  return 9.5;
     if (p < 100) return 8.5;
     if (p < 200) return 7;
     if (p < 400) return 6;
@@ -168,36 +197,41 @@ const dataJson = JSON.stringify({ byCategory, validCats, catLabels: CAT_LABELS }
   }
 
   function criteriaScores(article, cat) {
-    var base = article.puntuacion;
+    var base     = article.puntuacion;
     var criteria = CRITERIA[cat] || [];
     return criteria.map(function(_, i) {
       if (i === criteria.length - 1) {
         var ps = priceScore(article.precio);
         return +((base * 0.55 + ps * 0.45).toFixed(1));
       }
-      var seed = hashSeed(article.slug + ':' + i);
-      var variation = ((seed % 31) - 15) / 10; // -1.5 … +1.5
+      var seed      = hashSeed(article.slug + ':' + i);
+      var variation = ((seed % 31) - 15) / 10;
       return Math.max(1, Math.min(10, +(base + variation).toFixed(1)));
     });
   }
 
   /* ── DOM REFS ── */
-  var stepCats     = document.getElementById('step-cats');
-  var stepProducts = document.getElementById('step-products');
-  var stepCompare  = document.getElementById('step-compare');
-  var catPills     = document.getElementById('cat-pills');
-  var productsGrid = document.getElementById('products-grid');
-  var btnCompare   = document.getElementById('btn-compare');
-  var btnBack      = document.getElementById('btn-back');
-  var selectionHint= document.getElementById('selection-hint');
-  var compareTitle = document.getElementById('compare-title');
-  var compareHeads = document.getElementById('compare-heads');
-  var compareTbody = document.getElementById('compare-tbody');
-  var thA          = document.getElementById('th-a');
-  var thB          = document.getElementById('th-b');
-  var recommendation = document.getElementById('recommendation');
-  var afiliadoBtns = document.getElementById('afiliado-btns');
-  var radarLegend  = document.getElementById('radar-legend');
+  var stepProducts    = document.getElementById('step-products');
+  var stepCompare     = document.getElementById('step-compare');
+  var catPills        = document.getElementById('cat-pills');
+  var productsGrid    = document.getElementById('products-grid');
+  var btnCompare      = document.getElementById('btn-compare');
+  var btnBack         = document.getElementById('btn-back');
+  var selEmptyMsg     = document.getElementById('sel-empty-msg');
+  var selSlots        = document.getElementById('sel-slots');
+  var selSlotA        = document.getElementById('sel-slot-a');
+  var selSlotB        = document.getElementById('sel-slot-b');
+  var psInput         = document.getElementById('ps-input');
+  var psClear         = document.getElementById('ps-clear');
+  var searchEmpty     = document.getElementById('search-empty');
+  var compareTitle    = document.getElementById('compare-title');
+  var compareHeads    = document.getElementById('compare-heads');
+  var compareTbody    = document.getElementById('compare-tbody');
+  var thA             = document.getElementById('th-a');
+  var thB             = document.getElementById('th-b');
+  var recommendation  = document.getElementById('recommendation');
+  var afiliadoBtns    = document.getElementById('afiliado-btns');
+  var radarLegend     = document.getElementById('radar-legend');
 
   /* ── RENDER PILLS ── */
   validCats.forEach(function(cat) {
@@ -212,25 +246,24 @@ const dataJson = JSON.stringify({ byCategory, validCats, catLabels: CAT_LABELS }
   /* ── SELECT CATEGORY ── */
   function selectCat(cat) {
     selectedCat = cat;
-    selA = null; selB = null;
+    selA = null;
+    selB = null;
 
     catPills.querySelectorAll('.cat-pill').forEach(function(p) {
       p.classList.toggle('active', p.dataset.cat === cat);
     });
 
+    resetSearch();
     renderProducts(cat);
-    stepProducts.hidden = false;
-    stepCompare.hidden = true;
-    updateHint();
+    updateSelectionIndicator();
     updateCompareBtn();
 
-    if (!stepProducts.dataset.scrolled) {
-      stepProducts.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      stepProducts.dataset.scrolled = '1';
-    }
+    stepProducts.hidden = false;
+    stepCompare.hidden  = true;
+    stepProducts.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
-  /* ── RENDER PRODUCT CARDS ── */
+  /* ── RENDER PRODUCTS ── */
   function renderProducts(cat) {
     var articles = byCategory[cat] || [];
     productsGrid.innerHTML = '';
@@ -253,11 +286,11 @@ const dataJson = JSON.stringify({ byCategory, validCats, catLabels: CAT_LABELS }
 
   /* ── TOGGLE PRODUCT ── */
   function toggleProduct(slug) {
-    if (selA === slug) { selA = null; }
+    if      (selA === slug) { selA = null; }
     else if (selB === slug) { selB = null; }
-    else if (selA == null) { selA = slug; }
-    else if (selB == null) { selB = slug; }
-    else { selA = selB; selB = slug; } // desplaza el primero
+    else if (selA == null)  { selA = slug; }
+    else if (selB == null)  { selB = slug; }
+    else                    { selA = selB; selB = slug; }
 
     productsGrid.querySelectorAll('.product-card').forEach(function(c) {
       var s = c.dataset.slug;
@@ -265,21 +298,124 @@ const dataJson = JSON.stringify({ byCategory, validCats, catLabels: CAT_LABELS }
       if (s === selA) c.classList.add('sel-a');
       if (s === selB) c.classList.add('sel-b');
     });
-    updateHint();
+    updateSelectionIndicator();
     updateCompareBtn();
   }
 
-  function updateHint() {
+  /* ── MEJORA 2: SELECTION INDICATOR ── */
+  function updateSelectionIndicator() {
     var count = (selA ? 1 : 0) + (selB ? 1 : 0);
-    selectionHint.textContent = count === 0 ? 'Selecciona el primer producto'
-      : count === 1 ? 'Selecciona un segundo producto'
-      : '¡Listo para comparar!';
+
+    if (count === 0) {
+      selEmptyMsg.hidden = false;
+      selSlots.hidden    = true;
+      return;
+    }
+
+    selEmptyMsg.hidden = true;
+    selSlots.hidden    = false;
+
+    var artA = selA ? findArticle(selA) : null;
+    var artB = selB ? findArticle(selB) : null;
+    renderSlot(selSlotA, artA, 'a');
+    renderSlot(selSlotB, artB, 'b');
   }
 
+  function renderSlot(container, art, slot) {
+    container.innerHTML = '';
+    var div = document.createElement('div');
+
+    if (art) {
+      div.className = 'sel-filled sel-filled-' + slot;
+
+      var img = document.createElement('img');
+      img.src       = art.imagen;
+      img.alt       = '';
+      img.className = 'sel-thumb';
+
+      var nameSpan = document.createElement('span');
+      nameSpan.className   = 'sel-name';
+      nameSpan.textContent = shortTitle(art.title);
+
+      var removeBtn = document.createElement('button');
+      removeBtn.className = 'sel-remove';
+      removeBtn.setAttribute('aria-label', 'Quitar ' + shortTitle(art.title));
+      removeBtn.textContent = '×';
+      var capturedSlug = art.slug;
+      removeBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        toggleProduct(capturedSlug);
+      });
+
+      div.appendChild(img);
+      div.appendChild(nameSpan);
+      div.appendChild(removeBtn);
+    } else {
+      div.className = 'sel-empty-slot';
+      var plus = document.createElement('span');
+      plus.className   = 'sel-plus';
+      plus.textContent = '+';
+      var label = document.createElement('span');
+      label.textContent = 'Elige el segundo';
+      div.appendChild(plus);
+      div.appendChild(label);
+    }
+
+    container.appendChild(div);
+  }
+
+  /* ── UPDATE COMPARE BUTTON ── */
   function updateCompareBtn() {
     var ready = selA != null && selB != null;
     btnCompare.disabled = !ready;
     btnCompare.setAttribute('aria-disabled', String(!ready));
+
+    if (ready) {
+      var artA = findArticle(selA);
+      var artB = findArticle(selB);
+      if (artA && artB) {
+        btnCompare.textContent = 'Comparar ' + shortTitle(artA.title) + ' vs ' + shortTitle(artB.title);
+      } else {
+        btnCompare.textContent = 'Comparar →';
+      }
+    } else {
+      btnCompare.textContent = 'Comparar →';
+    }
+  }
+
+  /* ── MEJORA 3: BUSCADOR ── */
+  psInput.addEventListener('input', function() {
+    var q = this.value.trim();
+    psClear.hidden = q === '';
+    filterProducts(q);
+  });
+
+  psClear.addEventListener('click', function() {
+    psInput.value  = '';
+    psClear.hidden = true;
+    filterProducts('');
+    psInput.focus();
+  });
+
+  function filterProducts(query) {
+    var q       = query.toLowerCase();
+    var cards   = productsGrid.querySelectorAll('.product-card');
+    var visible = 0;
+    cards.forEach(function(card) {
+      var titleEl = card.querySelector('.pc-title');
+      var title   = titleEl ? titleEl.textContent : '';
+      var show    = !q || title.toLowerCase().indexOf(q) !== -1;
+      card.hidden = !show;
+      if (show) visible++;
+    });
+    searchEmpty.hidden = visible > 0;
+  }
+
+  function resetSearch() {
+    if (psInput)    { psInput.value = ''; }
+    if (psClear)    { psClear.hidden = true; }
+    if (searchEmpty){ searchEmpty.hidden = true; }
+    productsGrid.querySelectorAll('.product-card').forEach(function(c) { c.hidden = false; });
   }
 
   /* ── COMPARE ── */
@@ -292,7 +428,7 @@ const dataJson = JSON.stringify({ byCategory, validCats, catLabels: CAT_LABELS }
   });
 
   btnBack.addEventListener('click', function() {
-    stepCompare.hidden = true;
+    stepCompare.hidden  = true;
     stepProducts.hidden = false;
     stepProducts.scrollIntoView({ behavior: 'smooth', block: 'start' });
     history.replaceState(null, '', location.pathname);
@@ -306,65 +442,56 @@ const dataJson = JSON.stringify({ byCategory, validCats, catLabels: CAT_LABELS }
 
   /* ── SHOW COMPARISON ── */
   function showComparison(artA, artB) {
-    var cat = selectedCat;
+    var cat      = selectedCat;
     var criteria = CRITERIA[cat] || [];
-    var scoresA = criteriaScores(artA, cat);
-    var scoresB = criteriaScores(artB, cat);
+    var scoresA  = criteriaScores(artA, cat);
+    var scoresB  = criteriaScores(artB, cat);
 
-    // Title & URL
     var vsTitle = shortTitle(artA.title) + ' vs ' + shortTitle(artB.title);
     compareTitle.textContent = vsTitle;
     document.title = vsTitle + ' — FitzDesk';
     updateURL(artA.slug, artB.slug);
 
-    // Heads
     compareHeads.innerHTML =
-      headCard(artA, '#F97316') +
+      headCard(artA, true) +
       '<div class="vs-badge">VS</div>' +
-      headCard(artB, '#3B82F6');
+      headCard(artB, false);
 
-    // Table headers
     thA.textContent = shortTitle(artA.title);
     thB.textContent = shortTitle(artB.title);
 
-    // Table rows
     compareTbody.innerHTML = '';
-    // Overall row first
     compareTbody.innerHTML += tableRow('Puntuación general',
       artA.puntuacion + '/10', artB.puntuacion + '/10',
       artA.puntuacion > artB.puntuacion + 0.5 ? 'a' :
       artB.puntuacion > artA.puntuacion + 0.5 ? 'b' : 'tie');
 
     criteria.forEach(function(label, i) {
-      var sA = scoresA[i], sB = scoresB[i];
+      var sA     = scoresA[i], sB = scoresB[i];
       var winner = sA > sB + 0.5 ? 'a' : sB > sA + 0.5 ? 'b' : 'tie';
       compareTbody.innerHTML += tableRow(label, sA.toFixed(1), sB.toFixed(1), winner);
     });
 
-    // Radar
     renderRadar(artA, artB, criteria, scoresA, scoresB);
 
-    // Legend
     radarLegend.innerHTML =
-      '<span class="leg-a"><span class="leg-dot"></span>' + esc(shortTitle(artA.title)) + '</span>' +
-      '<span class="leg-b"><span class="leg-dot"></span>' + esc(shortTitle(artB.title)) + '</span>';
+      '<span class="leg-a"><span class="leg-dot leg-dot-a"></span>' + esc(shortTitle(artA.title)) + '</span>' +
+      '<span class="leg-b"><span class="leg-dot leg-dot-b"></span>' + esc(shortTitle(artB.title)) + '</span>';
 
-    // Recommendation
     renderRecommendation(artA, artB, cat);
-
-    // Affiliate buttons
     renderAfiliadoBtns(artA, artB);
 
     stepProducts.hidden = true;
-    stepCompare.hidden = false;
+    stepCompare.hidden  = false;
     stepCompare.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
-  function headCard(art, color) {
+  function headCard(art, isA) {
+    var scoreClass = isA ? 'head-score-a' : 'head-score-b';
     return '<div class="head-card">' +
       '<div class="head-img"><img src="' + esc(art.imagen) + '" alt="' + esc(art.title) + '" loading="lazy"></div>' +
       '<h3 class="head-title">' + esc(art.title) + '</h3>' +
-      '<p class="head-score" style="color:' + color + '">' + (art.puntuacion != null ? art.puntuacion + '/10' : '') + '</p>' +
+      '<p class="head-score ' + scoreClass + '">' + (art.puntuacion != null ? art.puntuacion + '/10' : '') + '</p>' +
       '<p class="head-price">' + esc(art.precio) + '</p>' +
     '</div>';
   }
@@ -378,7 +505,7 @@ const dataJson = JSON.stringify({ byCategory, validCats, catLabels: CAT_LABELS }
   }
 
   function renderRecommendation(artA, artB, cat) {
-    var diff = artA.puntuacion - artB.puntuacion;
+    var diff       = artA.puntuacion - artB.puntuacion;
     var searchText = CAT_SEARCH_TEXT[cat] || 'el mejor producto';
     var text;
     if (diff > 0.5) {
@@ -395,13 +522,13 @@ const dataJson = JSON.stringify({ byCategory, validCats, catLabels: CAT_LABELS }
   function renderAfiliadoBtns(artA, artB) {
     afiliadoBtns.innerHTML = '';
     [artA, artB].forEach(function(art, i) {
-      var href = art.enlace_afiliado || ('https://www.pccomponentes.com/buscar/?query=' + encodeURIComponent(art.title));
-      var color = i === 0 ? 'btn-aff-a' : 'btn-aff-b';
-      var a = document.createElement('a');
-      a.href = href;
-      a.target = '_blank';
-      a.rel = 'noopener noreferrer nofollow';
-      a.className = 'btn-aff ' + color;
+      var href  = art.enlace_afiliado || ('https://www.pccomponentes.com/buscar/?query=' + encodeURIComponent(art.title));
+      var cls   = i === 0 ? 'btn-aff-a' : 'btn-aff-b';
+      var a     = document.createElement('a');
+      a.href    = href;
+      a.target  = '_blank';
+      a.rel     = 'noopener noreferrer nofollow';
+      a.className = 'btn-aff ' + cls;
       a.textContent = 'Ver ' + shortTitle(art.title) + ' en PcComponentes';
       afiliadoBtns.appendChild(a);
     });
@@ -420,19 +547,19 @@ const dataJson = JSON.stringify({ byCategory, validCats, catLabels: CAT_LABELS }
           {
             label: shortTitle(artA.title),
             data: scoresA,
-            backgroundColor: 'rgba(249,115,22,0.25)',
-            borderColor: 'rgba(249,115,22,0.9)',
+            backgroundColor: CHART_A_FILL,
+            borderColor: CHART_A_STROKE,
             borderWidth: 2,
-            pointBackgroundColor: 'rgba(249,115,22,0.9)',
+            pointBackgroundColor: CHART_A_STROKE,
             pointRadius: 4,
           },
           {
             label: shortTitle(artB.title),
             data: scoresB,
-            backgroundColor: 'rgba(59,130,246,0.2)',
-            borderColor: 'rgba(59,130,246,0.85)',
+            backgroundColor: CHART_B_FILL,
+            borderColor: CHART_B_STROKE,
             borderWidth: 2,
-            pointBackgroundColor: 'rgba(59,130,246,0.85)',
+            pointBackgroundColor: CHART_B_STROKE,
             pointRadius: 4,
           },
         ],
@@ -469,12 +596,11 @@ const dataJson = JSON.stringify({ byCategory, validCats, catLabels: CAT_LABELS }
 
   function loadFromURL() {
     var params = new URLSearchParams(location.search);
-    var slugA = params.get('a');
-    var slugB = params.get('b');
+    var slugA  = params.get('a');
+    var slugB  = params.get('b');
     if (!slugA || !slugB) return;
-    // Find category containing both
-    var cat = null;
-    var artA = null, artB = null;
+
+    var cat = null, artA = null, artB = null;
     Object.keys(byCategory).forEach(function(c) {
       var arts = byCategory[c];
       var a = arts.find(function(x) { return x.slug === slugA; });
@@ -482,16 +608,19 @@ const dataJson = JSON.stringify({ byCategory, validCats, catLabels: CAT_LABELS }
       if (a && b) { cat = c; artA = a; artB = b; }
     });
     if (!cat || !artA || !artB) return;
+
     selectedCat = cat;
     selA = artA.slug;
     selB = artB.slug;
-    selectCat(cat); // renders pills + products
-    // Mark cards as selected
+    selectCat(cat);
+
     setTimeout(function() {
       productsGrid.querySelectorAll('.product-card').forEach(function(c) {
         if (c.dataset.slug === selA) c.classList.add('sel-a');
         if (c.dataset.slug === selB) c.classList.add('sel-b');
       });
+      updateSelectionIndicator();
+      updateCompareBtn();
       showComparison(artA, artB);
     }, 50);
   }
@@ -502,8 +631,7 @@ const dataJson = JSON.stringify({ byCategory, validCats, catLabels: CAT_LABELS }
   }
 
   function shortTitle(title) {
-    var parts = title.split(':');
-    return parts[0].trim();
+    return title.split(':')[0].trim();
   }
 
   function parsePrice(priceStr) {
@@ -516,6 +644,12 @@ const dataJson = JSON.stringify({ byCategory, validCats, catLabels: CAT_LABELS }
 })();
 </script>
 
+<style is:global>
+  :root {
+    --color-compare-b: #3B82F6;
+  }
+</style>
+
 <style>
   /* ===== HERO ===== */
   .comparar-hero {
@@ -523,10 +657,7 @@ const dataJson = JSON.stringify({ byCategory, validCats, catLabels: CAT_LABELS }
     padding: 3rem 0 2rem;
   }
 
-  .comparar-hero .hero-inner {
-    display: flex;
-    align-items: center;
-  }
+  .comparar-hero .hero-inner { display: flex; align-items: center; }
 
   .comparar-hero h1 {
     font-size: clamp(1.75rem, 4vw, 2.75rem);
@@ -573,14 +704,7 @@ const dataJson = JSON.stringify({ byCategory, validCats, catLabels: CAT_LABELS }
     flex-shrink: 0;
   }
 
-  .step-hint {
-    font-size: 0.875rem;
-    font-weight: 400;
-    color: var(--color-text-secondary);
-    margin-left: 0.25rem;
-  }
-
-  /* ===== CATEGORY PILLS ===== */
+  /* ===== MEJORA 1 — CATEGORY PILLS ===== */
   .cat-pills {
     display: flex;
     gap: 0.625rem;
@@ -592,11 +716,11 @@ const dataJson = JSON.stringify({ byCategory, validCats, catLabels: CAT_LABELS }
     border: 2px solid var(--color-border);
     border-radius: 999px;
     background: white;
-    color: var(--color-text);
+    color: var(--color-text-secondary);
     font-size: 0.9rem;
     font-weight: 600;
     cursor: pointer;
-    transition: border-color 0.15s, background 0.15s, color 0.15s;
+    transition: border-color 0.18s, background 0.18s, color 0.18s;
   }
 
   .cat-pill:hover {
@@ -608,6 +732,167 @@ const dataJson = JSON.stringify({ byCategory, validCats, catLabels: CAT_LABELS }
     border-color: var(--color-primary);
     background: var(--color-primary);
     color: white;
+  }
+
+  /* ===== MEJORA 2 — SELECTION INDICATOR ===== */
+  .selection-indicator {
+    margin-bottom: 1.25rem;
+  }
+
+  .sel-empty-msg {
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+    padding: 0.5rem 0;
+    margin: 0;
+  }
+
+  .sel-slots {
+    display: flex;
+    gap: 0.875rem;
+  }
+
+  .sel-slot {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .sel-filled {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: var(--radius);
+    border: 2px solid;
+    background: white;
+    min-width: 0;
+  }
+
+  .sel-filled-a {
+    border-color: var(--color-primary);
+    background: var(--color-brand-bg);
+  }
+
+  .sel-filled-b {
+    border-color: var(--color-compare-b);
+    background: white;
+  }
+
+  .sel-thumb {
+    width: 36px;
+    height: 24px;
+    object-fit: cover;
+    border-radius: 3px;
+    flex-shrink: 0;
+  }
+
+  .sel-name {
+    flex: 1;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
+  }
+
+  .sel-remove {
+    background: none;
+    border: none;
+    color: var(--color-text-secondary);
+    font-size: 1.15rem;
+    line-height: 1;
+    padding: 0.1rem 0.3rem;
+    border-radius: 50%;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: color 0.15s, background 0.15s;
+  }
+
+  .sel-remove:hover {
+    color: var(--color-text);
+    background: var(--color-bg-secondary);
+  }
+
+  .sel-empty-slot {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.875rem;
+    border-radius: var(--radius);
+    border: 2px dashed var(--color-primary);
+    color: var(--color-primary);
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  .sel-plus {
+    font-size: 1.2rem;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  /* ===== MEJORA 3 — PRODUCT SEARCH ===== */
+  .product-search {
+    margin-bottom: 1.25rem;
+  }
+
+  .ps-input-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 0.5rem 0.875rem;
+    background: white;
+    transition: border-color 0.15s;
+  }
+
+  .ps-input-wrap:focus-within {
+    border-color: var(--color-primary);
+  }
+
+  .ps-icon {
+    width: 16px;
+    height: 16px;
+    color: var(--color-text-secondary);
+    flex-shrink: 0;
+  }
+
+  #ps-input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    color: var(--color-text);
+    outline: none;
+  }
+
+  #ps-input::placeholder { color: var(--color-text-secondary); }
+
+  .ps-clear {
+    background: none;
+    border: none;
+    padding: 0.15rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: color 0.15s;
+  }
+
+  .ps-clear:hover { color: var(--color-text); }
+  .ps-clear svg { width: 14px; height: 14px; }
+
+  .search-empty {
+    text-align: center;
+    padding: 2.5rem 1rem;
+    color: var(--color-text-secondary);
+    font-size: 0.9375rem;
+    margin-bottom: 1rem;
   }
 
   /* ===== PRODUCT GRID ===== */
@@ -636,12 +921,12 @@ const dataJson = JSON.stringify({ byCategory, validCats, catLabels: CAT_LABELS }
 
   .product-card.sel-a {
     border-color: var(--color-primary);
-    box-shadow: 0 0 0 3px rgba(249,115,22,0.25);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 25%, transparent);
   }
 
   .product-card.sel-b {
-    border-color: #3B82F6;
-    box-shadow: 0 0 0 3px rgba(59,130,246,0.22);
+    border-color: var(--color-compare-b);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-compare-b) 22%, transparent);
   }
 
   .pc-img {
@@ -659,9 +944,7 @@ const dataJson = JSON.stringify({ byCategory, validCats, catLabels: CAT_LABELS }
 
   .product-card:hover .pc-img img { transform: scale(1.04); }
 
-  .pc-body {
-    padding: 0.875rem 1rem;
-  }
+  .pc-body { padding: 0.875rem 1rem; }
 
   .pc-title {
     font-size: 0.875rem;
@@ -688,29 +971,30 @@ const dataJson = JSON.stringify({ byCategory, validCats, catLabels: CAT_LABELS }
     margin-top: 0.2rem;
   }
 
-  /* ===== CTA ===== */
+  /* ===== COMPARE CTA ===== */
   .compare-cta { text-align: center; }
 
   .btn-compare {
     padding: 0.85rem 2.5rem;
-    background: var(--color-primary);
-    color: white;
+    background: var(--color-border);
+    color: var(--color-text-secondary);
     border: none;
     border-radius: var(--radius-lg);
     font-size: 1rem;
     font-weight: 700;
+    cursor: not-allowed;
+    transition: background 0.2s, color 0.2s, transform 0.15s;
+  }
+
+  .btn-compare:not(:disabled) {
+    background: var(--color-primary);
+    color: white;
     cursor: pointer;
-    transition: background 0.15s, opacity 0.15s, transform 0.15s;
   }
 
   .btn-compare:not(:disabled):hover {
     background: var(--color-primary-dark);
     transform: translateY(-1px);
-  }
-
-  .btn-compare:disabled {
-    opacity: 0.45;
-    cursor: not-allowed;
   }
 
   /* ===== RESULT ===== */
@@ -783,6 +1067,9 @@ const dataJson = JSON.stringify({ byCategory, validCats, catLabels: CAT_LABELS }
     padding: 0 1rem 0.2rem;
   }
 
+  .head-score-a { color: var(--color-primary); }
+  .head-score-b { color: var(--color-compare-b); }
+
   .head-price {
     font-size: 0.875rem;
     color: var(--color-text-secondary);
@@ -826,17 +1113,15 @@ const dataJson = JSON.stringify({ byCategory, validCats, catLabels: CAT_LABELS }
 
   .leg-a, .leg-b { display: flex; align-items: center; gap: 0.4rem; }
 
-  .leg-a .leg-dot {
-    width: 12px; height: 12px; border-radius: 50%;
-    background: rgba(249,115,22,0.9);
+  .leg-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
     flex-shrink: 0;
   }
 
-  .leg-b .leg-dot {
-    width: 12px; height: 12px; border-radius: 50%;
-    background: rgba(59,130,246,0.85);
-    flex-shrink: 0;
-  }
+  .leg-dot-a { background: var(--color-primary); }
+  .leg-dot-b { background: var(--color-compare-b); }
 
   .table-wrap { overflow-x: auto; }
 
@@ -911,21 +1196,25 @@ const dataJson = JSON.stringify({ byCategory, validCats, catLabels: CAT_LABELS }
   .btn-aff:hover { opacity: 0.88; transform: translateY(-1px); text-decoration: none; }
 
   .btn-aff-a { background: var(--color-primary); color: white; }
-  .btn-aff-b { background: #3B82F6; color: white; }
+  .btn-aff-b { background: var(--color-compare-b); color: white; }
 
   /* ===== RESPONSIVE ===== */
   @media (max-width: 768px) {
     .products-grid { grid-template-columns: repeat(2, 1fr); }
     .compare-heads { grid-template-columns: 1fr auto 1fr; }
-    .compare-body { grid-template-columns: 1fr; }
-    .radar-wrap { max-width: 100%; }
+    .compare-body  { grid-template-columns: 1fr; }
+    .radar-wrap    { max-width: 100%; }
+  }
+
+  @media (max-width: 560px) {
+    .sel-slots { flex-direction: column; }
   }
 
   @media (max-width: 480px) {
     .products-grid { grid-template-columns: 1fr; }
     .compare-heads { grid-template-columns: 1fr; }
-    .vs-badge { display: none; }
+    .vs-badge      { display: none; }
     .afiliado-btns { flex-direction: column; }
-    .btn-aff { width: 100%; }
+    .btn-aff       { width: 100%; }
   }
 </style>
