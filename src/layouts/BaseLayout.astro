@@ -63,23 +63,17 @@ const ogImage = new URL(image, Astro.site ?? 'https://fitzdesk.com');
       rel="stylesheet"
     />
 
-    <!-- Google Analytics 4 — Consent Mode v2 (RGPD/LOPD) -->
-    <!-- 1. Definir dataLayer + gtag + consent por defecto ANTES de cargar GA -->
+    <!-- Google Analytics 4 — Consent Mode v2: consent denegado por defecto hasta que el usuario decida -->
+    <!-- El script ga.js se carga dinámicamente desde CookieBanner solo si el usuario acepta -->
     <script is:inline>
       window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
+      function gtag(){window.dataLayer.push(arguments);}
+      window.gtag = gtag;
       gtag('consent', 'default', {
         analytics_storage: 'denied',
         ad_storage: 'denied',
         wait_for_update: 500,
       });
-    </script>
-    <!-- 2. Cargar el script de GA de forma asíncrona -->
-    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-JLVZH5G4KT"></script>
-    <!-- 3. Inicializar GA (las llamadas se encolan en dataLayer hasta que cargue) -->
-    <script is:inline>
-      gtag('js', new Date());
-      gtag('config', 'G-JLVZH5G4KT');
     </script>
 
     <!-- JSON-LD Schema -->

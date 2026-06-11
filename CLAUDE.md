@@ -105,7 +105,7 @@ GEMINI_API_KEY (opcional)
 - [x] Descripción en color naranja en resultados del buscador
 - [x] Texto "Fitz no encuentra nada para" sin mostrar el término buscado
 - [ ] Gap visual excesivo en la home entre categorías y últimos análisis
-- [ ] Banner de cookies (obligatorio RGPD España)
+- [x] Banner de cookies implementado (2026-06-11) — RGPD/AEPD, Consent Mode v2, clave fitzdesk_cookies_consent
 
 ---
 
@@ -246,7 +246,7 @@ Objetivos:
 - [ ] Publicar artículo del jueves esta semana
 - [ ] Lanzar prompt de búsqueda de productos cuando queden menos de 6 borradores
 - [ ] Solicitar alta en Awin en Julio 2026 cuando haya 30+ artículos publicados
-- [ ] Configurar Google Search Console
+- [ ] Configurar Google Search Console — meta tag listo en BaseLayout, pendiente código de verificación del usuario
 - [ ] Registrar @fitzdesk en redes sociales
 
 ## Estado de borradores
