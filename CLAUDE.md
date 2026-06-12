@@ -36,6 +36,8 @@ C:\xampp\htdocs\FitzDesk\fitzdesk-monitor\data\    → Caché persistente
 --color-text-secondary: #6B7280
 --color-background: #F9FAFB
 --color-border: #E5E7EB
+--color-success: #16a34a      /* puntuación alta (>= 9) */
+--color-error: #DC2626        /* puntuación baja (< 7.5) */
 ```
 
 ---
@@ -58,7 +60,7 @@ Los borradores generados por el monitor empiezan por `borrador-`.
 
 ```bash
 # Web
-npm run dev                    # localhost:4321/FitzDesk/
+npm run dev                    # localhost:4321/
 npm run build                  # genera /dist
 git add . && git commit -m "mensaje" && git push  # publicar
 
@@ -130,7 +132,7 @@ Publicaciones: 10 artículos
 Hitos:
 - [ ] 30+ artículos publicados
 - [ ] Solicitar programa PcComponentes en Awin
-- [ ] Configurar Google Search Console
+- [x] Configurar Google Search Console (completado en junio 2026, verificación por DNS)
 - [ ] Registrar @fitzdesk en redes sociales
 
 **Agosto 2026 — Crecimiento**
