@@ -5,6 +5,12 @@ fecha: "2026-05-13"
 descripcion: "Análisis del Logitech MX Keys S: teclas de perfil bajo ultra cómodas, retroiluminación inteligente y Easy-Switch para 3 dispositivos. El teclado de los productivos."
 imagen: "/images/articulos/logitech-mx-keys-s-analisis.webp"
 puntuacion: 8.8
+criterios:
+  tacto: 9.2
+  ruido: 9.3
+  conectividad: 9.0
+  durabilidad: 8.5
+  calidad_precio: 7.5
 precio: "119€"
 enlace_afiliado: "https://www.pccomponentes.com/logitech-mx-keys-s"
 tiempo_lectura: "6 min"

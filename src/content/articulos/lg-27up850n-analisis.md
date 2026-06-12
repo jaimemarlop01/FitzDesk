@@ -5,6 +5,12 @@ fecha: "2026-05-20"
 descripcion: "Análisis del LG 27UP850N-W: panel IPS 4K con USB-C 96W de carga. Un solo cable para conectar el portátil, cargar y trabajar en 4K."
 imagen: "/images/articulos/lg-27up850n-analisis.webp"
 puntuacion: 9.1
+criterios:
+  calidad_imagen: 9.0
+  ergonomia_soporte: 9.0
+  conectividad: 9.0
+  cuidado_ocular: 8.0
+  calidad_precio: 8.0
 precio: "399€"
 enlace_afiliado: "https://www.pccomponentes.com/lg-27up850n"
 tiempo_lectura: "7 min"

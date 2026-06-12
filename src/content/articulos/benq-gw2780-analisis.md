@@ -5,6 +5,12 @@ fecha: "2026-05-15"
 descripcion: "Análisis del BenQ GW2780: panel IPS 27 pulgadas con filtro de luz azul y modo sin parpadeo por 149€. El primer monitor externo con el que no te equivocas."
 imagen: "/images/articulos/benq-gw2780-analisis.webp"
 puntuacion: 8.2
+criterios:
+  calidad_imagen: 7.5
+  ergonomia_soporte: 6.0
+  conectividad: 7.5
+  cuidado_ocular: 9.3
+  calidad_precio: 9.0
 precio: "149€"
 enlace_afiliado: "https://www.pccomponentes.com/benq-gw2780"
 tiempo_lectura: "5 min"

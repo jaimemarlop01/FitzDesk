@@ -5,6 +5,12 @@ fecha: "2026-05-18"
 descripcion: "Análisis del Dell S2722QC: 4K IPS con USB-C 65W por 329€. La alternativa más sólida al LG 27UP850N para quien quiere 4K sin gastar 400€."
 imagen: "/images/articulos/dell-s2722qc-analisis.webp"
 puntuacion: 8.7
+criterios:
+  calidad_imagen: 8.5
+  ergonomia_soporte: 9.0
+  conectividad: 9.0
+  cuidado_ocular: 8.5
+  calidad_precio: 8.8
 precio: "329€"
 enlace_afiliado: "https://www.pccomponentes.com/dell-s2722qc"
 tiempo_lectura: "6 min"

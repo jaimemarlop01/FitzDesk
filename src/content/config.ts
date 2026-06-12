@@ -25,6 +25,7 @@ const articulosCollection = defineCollection({
     keywords_secundarias: z.array(z.string()).optional(),
     fecha_actualizacion: z.string().optional(),
     actualizado: z.boolean().optional(),
+    criterios: z.record(z.number()).optional(),
   }),
 });
 

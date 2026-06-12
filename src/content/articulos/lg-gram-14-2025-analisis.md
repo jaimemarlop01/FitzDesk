@@ -5,6 +5,12 @@ fecha: "2026-05-27"
 descripcion: "Análisis del LG Gram 14 2025: menos de 1 kg, hasta 18 horas de batería, certificación militar y Intel Core Ultra. El portátil definitivo para la movilidad."
 imagen: "/images/articulos/lg-gram-14-2025-analisis.webp"
 puntuacion: 9.0
+criterios:
+  rendimiento: 8.0
+  bateria: 9.5
+  pantalla: 8.5
+  teclado_trackpad: 7.0
+  calidad_precio: 7.5
 precio: "1.099€"
 enlace_afiliado: "https://www.pccomponentes.com/lg-gram-14"
 tiempo_lectura: "7 min"

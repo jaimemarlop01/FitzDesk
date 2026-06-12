@@ -13,6 +13,7 @@ type ArticleItem = {
   puntuacion: number;
   precio: string;
   enlace_afiliado: string;
+  criterios: Record<string, number>;
 };
 
 const comparables: ArticleItem[] = allArticles
@@ -25,6 +26,7 @@ const comparables: ArticleItem[] = allArticles
     puntuacion: a.data.puntuacion as number,
     precio: a.data.precio ?? 'Ver precio',
     enlace_afiliado: a.data.enlace_afiliado ?? '',
+    criterios: (a.data.criterios as Record<string, number>) ?? {},
   }));
 
 const byCategory: Record<string, ArticleItem[]> = {};
@@ -150,13 +152,43 @@ const dataJson = JSON.stringify({ byCategory, validCats, catLabels: CAT_LABELS }
   var validCats  = DATA.validCats;
   var catLabels  = DATA.catLabels;
 
-  /* ── CRITERIA ── */
+  /* ── CRITERIA — label (display) + key (frontmatter) ── */
   var CRITERIA = {
-    ratones:   ['Ergonomía', 'Precisión', 'Autonomía', 'Conectividad', 'Calidad/Precio'],
-    teclados:  ['Tacto', 'Silencio', 'Conectividad', 'Personalización', 'Calidad/Precio'],
-    monitores: ['Calidad imagen', 'Conectividad', 'Ergonomía soporte', 'Brillo/Contraste', 'Calidad/Precio'],
-    portatiles:['Rendimiento', 'Batería', 'Pantalla', 'Teclado/Trackpad', 'Calidad/Precio'],
-    setups:    ['Construcción', 'Facilidad uso', 'Compatibilidad', 'Sonido/Imagen', 'Calidad/Precio'],
+    ratones:   [
+      { label: 'Ergonomía',      key: 'ergonomia'      },
+      { label: 'Precisión',      key: 'precision'      },
+      { label: 'Autonomía',      key: 'autonomia'      },
+      { label: 'Conectividad',   key: 'conectividad'   },
+      { label: 'Calidad/Precio', key: 'calidad_precio' },
+    ],
+    teclados:  [
+      { label: 'Tacto',          key: 'tacto'          },
+      { label: 'Silencio',       key: 'ruido'          },
+      { label: 'Conectividad',   key: 'conectividad'   },
+      { label: 'Durabilidad',    key: 'durabilidad'    },
+      { label: 'Calidad/Precio', key: 'calidad_precio' },
+    ],
+    monitores: [
+      { label: 'Calidad imagen',   key: 'calidad_imagen'    },
+      { label: 'Ergonomía soporte',key: 'ergonomia_soporte' },
+      { label: 'Conectividad',     key: 'conectividad'      },
+      { label: 'Cuidado ocular',   key: 'cuidado_ocular'    },
+      { label: 'Calidad/Precio',   key: 'calidad_precio'    },
+    ],
+    portatiles:[
+      { label: 'Rendimiento',      key: 'rendimiento'    },
+      { label: 'Batería',          key: 'bateria'        },
+      { label: 'Pantalla',         key: 'pantalla'       },
+      { label: 'Teclado/Trackpad', key: 'teclado_trackpad'},
+      { label: 'Calidad/Precio',   key: 'calidad_precio' },
+    ],
+    setups:    [
+      { label: 'Construcción',   key: 'construccion'   },
+      { label: 'Facilidad uso',  key: 'facilidad_uso'  },
+      { label: 'Compatibilidad', key: 'compatibilidad' },
+      { label: 'Sonido/Imagen',  key: 'sonido_imagen'  },
+      { label: 'Calidad/Precio', key: 'calidad_precio' },
+    ],
   };
 
   var CAT_SEARCH_TEXT = {
@@ -197,9 +229,12 @@ const dataJson = JSON.stringify({ byCategory, validCats, catLabels: CAT_LABELS }
   }
 
   function criteriaScores(article, cat) {
-    var base     = article.puntuacion;
     var criteria = CRITERIA[cat] || [];
-    return criteria.map(function(_, i) {
+    var crits    = article.criterios || {};
+    return criteria.map(function(c, i) {
+      if (crits[c.key] !== undefined) return crits[c.key];
+      // Fallback derivado si no hay dato real
+      var base = article.puntuacion;
       if (i === criteria.length - 1) {
         var ps = priceScore(article.precio);
         return +((base * 0.55 + ps * 0.45).toFixed(1));
@@ -466,10 +501,10 @@ const dataJson = JSON.stringify({ byCategory, validCats, catLabels: CAT_LABELS }
       artA.puntuacion > artB.puntuacion + 0.5 ? 'a' :
       artB.puntuacion > artA.puntuacion + 0.5 ? 'b' : 'tie');
 
-    criteria.forEach(function(label, i) {
+    criteria.forEach(function(c, i) {
       var sA     = scoresA[i], sB = scoresB[i];
       var winner = sA > sB + 0.5 ? 'a' : sB > sA + 0.5 ? 'b' : 'tie';
-      compareTbody.innerHTML += tableRow(label, sA.toFixed(1), sB.toFixed(1), winner);
+      compareTbody.innerHTML += tableRow(c.label, sA.toFixed(1), sB.toFixed(1), winner);
     });
 
     renderRadar(artA, artB, criteria, scoresA, scoresB);
@@ -549,7 +584,7 @@ const dataJson = JSON.stringify({ byCategory, validCats, catLabels: CAT_LABELS }
     radarChart = new window.Chart(canvas, {
       type: 'radar',
       data: {
-        labels: criteria,
+        labels: criteria.map(function(c) { return c.label; }),
         datasets: [
           {
             label: shortTitle(artA.title),
