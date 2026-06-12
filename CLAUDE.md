@@ -22,7 +22,7 @@ C:\xampp\htdocs\FitzDesk\fitzdesk-monitor\data\    → Caché persistente
 - **Web**: Astro v4, CSS vanilla, JS vanilla, Fuse.js (buscador), @astrojs/sitemap@3.1.6 (generación automática — versión 3.1.x es la compatible con Astro 4; 3.7.x requiere Astro 5)
 - **Monitor**: Node.js, Groq (llama-3.3-70b-versatile), Discord webhooks
 - **Deploy web**: GitHub Actions → GitHub Pages
-- **Deploy monitor**: GitHub Actions (diario 8:00 ES) — migrado desde Railway el 2026-06-10
+- **Deploy monitor**: GitHub Actions (diario — 8:00 CET / 9:00 CEST) — migrado desde Railway el 2026-06-10
 - **URL**: https://fitzdesk.com (dominio propio verificado en Search Console por DNS el 2026-06-12)
 
 ---
@@ -252,10 +252,10 @@ Objetivos:
 - [ ] Registrar @fitzdesk en redes sociales
 
 ## Estado de borradores
-- Última revisión: 2026-06-11
-- Borradores descartados (total acumulado): 9 (xbox-ally, asus-rog-strix, corsair-anade-icue, antec-computex + 6-tb-oferta-amazon, corsair-renueva-catalogo, nvidia-rtx-spark, borrador-surface-ultra-duplicado, razer-seiren-v3-pro)
+- Última revisión: 2026-06-12
+- Borradores descartados (total acumulado): 8 correctos + 1 falso descarte (xbox-ally, asus-rog-strix, corsair-anade-icue, antec-computex + 6-tb-oferta-amazon, corsair-renueva-catalogo, nvidia-rtx-spark, borrador-surface-ultra-duplicado, corsair-anade-icue) · razer-seiren-v3-pro fue descarte incorrecto (micrófono para teletrabajo, regenerar)
 - Borradores en calendario con imagen y fecha listos: 9 (samsung-s27a600, hp-probook-455-g10, razer-pro-click, logitech-k380, monitor-4k-vs-full-hd, intel-wildcat-lake, corsair-clipper-pro-mini-60, hp-935-creator-wireless, mejor-raton-presupuesto) — imágenes descargadas el 2026-06-11, sin pendientes
-- Sin programar (fuera del horizonte de 4 semanas): Cherry KC 6000 Slim (teclados), AOC Q27P3CV (monitores), Jabra Evolve2 30 SE (setups), Trust TK-350 Silent (teclados), ADATA Urban TapSafe (setups), dolor-muneca-teletrabajo-perifericos-ergonomicos (guia), asus-portatiles-trabajo-exigente-2026 (guia)
+- Sin programar (fuera del horizonte de 4 semanas): logitech-mobi-fold-analisis (ratones, 2026-07-22), Cherry KC 6000 Slim (teclados), AOC Q27P3CV (monitores), Jabra Evolve2 30 SE (setups), Trust TK-350 Silent (teclados), ADATA Urban TapSafe (setups), dolor-muneca-teletrabajo-perifericos-ergonomicos (guia), asus-portatiles-trabajo-exigente-2026 (guia), Razer Seiren V3 Pro (setups — regenerar)
 - Lanzamientos Computex pendientes de disponibilidad: borrador-adata-urban-tapsafe
 
 ## Estado del código
@@ -272,6 +272,7 @@ Objetivos:
   - monitor.js:643 — doble llamada a notifyDailySummary() en modo daemon corregida
   - src/content/config.ts — campos opcionales del monitor añadidos al schema Zod (imagen_thumb, presupuesto, enlace_a, enlace_b, enlaces, keyword_principal, keywords_secundarias, fecha_actualizacion, actualizado)
 - Sugerencias (1): monitor.yml no invalida caché npm entre runs del build web
+- Correcciones 2026-06-12 (sesión actual): sources.js — KEYWORDS_DESCARTE usa ahora hasWordDescarte() con \b para todos los términos (antes solo ≤4 chars), evita falsos positivos como "tablet" en "tablets" o "movil" en nombres de producto tipo Logitech Mobi Fold · monitor.yml — comentario de horario corregido (8:00 CET / 9:00 CEST + nota de retrasos GitHub) · tres agentes actualizados para criterios/radar · logitech-mobi-fold-analisis.md creado
 - Resueltas el 2026-06-12: scoreColor() extraída a src/lib/score.ts (era triplicada) · PlaceholderImage usa vars CSS · imageCollector usa logWarn · dominio fitzdesk.com confirmado · gap visual home corregido · Search Console verificada por DNS · sitemap automático activado (@astrojs/sitemap@3.1.6, bajado desde 3.7.3 que requiere Astro 5) · sitemaps manuales de public/ eliminados · URL eliminada (raton-ergonomico-vs-estandar-teletrabajo) ya no aparece en el sitemap
 - Añadidos el 2026-06-11/12 (no forman parte de la revisión de código):
   - comparar.astro — nueva página `/comparar` con radar Chart.js, selección de productos, tabla comparativa y URL compartible; CSS con `is:global` (todos los elementos son JS-dinámicos); botones afiliado solo si hay `enlace_afiliado`; `--color-compare-b: #3B82F6` añadida a `:root`
@@ -306,7 +307,7 @@ Objetivos:
 ## Monitor — GitHub Actions
 
 - Migrado de Railway a GitHub Actions el 2026-06-10
-- Se ejecuta diariamente a las 8:00 (UTC+1) — cron: `0 7 * * *`
+- Se ejecuta diariamente — cron: `0 7 * * *` (8:00 CET en invierno / 9:00 CEST en verano); las notificaciones de Discord pueden llegar hasta las 13:00 por colas de GitHub Actions en plan gratuito
 - Para ejecutar manualmente: GitHub → Actions → FitzDesk Monitor → Run workflow
 - Workflow: `.github/workflows/monitor.yml`
 - Secrets necesarios en el repo: `GROQ_API_KEY`, `DISCORD_WEBHOOK_URL`

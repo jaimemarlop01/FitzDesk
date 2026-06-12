@@ -2,7 +2,7 @@ name: FitzDesk Monitor
 
 on:
   schedule:
-    - cron: '0 7 * * *'  # Cada día a las 8:00 hora España (UTC+1)
+    - cron: '0 7 * * *'  # 8:00 CET (invierno) / 9:00 CEST (verano) — GitHub Actions puede retrasarse hasta 6h en carga alta
   workflow_dispatch:      # Permite ejecutarlo manualmente desde GitHub
 
 permissions:
