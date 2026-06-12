@@ -272,6 +272,10 @@ Objetivos:
   - monitor.js:643 — doble llamada a notifyDailySummary() en modo daemon corregida
   - src/content/config.ts — campos opcionales del monitor añadidos al schema Zod (imagen_thumb, presupuesto, enlace_a, enlace_b, enlaces, keyword_principal, keywords_secundarias, fecha_actualizacion, actualizado)
 - Sugerencias (5): scoreColor() triplicada (ArticleCard + buscar.astro + [slug].astro) · PlaceholderImage hardcodea #F97316/#FFF7ED · imageCollector console.error debería ser logWarn · CategoryBadge colores hardcodeados por diseño (aceptable) · monitor.yml no invalida caché npm entre runs del build web
+- Añadidos el 2026-06-11/12 (no forman parte de la revisión de código):
+  - comparar.astro — nueva página `/comparar` con radar Chart.js, selección de productos, tabla comparativa y URL compartible; CSS con `is:global` (todos los elementos son JS-dinámicos); botones afiliado solo si hay `enlace_afiliado`; `--color-compare-b: #3B82F6` añadida a `:root`
+  - config.ts — `criterios: z.record(z.number()).optional()` añadido al schema Zod
+  - 14 artículos de análisis — bloque `criterios:` con 5 valores reales por categoría (ratones: ergonomia/precision/autonomia/conectividad/calidad_precio · teclados: tacto/ruido/conectividad/durabilidad/calidad_precio · monitores: calidad_imagen/ergonomia_soporte/conectividad/cuidado_ocular/calidad_precio · portátiles: rendimiento/bateria/pantalla/teclado_trackpad/calidad_precio)
 
 ## Estado de precios
 - Última revisión de precios: 2026-06-10
