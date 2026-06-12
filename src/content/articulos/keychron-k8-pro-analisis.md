@@ -5,6 +5,12 @@ fecha: "2026-05-08"
 descripcion: "Análisis del Keychron K8 Pro: formato TKL, hot-swap, triple conectividad y compatibilidad Mac/Windows. El mejor primer mecánico para trabajo serio."
 imagen: "/images/articulos/keychron-k8-pro-analisis.webp"
 puntuacion: 9.0
+criterios:
+  tacto: 8.8
+  ruido: 6.5
+  conectividad: 9.0
+  durabilidad: 8.7
+  calidad_precio: 8.3
 precio: "109€"
 enlace_afiliado: "https://www.pccomponentes.com/keychron-k8-pro"
 tiempo_lectura: "7 min"

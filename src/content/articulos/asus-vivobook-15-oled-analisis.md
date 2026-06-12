@@ -5,6 +5,12 @@ fecha: "2026-05-22"
 descripcion: "Análisis del ASUS Vivobook 15 OLED 2025: pantalla OLED 15.6 pulgadas con colores espectaculares e Intel Core i5/i7 por 699€. La mejor pantalla en este precio."
 imagen: "/images/articulos/asus-vivobook-15-oled-analisis.webp"
 puntuacion: 8.6
+criterios:
+  rendimiento: 7.5
+  bateria: 6.5
+  pantalla: 9.3
+  teclado_trackpad: 8.0
+  calidad_precio: 8.0
 precio: "699€"
 enlace_afiliado: "https://www.pccomponentes.com/asus-vivobook-15-oled"
 tiempo_lectura: "6 min"

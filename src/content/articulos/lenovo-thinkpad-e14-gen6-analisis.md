@@ -5,6 +5,12 @@ fecha: "2026-05-24"
 descripcion: "Análisis del ThinkPad E14 Gen 6: el mejor teclado de su categoría, construcción robusta y soporte a largo plazo por 849€. El portátil de los profesionales serios."
 imagen: "/images/articulos/lenovo-thinkpad-e14-gen6-analisis.webp"
 puntuacion: 8.8
+criterios:
+  rendimiento: 8.5
+  bateria: 7.0
+  pantalla: 7.5
+  teclado_trackpad: 9.0
+  calidad_precio: 8.5
 precio: "849€"
 enlace_afiliado: "https://www.pccomponentes.com/lenovo-thinkpad-e14"
 tiempo_lectura: "7 min"

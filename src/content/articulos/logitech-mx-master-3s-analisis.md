@@ -5,6 +5,12 @@ fecha: "2026-05-01"
 descripcion: "Análisis completo del Logitech MX Master 3S: ergonomía premium, scroll MagSpeed y hasta 70 días de batería para profesionales exigentes."
 imagen: "/images/articulos/logitech-mx-master-3s-analisis.webp"
 puntuacion: 9.2
+criterios:
+  ergonomia: 9.3
+  precision: 9.0
+  autonomia: 9.0
+  conectividad: 9.0
+  calidad_precio: 8.5
 precio: "99€"
 enlace_afiliado: "https://www.pccomponentes.com/logitech-mx-master-3s"
 tiempo_lectura: "7 min"

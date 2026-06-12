@@ -5,6 +5,12 @@ fecha: "2026-05-03"
 descripcion: "Análisis del Logitech Lift Vertical: el ratón ergonómico compacto que reduce la tensión en muñeca y antebrazo para jornadas largas de teletrabajo."
 imagen: "/images/articulos/logitech-lift-vertical-analisis.webp"
 puntuacion: 8.4
+criterios:
+  ergonomia: 9.3
+  precision: 8.0
+  autonomia: 8.0
+  conectividad: 8.5
+  calidad_precio: 8.0
 precio: "69€"
 enlace_afiliado: "https://www.pccomponentes.com/logitech-lift"
 tiempo_lectura: "6 min"

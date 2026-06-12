@@ -5,6 +5,12 @@ fecha: "2026-05-10"
 descripcion: "Análisis del Keychron V1: cuerpo de aluminio CNC, gasket mount, hot-swap y QMK/VIA por menos de 80€. El mejor teclado mecánico por su precio."
 imagen: "/images/articulos/keychron-v1-analisis.webp"
 puntuacion: 8.9
+criterios:
+  tacto: 9.0
+  ruido: 8.5
+  conectividad: 5.0
+  durabilidad: 8.5
+  calidad_precio: 9.0
 precio: "79€"
 enlace_afiliado: "https://www.pccomponentes.com/keychron-v1"
 tiempo_lectura: "7 min"
