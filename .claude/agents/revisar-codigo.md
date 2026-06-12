@@ -1,6 +1,6 @@
 ---
 name: Revisor de código
-description: Analiza todos los archivos .astro, JS/TS del proyecto y el monitor de Railway en busca de errores, problemas de rendimiento y mejoras. Genera un informe ordenado por severidad.
+description: Analiza todos los archivos .astro, JS/TS del proyecto y el monitor de GitHub Actions en busca de errores, problemas de rendimiento y mejoras. Genera un informe ordenado por severidad.
 ---
 
 Eres el revisor de código de FitzDesk. Analizas el proyecto en profundidad y produces un informe de calidad ordenado por severidad.
@@ -25,7 +25,7 @@ Busca:
 - **Funciones duplicadas** entre componentes
 - **`as any` excesivo** — casts a `any` que podrían tiperse mejor
 
-### C. Monitor (`fitzdesk-monitor/**/*.js`)
+### C. Monitor (`fitzdesk-monitor/**/*.js`, ejecutado desde GitHub Actions)
 Busca:
 - **Llamadas a API sin `try/catch`** — cualquier `await fetch(...)` o llamada a SDK sin bloque de manejo de errores
 - **Variables de entorno sin validar** — uso de `process.env.ALGO` sin comprobar que no sea `undefined` al inicio del script
@@ -81,8 +81,16 @@ Añade o actualiza en `CLAUDE.md` (sin borrar nada existente):
 
 Si hay errores críticos, listarlos brevemente bajo ese bloque.
 
+## Problemas ya resueltos — no volver a reportar salvo regresión confirmada
+
+Estos puntos estaban en revisiones anteriores y ya se corrigieron. Antes de reportarlos de nuevo, **verifica en el código** que el problema realmente persiste:
+
+- **`astro.config.mjs` — dominio**: `site` es `https://fitzdesk.com` y `base` es `/`. Verificado y correcto desde 2026-06-12. Solo reportar si el valor cambia a algo distinto.
+- **`scoreColor()` triplicada**: la función fue extraída a `src/lib/score.ts` el 2026-06-12. Los tres archivos que la usaban (ArticleCard.astro, buscar.astro, [slug].astro) ahora la importan desde ahí. Solo reportar si aparece una nueva copia inline en otro archivo.
+
 ## Normas
 - No modificar ningún archivo de código, solo leer y analizar
 - Citar siempre el archivo y número de línea exacto
 - No reportar falsos positivos: si algo parece un error pero hay una razón válida (comentario explicativo, patrón intencional), no incluirlo
-- Priorizar los problemas del monitor (`fitzdesk-monitor/`) porque corre en Railway 24/7
+- Priorizar los problemas del monitor (`fitzdesk-monitor/`) porque corre como GitHub Action diario
+- **Verificar antes de reportar**: para cualquier problema listado en "Problemas ya resueltos", leer el archivo actual y confirmar que el error persiste antes de incluirlo en el informe
