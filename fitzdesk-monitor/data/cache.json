@@ -2231,6 +2231,378 @@
       "url": "https://www.google.com/url",
       "titleHash": "89de03a72e6dded2ea7f237c978fcfec",
       "ts": 1781176983713
+    },
+    {
+      "id": "https://www.xataka.com/empresas-y-economia/1980-bill-gates-entrego-8-75-microsoft-para-fichar-a-su-amigo-hoy-steve-ballmer-rico-que-gates-1",
+      "url": "https://www.xataka.com/empresas-y-economia/1980-bill-gates-entrego-8-75-microsoft-para-fichar-a-su-amigo-hoy-steve-ballmer-rico-que-gates-1",
+      "titleHash": "e34cc22ed106871ff49224edc0e20fe1",
+      "ts": 1781262125217
+    },
+    {
+      "id": "https://www.xataka.com/ecologia-y-naturaleza/estamos-comprobando-primer-efecto-nino-destructivo-que-se-recuerda-sube-nivel-mar",
+      "url": "https://www.xataka.com/ecologia-y-naturaleza/estamos-comprobando-primer-efecto-nino-destructivo-que-se-recuerda-sube-nivel-mar",
+      "titleHash": "067b2e71a23865ce335489a5d9feee21",
+      "ts": 1781262125218
+    },
+    {
+      "id": "https://www.xataka.com/robotica-e-ia/startup-barcelona-gigante-asiatico-theker-logra-74-millones-para-batir-a-china-su-propio-juego",
+      "url": "https://www.xataka.com/robotica-e-ia/startup-barcelona-gigante-asiatico-theker-logra-74-millones-para-batir-a-china-su-propio-juego",
+      "titleHash": "551e53b437e2e3acb1456c68d63b147d",
+      "ts": 1781262125219
+    },
+    {
+      "id": "https://www.xataka.com/espacio/james-webb-acaba-encontrar-objeto-que-solo-existia-teoria-estrella-agujero-negro-su-interior",
+      "url": "https://www.xataka.com/espacio/james-webb-acaba-encontrar-objeto-que-solo-existia-teoria-estrella-agujero-negro-su-interior",
+      "titleHash": "f03382b6170776a869f363063e8e1490",
+      "ts": 1781262125221
+    },
+    {
+      "id": "https://www.xataka.com/magnet/espana-comer-se-ha-convertido-tramite-que-debe-ser-rapido-facil-eso-esta-haciendo-oro-a-super-que-preparan-platos",
+      "url": "https://www.xataka.com/magnet/espana-comer-se-ha-convertido-tramite-que-debe-ser-rapido-facil-eso-esta-haciendo-oro-a-super-que-preparan-platos",
+      "titleHash": "699e1cee23510d74918c31f1d9fdcc0f",
+      "ts": 1781262125222
+    },
+    {
+      "id": "https://www.xataka.com/magnet/manicuras-rusas-obsesion-tiktok-solo-hay-problema-maquina-a-35-000-rpm-limando-tu-piel-desaparecer",
+      "url": "https://www.xataka.com/magnet/manicuras-rusas-obsesion-tiktok-solo-hay-problema-maquina-a-35-000-rpm-limando-tu-piel-desaparecer",
+      "titleHash": "75aebbfb1cae5bae3e8fec7ae36d99cf",
+      "ts": 1781262125223
+    },
+    {
+      "id": "https://www.xataka.com/seleccion/cazando-gangas-mejores-ofertas-toda-semana-tecnologia-entretenimiento-hoy-12-junio",
+      "url": "https://www.xataka.com/seleccion/cazando-gangas-mejores-ofertas-toda-semana-tecnologia-entretenimiento-hoy-12-junio",
+      "titleHash": "9c8f733cf72c06c6e90cf4e377059338",
+      "ts": 1781262125224
+    },
+    {
+      "id": "https://www.xataka.com/empresas-y-economia/ia-esta-aligerando-trabajo-diario-tiene-efecto-secundario-se-trabaja-para-rehacer-que-hace-ia",
+      "url": "https://www.xataka.com/empresas-y-economia/ia-esta-aligerando-trabajo-diario-tiene-efecto-secundario-se-trabaja-para-rehacer-que-hace-ia",
+      "titleHash": "446659ad626d16b5d7dd957499d5c5f9",
+      "ts": 1781262125224
+    },
+    {
+      "id": "https://www.xataka.com/empresas-y-economia/empresa-probo-semana-laboral-cuatro-dias-ahora-sus-trabajadores-piensan-que-mejor-trabajar-siete-dias-1",
+      "url": "https://www.xataka.com/empresas-y-economia/empresa-probo-semana-laboral-cuatro-dias-ahora-sus-trabajadores-piensan-que-mejor-trabajar-siete-dias-1",
+      "titleHash": "efe493b7196dfb04996f7757a0b24f86",
+      "ts": 1781262125226
+    },
+    {
+      "id": "https://www.xataka.com/movilidad/grecia-quiso-poner-ia-a-vigilar-trafico-problema-llego-cuando-hubo-que-revisar-multas",
+      "url": "https://www.xataka.com/movilidad/grecia-quiso-poner-ia-a-vigilar-trafico-problema-llego-cuando-hubo-que-revisar-multas",
+      "titleHash": "2c6d15802dcabd3b5dd805cd47c990a5",
+      "ts": 1781262125227
+    },
+    {
+      "id": "https://www.xataka.com/streaming/hoy-llega-a-netflix-sorpresa-nueva-pelicula-senor-anillos-cuya-genesis-interesante-como-su-argumento",
+      "url": "https://www.xataka.com/streaming/hoy-llega-a-netflix-sorpresa-nueva-pelicula-senor-anillos-cuya-genesis-interesante-como-su-argumento",
+      "titleHash": "470d8a81c27b612f60b451bfa9620abb",
+      "ts": 1781262125228
+    },
+    {
+      "id": "https://www.xataka.com/espacio/joven-planeta-vecino-a-tierra-se-destruyo-antes-terminar-formarse-ahora-hemos-encontrado-trozo-sahara",
+      "url": "https://www.xataka.com/espacio/joven-planeta-vecino-a-tierra-se-destruyo-antes-terminar-formarse-ahora-hemos-encontrado-trozo-sahara",
+      "titleHash": "3b331dbb804fc2663aacf7818bf97db2",
+      "ts": 1781262125229
+    },
+    {
+      "id": "https://www.xataka.com/movilidad/nuevo-byd-dolphin-g-dm-i-caracteristicas-precio-ficha-tecnica",
+      "url": "https://www.xataka.com/movilidad/nuevo-byd-dolphin-g-dm-i-caracteristicas-precio-ficha-tecnica",
+      "titleHash": "ef0ce5706609116a99d8daaccef0231a",
+      "ts": 1781262125231
+    },
+    {
+      "id": "https://www.xataka.com/magnet/espana-ha-encontrado-nueva-forma-gastarse-miles-miles-euros-primeras-comuniones-que-parecen-mini-bodas",
+      "url": "https://www.xataka.com/magnet/espana-ha-encontrado-nueva-forma-gastarse-miles-miles-euros-primeras-comuniones-que-parecen-mini-bodas",
+      "titleHash": "f856b0998bff2a8bf703e0a195b1b13c",
+      "ts": 1781262125231
+    },
+    {
+      "id": "https://www.xataka.com/seleccion/nespresso-vertuo-up-frente-a-pop-next-que-cambia-que-no-nueva-generacion-cafeteras-capsulas-grandes",
+      "url": "https://www.xataka.com/seleccion/nespresso-vertuo-up-frente-a-pop-next-que-cambia-que-no-nueva-generacion-cafeteras-capsulas-grandes",
+      "titleHash": "bf98da90c4b79e0894f4ea41d82447b2",
+      "ts": 1781262125233
+    },
+    {
+      "id": "https://www.xataka.com/medicina-y-salud/pensabamos-que-problema-insomnio-era-estres-movil-ciencia-apunta-al-inofensivo-cafe-cinco-tarde",
+      "url": "https://www.xataka.com/medicina-y-salud/pensabamos-que-problema-insomnio-era-estres-movil-ciencia-apunta-al-inofensivo-cafe-cinco-tarde",
+      "titleHash": "879a05de6221d3ec0322efb390c7260f",
+      "ts": 1781262125234
+    },
+    {
+      "id": "https://www.xataka.com/empresas-y-economia/espana-ha-sumo-13-100-nuevos-millonarios-2025-ladrillo-volvio-a-demostrar-que-lado-juega",
+      "url": "https://www.xataka.com/empresas-y-economia/espana-ha-sumo-13-100-nuevos-millonarios-2025-ladrillo-volvio-a-demostrar-que-lado-juega",
+      "titleHash": "faf6de9159edf69b8ec530264f6a57e1",
+      "ts": 1781262125235
+    },
+    {
+      "id": "https://www.xataka.com/movilidad/conductor-aleman-se-ha-propuesto-descubrir-cuanto-podia-estirar-deposito-su-viejo-coche-diesel-ha-hecho-2-400-kilometros",
+      "url": "https://www.xataka.com/movilidad/conductor-aleman-se-ha-propuesto-descubrir-cuanto-podia-estirar-deposito-su-viejo-coche-diesel-ha-hecho-2-400-kilometros",
+      "titleHash": "0edf5fa6305fb1afeee60abf90ab305f",
+      "ts": 1781262125236
+    },
+    {
+      "id": "https://www.xataka.com/magnet/kings-league-nacio-2023-para-acabar-futbol-tradicional-tres-anos-despues-ha-declarado-ere",
+      "url": "https://www.xataka.com/magnet/kings-league-nacio-2023-para-acabar-futbol-tradicional-tres-anos-despues-ha-declarado-ere",
+      "titleHash": "01c162f84abaa6e2aa2b31ed9daa2842",
+      "ts": 1781262125237
+    },
+    {
+      "id": "https://www.xataka.com/medicina-y-salud/no-traen-maletas-traen-historiales-medicos-como-espana-se-ha-convertido-nueva-meca-europea-longevidad",
+      "url": "https://www.xataka.com/medicina-y-salud/no-traen-maletas-traen-historiales-medicos-como-espana-se-ha-convertido-nueva-meca-europea-longevidad",
+      "titleHash": "9c3ee17c0fb6c5c8b6c4e4d266283d6f",
+      "ts": 1781262125238
+    },
+    {
+      "id": "https://www.xataka.com/basics/vuelve-verano-joven-2026-que-necesitas-para-viajar-90-descuento-este-verano",
+      "url": "https://www.xataka.com/basics/vuelve-verano-joven-2026-que-necesitas-para-viajar-90-descuento-este-verano",
+      "titleHash": "f5429ec8e1e0100e4a7e6f156c6c7677",
+      "ts": 1781262125239
+    },
+    {
+      "id": "https://www.xataka.com/robotica-e-ia/ultimo-truco-empresas-ia-para-parecer-artificiales-usar-tipografias-clasicas-llegada-tasteslop",
+      "url": "https://www.xataka.com/robotica-e-ia/ultimo-truco-empresas-ia-para-parecer-artificiales-usar-tipografias-clasicas-llegada-tasteslop",
+      "titleHash": "8829ccb4ac9e244ab75f8bbb361f92a9",
+      "ts": 1781262125239
+    },
+    {
+      "id": "https://www.xataka.com/seleccion/logitech-presenta-su-primer-plegable-no-movil-sino-raton-perfecto-para-profesionales-que-viajan-frecuencia",
+      "url": "https://www.xataka.com/seleccion/logitech-presenta-su-primer-plegable-no-movil-sino-raton-perfecto-para-profesionales-que-viajan-frecuencia",
+      "titleHash": "6251cb17f84758152c88d164ee140eeb",
+      "ts": 1781262125240
+    },
+    {
+      "id": "https://www.xataka.com/magnet/china-lleva-anos-entrenando-invasion-taiwan-acaba-ensayar-primera-vez-como-hundirla-armas-eeuu",
+      "url": "https://www.xataka.com/magnet/china-lleva-anos-entrenando-invasion-taiwan-acaba-ensayar-primera-vez-como-hundirla-armas-eeuu",
+      "titleHash": "073f69972f704d6b8df614495c056fdd",
+      "ts": 1781262125241
+    },
+    {
+      "id": "https://www.xataka.com/medicina-y-salud/expertos-coinciden-que-calidad-descanso-depende-te-acuestas-momento-que-tu-cuerpo-esta-preparado-para-dormir",
+      "url": "https://www.xataka.com/medicina-y-salud/expertos-coinciden-que-calidad-descanso-depende-te-acuestas-momento-que-tu-cuerpo-esta-preparado-para-dormir",
+      "titleHash": "f44b12b1ae7a0c2f5603acbab7bc7733",
+      "ts": 1781262125242
+    },
+    {
+      "id": "https://www.xataka.com/movilidad/noruega-ha-puesto-a-prueba-a-24-coches-electricos-resultado-claro-solo-china-hace-frente-a-bmw-mercedes",
+      "url": "https://www.xataka.com/movilidad/noruega-ha-puesto-a-prueba-a-24-coches-electricos-resultado-claro-solo-china-hace-frente-a-bmw-mercedes",
+      "titleHash": "ccaac5e71c8ba2b6f2bd2510b7676b55",
+      "ts": 1781262125244
+    },
+    {
+      "id": "https://hardzone.es/noticias/inteligencia-artificial/que-es-deepseek-funcionamiento-utilizar/",
+      "url": "https://hardzone.es/noticias/inteligencia-artificial/que-es-deepseek-funcionamiento-utilizar/",
+      "titleHash": "bad74e95aa1f65a2f79a7d4b29940ae8",
+      "ts": 1781262127857
+    },
+    {
+      "id": "https://hardzone.es/noticias/equipos/cuando-sale-playstation-6-como-sera-proxima-consola-sony/",
+      "url": "https://hardzone.es/noticias/equipos/cuando-sale-playstation-6-como-sera-proxima-consola-sony/",
+      "titleHash": "d618f8b39f0bb967dd2b7ffee97c72c6",
+      "ts": 1781262127858
+    },
+    {
+      "id": "https://hardzone.es/noticias/inteligencia-artificial/microsoft-abre-puertas-ia-local-tarjetas-graficas-nvidia-rtx/",
+      "url": "https://hardzone.es/noticias/inteligencia-artificial/microsoft-abre-puertas-ia-local-tarjetas-graficas-nvidia-rtx/",
+      "titleHash": "52b3d8fbf2c0c327f0ede9be9c3192e1",
+      "ts": 1781262127859
+    },
+    {
+      "id": "https://hardzone.es/noticias/juegos/juegos-ps-plus-junio-2026/",
+      "url": "https://hardzone.es/noticias/juegos/juegos-ps-plus-junio-2026/",
+      "titleHash": "d6fb90fde18960fb6333d3d804a06e63",
+      "ts": 1781262127860
+    },
+    {
+      "id": "https://hardzone.es/noticias/inteligencia-artificial/chatbots-ia-bajan-precio-gemini-chatgpt-claude/",
+      "url": "https://hardzone.es/noticias/inteligencia-artificial/chatbots-ia-bajan-precio-gemini-chatgpt-claude/",
+      "titleHash": "63c995be6be38e75c7026974f5490621",
+      "ts": 1781262127861
+    },
+    {
+      "id": "https://hardzone.es/noticias/tarjetas-graficas/rtx-50-super-modelos-rendimiento-precio/",
+      "url": "https://hardzone.es/noticias/tarjetas-graficas/rtx-50-super-modelos-rendimiento-precio/",
+      "titleHash": "97354d925a79612c3e55406453fa7fe0",
+      "ts": 1781262127862
+    },
+    {
+      "id": "https://hardzone.es/ofertas/pc-componentes/macbook-neo-512-0626/",
+      "url": "https://hardzone.es/ofertas/pc-componentes/macbook-neo-512-0626/",
+      "titleHash": "69e2b67a3088f7e43163a44741b35fbb",
+      "ts": 1781262127863
+    },
+    {
+      "id": "https://hardzone.es/noticias/juegos/impresiones-demo-1666-amsterdam-patrice-desilets/",
+      "url": "https://hardzone.es/noticias/juegos/impresiones-demo-1666-amsterdam-patrice-desilets/",
+      "titleHash": "e9c236b957f867a8950c2afd7171da23",
+      "ts": 1781262127865
+    },
+    {
+      "id": "https://hardzone.es/reportajes/tema/nuevos-nas-ugreen-nasync-gt/",
+      "url": "https://hardzone.es/reportajes/tema/nuevos-nas-ugreen-nasync-gt/",
+      "titleHash": "2e64eee9fd02f19f880114a9539360da",
+      "ts": 1781262127866
+    },
+    {
+      "id": "https://hardzone.es/reviews/memorias-ram/corsair-shugo/",
+      "url": "https://hardzone.es/reviews/memorias-ram/corsair-shugo/",
+      "titleHash": "bbecb3c1ab5ec2abf02bf4427ab0dba8",
+      "ts": 1781262134297
+    },
+    {
+      "id": "https://elchapuzasinformatico.com/?p=656481",
+      "url": "https://elchapuzasinformatico.com/2026/06/xbox-matthew-ball-anuncios-bajar-precios/",
+      "titleHash": "f2162274f2ab5d4119b82ddef201763d",
+      "ts": 1781262136416
+    },
+    {
+      "id": "https://elchapuzasinformatico.com/?p=656374",
+      "url": "https://elchapuzasinformatico.com/2026/06/sandisk-tarjetas-sd-sduc-8-tb-capacidad/",
+      "titleHash": "ab4cbe96b2ae8a422ceca1ca609c3ca9",
+      "ts": 1781262136418
+    },
+    {
+      "id": "https://elchapuzasinformatico.com/?p=656466",
+      "url": "https://elchapuzasinformatico.com/2026/06/trump-mobile-t1-htc/",
+      "titleHash": "9b90f2380e3b57434581b88f7e9f202f",
+      "ts": 1781262136418
+    },
+    {
+      "id": "https://elchapuzasinformatico.com/?p=656377",
+      "url": "https://elchapuzasinformatico.com/2026/06/proteccion-antirrobo-apple-golpea-reventa-de-iphone-robados-en-londres/",
+      "titleHash": "ef44b1262d0644819422a67fcde01730",
+      "ts": 1781262136419
+    },
+    {
+      "id": "https://elchapuzasinformatico.com/?p=656396",
+      "url": "https://elchapuzasinformatico.com/2026/06/amd-ventas-cpu-amazon/",
+      "titleHash": "10deb6004a7bc0eb44a31cba5dee09ba",
+      "ts": 1781262136420
+    },
+    {
+      "id": "https://elchapuzasinformatico.com/?p=656350",
+      "url": "https://elchapuzasinformatico.com/2026/06/youtuber-samsung-rma/",
+      "titleHash": "275b6a45bfe1f5aec5bc580064d6335a",
+      "ts": 1781262136421
+    },
+    {
+      "id": "https://elchapuzasinformatico.com/?p=656348",
+      "url": "https://elchapuzasinformatico.com/2026/06/semiconductores-300000-millones-1t26/",
+      "titleHash": "d104bc4d7ee8abb6637bd30fc0745585",
+      "ts": 1781262136421
+    },
+    {
+      "id": "https://elchapuzasinformatico.com/?p=656328",
+      "url": "https://elchapuzasinformatico.com/2026/06/fable-5-funciones-ocultas/",
+      "titleHash": "612597f43d0c55675de9fb7b35f7942e",
+      "ts": 1781262136422
+    },
+    {
+      "id": "https://elchapuzasinformatico.com/?p=656312",
+      "url": "https://elchapuzasinformatico.com/2026/06/uk-escanear-contenido-moviles/",
+      "titleHash": "f5757a156fcd550bdedfaddf29c7e985",
+      "ts": 1781262136423
+    },
+    {
+      "id": "https://elchapuzasinformatico.com/?p=656330",
+      "url": "https://elchapuzasinformatico.com/2026/06/estados-unidos-pc-desvia-para-disparo-de-bala/",
+      "titleHash": "0fe151bd269d5b5a55ce8494deeac12a",
+      "ts": 1781262136424
+    },
+    {
+      "id": "https://elchapuzasinformatico.com/?p=656325",
+      "url": "https://elchapuzasinformatico.com/2026/06/google-diffusiongemma-ia/",
+      "titleHash": "b6cd2e0dddcebb41b0ac68bb5fa97a58",
+      "ts": 1781262136425
+    },
+    {
+      "id": "https://elchapuzasinformatico.com/?p=656371",
+      "url": "https://elchapuzasinformatico.com/2026/06/licencia-office-2024-ofertas-de-cdkeyoffer/",
+      "titleHash": "b743a89781fdc913be90399a823eaf2b",
+      "ts": 1781262136426
+    },
+    {
+      "id": "https://elchapuzasinformatico.com/?p=656250",
+      "url": "https://elchapuzasinformatico.com/2026/06/geekom-a5-pro-oferta-descuento-rebajas-verano/",
+      "titleHash": "c58d94a70b8945fdbbe7444429049697",
+      "ts": 1781262136426
+    },
+    {
+      "id": "https://elchapuzasinformatico.com/?p=656282",
+      "url": "https://elchapuzasinformatico.com/2026/06/xbox-coste-almacenamiento-helix/",
+      "titleHash": "99e9ca70fa851e13f76f44524e62c6a9",
+      "ts": 1781262136427
+    },
+    {
+      "id": "https://elchapuzasinformatico.com/?p=656310",
+      "url": "https://elchapuzasinformatico.com/2026/06/crimson-desert-supera-6-millones-de-copias-vendidas/",
+      "titleHash": "62adb2668eb2e0ced967ddb18307a7fc",
+      "ts": 1781262136428
+    },
+    {
+      "id": "https://elchapuzasinformatico.com/?p=656311",
+      "url": "https://elchapuzasinformatico.com/2026/06/microsoft-ready-print-jubilar-drivers-viejos-bloatware/",
+      "titleHash": "59e35387546871cc0a2ece18f24924d6",
+      "ts": 1781262136429
+    },
+    {
+      "id": "https://elchapuzasinformatico.com/?p=656281",
+      "url": "https://elchapuzasinformatico.com/2026/06/china-controlador-relojmemoria-ddr5-rdimm-9200-mt-s/",
+      "titleHash": "9d1e12b76a2a3f96b0a7562d6637949c",
+      "ts": 1781262136429
+    },
+    {
+      "id": "https://elchapuzasinformatico.com/?p=656253",
+      "url": "https://elchapuzasinformatico.com/2026/06/fan-gta-vi-oxigeno/",
+      "titleHash": "3024caa33ff22b823536c0b45f2caed1",
+      "ts": 1781262136430
+    },
+    {
+      "id": "https://elchapuzasinformatico.com/?p=656270",
+      "url": "https://elchapuzasinformatico.com/2026/06/geforce-rtx-3060-3050-vuelven-al-mercado/",
+      "titleHash": "e37eb4f7f82edab2470cc79e3bfe87a0",
+      "ts": 1781262136431
+    },
+    {
+      "id": "https://elchapuzasinformatico.com/?p=655928",
+      "url": "https://elchapuzasinformatico.com/2026/06/chuwi-aubox-x-review/",
+      "titleHash": "2aa26123961d490377eb16680cd31696",
+      "ts": 1781262136432
+    },
+    {
+      "id": "https://www.google.com/url?rct=j&sa=t&url=https://fanaticosdelhardware.com/gigabyte-aorus-rtx-5090-ai-box-y-rtx-5060-ti-ai-box-llevan-blackwell-thunderbolt-5-e-ia-local-a-portatiles-ligeros/&ct=ga&cd=CAIyHDQ5ZDE2OGFmODgwYzI0N2Q6Y29tOmVzOkVTOlI&usg=AOvVaw1nDnwaQ_saUPbnS7B8kmTu",
+      "url": "https://www.google.com/url",
+      "titleHash": "d398ef31034261bfbbb3a44bc607a99e",
+      "ts": 1781262137003
+    },
+    {
+      "id": "https://www.google.com/url?rct=j&sa=t&url=https://www.caribbeannewsdigital.com/prnewswire%3Frkey%3D20260610ES71020%26filter%3D10706&ct=ga&cd=CAIyHDQ5ZDE2OGFmODgwYzI0N2Q6Y29tOmVzOkVTOlI&usg=AOvVaw00DlYaYW6mVKM4exqgCOst",
+      "url": "https://www.google.com/url",
+      "titleHash": "9e91446a91370d4579941244526b2e75",
+      "ts": 1781262137004
+    },
+    {
+      "id": "https://www.google.com/url?rct=j&sa=t&url=https://www.noticias3d.com/noticia/100556/logitech-mobi-fold-raton-plegable.html&ct=ga&cd=CAIyHGM3MzZlNTVmODRkOTUyNGQ6Y29tOmVzOkVTOlI&usg=AOvVaw295yk2d4VgTH3hSLZkPoCk",
+      "url": "https://www.google.com/url",
+      "titleHash": "687b80290758c5399c4510d04da8dc9b",
+      "ts": 1781262137139
+    },
+    {
+      "id": "https://www.google.com/url?rct=j&sa=t&url=https://isenacode.com/logitech-mobi-fold-un-raton-que-se-dobla-para-caber-en-el-bolsillo/&ct=ga&cd=CAIyHGM3MzZlNTVmODRkOTUyNGQ6Y29tOmVzOkVTOlI&usg=AOvVaw28aWQtUxhISuWTGlO1H6df",
+      "url": "https://www.google.com/url",
+      "titleHash": "2720a3bf935a26a368ac682fa320a921",
+      "ts": 1781262137140
+    },
+    {
+      "id": "https://www.google.com/url?rct=j&sa=t&url=https://revistayoung.es/tecnologia/ordenadores/logitech-reinventa-el-raton-portatil-con-mobi-fold/&ct=ga&cd=CAIyHGM3MzZlNTVmODRkOTUyNGQ6Y29tOmVzOkVTOlI&usg=AOvVaw09v21rYJ1Xshue5Td8FAz2",
+      "url": "https://www.google.com/url",
+      "titleHash": "79290a0b3cbca01449b75aa813c31273",
+      "ts": 1781262137141
+    },
+    {
+      "id": "https://www.google.com/url?rct=j&sa=t&url=https://www.larazon.es/tecnologia-consumo/analisis/lg-ultragear-oled-27gx790b-analisis-asi-es-monitor-gaming-oled-rapido-mundo_202606116a27efd2ddbf36750d5266ef.html&ct=ga&cd=CAIyGzE0ZGI4MmY5NjA1ZDI0ZTU6ZXM6ZXM6RVM6Ug&usg=AOvVaw1UwNmaRtDIPm-KNIz_3P3g",
+      "url": "https://www.google.com/url",
+      "titleHash": "da6e405330a17cb7a699f00085f3cd76",
+      "ts": 1781262137349
     }
   ]
 }
