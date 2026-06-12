@@ -130,6 +130,7 @@ const categories = [
 
 <script>
   import Fuse from 'fuse.js';
+  import { scoreColor } from '../lib/score';
 
   const app      = document.getElementById('search-app') as HTMLElement;
   const indexUrl = app.dataset.indexUrl!;
@@ -168,13 +169,6 @@ const categories = [
     guia: 'Guía',
     lanzamiento: 'Próximamente',
   };
-
-  function scoreColor(n?: number | null) {
-    if (n == null || isNaN(n)) return 'var(--color-primary)';
-    if (n >= 9) return '#16a34a';
-    if (n >= 7.5) return 'var(--color-primary)';
-    return '#DC2626';
-  }
 
   function catLabel(cat: string) {
     const map: Record<string, string> = {

@@ -23,7 +23,7 @@ C:\xampp\htdocs\FitzDesk\fitzdesk-monitor\data\    → Caché persistente
 - **Monitor**: Node.js, Groq (llama-3.3-70b-versatile), Discord webhooks
 - **Deploy web**: GitHub Actions → GitHub Pages
 - **Deploy monitor**: GitHub Actions (diario 8:00 ES) — migrado desde Railway el 2026-06-10
-- **URL**: https://jaimemarlop01.github.io/FitzDesk/
+- **URL**: https://fitzdesk.com (dominio propio verificado en Search Console por DNS el 2026-06-12)
 
 ---
 
@@ -104,7 +104,7 @@ GEMINI_API_KEY (opcional)
 - [x] "undefined/10" en comparativas y guías en el buscador
 - [x] Descripción en color naranja en resultados del buscador
 - [x] Texto "Fitz no encuentra nada para" sin mostrar el término buscado
-- [ ] Gap visual excesivo en la home entre categorías y últimos análisis
+- [x] Gap visual excesivo en la home entre categorías y últimos análisis (2026-06-12)
 - [x] Banner de cookies implementado (2026-06-11) — RGPD/AEPD, Consent Mode v2, clave fitzdesk_cookies_consent
 
 ---
@@ -246,7 +246,7 @@ Objetivos:
 - [ ] Publicar artículo del jueves esta semana
 - [ ] Lanzar prompt de búsqueda de productos cuando queden menos de 6 borradores
 - [ ] Solicitar alta en Awin en Julio 2026 cuando haya 30+ artículos publicados
-- [ ] Configurar Google Search Console — meta tag listo en BaseLayout, pendiente código de verificación del usuario
+- [x] Configurar Google Search Console — propiedad fitzdesk.com verificada por DNS (TXT record, 2026-06-12); sitemap enviado, pendiente confirmación de indexación por parte de Google (hasta 24h)
 - [ ] Registrar @fitzdesk en redes sociales
 
 ## Estado de borradores
@@ -259,9 +259,7 @@ Objetivos:
 ## Estado del código
 - Última revisión: 2026-06-11 (5ª pasada — correcciones de advertencias conocidas + revisión agente)
 - Errores críticos pendientes: 0 | Estado: ✅ Sin errores críticos
-- Advertencias (2):
-  - astro.config.mjs:7 — site='https://fitzdesk.com' pero deploy real es github.io (desalineado hasta tener dominio propio)
-  - [slug].astro:120 — scoreColor inline con colores hardcodeados (#16a34a, #F97316, #DC2626); misma lógica ya triplicada, pendiente extraer a src/lib/score.ts
+- Advertencias: 0 — todas resueltas el 2026-06-12
 - Correcciones aplicadas en esta pasada (8 archivos):
   - BaseLayout.astro — meta google-site-verification reemplazada por comentario HTML
   - buscar.astro — todos los colores hardcodeados → CSS vars; gradient → var(--color-background)
@@ -271,7 +269,8 @@ Objetivos:
   - analisis.astro:234 — expresión sin efecto `currentSort;` eliminada
   - monitor.js:643 — doble llamada a notifyDailySummary() en modo daemon corregida
   - src/content/config.ts — campos opcionales del monitor añadidos al schema Zod (imagen_thumb, presupuesto, enlace_a, enlace_b, enlaces, keyword_principal, keywords_secundarias, fecha_actualizacion, actualizado)
-- Sugerencias (5): scoreColor() triplicada (ArticleCard + buscar.astro + [slug].astro) · PlaceholderImage hardcodea #F97316/#FFF7ED · imageCollector console.error debería ser logWarn · CategoryBadge colores hardcodeados por diseño (aceptable) · monitor.yml no invalida caché npm entre runs del build web
+- Sugerencias (1): monitor.yml no invalida caché npm entre runs del build web
+- Resueltas el 2026-06-12: scoreColor() extraída a src/lib/score.ts (era triplicada) · PlaceholderImage usa vars CSS · imageCollector usa logWarn · dominio fitzdesk.com confirmado · gap visual home corregido · Search Console verificada por DNS
 - Añadidos el 2026-06-11/12 (no forman parte de la revisión de código):
   - comparar.astro — nueva página `/comparar` con radar Chart.js, selección de productos, tabla comparativa y URL compartible; CSS con `is:global` (todos los elementos son JS-dinámicos); botones afiliado solo si hay `enlace_afiliado`; `--color-compare-b: #3B82F6` añadida a `:root`
   - config.ts — `criterios: z.record(z.number()).optional()` añadido al schema Zod

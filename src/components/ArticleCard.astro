@@ -2,6 +2,7 @@
 import CategoryBadge from './CategoryBadge.astro';
 import PlaceholderImage from './PlaceholderImage.astro';
 import { u } from '../lib/url';
+import { scoreColor } from '../lib/score';
 
 export interface Props {
   title: string;
@@ -20,10 +21,6 @@ const { title, slug, categoria, fecha, descripcion, imagen, puntuacion, precio, 
 const articleHref = u(`/articulo/${slug}`);
 const imgSrc = u(imagen);
 
-const scoreColor =
-  puntuacion != null && puntuacion >= 9 ? '#16a34a' :
-  puntuacion != null && puntuacion >= 7.5 ? '#F97316' :
-  '#DC2626';
 
 const TIPO_LABELS: Record<string, string> = {
   comparativa: 'Comparativa',
@@ -55,7 +52,7 @@ const fechaFormateada = new Date(fecha).toLocaleDateString('es-ES', {
       ) : null}
       {!imagen && <PlaceholderImage categoria={categoria} />}
       {puntuacion != null ? (
-        <span class="card-score" style={`background: ${scoreColor}`}>
+        <span class="card-score" style={`background: ${scoreColor(puntuacion)}`}>
           {puntuacion}
         </span>
       ) : tipoLabel ? (
