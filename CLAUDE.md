@@ -19,7 +19,7 @@ C:\xampp\htdocs\FitzDesk\fitzdesk-monitor\data\    → Caché persistente
 
 ## Stack
 
-- **Web**: Astro v4, CSS vanilla, JS vanilla, Fuse.js (buscador)
+- **Web**: Astro v4, CSS vanilla, JS vanilla, Fuse.js (buscador), @astrojs/sitemap@3.1.6 (generación automática — versión 3.1.x es la compatible con Astro 4; 3.7.x requiere Astro 5)
 - **Monitor**: Node.js, Groq (llama-3.3-70b-versatile), Discord webhooks
 - **Deploy web**: GitHub Actions → GitHub Pages
 - **Deploy monitor**: GitHub Actions (diario 8:00 ES) — migrado desde Railway el 2026-06-10
@@ -272,16 +272,16 @@ Objetivos:
   - monitor.js:643 — doble llamada a notifyDailySummary() en modo daemon corregida
   - src/content/config.ts — campos opcionales del monitor añadidos al schema Zod (imagen_thumb, presupuesto, enlace_a, enlace_b, enlaces, keyword_principal, keywords_secundarias, fecha_actualizacion, actualizado)
 - Sugerencias (1): monitor.yml no invalida caché npm entre runs del build web
-- Resueltas el 2026-06-12: scoreColor() extraída a src/lib/score.ts (era triplicada) · PlaceholderImage usa vars CSS · imageCollector usa logWarn · dominio fitzdesk.com confirmado · gap visual home corregido · Search Console verificada por DNS
+- Resueltas el 2026-06-12: scoreColor() extraída a src/lib/score.ts (era triplicada) · PlaceholderImage usa vars CSS · imageCollector usa logWarn · dominio fitzdesk.com confirmado · gap visual home corregido · Search Console verificada por DNS · sitemap automático activado (@astrojs/sitemap@3.1.6, bajado desde 3.7.3 que requiere Astro 5) · sitemaps manuales de public/ eliminados · URL eliminada (raton-ergonomico-vs-estandar-teletrabajo) ya no aparece en el sitemap
 - Añadidos el 2026-06-11/12 (no forman parte de la revisión de código):
   - comparar.astro — nueva página `/comparar` con radar Chart.js, selección de productos, tabla comparativa y URL compartible; CSS con `is:global` (todos los elementos son JS-dinámicos); botones afiliado solo si hay `enlace_afiliado`; `--color-compare-b: #3B82F6` añadida a `:root`
   - config.ts — `criterios: z.record(z.number()).optional()` añadido al schema Zod
   - 14 artículos de análisis — bloque `criterios:` con 5 valores reales por categoría (ratones: ergonomia/precision/autonomia/conectividad/calidad_precio · teclados: tacto/ruido/conectividad/durabilidad/calidad_precio · monitores: calidad_imagen/ergonomia_soporte/conectividad/cuidado_ocular/calidad_precio · portátiles: rendimiento/bateria/pantalla/teclado_trackpad/calidad_precio)
 
 ## Estado de precios
-- Última revisión de precios: 2026-06-10
+- Última revisión de precios: 2026-06-12
 - Artículos con precio desactualizado: 0
-- Artículos pendientes de revisión (>30 días): 6 (logitech-mx-master-3s, logitech-lift-vertical, logitech-mx-anywhere-3s, lg-27un880, keychron-k8-pro, keychron-v1)
+- Artículos pendientes de revisión (>30 días): 14 (logitech-mx-master-3s, logitech-lift-vertical, logitech-mx-anywhere-3s, lg-27un880, keychron-k8-pro, keychron-v1, keychron-k2-v2, benq-gw2780, dell-s2722qc, lg-27up850n-analisis, asus-vivobook-15-oled-analisis, lenovo-thinkpad-e14-gen6-analisis, lg-gram-14-2025-analisis, mejor-setup-teletrabajo-500-euros-2026)
 
 ## Estado del calendario de publicaciones
 - Ritmo: Domingo c/2 semanas (guía/comparativa) · Martes y jueves (análisis/lanzamiento, 9:00–11:00)
