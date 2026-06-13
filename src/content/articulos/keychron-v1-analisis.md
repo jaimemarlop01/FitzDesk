@@ -88,7 +88,7 @@ El software de configuración QMK/VIA funciona en Windows y macOS, aunque el cli
 Sí, el Keychron V1 ofrece una excelente relación calidad-precio.
 
 **¿Cuál es su principal ventaja respecto a la competencia?**
-El V1 ofrece aluminio CNC, gasket mount y hot-swap a un precio inigualable.
+El V1 ofrece aluminio CNC, gasket mount y hot-swap a un precio muy difícil de igualar.
 
 **¿Qué alternativa existe en el mismo rango de precio?**
 El K8 Pro es una alternativa si se necesita conectividad inalámbrica.
@@ -99,6 +99,6 @@ Me encanta el Keychron V1 por su cuerpo de aluminio CNC y su gasket mount, que o
 
 ## Conclusión
 
-El Keychron V1 es, sin matices, el teclado mecánico con mejor relación calidad-precio del mercado en 2026. Aluminio CNC, gasket mount, hot-swap y QMK/VIA por 79€ son especificaciones que en cualquier otra marca costarían el doble. La única concesión es el cable, y para uso de escritorio fijo eso es irrelevante. Si buscas el máximo mecánico por el mínimo dinero, el V1 es la respuesta definitiva.
+El Keychron V1 es, con diferencia, uno de los teclados mecánicos con mejor relación calidad-precio disponibles en 2026. Aluminio CNC, gasket mount, hot-swap y QMK/VIA por 79€ son especificaciones que en cualquier otra marca costarían el doble. La única concesión es el cable, y para uso de escritorio fijo eso es irrelevante. Si buscas el máximo mecánico por el mínimo dinero, el V1 es una respuesta muy difícil de rebatir.
 
 > ⚠️ **Aviso**: Los precios mostrados son orientativos. Te recomendamos verificar el precio actual antes de comprar.

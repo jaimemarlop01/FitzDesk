@@ -90,6 +90,10 @@ Seamos honestos: el K2 V2 tiene sus limitaciones:
 - **El ruido del Blue es considerable**: avisa a tu familia antes de pedirlo
 - **La app Keychron** para programar macros es básica comparada con la competencia
 
-## Veredicto
+## 🐿️ Fitz recomienda
+
+El Keychron K2 V2 es el punto de entrada perfecto al mundo de los teclados mecánicos. Sonido, tactilidad y compatibilidad multi-dispositivo en un paquete que no arruina tu cartera. Si tuviese manos, escribiría con él. Mi nota: 8.8/10
+
+## Conclusión
 
 Para quien busca su primer teclado mecánico de calidad con conectividad inalámbrica y presupuesto ajustado, el Keychron K2 V2 sigue siendo difícil de superar. No es perfecto, pero es el más acertado en su rango de precio.
