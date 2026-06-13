@@ -273,6 +273,11 @@ Objetivos:
   - src/content/config.ts — campos opcionales del monitor añadidos al schema Zod (imagen_thumb, presupuesto, enlace_a, enlace_b, enlaces, keyword_principal, keywords_secundarias, fecha_actualizacion, actualizado)
 - Sugerencias (1): monitor.yml no invalida caché npm entre runs del build web
 - Correcciones 2026-06-12 (sesión actual): sources.js — KEYWORDS_DESCARTE usa ahora hasWordDescarte() con \b para todos los términos (antes solo ≤4 chars), evita falsos positivos como "tablet" en "tablets" o "movil" en nombres de producto tipo Logitech Mobi Fold · monitor.yml — comentario de horario corregido (8:00 CET / 9:00 CEST + nota de retrasos GitHub) · tres agentes actualizados para criterios/radar · logitech-mobi-fold-analisis.md creado
+- Correcciones 2026-06-13 — revisar-calidad-textual (primera auditoría):
+  - Automáticas (6 en 4 archivos): "multiple pantallas"→"múltiples", "teclas mécanicas"×3, emoji corrupto lg-gram-14, "laptops"→"portátiles" en index.astro
+  - Estructura (3 artículos): keychron-k2-v2 — H2 Fitz recomienda añadido + Veredicto→Conclusión; lg-27un880 — contenido de plantilla en Fitz reemplazado por voz real; mejor-monitor-guia — sección Conclusión añadida
+  - Afirmaciones absolutas (4 artículos): logitech-mx-master-3s, logitech-mx-anywhere-3s, keychron-v1, lg-gram-14 — "el mejor/único/sin rival/definitivo" → formulaciones no absolutas; secciones Fitz reescritas con voz propia
+  - Agente revisar-calidad-textual.md creado en .claude/agents/
 - Resueltas el 2026-06-12: scoreColor() extraída a src/lib/score.ts (era triplicada) · PlaceholderImage usa vars CSS · imageCollector usa logWarn · dominio fitzdesk.com confirmado · gap visual home corregido · Search Console verificada por DNS · sitemap automático activado (@astrojs/sitemap@3.1.6, bajado desde 3.7.3 que requiere Astro 5) · sitemaps manuales de public/ eliminados · URL eliminada (raton-ergonomico-vs-estandar-teletrabajo) ya no aparece en el sitemap
 - Añadidos el 2026-06-11/12 (no forman parte de la revisión de código):
   - comparar.astro — nueva página `/comparar` con radar Chart.js, selección de productos, tabla comparativa y URL compartible; CSS con `is:global` (todos los elementos son JS-dinámicos); botones afiliado solo si hay `enlace_afiliado`; `--color-compare-b: #3B82F6` añadida a `:root`
