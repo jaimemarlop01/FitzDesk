@@ -92,7 +92,7 @@ Su peso de menos de 1 kg y batería de hasta 18 horas lo hacen único en el merc
 **¿Qué alternativa existe en el mismo rango de precio?**
 El Vivobook OLED a 699€ ofrece más pantalla por menos dinero, pero no tiene la misma resistencia y batería.
 
-## ️ Fitz recomienda
+## 🐿️ Fitz recomienda
 
 Me encanta el LG Gram 14 por su ligereza y batería larga, aunque su precio es elevado y carece de gráficos dedicados. Sin embargo, para trabajo de oficina y movilidad, es la mejor opción. Mi nota: 9.0/10
 
