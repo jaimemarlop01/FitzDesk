@@ -1,11 +1,12 @@
 name: Publicar automático FitzDesk
 
-# Domingo, martes y jueves a las 9:00 hora España.
-# España está en CEST (UTC+2) de marzo a octubre → 9:00 CEST = 7:00 UTC.
-# En invierno (CET = UTC+1) ejecutará a las 8:00 local — aceptable.
+# Domingo, martes y jueves. Objetivo: publicar dentro de la ventana 9:00-11:00 hora España.
+# Programado a las 5:35 UTC (7:35 CEST / 6:35 CET) — minuto descuadrado y 1h25min de margen
+# antes del inicio de la ventana, para absorber los retrasos de cola de GitHub Actions
+# (los cron en punto como 0 7 * * * son los más congestionados a nivel mundial).
 on:
   schedule:
-    - cron: '0 7 * * 0,2,4'
+    - cron: '35 5 * * 0,2,4'
   workflow_dispatch:
     inputs:
       fecha_override:

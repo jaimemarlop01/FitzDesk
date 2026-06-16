@@ -294,7 +294,7 @@ Objetivos:
 - Calendario actualizado: 2026-06-11
 - Próxima publicación: 2026-06-14 — mejor-raton-teletrabajo-presupuesto-2026 (guia, domingo) — publicación automática vía workflow
 - Calendario completo hasta 2026-07-07 (9 publicaciones programadas, todas con imagen)
-- Workflow automático: `.github/workflows/publicar-automatico.yml` — Dom/Mar/Jue a las 9:00 CEST, lee calendario y publica solo si hay entrada para hoy; notifica a Discord en caso de error
+- Workflow automático: `.github/workflows/publicar-automatico.yml` — Dom/Mar/Jue, programado a las 5:35 UTC (7:35 CEST / 6:35 CET) con margen de 1h25min para absorber retrasos de GitHub Actions y llegar dentro de la ventana 9:00-11:00; lee calendario y publica solo si hay entrada para hoy; notifica a Discord en caso de error
 - Imágenes pendientes: ninguna — todas descargadas el 2026-06-11
 - PENDIENTE: notifier.js no tiene lógica para disparar el recordatorio de domingo el sábado anterior a las 20:00 — checkPublicationReminders() solo actúa los días 2, 3 y 4 (mar, mié, jue). Para guías dominicales el recordatorio del sábado debe implementarse manualmente o extender la función.
 
@@ -312,7 +312,7 @@ Objetivos:
 ## Monitor — GitHub Actions
 
 - Migrado de Railway a GitHub Actions el 2026-06-10
-- Se ejecuta diariamente — cron: `0 7 * * *` (8:00 CET en invierno / 9:00 CEST en verano); las notificaciones de Discord pueden llegar hasta las 13:00 por colas de GitHub Actions en plan gratuito
+- Se ejecuta diariamente — cron: `13 6 * * *` (7:13 CET en invierno / 8:13 CEST en verano), minuto descuadrado para evitar la congestión de los cron en punto; las notificaciones de Discord pueden llegar hasta varias horas después por colas de GitHub Actions en plan gratuito
 - Para ejecutar manualmente: GitHub → Actions → FitzDesk Monitor → Run workflow
 - Workflow: `.github/workflows/monitor.yml`
 - Secrets necesarios en el repo: `GROQ_API_KEY`, `DISCORD_WEBHOOK_URL`
@@ -321,7 +321,7 @@ Objetivos:
 ## Publicación automática — GitHub Actions
 
 - Workflow: `.github/workflows/publicar-automatico.yml`
-- Se ejecuta Dom/Mar/Jue a las 9:00 CEST (7:00 UTC) — cron: `0 7 * * 0,2,4`
+- Se ejecuta Dom/Mar/Jue, programado a las 5:35 UTC (7:35 CEST / 6:35 CET) — cron: `35 5 * * 0,2,4` — minuto descuadrado y margen de 1h25min antes de la ventana 9:00-11:00 para absorber retrasos de cola
 - Lee `fitzdesk-monitor/data/calendario-publicaciones.json`, busca entrada para hoy
 - Si hay publicación: obtiene el borrador desde `develop`, elimina `borrador: true`, renombra el archivo y hace push a `main` (dispara deploy automáticamente)
 - Si falta imagen o frontmatter inválido: notifica a Discord y no publica
