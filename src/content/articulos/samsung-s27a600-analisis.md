@@ -10,7 +10,7 @@ precio: "199,99€"
 enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=samsung+s27a600"
 tiempo_lectura: "5 min"
 tipo: "analisis"
-borrador: true
+
 imagen_thumb: "/images/articulos/samsung-s27a600-analisis-thumb.webp"
 ---
 
