@@ -21,6 +21,8 @@ const CONTENT_DIR = resolve(__dirname, '../src/content/articulos');
 const IMAGES_DIR  = resolve(__dirname, '../public/images/articulos');
 const UA = 'Mozilla/5.0 (compatible; FitzDesk-ImageCollector/1.0)';
 
+function logWarn(msg) { console.warn(`⚠️  ${msg}`); }
+
 // ─── Fabricantes ──────────────────────────────────────────────────────────────
 
 const BRAND_SEARCH_URL = {
@@ -222,7 +224,7 @@ export async function findAndDownloadImage(productName, slug, enlaceAfiliado = '
     const paths  = await processAndSave(buffer, slug);
     return { ...paths, method: found.method, remoteUrl: found.url };
   } catch (e) {
-    console.error(`  ⚠️  Error procesando imagen de ${found.method}: ${e.message}`);
+    logWarn(`Error procesando imagen de ${found.method}: ${e.message}`);
     return null;
   }
 }

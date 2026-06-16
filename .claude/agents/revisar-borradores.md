@@ -32,6 +32,15 @@ Para cada borrador comprueba:
 
 **Aviso de afiliado** — si `tipo: analisis` o `tipo: comparativa`, debe existir el bloque de aviso de afiliado al final.
 
+**Criterios del radar** — si `tipo: analisis`, el frontmatter debe incluir el bloque `criterios:` con exactamente 5 valores numéricos (escala 1–10) correspondientes a la categoría:
+- `ratones`: ergonomia, precision, autonomia, conectividad, calidad_precio
+- `teclados`: tacto, ruido, conectividad, durabilidad, calidad_precio
+- `monitores`: calidad_imagen, ergonomia_soporte, conectividad, cuidado_ocular, calidad_precio
+- `portatiles`: rendimiento, bateria, pantalla, teclado_trackpad, calidad_precio
+- `setups` (y periféricos): calidad_construccion, facilidad_uso, compatibilidad, sonido_imagen, calidad_precio
+
+Si falta el bloque completo o alguna de las 5 claves esperadas, marcarlo como problema igual que los demás campos incompletos (imagen, precio, Fitz recomienda), para que el agente `completar-borradores` lo resuelva en su siguiente ejecución.
+
 ### 3. Generar informe
 Muestra el informe con este formato:
 

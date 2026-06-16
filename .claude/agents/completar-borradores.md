@@ -71,6 +71,30 @@ Procesa el campo `fitzQuote` siempre en este orden — nunca lo elimines sin hab
 - Elimina campos que no pertenecen al schema: `imagen_thumb`, campos con nombres no reconocidos
 - `fitzQuote` se gestiona en el punto 4 — no eliminarlo aquí directamente
 
+**9. Bloque `criterios:` ausente en artículos de análisis**
+- Solo aplica si `tipo: analisis`
+- Comprueba si el frontmatter contiene el bloque `criterios:` con exactamente 5 valores para la categoría del artículo
+- Claves por categoría:
+  - **ratones**: `ergonomia`, `precision`, `autonomia`, `conectividad`, `calidad_precio`
+  - **teclados**: `tacto`, `ruido`, `conectividad`, `durabilidad`, `calidad_precio`
+  - **monitores**: `calidad_imagen`, `ergonomia_soporte`, `conectividad`, `cuidado_ocular`, `calidad_precio`
+  - **portatiles**: `rendimiento`, `bateria`, `pantalla`, `teclado_trackpad`, `calidad_precio`
+  - **setups** (y periféricos): `calidad_construccion`, `facilidad_uso`, `compatibilidad`, `sonido_imagen`, `calidad_precio`
+- Si no existe o está incompleto, generarlo derivando los valores del texto del propio artículo (escala 1–10, un decimal):
+  - Si el artículo describe ergonomía excelente o comodidad para jornadas largas → valor alto en `ergonomia`
+  - Si menciona limitaciones (ej: "solo por cable", "sin Bluetooth", "no hot-swap") → valor bajo en el criterio correspondiente
+  - Si el artículo no da información suficiente para un criterio concreto, usar la `puntuacion` general como valor de partida
+  - **Nunca inventar valores sin relación con el texto del artículo**
+- Insertar el bloque en el frontmatter inmediatamente después de la línea `puntuacion:`, con este formato exacto:
+  ```yaml
+  criterios:
+    [criterio1]: X.X
+    [criterio2]: X.X
+    [criterio3]: X.X
+    [criterio4]: X.X
+    [criterio5]: X.X
+  ```
+
 **8. Aviso de afiliado presente**
 - Si el cuerpo contiene el texto `"Si compras a través de nuestros enlaces podemos recibir una pequeña comisión sin coste adicional para ti. Esto nos ayuda a seguir publicando análisis honestos e independientes."` → elimínalo completamente (incluyendo la línea `> ⚠️ **Aviso de afiliado**:` que lo precede)
 - FitzDesk no está dado de alta en ningún programa de afiliados actualmente. El aviso correcto se añade automáticamente desde el componente del layout cuando sea necesario.
@@ -80,7 +104,7 @@ Procesa el campo `fitzQuote` siempre en este orden — nunca lo elimines sin hab
 Para cada borrador que hayas completado, verifica que el archivo resultante tiene:
 - [ ] `borrador: true` — nunca lo elimines
 - [ ] Frontmatter con `title`, `categoria`, `fecha`, `descripcion` (≤150 chars), `imagen`, `tipo`, `precio`
-- [ ] Si `tipo: analisis`: también `puntuacion`
+- [ ] Si `tipo: analisis`: también `puntuacion` y `criterios:` con los 5 valores de la categoría
 - [ ] Cuerpo con más de 300 palabras
 - [ ] Sección `## 🐿️ Fitz recomienda`
 - [ ] Sin aviso de afiliado en el cuerpo (eliminarlo si existe)

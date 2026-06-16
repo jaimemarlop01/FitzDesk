@@ -41,7 +41,7 @@ La propuesta del Gram no ha cambiado en años: ser el portátil más ligero del 
 
 ## Características técnicas que importan en el uso real
 
-**El peso de 999 g** es el dato estrella. Por ponerlo en perspectiva: la mayoría de portátiles de 14 pulgadas pesan entre 1,3 y 1,6 kg. Esa diferencia de 300-600 g se nota muchísimo cuando llevas el portátil en una mochila durante horas o entre reuniones. El Gram 14 es el único portátil de 14 pulgadas con componentes completos que se queda por debajo del kilo.
+**El peso de 999 g** es el dato estrella. Por ponerlo en perspectiva: la mayoría de portátiles de 14 pulgadas pesan entre 1,3 y 1,6 kg. Esa diferencia de 300-600 g se nota muchísimo cuando llevas el portátil en una mochila durante horas o entre reuniones. El Gram 14 es uno de los pocos portátiles de 14 pulgadas con componentes completos que se queda por debajo del kilo.
 
 **La batería de 72 Wh** da hasta 18 horas de autonomía en uso real mixto de oficina: navegación web, documentos, videollamadas, correo. En uso más intensivo con videoconferencias continuas, se acerca a las 10-12 horas. En cualquier caso, es el portátil que completa una jornada laboral sin buscar un enchufe.
 
@@ -92,12 +92,12 @@ Su peso de menos de 1 kg y batería de hasta 18 horas lo hacen único en el merc
 **¿Qué alternativa existe en el mismo rango de precio?**
 El Vivobook OLED a 699€ ofrece más pantalla por menos dinero, pero no tiene la misma resistencia y batería.
 
-## ️ Fitz recomienda
+## 🐿️ Fitz recomienda
 
-Me encanta el LG Gram 14 por su ligereza y batería larga, aunque su precio es elevado y carece de gráficos dedicados. Sin embargo, para trabajo de oficina y movilidad, es la mejor opción. Mi nota: 9.0/10
+Me encanta el LG Gram 14 por su ligereza y batería larga, aunque su precio es elevado y carece de gráficos dedicados. Sin embargo, para trabajo de oficina y movilidad, destaca entre las mejores opciones disponibles. Mi nota: 9.0/10
 
 ## Conclusión
 
-El LG Gram 14 2025 es el mejor portátil del mercado para trabajadores en movilidad que no quieren comprometer ni el peso ni la batería. El precio de 1.099€ es elevado, pero pocas opciones en el mercado combinan menos de un kilo con más de 15 horas de autonomía real y resistencia militar. Para quien necesita estas tres cosas a la vez, no hay alternativa comparable.
+El LG Gram 14 2025 es una referencia en el mercado para trabajadores en movilidad que no quieren comprometer ni el peso ni la batería. El precio de 1.099€ es elevado, pero pocas opciones combinan menos de un kilo con más de 15 horas de autonomía real y resistencia militar. Para quien necesita estas tres cosas a la vez, hay pocas alternativas comparables.
 
 > ⚠️ **Aviso**: Los precios mostrados son orientativos. Te recomendamos verificar el precio actual antes de comprar.

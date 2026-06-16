@@ -55,7 +55,7 @@ En nuestra opinión, el setup de teletrabajo profesional que hemos creado es ide
 
 ### Mejora 1: Segundo monitor
 
-Un segundo monitor puede ser útil para aquellos que necesitan trabajar con multiple pantallas al mismo tiempo. Un monitor como el Dell S2722QC, que ofrece una resolución QHD y un tamaño de 27 pulgadas, podría ser una buena opción para complementar el LG 27UP850N.
+Un segundo monitor puede ser útil para aquellos que necesitan trabajar con múltiples pantallas al mismo tiempo. Un monitor como el Dell S2722QC, que ofrece una resolución QHD y un tamaño de 27 pulgadas, podría ser una buena opción para complementar el LG 27UP850N.
 
 ### Mejora 2: Hub USB-C con Ethernet
 

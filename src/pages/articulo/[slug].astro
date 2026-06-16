@@ -8,6 +8,7 @@ import AffiliateButton from '../../components/AffiliateButton.astro';
 import FitzQuote from '../../components/FitzQuote.astro';
 import ArticleCard from '../../components/ArticleCard.astro';
 import { u, base } from '../../lib/url';
+import { scoreColor } from '../../lib/score';
 
 export async function getStaticPaths() {
   const articles = (await getCollection('articulos')).filter(a => !a.data.borrador);
@@ -117,7 +118,7 @@ const reviewSchema = puntuacion ? {
           {puntuacion && (
             <div class="sidebar-card">
               <h3>Puntuación</h3>
-              <div class="sidebar-score" style={`color: ${puntuacion >= 9 ? '#16a34a' : puntuacion >= 7.5 ? '#F97316' : '#DC2626'}`}>
+              <div class="sidebar-score" style={`color: ${scoreColor(puntuacion)}`}>
                 {puntuacion}<span>/10</span>
               </div>
             </div>

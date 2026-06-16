@@ -95,3 +95,9 @@ El **LG 27UN880** añade un brazo articulado integrado, lo que elimina el soport
 ## 🐿️ Fitz recomienda
 
 El 90% de las personas que me preguntan qué monitor comprar acaban con el LG 27UP850N, y el 90% de ellas no se arrepienten. Cuatro kilos de diferencia en calidad de vida laboral por 399€ es una de las mejores relaciones coste-beneficio que existen en un setup de teletrabajo. Si tu portátil tiene USB-C, ese cable único que lo conecta todo vale por sí solo la diferencia de precio frente a opciones más baratas.
+
+## Conclusión
+
+Elegir un monitor para teletrabajo no tiene por qué ser complicado. Para la mayoría de situaciones, la decisión se reduce a dos preguntas: cuánto quieres gastar y si tu portátil tiene USB-C. Con 150€ el BenQ GW2780 cumple sin sorpresas. Con 300-400€ y USB-C, el Dell S2722QC o el LG 27UP850N dan un salto de calidad real y visible desde el primer día. Si la ergonomía es prioritaria, el LG 27UN880 con brazo integrado elimina un problema de postura de una vez.
+
+Lo que no tiene sentido es seguir trabajando con la pantalla del portátil o con un monitor mediocre cuando la diferencia de un panel decente se nota cada día de trabajo.

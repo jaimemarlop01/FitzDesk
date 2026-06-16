@@ -113,13 +113,21 @@ export const KEYWORDS_CONTEXTO = [
 
 export const KEYWORDS = [...KEYWORDS_PRODUCTO, ...KEYWORDS_CONTEXTO];
 
-// Helper: usa límites de palabra para términos cortos (≤4 chars) para evitar
-// falsos positivos ("lg" en "algo", "hp" en "https", "app" en "apple").
+// Helper genérico: límites de palabra para términos cortos (≤4 chars) para
+// evitar falsos positivos ("lg" en "algo", "hp" en "https", "app" en "apple").
 function hasWord(text, kw) {
   if (kw.length <= 4) {
     return new RegExp('\\b' + kw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b', 'i').test(text);
   }
   return text.includes(kw);
+}
+
+// Helper exclusivo para KEYWORDS_DESCARTE: siempre aplica límites de palabra
+// sin importar longitud, para evitar que "tablet" coincida en "tablets" o
+// "movil" active el filtro en nombres de producto como "Logitech Mobi Fold".
+function hasWordDescarte(text, kw) {
+  const escaped = kw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return new RegExp('\\b' + escaped + '\\b', 'i').test(text);
 }
 
 /**
@@ -133,7 +141,7 @@ function hasWord(text, kw) {
 export function passesStrictFilter(item) {
   const text = `${item.title ?? ''} ${item.contentSnippet ?? ''} ${item.content ?? ''}`.toLowerCase();
 
-  if (KEYWORDS_DESCARTE.some(kw => hasWord(text, kw))) return false;
+  if (KEYWORDS_DESCARTE.some(kw => hasWordDescarte(text, kw))) return false;
 
   const hasProducto = KEYWORDS_PRODUCTO.some(kw => hasWord(text, kw));
   const hasMarca    = KEYWORDS_MARCA.some(kw => hasWord(text, kw));
@@ -152,7 +160,7 @@ export function passesStrictFilter(item) {
 export function diagnoseFilter(item) {
   const text = `${item.title ?? ''} ${item.contentSnippet ?? ''} ${item.content ?? ''}`.toLowerCase();
 
-  const matchedDescarte = KEYWORDS_DESCARTE.find(kw => hasWord(text, kw));
+  const matchedDescarte = KEYWORDS_DESCARTE.find(kw => hasWordDescarte(text, kw));
   if (matchedDescarte) {
     return { pass: false, layer: 1, reason: `Palabra de descarte: "${matchedDescarte}"` };
   }
