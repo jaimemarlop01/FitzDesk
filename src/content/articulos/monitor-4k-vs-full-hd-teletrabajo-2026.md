@@ -104,3 +104,9 @@ El monitor de referencia para quien trabaja con portátil y quiere el escritorio
 El Full HD no está muerto. Para quien trabaja con presupuesto ajustado o no necesita la nitidez extra, el BenQ a 149€ es una compra sólida en 2026 sin necesidad de disculpas. No todo el mundo necesita 4K.
 
 Dicho esto, si tienes un portátil USB-C moderno y tu presupuesto llega a los 330€, el Dell S2722QC cierra el debate: un cable, 4K, carga. La diferencia visual frente al Full HD en jornadas largas de texto es real, y la comodidad del cable único es de esas cosas que parece un detalle hasta que lo tienes y ya no puedes vivir sin él.
+
+## Conclusión
+
+La elección entre 4K y Full HD no es solo cuestión de presupuesto: es una cuestión de flujo de trabajo. Para escritura intensiva, código o revisión de documentos durante horas, el 4K reduce la fatiga visual de forma apreciable a largo plazo. Para reuniones, correo y uso básico de ofimática, el Full HD cumple sin sacrificios y deja presupuesto para otras mejoras del setup.
+
+El punto de entrada razonable al 4K con USB-C está entre 300-330€. Por debajo de esa cifra, un buen panel IPS Full HD es mejor inversión que un 4K de calidad comprometida. Por encima, la diferencia entre el Dell S2722QC y el LG 27UP850N se reduce a la potencia de carga (65W vs 96W) y el soporte ergonómico —factores que importan más de lo que parece en un escritorio de uso diario.

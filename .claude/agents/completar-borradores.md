@@ -68,10 +68,11 @@ Procesa el campo `fitzQuote` siempre en este orden — nunca lo elimines sin hab
 - Si el título es muy genérico (menos de 4 palabras sin mencionar el producto) → no lo cambies sin información suficiente
 
 **7. Campos de frontmatter no estándar**
-- Elimina campos que no pertenecen al schema: `imagen_thumb`, campos con nombres no reconocidos
+- Elimina campos que no pertenecen al schema: campos con nombres no reconocidos
+- `imagen_thumb` **sí está en el schema Zod** (añadido 2026-06-11) — no eliminarlo
 - `fitzQuote` se gestiona en el punto 4 — no eliminarlo aquí directamente
 
-**9. Bloque `criterios:` ausente en artículos de análisis**
+**8. Bloque `criterios:` ausente en artículos de análisis**
 - Solo aplica si `tipo: analisis`
 - Comprueba si el frontmatter contiene el bloque `criterios:` con exactamente 5 valores para la categoría del artículo
 - Claves por categoría:
@@ -95,7 +96,7 @@ Procesa el campo `fitzQuote` siempre en este orden — nunca lo elimines sin hab
     [criterio5]: X.X
   ```
 
-**8. Aviso de afiliado presente**
+**9. Aviso de afiliado presente**
 - Si el cuerpo contiene el texto `"Si compras a través de nuestros enlaces podemos recibir una pequeña comisión sin coste adicional para ti. Esto nos ayuda a seguir publicando análisis honestos e independientes."` → elimínalo completamente (incluyendo la línea `> ⚠️ **Aviso de afiliado**:` que lo precede)
 - FitzDesk no está dado de alta en ningún programa de afiliados actualmente. El aviso correcto se añade automáticamente desde el componente del layout cuando sea necesario.
 
