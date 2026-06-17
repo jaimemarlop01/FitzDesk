@@ -252,9 +252,10 @@ Objetivos:
 - [ ] Registrar @fitzdesk en redes sociales
 
 ## Estado de borradores
-- Última revisión: 2026-06-12
+- Última revisión: 2026-06-17
+- Última ejecución de completar-borradores: 2026-06-17 — criterios añadidos a 4 analisis del calendario; longitud ajustada al rango en los 3 análisis cortos y 2 lanzamientos recortados; Conclusión añadida a guía monitor-4k-vs-full-hd
 - Borradores descartados (total acumulado): 8 correctos + 1 falso descarte (xbox-ally, asus-rog-strix, corsair-anade-icue, antec-computex + 6-tb-oferta-amazon, corsair-renueva-catalogo, nvidia-rtx-spark, borrador-surface-ultra-duplicado, corsair-anade-icue) · razer-seiren-v3-pro fue descarte incorrecto (micrófono para teletrabajo, regenerar)
-- Borradores en calendario con imagen y fecha listos: 9 (samsung-s27a600, hp-probook-455-g10, razer-pro-click, logitech-k380, monitor-4k-vs-full-hd, intel-wildcat-lake, corsair-clipper-pro-mini-60, hp-935-creator-wireless, mejor-raton-presupuesto) — imágenes descargadas el 2026-06-11, sin pendientes
+- Borradores en calendario con imagen y fecha listos: 7 (hp-probook-455-g10, razer-pro-click, logitech-k380, monitor-4k-vs-full-hd, intel-wildcat-lake, corsair-clipper-pro-mini-60, hp-935-creator-wireless) — todos con criterios ✅ y longitud en rango ✅
 - Sin programar (fuera del horizonte de 4 semanas): logitech-mobi-fold-analisis (ratones, 2026-07-22), Cherry KC 6000 Slim (teclados), AOC Q27P3CV (monitores), Jabra Evolve2 30 SE (setups), Trust TK-350 Silent (teclados), ADATA Urban TapSafe (setups), dolor-muneca-teletrabajo-perifericos-ergonomicos (guia), asus-portatiles-trabajo-exigente-2026 (guia), Razer Seiren V3 Pro (setups — regenerar)
 - Lanzamientos Computex pendientes de disponibilidad: borrador-adata-urban-tapsafe
 
@@ -273,6 +274,13 @@ Objetivos:
   - src/content/config.ts — campos opcionales del monitor añadidos al schema Zod (imagen_thumb, presupuesto, enlace_a, enlace_b, enlaces, keyword_principal, keywords_secundarias, fecha_actualizacion, actualizado)
 - Sugerencias (1): monitor.yml no invalida caché npm entre runs del build web
 - Correcciones 2026-06-12 (sesión actual): sources.js — KEYWORDS_DESCARTE usa ahora hasWordDescarte() con \b para todos los términos (antes solo ≤4 chars), evita falsos positivos como "tablet" en "tablets" o "movil" en nombres de producto tipo Logitech Mobi Fold · monitor.yml — comentario de horario corregido (8:00 CET / 9:00 CEST + nota de retrasos GitHub) · tres agentes actualizados para criterios/radar · logitech-mobi-fold-analisis.md creado
+- Correcciones 2026-06-17 — completar-borradores sobre calendario:
+  - 4 analisis con criterios: añadido bloque criterios: a hp-probook-455-g10, razer-pro-click, logitech-k380, hp-935-creator-wireless (valores derivados del texto, escala 1-10)
+  - Longitud ajustada: hp-probook +100w, razer-pro-click +110w, hp-935-creator +175w, logitech-k380 +30w — todos en rango 900-1200
+  - Lanzamientos recortados: intel-wildcat-lake (1062→730w), corsair-clipper-pro-mini-60 (1170→770w) — eliminado relleno y texto de plantilla
+  - monitor-4k-vs-full-hd: sección Conclusión añadida
+  - corsair-clipper-pro-mini-60: añadido imagen_thumb faltante
+  - completar-borradores.md: corregida numeración invertida (criterios era paso 9 antes que aviso paso 8); corregido bug imagen_thumb (está en schema Zod, no eliminar)
 - Correcciones 2026-06-13 — revisar-calidad-textual (primera auditoría):
   - Automáticas (6 en 4 archivos): "multiple pantallas"→"múltiples", "teclas mécanicas"×3, emoji corrupto lg-gram-14, "laptops"→"portátiles" en index.astro
   - Estructura (3 artículos): keychron-k2-v2 — H2 Fitz recomienda añadido + Veredicto→Conclusión; lg-27un880 — contenido de plantilla en Fitz reemplazado por voz real; mejor-monitor-guia — sección Conclusión añadida
@@ -292,8 +300,8 @@ Objetivos:
 ## Estado del calendario de publicaciones
 - Ritmo: Domingo c/2 semanas (guía/comparativa) · Martes y jueves (análisis/lanzamiento, 9:00–11:00)
 - Calendario actualizado: 2026-06-11
-- Próxima publicación: 2026-06-14 — mejor-raton-teletrabajo-presupuesto-2026 (guia, domingo) — publicación automática vía workflow
-- Calendario completo hasta 2026-07-07 (9 publicaciones programadas, todas con imagen)
+- Próxima publicación: 2026-06-18 — hp-probook-455-g10-analisis (analisis, jueves) — publicación automática vía workflow
+- Calendario completo hasta 2026-07-07 (7 publicaciones pendientes, todas con imagen y criterios)
 - Workflow automático: `.github/workflows/publicar-automatico.yml` — Dom/Mar/Jue, programado a las 5:35 UTC (7:35 CEST / 6:35 CET) con margen de 1h25min para absorber retrasos de GitHub Actions y llegar dentro de la ventana 9:00-11:00; lee calendario y publica solo si hay entrada para hoy; notifica a Discord en caso de error
 - Imágenes pendientes: ninguna — todas descargadas el 2026-06-11
 - PENDIENTE: notifier.js no tiene lógica para disparar el recordatorio de domingo el sábado anterior a las 20:00 — checkPublicationReminders() solo actúa los días 2, 3 y 4 (mar, mié, jue). Para guías dominicales el recordatorio del sábado debe implementarse manualmente o extender la función.
@@ -304,8 +312,9 @@ Objetivos:
 - Cuando lleguen al mercado: ejecutar agente actualizar-lanzamiento con el slug correspondiente
 
 ## Últimas publicaciones
-- Última publicación: 2026-06-11 — "Surface Laptop Ultra: el portátil con NVIDIA RTX Spark que redefine Windows"
-- 2026-06-10 — "LG OLED 27\" 5K 2000 nits" (tipo: lanzamiento) — publicado en main
+- Última publicación: 2026-06-16 — "Samsung S27A600NAU: QHD de 27\" sin USB-C pero sin compromisos en imagen" (analisis, publicado manualmente)
+- 2026-06-14 — "mejor-raton-teletrabajo-presupuesto-2026" (guia) — publicado automáticamente vía workflow
+- 2026-06-11 — "Surface Laptop Ultra: el portátil con NVIDIA RTX Spark que redefine Windows" (lanzamiento)
 
 ---
 
