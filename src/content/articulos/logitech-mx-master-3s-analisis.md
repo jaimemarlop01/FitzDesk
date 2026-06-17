@@ -43,7 +43,7 @@ Esta tercera versión "S" incorpora dos mejoras sobre el modelo anterior: los cl
 
 **El scroll MagSpeed** es la característica más diferencial. La rueda electromagnética tiene dos modos: táctil (con retención por pasos, perfecto para hojas de cálculo o código) y libre (gira sin resistencia y desplaza miles de líneas en segundos). El cambio entre modos puede ser manual con un clic o automático según detecte la velocidad de desplazamiento. Una vez que lo usas, cualquier rueda convencional parece anticuada.
 
-**El sensor Darkfield** funciona sobre cualquier superficie: madera, cristal, cuero, superficies brillantes. Rango de 200 a 8.000 DPI ajustable en incrementos de 50, lo que permite adaptarlo perfectamente tanto a trabajo en 4K como a uso básico. Sin aceleración ni pérdida de tracking en meses de uso intensivo.
+**El sensor Darkfield** funciona sobre cualquier superficie: madera, cristal, cuero, superficies brillantes. Rango de 200 a 8.000 DPI ajustable en incrementos de 50, lo que permite adaptarlo perfectamente tanto a trabajo en 4K como a uso básico. Sin aceleración ni pérdida de tracking en meses de uso.
 
 **Easy-Switch multidispositivo**: el botón lateral permite alternar entre tres dispositivos vinculados en un solo clic. De MacBook a PC a iPad sin tocar nada más. Para quien trabaja con múltiples dispositivos, esta funcionalidad es transformadora.
 
@@ -94,7 +94,7 @@ El Logitech MX Anywhere 3S es una alternativa compacta y ligera, ideal para aque
 
 ## 🐿️ Fitz recomienda
 
-El MX Master 3S no es solo un ratón: es la diferencia entre acabar el día con la muñeca destrozada o en plena forma. La ergonomía y el scroll MagSpeed juntos hacen que cualquier otra opción parezca incompleta. El único punto en contra es el tamaño: si tienes manos pequeñas, mira el MX Anywhere 3S. Para el resto, es difícil pedir más en este rango. Mi nota: 9.2/10
+Me encanta su ergonomía que ha reducido la fatiga en mis jornadas largas, aunque su tamaño puede ser un problema para manos pequeñas. Sin embargo, su funcionalidad y comodidad son incomparables. Mi nota: 9.2/10
 
 ## Conclusión
 
