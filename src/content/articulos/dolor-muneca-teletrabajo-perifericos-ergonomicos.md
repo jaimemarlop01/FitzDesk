@@ -103,3 +103,9 @@ He revisado muchos periféricos en FitzDesk, pero pocos cambios son tan inmediat
 Si tienes que elegir una sola compra para empezar, que sea el [Logitech Lift Vertical](/articulo/logitech-lift-vertical-analisis). 69€ para dejar de acabar el día con la muñeca tensa es una de las inversiones más rentables que puedes hacer en tu setup de teletrabajo.
 
 Y si ya tienes el ratón resuelto y sigues con molestias, mira el teclado. Casi siempre está demasiado alto o demasiado lejos del cuerpo.
+
+## Conclusión
+
+El dolor de muñeca al teletrabajar tiene causas concretas y soluciones concretas. En la mayoría de los casos, cambiar el ratón a un modelo vertical —como el Logitech Lift Vertical— y ajustar la altura del teclado resuelve el problema sin necesitar nada más. Si el dolor persiste, añadir un teclado de perfil bajo y colocar el monitor a la altura correcta completa el setup ergonómico.
+
+Lo más importante es actuar antes de que el problema sea crónico: los periféricos ergonómicos son más baratos que la fisioterapia, y el cambio de hábitos es más fácil cuando el dolor todavía es leve.

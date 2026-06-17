@@ -253,16 +253,20 @@ Objetivos:
 
 ## Estado de borradores
 - Última revisión: 2026-06-17
-- Última ejecución de completar-borradores: 2026-06-17 — criterios añadidos a 4 analisis del calendario; longitud ajustada al rango en los 3 análisis cortos y 2 lanzamientos recortados; Conclusión añadida a guía monitor-4k-vs-full-hd
-- Borradores descartados (total acumulado): 8 correctos + 1 falso descarte (xbox-ally, asus-rog-strix, corsair-anade-icue, antec-computex + 6-tb-oferta-amazon, corsair-renueva-catalogo, nvidia-rtx-spark, borrador-surface-ultra-duplicado, corsair-anade-icue) · razer-seiren-v3-pro fue descarte incorrecto (micrófono para teletrabajo, regenerar)
-- Borradores en calendario con imagen y fecha listos: 7 (hp-probook-455-g10, razer-pro-click, logitech-k380, monitor-4k-vs-full-hd, intel-wildcat-lake, corsair-clipper-pro-mini-60, hp-935-creator-wireless) — todos con criterios ✅ y longitud en rango ✅
-- Sin programar (fuera del horizonte de 4 semanas): logitech-mobi-fold-analisis (ratones, 2026-07-22), Cherry KC 6000 Slim (teclados), AOC Q27P3CV (monitores), Jabra Evolve2 30 SE (setups), Trust TK-350 Silent (teclados), ADATA Urban TapSafe (setups), dolor-muneca-teletrabajo-perifericos-ergonomicos (guia), asus-portatiles-trabajo-exigente-2026 (guia), Razer Seiren V3 Pro (setups — regenerar)
+- Última ejecución de completar-borradores: 2026-06-17
+- Borradores descartados: 0
+- Borradores completados: 10
+- Borradores listos para revisión humana: 17
 - Lanzamientos Computex pendientes de disponibilidad: borrador-adata-urban-tapsafe
 
 ## Estado del código
-- Última revisión: 2026-06-11 (5ª pasada — correcciones de advertencias conocidas + revisión agente)
+- Última revisión: 2026-06-17 (6ª pasada — revisión post-sesión calidad textual y comparar.astro)
 - Errores críticos pendientes: 0 | Estado: ✅ Sin errores críticos
-- Advertencias: 0 — todas resueltas el 2026-06-12
+- Advertencias: 3 — ver detalle abajo
+- Advertencias detectadas 2026-06-17:
+  - ScoreBox.astro:20-22 — colores hardcodeados (#16a34a, #F97316, #DC2626) duplican var(--color-success/primary/error); deberían usar scoreColor() de src/lib/score.ts
+  - global.css:5 — --color-brand-dark es #EA6A00 pero CLAUDE.md documenta #EA580C; hay dos valores distintos en uso (comparar.astro usa --color-primary-dark: #EA580C)
+  - index.astro:378,398 / Footer.astro:89,134,154,169,174,180 — color #9CA3AF y #6B7280/#D1D5DB en CSS de secciones oscuras; candidatos a var(--color-text-secondary/#D1D5DB)
 - Correcciones aplicadas en esta pasada (8 archivos):
   - BaseLayout.astro — meta google-site-verification reemplazada por comentario HTML
   - buscar.astro — todos los colores hardcodeados → CSS vars; gradient → var(--color-background)

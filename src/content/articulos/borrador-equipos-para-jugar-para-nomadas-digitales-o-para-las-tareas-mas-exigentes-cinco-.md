@@ -114,3 +114,9 @@ Para quién es: profesionales con presupuesto ajustado que necesitan más potenc
 El ExpertBook P5 y el ProArt P16 son los modelos diseñados desde cero pensando en trabajo. El Zenbook DUO es para quien de verdad usa varias pantallas y no quiere cargar un monitor portátil. El ROG Strix G18 y el TUF A16 vienen del gaming, pero sus specs los hacen perfectamente válidos para trabajo técnico exigente — la diferencia es que necesitas saber qué compras: no son portátiles para llevar al café, son máquinas para el escritorio.
 
 Si tu trabajo no requiere GPU real ni compilaciones pesadas, el ExpertBook P5 hace el 90% del trabajo al 40% del precio del ROG.
+
+## Conclusión
+
+La gama ASUS en 2026 tiene una respuesta concreta para cada perfil de teletrabajador exigente: movilidad con el ExpertBook P5, multitarea visual con el Zenbook DUO, trabajo creativo profesional con el ProArt P16, potencia bruta con el ROG Strix G18 y rendimiento ajustado con el TUF A16. Ninguno es el portátil para todos; todos son la respuesta correcta para alguien en concreto.
+
+La clave es definir primero qué tipo de trabajo haces y cuántas horas lo desplazas antes de decidir por precio. En este segmento, el portátil equivocado sale caro no por lo que cuesta, sino por lo que no resuelve.

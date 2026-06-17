@@ -81,5 +81,3 @@ Lo que me impide ponerle nota más alta es el perfil ergonómico. Para jornadas 
 El Logitech Mobi Fold ocupa un nicho concreto y lo resuelve bien: ratón de bolsillo para teletrabajadores en movimiento. La conectividad Bluetooth doble, la carga USB-C y el clic silencioso son aciertos reales. El perfil compacto es su virtud y su límite: perfecto para movilidad, no ideal para jornadas de escritorio.
 
 Si ya tienes un ratón principal en casa y buscas el que va siempre en la mochila, este es el candidato más razonado del mercado en este segmento.
-
-> ⚠️ **Aviso de afiliado**: Si compras a través de nuestros enlaces podemos recibir una pequeña comisión sin coste adicional para ti. Esto nos ayuda a seguir publicando análisis honestos e independientes.
