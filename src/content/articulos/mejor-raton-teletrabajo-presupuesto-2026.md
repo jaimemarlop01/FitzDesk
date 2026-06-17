@@ -70,7 +70,7 @@ El scroll MagSpeed electromagnético es silencioso y enormemente preciso: puede 
 
 Pesa 141 gramos y tiene un perfil ergonómico más grande que el Anywhere: está pensado para manos medianas-grandes con la muñeca descansando sobre la superficie. La carga de 1 minuto por USB-C da 3 horas de uso. La batería completa dura 70 días.
 
-Es el único ratón de este análisis que conecta con hasta 3 dispositivos simultáneamente mediante Easy-Switch: lo que lleva el Anywhere 3S como opción tiene aquí una ejecución más refinada.
+Conecta con hasta 3 dispositivos simultáneamente mediante Easy-Switch, al igual que el MX Anywhere 3S — con la diferencia de que en el Master 3S la ejecución es más refinada: perfil ergonómico más trabajado, mejor rueda y mayor número de botones configurables para uso intensivo.
 
 **Para quién es:** Quien trabaja más de seis horas diarias, usa múltiples dispositivos o simplemente quiere el mejor ratón disponible sin restricciones de presupuesto.
 

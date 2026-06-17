@@ -41,7 +41,7 @@ Los ratones verticales resuelven exactamente este problema al colocar la mano en
 
 El Lift es la solución más directa al dolor de muñeca a un precio razonable. Ángulo vertical de 57 grados, sensor óptico preciso, disponible en versión para zurdos y diestros, y batería de hasta 24 meses con una pila AA.
 
-No tiene las funciones avanzadas del MX Master — sin scroll MagSpeed, sin botón de pulgar personalizable — pero para quien busca aliviar el dolor sin complicaciones es la compra más efectiva del mercado. En nuestro análisis, la reducción de tensión fue perceptible desde el primer día.
+No tiene las funciones avanzadas del MX Master — sin scroll MagSpeed, sin botón de pulgar personalizable — pero para quien busca aliviar el dolor sin complicaciones es la compra más efectiva del mercado. Quienes han hecho el cambio al Lift reportan que la reducción de tensión se nota en los primeros días, una vez superada la semana de adaptación inicial.
 
 **Para quién es:** Cualquier persona con dolor crónico de muñeca o que quiera prevenirlo. También para quien trabaja más de seis horas diarias con el ratón y nota tensión al final del día.
 
