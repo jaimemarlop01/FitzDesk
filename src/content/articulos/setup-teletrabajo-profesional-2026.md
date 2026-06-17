@@ -51,6 +51,8 @@ En nuestra opinión, el Logitech MX Master 3S es un ratón excepcional que ofrec
 
 En nuestra opinión, el setup de teletrabajo profesional que hemos creado es ideal para cualquier profesional que pase mucho tiempo frente a la pantalla. El LG 27UP850N ofrece una excelente calidad de imagen y una funcionalidad avanzada, mientras que el Keychron K8 Pro y el Logitech MX Master 3S ofrecen una excelente calidad de escritura y precisión. Además, la capacidad del LG 27UP850N para cargar tu portátil con un solo cable y la compatibilidad de los tres dispositivos con Bluetooth o receptores lo hacen ideal para crear un espacio de trabajo limpio y profesional.
 
+El argumento práctico está en la conectividad del LG 27UP850N: un único cable USB-C hace de vídeo, audio y cargador para el portátil, válido en la mayoría de ultrabooks compatibles con Power Delivery. El Keychron K8 Pro y el MX Master 3S se suman sin añadir cables, ambos por Bluetooth o receptor inalámbrico. El resultado es un escritorio con un solo cable visible y una estética coherente —colores neutros, sin RGB— que encaja igual en casa que frente a un cliente.
+
 ## Posibles mejoras futuras
 
 ### Mejora 1: Segundo monitor
@@ -67,9 +69,13 @@ Un par de auriculares de buena calidad puede ser útil para aquellos que realiza
 
 ## Alternativas si el presupuesto no llega
 
-- Monitor alternativo: Dell S2722QC a ~280€. El sacrificio: QHD en vez de 4K.
-- Teclado alternativo: Keychron V1 a 79€. El sacrificio: sin hot-swap ni aluminio.
-- Ratón alternativo: Logitech MX Anywhere 3S a 49€. El sacrificio: sin scroll MagSpeed ni botones extra.
+Si 607€ es más de lo que se quiere invertir ahora, cada componente tiene una alternativa que mantiene la coherencia del setup:
+
+- **Monitor: [Dell S2722QC](/articulo/dell-s2722qc-analisis/) (~280€)** — QHD en lugar de 4K, pero conserva el USB-C con Power Delivery para cargar el portátil. Ahorro de ~120€.
+
+- **Teclado: [Keychron V1](/articulo/keychron-v1-analisis/) (79€)** — misma estructura de aluminio y hot-swap que el K8 Pro, pero solo por cable USB-C. Ahorro de 30€.
+
+- **Ratón: [Logitech MX Anywhere 3S](/articulo/logitech-mx-anywhere-3s-analisis/) (49€)** — mismo sensor Darkfield y Easy-Switch para tres dispositivos. Se pierde el scroll MagSpeed y el botón de pulgar configurable. Ahorro de 50€.
 
 ## 🐿️ Fitz recomienda este setup
 
@@ -77,6 +83,8 @@ Fitz da su veredicto: este setup es ideal para cualquier profesional que busque 
 
 ## Conclusión
 
-En conclusión, el setup de teletrabajo profesional que hemos creado es ideal para cualquier profesional que pase mucho tiempo frente a la pantalla. Con un presupuesto total de aproximadamente 607€, este setup ofrece una excelente calidad de imagen, escritura y precisión. Si estás buscando una configuración de teletrabajo profesional completa y sin concesiones, te recomendamos leer nuestros análisis individuales de cada producto y considerar esta opción.
+607€ es una inversión que tiene sentido cuando el trabajo depende del ordenador ocho horas al día. El LG 27UP850N resuelve la pantalla con un panel que compite con monitores el doble de caros; el Keychron K8 Pro es el teclado que se usa durante años; y el MX Master 3S es el ratón que los profesionales que lo adoptan raramente abandonan.
+
+Tiene más sentido para quien ya ha pasado por una configuración más básica y sabe qué le falta. Si es el primer setup serio, el de 277€ puede ser una entrada más razonable que permite escalar después. Puedes consultar los análisis individuales del [LG 27UP850N](/articulo/lg-27up850n-analisis/), el [Keychron K8 Pro](/articulo/keychron-k8-pro-analisis/) y el [Logitech MX Master 3S](/articulo/logitech-mx-master-3s-analisis/) para profundizar en cada uno.
 
 > ⚠️ **Aviso**: Los precios mostrados son orientativos. Te recomendamos verificar el precio actual antes de comprar.
