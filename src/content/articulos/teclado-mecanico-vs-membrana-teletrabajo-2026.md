@@ -91,3 +91,9 @@ El **K8 Pro** es el TKL más completo: hot-swap, triple conectividad, compatible
 ## 🐿️ Fitz recomienda
 
 El debate mecánico vs membrana está sobrevalorado. El teclado correcto es el que se adapta a cómo trabajas, no el que queda mejor en una foto del setup. Si escribes muchas horas, el mecánico te dará retroalimentación y durabilidad que el membrana no puede igualar. Si trabajas cerca de otras personas o cambias de sitio a menudo, el membrana es más sensato. Lo que sí te digo: cuando pruebes un buen mecánico por primera vez, vas a entender por qué la gente no vuelve atrás.
+
+## Conclusión
+
+El debate entre teclado mecánico y de membrana no tiene una respuesta universal porque depende de cómo y dónde trabajas. Si escribes varias horas al día en un espacio propio y el ruido no es un problema, un mecánico como el Keychron V1 o el K8 Pro te va a durar más, fatigar menos los dedos y darte más satisfacción en cada sesión. Si compartes espacio, trabajas en silencio o simplemente quieres enchufar y olvidar, el Logitech MX Keys S hace todo lo que necesitas sin compromisos acústicos.
+
+Lo que sí está claro es que cualquier inversión en un buen teclado —mecánico o de membrana— se amortiza rápido cuando pasas horas escribiendo cada día. El teclado genérico de 20€ o el que venía con el ordenador rara vez está a la altura de una jornada de teletrabajo real. A partir de ahí, la elección entre mecánico y membrana es más de preferencias personales que de calidad objetiva.

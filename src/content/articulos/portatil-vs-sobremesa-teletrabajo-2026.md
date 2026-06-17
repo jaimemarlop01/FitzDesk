@@ -82,3 +82,9 @@ Depende de cuántas horas a la semana sales con el ordenador. Si la respuesta es
 ## 🐿️ Fitz recomienda
 
 Si me preguntas qué haría yo: portátil con monitor externo. La libertad de poder llevarte el trabajo contigo sin perder la comodidad de trabajar en un escritorio bien montado es una ventaja real que no se ve en los benchmarks. El secreto está en elegir un portátil con USB-C y un monitor que cargue a través del mismo cable. Un cable, y tu escritorio está listo.
+
+## Conclusión
+
+No hay una respuesta correcta entre portátil y sobremesa para todo el mundo, pero sí hay una respuesta correcta para tu situación. Si la movilidad es parte de tu realidad —aunque sea esporádica—, el portátil es la opción con más sentido. Si trabajas siempre desde el mismo sitio y el presupuesto importa, el sobremesa da más rendimiento por el dinero.
+
+Para la mayoría de los teletrabajadores, la solución no es elegir entre uno u otro: es combinar un portátil con monitor externo, teclado y ratón. Ganas la ergonomía de un escritorio fijo sin perder la posibilidad de llevarte el trabajo cuando lo necesitas. Si solo puedes hacer una inversión, hazla en el monitor: es el periférico que más transforma la experiencia de trabajo diaria, independientemente de si tienes portátil o sobremesa.
