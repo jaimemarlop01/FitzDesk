@@ -1,5 +1,5 @@
 {
-  "generado": "2026-06-11",
+  "generado": "2026-06-17",
   "publicaciones": [
     {
       "fecha": "2026-06-14",
@@ -9,6 +9,7 @@
       "categoria": "guias",
       "prioridad": "MEDIA",
       "tipo": "guia",
+      "publicado": true,
       "nota": "Sin restricción de horario — publica cuando estés listo. Imagen pendiente: ejecutar imageCollector antes de publicar"
     },
     {
@@ -19,6 +20,7 @@
       "categoria": "monitores",
       "prioridad": "ALTA",
       "tipo": "analisis",
+      "publicado": true,
       "nota": "⏰ Recuerda publicar entre las 9:00 y las 11:00"
     },
     {

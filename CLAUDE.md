@@ -297,17 +297,24 @@ Objetivos:
   - 14 artículos de análisis — bloque `criterios:` con 5 valores reales por categoría (ratones: ergonomia/precision/autonomia/conectividad/calidad_precio · teclados: tacto/ruido/conectividad/durabilidad/calidad_precio · monitores: calidad_imagen/ergonomia_soporte/conectividad/cuidado_ocular/calidad_precio · portátiles: rendimiento/bateria/pantalla/teclado_trackpad/calidad_precio)
 
 ## Estado de precios
-- Última revisión de precios: 2026-06-12
-- Artículos con precio desactualizado: 0
-- Artículos pendientes de revisión (>30 días): 14 (logitech-mx-master-3s, logitech-lift-vertical, logitech-mx-anywhere-3s, lg-27un880, keychron-k8-pro, keychron-v1, keychron-k2-v2, benq-gw2780, dell-s2722qc, lg-27up850n-analisis, asus-vivobook-15-oled-analisis, lenovo-thinkpad-e14-gen6-analisis, lg-gram-14-2025-analisis, mejor-setup-teletrabajo-500-euros-2026)
+- Última revisión de precios: 2026-06-17
+- Artículos con precio desactualizado: 1 (lg-27un880 — enlace_afiliado apunta a URL raíz sin producto)
+- Artículos pendientes de revisión (>30 días): 13 (logitech-mx-master-3s, logitech-lift-vertical, logitech-mx-anywhere-3s, lg-27un880, keychron-k8-pro, keychron-k2-v2, keychron-v1, benq-gw2780, dell-s2722qc, logitech-mx-keys-s-analisis, asus-vivobook-15-oled-analisis, lenovo-thinkpad-e14-gen6-analisis, lg-gram-14-2025-analisis)
+- Notas: lg-27up850n-analisis (28 días) y mejor-setup-teletrabajo-500-euros-2026 (19 días) ya no superan los 30 días desde la última revisión manual del 2026-06-12; lg-27un880 tiene enlace_afiliado incompleto (solo dominio raíz)
 
 ## Estado del calendario de publicaciones
 - Ritmo: Domingo c/2 semanas (guía/comparativa) · Martes y jueves (análisis/lanzamiento, 9:00–11:00)
-- Calendario actualizado: 2026-06-11
+- Calendario generado: 2026-06-17
 - Próxima publicación: 2026-06-18 — hp-probook-455-g10-analisis (analisis, jueves) — publicación automática vía workflow
 - Calendario completo hasta 2026-07-07 (7 publicaciones pendientes, todas con imagen y criterios)
+- Publicaciones completadas marcadas en JSON: 2026-06-14 (mejor-raton-teletrabajo-presupuesto-2026) y 2026-06-16 (borrador-samsung-s27a600-analisis)
+- Semanas de contenido disponibles: 3 (semanas del 17/06, 23/06 y 30/06) + entrada suelta el 07/07
+- Borradores listos para publicar: 7 análisis/lanzamientos + 1 guía (07/07 cierra el horizonte)
+- Borradores incompletos (no planificados): 8 (sin imagen en disco — logitech-mobi-fold, trust-tk-350-silent, jabra-evolve2-30-se, cherry-kc-6000-slim, aoc-q27p3cv, dolor-muneca-teletrabajo, asus-portatiles-trabajo-exigente) + samsung-s27a600 ya publicado
+- Sin programar (fuera del horizonte o sin imagen): logitech-mobi-fold-analisis (ratones), trust-tk-350-silent-analisis (teclados), jabra-evolve2-30-se-analisis (setups), cherry-kc-6000-slim-analisis (teclados), aoc-q27p3cv-analisis (monitores), dolor-muneca-teletrabajo-perifericos-ergonomicos (guia), asus-portatiles-trabajo-exigente-2026 (guia)
+- Slots vacíos (sin borrador disponible con imagen): 2026-07-10 (jueves), 2026-07-13 (domingo, semana 4 — sin guia disponible), 2026-07-15 (martes)
 - Workflow automático: `.github/workflows/publicar-automatico.yml` — Dom/Mar/Jue, programado a las 5:35 UTC (7:35 CEST / 6:35 CET) con margen de 1h25min para absorber retrasos de GitHub Actions y llegar dentro de la ventana 9:00-11:00; lee calendario y publica solo si hay entrada para hoy; notifica a Discord en caso de error
-- Imágenes pendientes: ninguna — todas descargadas el 2026-06-11
+- Imágenes pendientes: ninguna para borradores programados — todas descargadas el 2026-06-11
 - PENDIENTE: notifier.js no tiene lógica para disparar el recordatorio de domingo el sábado anterior a las 20:00 — checkPublicationReminders() solo actúa los días 2, 3 y 4 (mar, mié, jue). Para guías dominicales el recordatorio del sábado debe implementarse manualmente o extender la función.
 
 ## Lanzamientos en seguimiento
