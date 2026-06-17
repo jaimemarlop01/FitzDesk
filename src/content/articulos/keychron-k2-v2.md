@@ -22,8 +22,8 @@ especificaciones:
   Bateria: "4000 mAh (hasta 200 horas)"
   Retroiluminacion: "RGB por tecla"
   Compatibilidad: "macOS, Windows, iOS, Android"
-  Carcasa: "Aluminio (version V2)"
-  Hotswap: "No (version estandar)"
+  Carcasa: "Aluminio (versión V2)"
+  Hotswap: "No (versión estándar)"
   Peso: "870 g"
 ---
 
