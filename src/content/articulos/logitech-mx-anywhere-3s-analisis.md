@@ -94,7 +94,7 @@ Una alternativa es el Logitech MX Master 3S, aunque es más grande y costoso.
 
 ## 🐿️ Fitz recomienda
 
-Me encanta el scroll MagSpeed en este ratón compacto, aunque puede ser un poco pequeño para manos grandes. La batería de 70 días es un gran PLUS. Mi nota: 8.7/10
+El Anywhere 3S es el MX Master que cabe en el bolsillo. Si viajas o trabajas desde cafeterías y espacios compartidos, es el compañero que tiene sentido: cabe en cualquier bolso, funciona en cualquier superficie y su batería dura más que tu proyecto más largo. La única pega real es el tamaño para manos grandes en uso prolongado, pero para movilidad ese tamaño es exactamente el punto. Mi nota: 8.7/10
 
 ## Conclusión
 
