@@ -100,6 +100,12 @@ GEMINI_API_KEY (opcional)
 
 ---
 
+## Notas importantes
+
+**NOTA: El campo `enlace_afiliado`** en el frontmatter de los artículos contiene actualmente URLs directas a PcComponentes **SIN tracking de afiliado real**. Esto cambiará cuando Awin apruebe el programa de PcComponentes (previsto julio 2026 con 30+ artículos). Hasta entonces, tratar este campo como **"enlace de producto"**, no como **"enlace de afiliado"**, en cuanto a prioridad de corrección: un enlace roto o incompleto es un problema de severidad baja / UX, no bloqueante, y no implica pérdida de ingresos (no hay ingresos de afiliados posibles todavía).
+
+---
+
 ## Bugs pendientes de resolver
 
 - [x] Buscador muestra Fitz duplicado (estado vacío y estado sin resultados)

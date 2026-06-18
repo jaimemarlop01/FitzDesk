@@ -32,6 +32,8 @@ Para cada borrador comprueba:
 
 **Aviso de afiliado** — si `tipo: analisis` o `tipo: comparativa`, debe existir el bloque de aviso de afiliado al final.
 
+**Enlace de producto (`enlace_afiliado`)** — si `tipo: analisis` o `tipo: comparativa`, comprueba que el campo existe y no es evidentemente inválido (solo dominio raíz sin ruta de producto, vacío, o URL rota). Clasifícalo como **problema de severidad baja / UX**, nunca como bloqueante para "listo para publicar" — ver nota en `CLAUDE.md` sobre el estado de Awin.
+
 **Criterios del radar** — si `tipo: analisis`, el frontmatter debe incluir el bloque `criterios:` con exactamente 5 valores numéricos (escala 1–10) correspondientes a la categoría:
 - `ratones`: ergonomia, precision, autonomia, conectividad, calidad_precio
 - `teclados`: tacto, ruido, conectividad, durabilidad, calidad_precio
@@ -77,3 +79,4 @@ Si el bloque ya existe, actualiza solo los valores numéricos y la fecha.
 - No modificar ningún artículo, solo leer y analizar
 - Si un campo de frontmatter usa un valor no estándar de FitzDesk, marcarlo como problema
 - Informar de cualquier borrador con nombre `borrador-` que lleve más de 7 días sin modificarse
+- **`enlace_afiliado` roto, incompleto o apuntando solo al dominio raíz es severidad baja / UX** — no bloqueante. FitzDesk no tiene aprobado el programa de afiliados en Awin todavía (previsto julio 2026), así que este campo es hoy un enlace de producto a PcComponentes, no un enlace de afiliado real con tracking. No usar lenguaje como "pérdida de ingresos" al reportarlo
