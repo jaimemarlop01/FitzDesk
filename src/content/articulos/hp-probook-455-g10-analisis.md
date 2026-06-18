@@ -6,11 +6,16 @@ fecha: "2026-06-18"
 descripcion: "Análisis del HP ProBook 455 G10: portátil empresarial AMD con lector de huella, teclado retroiluminado y batería larga por menos de 600€."
 imagen: "/images/articulos/hp-probook-455-g10-analisis.webp"
 puntuacion: 8.6
+criterios:
+  rendimiento: 8.0
+  bateria: 9.0
+  pantalla: 7.5
+  teclado_trackpad: 8.5
+  calidad_precio: 8.8
 precio: "549,99€"
 enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=hp+probook+455+g10"
 tiempo_lectura: "6 min"
 tipo: "analisis"
-borrador: true
 imagen_thumb: "/images/articulos/hp-probook-455-g10-analisis-thumb.webp"
 ---
 
@@ -75,3 +80,5 @@ Mi nota: 8.6/10
 ## Conclusión
 
 El HP ProBook 455 G10 recupera funcionalidades que los portátiles premium han ido eliminando por razones estéticas: Ethernet, cámara con obturador, teclado completo retroiluminado, batería larga. Lo hace con un procesador AMD eficiente y a un precio que se justifica por sí solo. Para el teletrabajador que necesita un portátil fiable a largo plazo sin buscar el diseño más fino del mercado, es una de las opciones más coherentes por debajo de los 600€.
+
+Frente al Lenovo ThinkPad E14 Gen 6 —su rival más directo en FitzDesk— el ProBook cede portabilidad (1,78 kg frente a los 1,4 kg del ThinkPad) a cambio de pantalla más grande, puerto Ethernet nativo y la red de servicio técnico de HP para entornos empresariales. La compatibilidad USB-C con Power Delivery permite además construir un setup de doble pantalla limpio con un solo cable conectado a monitores como el Dell S2722QC o el AOC Q27P3CV, sin necesidad de dock adicional. Para quien valora ese equilibrio entre funcionalidad completa y precio contenido, el ProBook 455 G10 sigue siendo una apuesta difícil de superar en su rango.
