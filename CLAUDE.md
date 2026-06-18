@@ -273,6 +273,25 @@ Objetivos:
   - borrador-asus-portatiles-trabajo-exigente-2026: nombre de archivo no coincidía con el slug (huérfano desde su creación) — renombrado; cuerpo recortado de 1540 a 1396 palabras (rango guia 1000-1400); título recortado de 73 a 52 caracteres
   - **borrador-razer-seiren-v3-pro fue descartado incorrectamente el 2026-06-10** ("placeholder irrecuperable" — falso: el contenido estaba completo salvo la última frase de la Conclusión, cortada a mitad, y un placeholder sin rellenar `[nombra un micrófono similar]` en una pregunta de la FAQ). Regenerado completo: Conclusión terminada, placeholder eliminado (esa pregunta de FAQ se quitó en vez de inventar una comparación sin base), formato "Perfil A/B" convertido a párrafo, criterios añadidos (setups), imagen_thumb añadido, slug añadido. 1012 palabras, dentro de rango analisis
 
+### Rama `borradores` — triaje 2026-06-18
+
+La rama `borradores` (donde el monitor escribe directamente vía API de GitHub) está estructuralmente desactualizada respecto a `develop` (le faltan comparar.astro, score.ts y otros cambios — no se hizo merge completo, solo se trajeron los `.md` nuevos puntualmente). Tenía 20 archivos de artículos que no existían en `develop`: 5 eran obsoletos (ya gestionados, ya publicados, o decomisionados intencionadamente) y 14 eran borradores genuinamente nuevos sin triar.
+
+De esos 14, **4 se conservaron y completaron** (traídos a `develop` con frontmatter, criterios e imagen placeholder estándar):
+- `airra-labs-rotary-mouse-analisis` (ratones) — corregido un carácter chino suelto (可能) mezclado en el texto español
+- `asus-rog-strix-scar-18-analisis` (portatiles) — Conclusión truncada terminada, enlace_afiliado roto corregido
+- `lg-ultragear-34gx90sb-w-analisis` (monitores) — tenía una alerta interna de "POSIBLE DUPLICADO" frente a `lg-display-muestra-el-futuro-de-los-monitores-oled-gaming-con-2000-nits-5k-27-22`; verificado que son productos distintos (27" 5K vs 34" WQHD 240Hz) — no era duplicado, alerta descartada
+- `logitech-mk470-analisis` (setups) — typo "esanother" corregido
+
+**10 se descartaron** (no se incorporaron a develop):
+- `corsair-shugo` (memorias RAM) y `corsair-icue-link-titan` (AIO cooler con pantalla) — componentes internos de PC, excluidos por línea editorial
+- `computex-antec` — mezcla refrigeración/torres (componentes excluidos) + placeholder `[COMPLETAR]` sin rellenar
+- `xbox-ally-x20` — consola de videojuegos portátil, excluida explícitamente por línea editorial
+- `6tb-disco-duro-amazon` y `tarjetas-sd-8tb-sandisk` — almacenamiento que no encaja en ninguna categoría válida de FitzDesk, contenido genérico
+- `corsair-nuevos-teclados` y `ducky-anne-pro` — no identifican un modelo concreto (demasiado genéricos para ser un análisis real), con placeholders sin rellenar
+- `despliegue-portatiles-rtx-spark` — mal categorizado como "monitor", solapa con el lanzamiento ya publicado de Surface Laptop Ultra
+- `logitech-mobi-fold` (trackpad) — duplicado exacto de un borrador ya existente y ya completado en `develop` (`logitech-mobi-fold-analisis.md`)
+
 ## Estado del código
 - Última revisión: 2026-06-17 (6ª pasada — revisión post-sesión calidad textual y comparar.astro)
 - Errores críticos pendientes: 0 | Estado: ✅ Sin errores críticos
