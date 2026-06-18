@@ -11,7 +11,7 @@ criterios:
   conectividad: 9.0
   cuidado_ocular: 8.0
   calidad_precio: 8.0
-precio: "399€"
+precio: "627,28€"
 enlace_afiliado: "https://www.pccomponentes.com/lg-27up850n"
 tiempo_lectura: "7 min"
 tipo: "analisis"
@@ -30,6 +30,8 @@ especificaciones:
   Ajustes: "Altura, inclinación, rotación, pivote"
   Certificaciones: "HDR400, sRGB 99%, DCI-P3 95%"
   Altavoces: "No incluidos"
+fecha_actualizacion: "2026-06-18"
+actualizado: true
 ---
 
 ## El monitor que hace que todo lo demás sea un cable de menos
