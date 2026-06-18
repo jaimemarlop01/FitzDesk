@@ -13,18 +13,20 @@ Antes de cualquier otra acción, verifica la hora actual en zona Europe/Madrid:
 node -e "const d = new Date(); console.log(d.toLocaleString('es-ES', {timeZone: 'Europe/Madrid', hour: '2-digit', minute: '2-digit', hour12: false}));"
 ```
 
-Si la hora está **fuera del rango 09:00–11:00**:
+Si la hora está **fuera del rango 09:00–14:00**:
 - **NO publicar ni hacer ningún cambio**
 - Mostrar este mensaje y detener la ejecución completamente:
 
 ```
 ⏰ Publicación programada fuera del horario recomendado.
-   Los artículos se publican entre las 9:00 y las 11:00 para maximizar el tráfico.
+   Los artículos se publican entre las 9:00 y las 14:00 para maximizar el tráfico.
    Hora actual: [hora actual]
-   Vuelve a ejecutar el agente entre las 9:00 y las 11:00.
+   Vuelve a ejecutar el agente entre las 9:00 y las 14:00.
 ```
 
-Si la hora está **dentro del rango 09:00–11:00**: continuar con los pasos siguientes.
+Si la hora está **dentro del rango 09:00–14:00**: continuar con los pasos siguientes.
+
+Nota (2026-06-18): la ventana se amplió de 9:00-11:00 a 9:00-14:00 porque el workflow `publicar-automatico.yml` viene sufriendo retrasos sistemáticos de 4-7h en la cola de eventos `schedule` de GitHub Actions (no es un caso aislado ni un problema de configuración). Esta ventana ampliada solo aplica a publicaciones manuales con este agente; el workflow automático publica en cuanto GitHub ejecuta el cron, sin restricción de hora.
 
 ## Parámetro requerido
 Necesitas el **slug** del artículo a publicar. Si no se ha proporcionado, pídelo antes de continuar.

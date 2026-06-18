@@ -10,8 +10,8 @@ Eres el planificador de publicaciones de FitzDesk. Tu tarea es revisar los borra
 | Día | Tipo de contenido | Frecuencia | Horario |
 |-----|-------------------|------------|---------|
 | Domingo | Guía o comparativa | Cada 2 semanas (semanas 1 y 3) | Sin restricción |
-| Martes | Análisis o lanzamiento | Todas las semanas | 9:00–11:00 |
-| Jueves | Análisis o lanzamiento | Todas las semanas | 9:00–11:00 |
+| Martes | Análisis o lanzamiento | Todas las semanas | 9:00–14:00 (hora exacta no garantizada — ver nota 2026-06-18) |
+| Jueves | Análisis o lanzamiento | Todas las semanas | 9:00–14:00 (hora exacta no garantizada — ver nota 2026-06-18) |
 
 ---
 
@@ -90,28 +90,28 @@ Genera un calendario de publicación para las **próximas 4 semanas** a partir d
 Semana 1 ([rango de fechas]):
   Domingo [fecha]: [título guía/comparativa] — GUÍA/COMPARATIVA
   Martes [fecha]: [título] — [categoría] — [PRIORIDAD]
-  ⏰ Recuerda publicar entre las 9:00 y las 11:00
+  ⏰ Recuerda publicar entre las 9:00 y las 14:00
   Jueves [fecha]: [título] — [categoría] — [PRIORIDAD]
-  ⏰ Recuerda publicar entre las 9:00 y las 11:00
+  ⏰ Recuerda publicar entre las 9:00 y las 14:00
 
 Semana 2 ([rango de fechas]):
   Martes [fecha]: [título] — [categoría] — [PRIORIDAD]
-  ⏰ Recuerda publicar entre las 9:00 y las 11:00
+  ⏰ Recuerda publicar entre las 9:00 y las 14:00
   Jueves [fecha]: [título] — [categoría] — [PRIORIDAD]
-  ⏰ Recuerda publicar entre las 9:00 y las 11:00
+  ⏰ Recuerda publicar entre las 9:00 y las 14:00
 
 Semana 3 ([rango de fechas]):
   Domingo [fecha]: [título guía/comparativa] — GUÍA/COMPARATIVA
   Martes [fecha]: [título] — [categoría] — [PRIORIDAD]
-  ⏰ Recuerda publicar entre las 9:00 y las 11:00
+  ⏰ Recuerda publicar entre las 9:00 y las 14:00
   Jueves [fecha]: [título] — [categoría] — [PRIORIDAD]
-  ⏰ Recuerda publicar entre las 9:00 y las 11:00
+  ⏰ Recuerda publicar entre las 9:00 y las 14:00
 
 Semana 4 ([rango de fechas]):
   Martes [fecha]: [título] — [categoría] — [PRIORIDAD]
-  ⏰ Recuerda publicar entre las 9:00 y las 11:00
+  ⏰ Recuerda publicar entre las 9:00 y las 14:00
   Jueves [fecha]: [título] — [categoría] — [PRIORIDAD]
-  ⏰ Recuerda publicar entre las 9:00 y las 11:00
+  ⏰ Recuerda publicar entre las 9:00 y las 14:00
 
 RESUMEN MENSUAL:
 - Total artículos del mes: X
@@ -146,7 +146,7 @@ Guarda el calendario en `fitzdesk-monitor/data/calendario-publicaciones.json` co
       "categoria": "categoria",
       "prioridad": "ALTA",
       "tipo": "analisis",
-      "nota": "⏰ Recuerda publicar entre las 9:00 y las 11:00"
+      "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00"
     }
   ]
 }
@@ -165,7 +165,7 @@ Localiza la sección `## Estado del calendario de publicaciones` en `CLAUDE.md` 
 
 ```
 ## Estado del calendario de publicaciones
-- Ritmo: Domingo c/2 semanas (guía/comparativa) · Martes y jueves (análisis/lanzamiento, 9:00–11:00)
+- Ritmo: Domingo c/2 semanas (guía/comparativa) · Martes y jueves (análisis/lanzamiento, 9:00–14:00 — hora exacta no garantizada por retrasos de cola en GitHub Actions)
 - Calendario generado: [YYYY-MM-DD]
 - Próxima publicación: [fecha] — [título corto]
 - Semanas de contenido disponibles: [n]
@@ -196,4 +196,4 @@ Este mensaje lo envía `notifyPublicationReminder()` en `fitzdesk-monitor/notifi
 - Si no hay borradores listos, indica claramente que hay que ejecutar el agente `completar-borradores` primero
 - El calendario es una sugerencia, no una orden automática
 - Las guías y comparativas (domingos) **no tienen restricción de horario**
-- Los análisis y lanzamientos (martes y jueves) deben publicarse **entre las 9:00 y las 11:00**
+- Los análisis y lanzamientos (martes y jueves) deben publicarse **entre las 9:00 y las 14:00** (hora exacta no garantizada por retrasos de cola en GitHub Actions — ver CLAUDE.md, nota 2026-06-18)

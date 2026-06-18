@@ -303,7 +303,7 @@ Objetivos:
 - Notas: lg-27up850n-analisis (28 días) y mejor-setup-teletrabajo-500-euros-2026 (19 días) ya no superan los 30 días desde la última revisión manual del 2026-06-12; lg-27un880 tiene enlace_afiliado incompleto (solo dominio raíz)
 
 ## Estado del calendario de publicaciones
-- Ritmo: Domingo c/2 semanas (guía/comparativa) · Martes y jueves (análisis/lanzamiento, 9:00–11:00)
+- Ritmo: Domingo c/2 semanas (guía/comparativa) · Martes y jueves (análisis/lanzamiento, 9:00–14:00 — hora exacta no garantizada por retrasos de cola en GitHub Actions, ver nota 2026-06-18)
 - Calendario generado: 2026-06-17
 - Próxima publicación: 2026-06-18 — hp-probook-455-g10-analisis (analisis, jueves) — publicación automática vía workflow
 - Calendario completo hasta 2026-07-07 (7 publicaciones pendientes, todas con imagen y criterios)
@@ -313,7 +313,8 @@ Objetivos:
 - Borradores incompletos (no planificados): 8 (sin imagen en disco — logitech-mobi-fold, trust-tk-350-silent, jabra-evolve2-30-se, cherry-kc-6000-slim, aoc-q27p3cv, dolor-muneca-teletrabajo, asus-portatiles-trabajo-exigente) + samsung-s27a600 ya publicado
 - Sin programar (fuera del horizonte o sin imagen): logitech-mobi-fold-analisis (ratones), trust-tk-350-silent-analisis (teclados), jabra-evolve2-30-se-analisis (setups), cherry-kc-6000-slim-analisis (teclados), aoc-q27p3cv-analisis (monitores), dolor-muneca-teletrabajo-perifericos-ergonomicos (guia), asus-portatiles-trabajo-exigente-2026 (guia)
 - Slots vacíos (sin borrador disponible con imagen): 2026-07-10 (jueves), 2026-07-13 (domingo, semana 4 — sin guia disponible), 2026-07-15 (martes)
-- Workflow automático: `.github/workflows/publicar-automatico.yml` — Dom/Mar/Jue, programado a las 5:35 UTC (7:35 CEST / 6:35 CET) con margen de 1h25min para absorber retrasos de GitHub Actions y llegar dentro de la ventana 9:00-11:00; lee calendario y publica solo si hay entrada para hoy; notifica a Discord en caso de error
+- Workflow automático: `.github/workflows/publicar-automatico.yml` — Dom/Mar/Jue, programado a las 5:35 UTC (7:35 CEST / 6:35 CET); lee calendario y publica solo si hay entrada para hoy; notifica a Discord en caso de error
+- Ventana de publicación ajustada a 9:00-14:00 el 2026-06-18 (antes 9:00-11:00): los eventos `schedule` de GitHub Actions reciben prioridad de cola más baja que `push`/`workflow_dispatch`, y este repo viene observando retrasos sistemáticos de 4-7h respecto a la hora programada (100% de las ejecuciones registradas, no casos aislados — ej. 17/06 corrió 5h tarde, 15/06 corrió 7h tarde). No es un problema de configuración (sin `concurrency`, `runs-on` estándar, sin minutos de cuenta agotados al ser repo público) sino del plan gratuito de GitHub Actions. `auto-publisher.js` no depende de la hora, solo de la fecha, así que la publicación ocurre igual aunque tarde — la ventana documentada es ahora una expectativa realista, no una garantía exacta
 - Imágenes pendientes: ninguna para borradores programados — todas descargadas el 2026-06-11
 - PENDIENTE: notifier.js no tiene lógica para disparar el recordatorio de domingo el sábado anterior a las 20:00 — checkPublicationReminders() solo actúa los días 2, 3 y 4 (mar, mié, jue). Para guías dominicales el recordatorio del sábado debe implementarse manualmente o extender la función.
 
@@ -341,7 +342,7 @@ Objetivos:
 ## Publicación automática — GitHub Actions
 
 - Workflow: `.github/workflows/publicar-automatico.yml`
-- Se ejecuta Dom/Mar/Jue, programado a las 5:35 UTC (7:35 CEST / 6:35 CET) — cron: `35 5 * * 0,2,4` — minuto descuadrado y margen de 1h25min antes de la ventana 9:00-11:00 para absorber retrasos de cola
+- Se ejecuta Dom/Mar/Jue, programado a las 5:35 UTC (7:35 CEST / 6:35 CET) — cron: `35 5 * * 0,2,4` — minuto descuadrado para evitar la congestión del minuto en punto; aun así, los eventos `schedule` quedan en cola de baja prioridad en GitHub Actions y pueden tardar varias horas en ejecutarse (ver nota en "Estado del calendario de publicaciones")
 - Lee `fitzdesk-monitor/data/calendario-publicaciones.json`, busca entrada para hoy
 - Si hay publicación: obtiene el borrador desde `develop`, elimina `borrador: true`, renombra el archivo y hace push a `main` (dispara deploy automáticamente)
 - Si falta imagen o frontmatter inválido: notifica a Discord y no publica

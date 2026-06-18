@@ -21,7 +21,7 @@
       "prioridad": "ALTA",
       "tipo": "analisis",
       "publicado": true,
-      "nota": "⏰ Recuerda publicar entre las 9:00 y las 11:00"
+      "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00"
     },
     {
       "fecha": "2026-06-18",
@@ -31,7 +31,7 @@
       "categoria": "portatiles",
       "prioridad": "ALTA",
       "tipo": "analisis",
-      "nota": "⏰ Recuerda publicar entre las 9:00 y las 11:00"
+      "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00"
     },
     {
       "fecha": "2026-06-23",
@@ -41,7 +41,7 @@
       "categoria": "ratones",
       "prioridad": "ALTA",
       "tipo": "analisis",
-      "nota": "⏰ Recuerda publicar entre las 9:00 y las 11:00"
+      "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00"
     },
     {
       "fecha": "2026-06-25",
@@ -51,7 +51,7 @@
       "categoria": "teclados",
       "prioridad": "ALTA",
       "tipo": "analisis",
-      "nota": "⏰ Recuerda publicar entre las 9:00 y las 11:00"
+      "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00"
     },
     {
       "fecha": "2026-06-28",
@@ -71,7 +71,7 @@
       "categoria": "portatiles",
       "prioridad": "ALTA",
       "tipo": "lanzamiento",
-      "nota": "⏰ Recuerda publicar entre las 9:00 y las 11:00"
+      "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00"
     },
     {
       "fecha": "2026-07-02",
@@ -81,7 +81,7 @@
       "categoria": "teclados",
       "prioridad": "ALTA",
       "tipo": "lanzamiento",
-      "nota": "⏰ Recuerda publicar entre las 9:00 y las 11:00"
+      "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00"
     },
     {
       "fecha": "2026-07-07",
@@ -91,7 +91,7 @@
       "categoria": "ratones",
       "prioridad": "ALTA",
       "tipo": "analisis",
-      "nota": "⏰ Recuerda publicar entre las 9:00 y las 11:00"
+      "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00"
     }
   ]
 }
