@@ -11,8 +11,8 @@ criterios:
   conectividad: 9.0
   cuidado_ocular: 8.0
   calidad_precio: 8.0
-precio: "627,28€"
-enlace_afiliado: "https://www.pccomponentes.com/lg-27up850n"
+precio: "368,20€"
+enlace_afiliado: "https://www.pccomponentes.com/lg-27up850n-w-27-led-ips-ultrahd-4k-freesync-usb-c"
 tiempo_lectura: "7 min"
 tipo: "analisis"
 keyword_principal: "monitor 4K USB-C"
