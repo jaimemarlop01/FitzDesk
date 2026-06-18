@@ -1,5 +1,5 @@
 ---
-title: "Samsung S27A600NAU: QHD de 27\" sin USB-C pero sin compromisos en imagen"
+title: "Samsung S27A600NAU: QHD de 27\" sin USB-C, sin compromisos en imagen"
 slug: "samsung-s27a600-analisis"
 categoria: "monitores"
 fecha: "2026-06-16"

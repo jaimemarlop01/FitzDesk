@@ -1,10 +1,10 @@
 ---
-title: "Jabra Evolve2 30 SE: auriculares certificados para videollamadas profesionales"
+title: "Jabra Evolve2 30 SE: auriculares certificados para videollamadas"
 slug: "jabra-evolve2-30-se-analisis"
 categoria: "setups"
 fecha: "2026-06-10"
 descripcion: "Análisis del Jabra Evolve2 30 SE: auriculares USB con cancelación de ruido y certificación Teams para videollamadas en entornos con ruido."
-imagen: "/images/articulos/borrador-jabra-evolve2-30-se-analisis.webp"
+imagen: "/images/articulos/jabra-evolve2-30-se-analisis.webp"
 puntuacion: 8.8
 criterios:
   calidad_construccion: 8.5

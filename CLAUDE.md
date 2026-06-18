@@ -258,12 +258,20 @@ Objetivos:
 - [ ] Registrar @fitzdesk en redes sociales
 
 ## Estado de borradores
-- Última revisión: 2026-06-17
-- Última ejecución de completar-borradores: 2026-06-17
+- Última revisión: 2026-06-18
+- Última ejecución de completar-borradores: 2026-06-18
 - Borradores descartados: 0
-- Borradores completados: 10
-- Borradores listos para revisión humana: 17
-- Lanzamientos Computex pendientes de disponibilidad: borrador-adata-urban-tapsafe
+- Borradores completados: 10 (de 14 totales — 4 solo pendientes de imagen real, sin más problemas)
+- Borradores listos para publicar ahora mismo: 7 (hp-935-creator-wireless, hp-probook-455-g10, logitech-k380, razer-pro-click, samsung-s27a600, corsair-clipper-pro-mini-60, intel-wildcat-lake)
+- Borradores completos pero sin imagen en disco: 5 (aoc-q27p3cv, cherry-kc-6000-slim, jabra-evolve2-30-se, trust-tk-350-silent, razer-seiren-v3-pro) + asus-portatiles-trabajo-exigente-2026 (guia)
+- Lanzamientos Computex pendientes de disponibilidad: borrador-adata-urban-tapsafe (sin tocar, según instrucción — esperando disponibilidad real del producto)
+- Bugs corregidos en esta revisión (2026-06-18):
+  - revisar-borradores.md exigía incorrectamente un bloque "Aviso de afiliado" en el cuerpo de analisis/comparativa — el aviso real se inserta automáticamente desde Footer.astro (site-wide). Corregido: ahora el agente marca como problema si el bloque SÍ aparece en el cuerpo (sobra), no si falta
+  - 4 borradores (aoc-q27p3cv, cherry-kc-6000-slim, trust-tk-350-silent, jabra-evolve2-30-se) tenían el campo `imagen` con el prefijo "borrador-" mezclado, inconsistente con el slug — corregido a `/images/articulos/[slug].webp`
+  - 2 títulos superaban 70 caracteres (jabra-evolve2-30-se, samsung-s27a600) — recortados sin perder el producto
+  - 2 borradores (corsair-clipper-pro-mini-60, intel-wildcat-lake) tenían un comentario HTML de plantilla obsoleto ("BORRADOR AUTOMÁTICO — Pendiente: ...") con checklist ya resuelto — eliminado
+  - borrador-asus-portatiles-trabajo-exigente-2026: nombre de archivo no coincidía con el slug (huérfano desde su creación) — renombrado; cuerpo recortado de 1540 a 1396 palabras (rango guia 1000-1400); título recortado de 73 a 52 caracteres
+  - **borrador-razer-seiren-v3-pro fue descartado incorrectamente el 2026-06-10** ("placeholder irrecuperable" — falso: el contenido estaba completo salvo la última frase de la Conclusión, cortada a mitad, y un placeholder sin rellenar `[nombra un micrófono similar]` en una pregunta de la FAQ). Regenerado completo: Conclusión terminada, placeholder eliminado (esa pregunta de FAQ se quitó en vez de inventar una comparación sin base), formato "Perfil A/B" convertido a párrafo, criterios añadidos (setups), imagen_thumb añadido, slug añadido. 1012 palabras, dentro de rango analisis
 
 ## Estado del código
 - Última revisión: 2026-06-17 (6ª pasada — revisión post-sesión calidad textual y comparar.astro)

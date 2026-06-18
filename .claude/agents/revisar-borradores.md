@@ -30,7 +30,7 @@ Para cada borrador comprueba:
 
 **Sección Fitz** — debe existir la sección `## 🐿️ Fitz recomienda` en el cuerpo.
 
-**Aviso de afiliado** — si `tipo: analisis` o `tipo: comparativa`, debe existir el bloque de aviso de afiliado al final.
+**Aviso de afiliado** — el aviso legal se inserta automáticamente desde `Footer.astro` (visible en todas las páginas) — **no debe existir en el cuerpo del markdown**. Si encuentras un bloque `> ⚠️ **Aviso de afiliado**:` en el cuerpo, márcalo como problema (sobra, hay que eliminarlo), no como ausencia.
 
 **Enlace de producto (`enlace_afiliado`)** — si `tipo: analisis` o `tipo: comparativa`, comprueba que el campo existe y no es evidentemente inválido (solo dominio raíz sin ruta de producto, vacío, o URL rota). Clasifícalo como **problema de severidad baja / UX**, nunca como bloqueante para "listo para publicar" — ver nota en `CLAUDE.md` sobre el estado de Awin.
 
