@@ -92,6 +92,16 @@
       "prioridad": "ALTA",
       "tipo": "analisis",
       "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00"
+    },
+    {
+      "fecha": "2026-07-10",
+      "diaSemana": "jueves",
+      "slug": "borrador-aoc-q27p3cv-analisis",
+      "titulo": "AOC Q27P3CV: el monitor QHD USB-C que desbanca a los referentes",
+      "categoria": "monitores",
+      "prioridad": "ALTA",
+      "tipo": "analisis",
+      "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00. Imagen pendiente: ejecutar imageCollector antes de publicar"
     }
   ]
 }
