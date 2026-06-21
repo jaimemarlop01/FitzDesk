@@ -1,9 +1,12 @@
 name: Publicar automático FitzDesk
 
-# Domingo, martes y jueves. Objetivo: publicar dentro de la ventana 9:00-11:00 hora España.
-# Programado a las 5:35 UTC (7:35 CEST / 6:35 CET) — minuto descuadrado y 1h25min de margen
-# antes del inicio de la ventana, para absorber los retrasos de cola de GitHub Actions
-# (los cron en punto como 0 7 * * * son los más congestionados a nivel mundial).
+# Domingo, martes y jueves. Objetivo: publicar dentro de la ventana 9:00-14:00 hora España.
+# Programado a las 5:35 UTC (7:35 CEST / 6:35 CET) — minuto descuadrado para evitar la
+# congestión del minuto en punto. Aun así, los eventos "schedule" de GitHub Actions reciben
+# prioridad de cola más baja que push/workflow_dispatch, y este repo observa retrasos
+# sistemáticos de 4-7h (no son casos aislados). auto-publisher.js solo compara la fecha,
+# no la hora, así que la publicación ocurre igual aunque se ejecute tarde. La ventana
+# 9:00-14:00 es una expectativa realista, no una garantía — ver CLAUDE.md (2026-06-18).
 on:
   schedule:
     - cron: '35 5 * * 0,2,4'
@@ -97,6 +100,43 @@ jobs:
 
           git commit -m "feat: publicar ${{ steps.check.outputs.titulo }}"
           git push origin main
+
+      # ── 6b. Sincronizar develop con la versión ya publicada ──────────────────
+      # Sin este paso, develop se queda para siempre con el borrador antiguo
+      # (borrador: true, nombre con prefijo borrador-) aunque ya esté publicado
+      # en main — invisible en local (npm run dev/build sobre develop filtra los
+      # artículos con borrador: true) y desincronizado del estado real del sitio.
+      - name: Sincronizar develop con el artículo publicado
+        if: steps.check.outputs.status == 'ready' && steps.process.outcome == 'success'
+        run: |
+          PUB_FILE="src/content/articulos/${{ steps.check.outputs.published_slug }}.md"
+          DRF_FILE="src/content/articulos/${{ steps.check.outputs.draft_slug }}.md"
+          IMG_FILE="public/images/articulos/${{ steps.check.outputs.image_filename }}"
+
+          # Guardar el contenido ya publicado (sin borrador: true) antes de cambiar de rama
+          cp "$PUB_FILE" /tmp/published_article.md
+          [ -f "$IMG_FILE" ] && cp "$IMG_FILE" /tmp/published_image || true
+
+          git fetch origin develop
+          git checkout -B develop origin/develop
+
+          # Sustituir el borrador antiguo por la versión publicada
+          if [ "${{ steps.check.outputs.draft_slug }}" != "${{ steps.check.outputs.published_slug }}" ]; then
+            git rm --ignore-unmatch "$DRF_FILE"
+          fi
+          cp /tmp/published_article.md "$PUB_FILE"
+          git add "$PUB_FILE"
+          if [ -f /tmp/published_image ]; then
+            cp /tmp/published_image "$IMG_FILE"
+            git add "$IMG_FILE"
+          fi
+
+          if git diff --cached --quiet; then
+            echo "develop ya estaba al día — nada que sincronizar"
+          else
+            git commit -m "chore: sincronizar ${{ steps.check.outputs.titulo }} publicado en main"
+            git push origin develop
+          fi
 
       # ── 7. Notificación Discord — éxito ──────────────────────────────────────
       - name: Discord — publicación exitosa
