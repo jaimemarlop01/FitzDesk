@@ -369,6 +369,14 @@ Confirmado con evidencia: el commit `e566697` (HP ProBook, publicado por el bot 
 
 **IMPORTANTE — este fix vive en `develop` y no tiene efecto todavía.** GitHub Actions lee la definición del workflow desde la rama donde se ejecuta (`main`), así que hasta que no haya un merge `develop → main` (no realizado en esta sesión, fuera del límite "nunca tocar main"), el deploy seguirá sin dispararse tras publicaciones automáticas. HP ProBook 455 G10 sigue sin estar visible en el sitio real a fecha de esta nota — el archivo está en `main` pero el sitio desplegado no se ha reconstruido desde el 16/06.
 
+### Bug relacionado corregido el mismo día: develop nunca se sincroniza tras publicar
+
+Detectado al investigar por qué `borrador-hp-probook-455-g10-analisis.md` seguía en `develop` con `borrador: true` pese a estar publicado en `main`: `publicar-automatico.yml` solo empuja el cambio a `main`, nunca a `develop`. Consecuencia: el artículo publicado queda invisible también en pruebas locales sobre `develop` (`[slug].astro` filtra `borrador: true` en `getStaticPaths()`), y cada publicación automática deja un duplicado obsoleto en `develop` que hay que limpiar a mano (como se hizo hoy con HP ProBook y Samsung).
+
+**Fix aplicado** en `.github/workflows/publicar-automatico.yml`: nuevo paso "Sincronizar develop con el artículo publicado" justo después de publicar en `main`. Cambia a la rama `develop`, sustituye el archivo borrador antiguo (quita el prefijo `borrador-` si cambió de nombre) por el contenido ya publicado (sin `borrador: true`), copia la imagen si existe, y hace commit + push a `develop`. Usa el mismo `GITHUB_TOKEN` del job — como ningún workflow escucha `push` sobre `develop`, no hay riesgo de bucle.
+
+Mismo límite que el fix anterior: vive en `develop`, no tiene efecto hasta el próximo merge a `main` (la definición del workflow que de verdad se ejecuta es la de `main`).
+
 ## Lanzamientos en seguimiento
 - LG OLED 27" 5K 2000 nits — próxima revisión: 2026-07-09 — slug: lg-display-muestra-el-futuro-de-los-monitores-oled-gaming-con-2000-nits-5k-27-22
 - Surface Laptop Ultra RTX Spark — próxima revisión: 2026-07-09 — slug: el-nuevo-surface-ultra-con-el-rtx-spark-de-nvidia-cuenta-con-un-misterioso-puert

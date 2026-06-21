@@ -101,6 +101,43 @@ jobs:
           git commit -m "feat: publicar ${{ steps.check.outputs.titulo }}"
           git push origin main
 
+      # ── 6b. Sincronizar develop con la versión ya publicada ──────────────────
+      # Sin este paso, develop se queda para siempre con el borrador antiguo
+      # (borrador: true, nombre con prefijo borrador-) aunque ya esté publicado
+      # en main — invisible en local (npm run dev/build sobre develop filtra los
+      # artículos con borrador: true) y desincronizado del estado real del sitio.
+      - name: Sincronizar develop con el artículo publicado
+        if: steps.check.outputs.status == 'ready' && steps.process.outcome == 'success'
+        run: |
+          PUB_FILE="src/content/articulos/${{ steps.check.outputs.published_slug }}.md"
+          DRF_FILE="src/content/articulos/${{ steps.check.outputs.draft_slug }}.md"
+          IMG_FILE="public/images/articulos/${{ steps.check.outputs.image_filename }}"
+
+          # Guardar el contenido ya publicado (sin borrador: true) antes de cambiar de rama
+          cp "$PUB_FILE" /tmp/published_article.md
+          [ -f "$IMG_FILE" ] && cp "$IMG_FILE" /tmp/published_image || true
+
+          git fetch origin develop
+          git checkout -B develop origin/develop
+
+          # Sustituir el borrador antiguo por la versión publicada
+          if [ "${{ steps.check.outputs.draft_slug }}" != "${{ steps.check.outputs.published_slug }}" ]; then
+            git rm --ignore-unmatch "$DRF_FILE"
+          fi
+          cp /tmp/published_article.md "$PUB_FILE"
+          git add "$PUB_FILE"
+          if [ -f /tmp/published_image ]; then
+            cp /tmp/published_image "$IMG_FILE"
+            git add "$IMG_FILE"
+          fi
+
+          if git diff --cached --quiet; then
+            echo "develop ya estaba al día — nada que sincronizar"
+          else
+            git commit -m "chore: sincronizar ${{ steps.check.outputs.titulo }} publicado en main"
+            git push origin develop
+          fi
+
       # ── 7. Notificación Discord — éxito ──────────────────────────────────────
       - name: Discord — publicación exitosa
         if: steps.check.outputs.status == 'ready' && steps.process.outcome == 'success'
