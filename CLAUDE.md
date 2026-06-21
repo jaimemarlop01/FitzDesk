@@ -73,6 +73,7 @@ node compareGenerator.js --config comparativa.json
 node guideGenerator.js --config guia.json
 node launchGenerator.js --config lanzamiento.json
 node imageCollector.js --slug [slug]
+node imageCollector.js --slug [slug] --query "[texto de búsqueda manual]"  # sobrescribe el title (añadido 2026-06-21)
 ```
 
 ---
@@ -358,7 +359,7 @@ De esos 14, **4 se conservaron y completaron** (traídos a `develop` con frontma
 - **imageCollector.js ejecutado 2026-06-21 sobre los 12 huérfanos pendientes**: 9/12 obtuvieron imagen real válida (aoc-q27p3cv, dolor-muneca, asus-rog-strix-scar-18, logitech-mobi-fold, lg-ultragear-34gx90sb-w, jabra-evolve2-30-se, cherry-kc-6000-slim, logitech-mk470, trust-tk-350-silent — vía DuckDuckGo o web de fabricante). 3/12 fallaron y necesitan resolución manual (DALL-E o búsqueda manual):
   - `airra-labs-rotary-mouse-analisis` — la búsqueda devolvió una miniatura de YouTube sobre "cómo invertir la dirección de la rueda del ratón", sin relación con el producto. Eliminada
   - `asus-portatiles-trabajo-exigente-2026` (guía, 5 portátiles distintos) — HTTP 403 de DuckDuckGo, sin imagen
-  - `razer-seiren-v3-pro-analisis` — la imagen encontrada era del modelo "Seiren V3 CHROMA" (variante RGB gaming), no "Pro" (USB/XLR profesional que describe el artículo). Eliminada
+  - `razer-seiren-v3-pro-analisis` — la imagen encontrada era del modelo "Seiren V3 CHROMA" (variante RGB gaming), no "Pro" (USB/XLR profesional que describe el artículo). Eliminada. **Reintentado 2026-06-21 con `--query` manual** (parámetro nuevo añadido a `imageCollector.js`, antes no existía): dos intentos con queries explícitos mencionando "Pro", "USB XLR" y "no RGB" — ambos devolvieron igualmente el Chroma (confirmado por texto literal "RAZER SEIREN V3 CHROMA" visible en una de las capturas). El índice de DuckDuckGo está dominado por el Chroma para esta búsqueda independientemente del texto usado. Sigue sin imagen — requiere visitar razer.com directamente o generación con DALL-E
   - Nota: 2 de los 9 obtenidos (`asus-rog-strix-scar-18`, `cherry-kc-6000-slim`) son fotos genéricas de la marca/línea de producto, no necesariamente la foto exacta del modelo — aceptable pero no 100% verificado
 - `doble-monitor-teletrabajo-merece-la-pena` ya tenía imagen (generada con el compositor, ver nota arriba) — sin pendiente
 - adata-urban-tapsafe: sigue sin tocar, esperando disponibilidad real del producto (no incorporado al calendario)
