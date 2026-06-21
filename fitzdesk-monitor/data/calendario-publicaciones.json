@@ -10,7 +10,7 @@
       "prioridad": "MEDIA",
       "tipo": "guia",
       "publicado": true,
-      "nota": "Sin restricción de horario — publica cuando estés listo. Imagen pendiente: ejecutar imageCollector antes de publicar"
+      "nota": "Sin restricción de horario — publica cuando estés listo"
     },
     {
       "fecha": "2026-06-16",
@@ -62,7 +62,7 @@
       "categoria": "guias",
       "prioridad": "MEDIA",
       "tipo": "guia",
-      "nota": "Sin restricción de horario — publica cuando estés listo. Imagen pendiente: ejecutar imageCollector antes de publicar"
+      "nota": "Sin restricción de horario — publica cuando estés listo"
     },
     {
       "fecha": "2026-06-30",
@@ -102,7 +102,7 @@
       "categoria": "monitores",
       "prioridad": "ALTA",
       "tipo": "analisis",
-      "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00. Imagen pendiente: ejecutar imageCollector antes de publicar"
+      "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00"
     },
     {
       "fecha": "2026-07-12",
@@ -112,7 +112,7 @@
       "categoria": "guias",
       "prioridad": "MEDIA",
       "tipo": "guia",
-      "nota": "Sin restricción de horario — publica cuando estés listo. Imagen pendiente: ejecutar imageCollector antes de publicar"
+      "nota": "Sin restricción de horario — publica cuando estés listo"
     },
     {
       "fecha": "2026-07-14",
@@ -122,7 +122,7 @@
       "categoria": "portatiles",
       "prioridad": "ALTA",
       "tipo": "analisis",
-      "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00. Imagen pendiente: ejecutar imageCollector antes de publicar"
+      "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00"
     },
     {
       "fecha": "2026-07-16",
@@ -132,7 +132,7 @@
       "categoria": "ratones",
       "prioridad": "ALTA",
       "tipo": "analisis",
-      "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00. Imagen pendiente: ejecutar imageCollector antes de publicar"
+      "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00"
     },
     {
       "fecha": "2026-07-21",
@@ -142,7 +142,7 @@
       "categoria": "monitores",
       "prioridad": "ALTA",
       "tipo": "analisis",
-      "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00. Imagen pendiente: ejecutar imageCollector antes de publicar"
+      "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00"
     },
     {
       "fecha": "2026-07-23",
@@ -172,7 +172,7 @@
       "categoria": "setups",
       "prioridad": "MEDIA",
       "tipo": "analisis",
-      "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00. Imagen pendiente: ejecutar imageCollector antes de publicar"
+      "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00"
     },
     {
       "fecha": "2026-07-30",
@@ -182,7 +182,7 @@
       "categoria": "teclados",
       "prioridad": "MEDIA",
       "tipo": "analisis",
-      "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00. Imagen pendiente: ejecutar imageCollector antes de publicar"
+      "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00"
     },
     {
       "fecha": "2026-08-04",
@@ -192,7 +192,7 @@
       "categoria": "setups",
       "prioridad": "MEDIA",
       "tipo": "analisis",
-      "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00. Imagen pendiente: ejecutar imageCollector antes de publicar"
+      "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00"
     },
     {
       "fecha": "2026-08-06",
@@ -202,7 +202,7 @@
       "categoria": "teclados",
       "prioridad": "MEDIA",
       "tipo": "analisis",
-      "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00. Imagen pendiente: ejecutar imageCollector antes de publicar"
+      "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00"
     },
     {
       "fecha": "2026-08-09",
@@ -212,7 +212,7 @@
       "categoria": "guias",
       "prioridad": "MEDIA",
       "tipo": "guia",
-      "nota": "Sin restricción de horario — publica cuando estés listo. Imagen pendiente: ejecutar imageCollector antes de publicar"
+      "nota": "Sin restricción de horario — publica cuando estés listo"
     },
     {
       "fecha": "2026-08-11",
