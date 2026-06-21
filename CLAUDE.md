@@ -292,6 +292,16 @@ De esos 14, **4 se conservaron y completaron** (traídos a `develop` con frontma
 - `despliegue-portatiles-rtx-spark` — mal categorizado como "monitor", solapa con el lanzamiento ya publicado de Surface Laptop Ultra
 - `logitech-mobi-fold` (trackpad) — duplicado exacto de un borrador ya existente y ya completado en `develop` (`logitech-mobi-fold-analisis.md`)
 
+### Rama `borradores` — descartes 2026-06-21
+
+2 borradores nuevos generados por el monitor desde el triaje del 18/06, descartados directamente en la rama `borradores` (eliminados con commit `375712c`, no se incorporaron a `develop`):
+- `ASUS ROG Strix LC IV` — refrigeración líquida AIO con pantalla integrada, componente interno de PC fuera del enfoque de periféricos/portátiles de FitzDesk
+- `ASUS ROG 20 Aniversario` — sobremesa gaming completa; doble motivo de descarte: FitzDesk no cubre sobremesas (ver `portatil-vs-sobremesa-teletrabajo-2026`) y es gaming puro sin utilidad de productividad
+
+**Caso dudoso confirmado como correcto, sin recuperar**: "Sillas gaming vs. Sillas de oficina ergonómicas" — descartado por Capa 1 del monitor. No se recupera porque "sillas ergonómicas" no es todavía una categoría activa de FitzDesk (prevista Fase 2, Marzo-Abril 2027).
+
+**Bug corregido en `analyzer.js`**: el segundo borrador descartado tenía `borrador: false` en el frontmatter pese a estar recién generado sin revisar. Causa: `generateDraft()` deja que la IA genere el frontmatter completo como texto libre (incluyendo el campo `borrador:`), y el código nunca lo validaba después — al contrario que `precio:` y `enlace_afiliado:`, que sí se sobrescriben siempre en `injectPcData()`. Corregido añadiendo una normalización forzada antes de `injectPcData()`: si el campo existe con cualquier valor (`true` o `false`), se fuerza a `true`; si no existe, se inserta antes del cierre del frontmatter. Mismo patrón defensivo que ya usaban `precio`/`enlace_afiliado`.
+
 ## Estado del código
 - Última revisión: 2026-06-17 (6ª pasada — revisión post-sesión calidad textual y comparar.astro)
 - Errores críticos pendientes: 0 | Estado: ✅ Sin errores críticos

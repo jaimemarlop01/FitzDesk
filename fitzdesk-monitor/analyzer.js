@@ -219,10 +219,16 @@ Extensión: 900-1.100 palabras en el cuerpo. Español de España.`;
     return null;
   }
 
+  // Forzar borrador: true — la IA genera el frontmatter como texto libre y
+  // puede desviarse del ejemplo del prompt (p. ej. escribir "false")
+  const normalizedContent = /^borrador:\s*(true|false)\s*$/m.test(content)
+    ? content.replace(/^borrador:\s*(true|false)\s*$/m, 'borrador: true')
+    : content.replace(/\n---\n/, '\nborrador: true\n---\n');
+
   // Buscar precio real en PcComponentes
   logInfo(`  🔍 Buscando precio en PcComponentes para: "${title}"`);
   const pcResult = await searchPcComponentes(title);
-  const enrichedContent = injectPcData(content, pcResult);
+  const enrichedContent = injectPcData(normalizedContent, pcResult);
 
   return {
     content: enrichedContent,
