@@ -251,8 +251,7 @@ Objetivos:
 ---
 
 ### Próximas acciones inmediatas
-- [ ] Ejecutar `imageCollector.js` para los 12 borradores calendarizados sin imagen real (09/07 a 09/08 — ver "Estado del calendario de publicaciones"), antes de sus respectivas fechas
-- [ ] Generar la imagen DALL-E de `doble-monitor-teletrabajo-merece-la-pena` con el prompt ya entregado (estilo Fitz + escritorio, fondo claro)
+- [ ] Ejecutar `imageCollector.js` para los 11 borradores calendarizados sin imagen real (09/07 a 11/08 — ver "Estado del calendario de publicaciones"), antes de sus respectivas fechas. `doble-monitor-teletrabajo-merece-la-pena` (09/08) ya tiene imagen — ver nota debajo
 - [ ] Lanzar prompt de búsqueda de productos cuando queden menos de 6 borradores
 - [ ] Solicitar alta en Awin en Julio 2026 cuando haya 30+ artículos publicados
 - [x] Configurar Google Search Console — propiedad fitzdesk.com verificada por DNS (TXT record, 2026-06-12); sitemap enviado, pendiente confirmación de indexación por parte de Google (hasta 24h)
@@ -353,9 +352,10 @@ De esos 14, **4 se conservaron y completaron** (traídos a `develop` con frontma
 - Calendario completo hasta 2026-08-11 (17 publicaciones totales, 4 ya publicadas)
 - Próxima publicación pendiente: 2026-07-09 — aoc-q27p3cv-analisis (analisis, monitores, jueves)
 - Huérfanos incorporados al calendario en esta sesión (11): dolor-muneca-teletrabajo (12/07, domingo), asus-rog-strix-scar-18 (14/07), logitech-mobi-fold (16/07), lg-ultragear-34gx90sb-w (21/07), airra-labs-rotary-mouse (23/07), asus-portatiles-trabajo-exigente-2026 (26/07, domingo), jabra-evolve2-30-se (28/07), cherry-kc-6000-slim (30/07), logitech-mk470 (04/08), trust-tk-350-silent (06/08), razer-seiren-v3-pro (11/08)
-- Guía nueva creada y calendarizada el mismo día: `doble-monitor-teletrabajo-merece-la-pena` (09/08, domingo) — cubre el hueco quincenal de guías que ya no tenía ningún borrador disponible (los 3 existentes ya estaban todos asignados). 1042 palabras, enlaza los 4 análisis de monitores ya publicados (LG 27UP850N-W, Dell S2722QC, LG 27UN880, BenQ GW2780). Prompt de imagen DALL-E sugerido y entregado al usuario, generación manual pendiente
+- Guía nueva creada y calendarizada el mismo día: `doble-monitor-teletrabajo-merece-la-pena` (09/08, domingo) — cubre el hueco quincenal de guías que ya no tenía ningún borrador disponible (los 3 existentes ya estaban todos asignados). 1042 palabras, enlaza los 4 análisis de monitores ya publicados (LG 27UP850N-W, Dell S2722QC, LG 27UN880, BenQ GW2780)
+- **Corrección sobre el sistema de imágenes de guías**: se asumió inicialmente que las guías usaban ilustración cartoon vía DALL-E (existe `dallePrompt` en `guides.js`), pero verificado contra las imágenes reales publicadas: el sistema real en producción es `generateGuideImages.js` (Sharp/canvas), que compone fotos reales de producto ya analizadas — el `dallePrompt` nunca se usó de hecho. Se añadió un 4º layout `dual-monitor` en `composer.js` (dos monitores lado a lado con símbolo "+" en vez de "VS", ya que es un setup conjunto, no una comparativa de rivales) y se generó la imagen real con fotos de Dell S2722QC + LG 27UN880. `doble-monitor-teletrabajo-merece-la-pena` ya tiene imagen y thumb en disco
 - Categorías alternadas para no repetir dos seguidas: monitores→portátiles→ratones→monitores→ratones→guía→setups→teclados→guía→setups→teclados→setups→teclados→guía→setups
-- Ninguno de los 12 huérfanos/nuevos incorporados tiene imagen real en disco todavía — todos llevan nota "ejecutar imageCollector antes de publicar" (la guía nueva también la necesita)
+- 11 de los 12 huérfanos/nuevos incorporados siguen sin imagen real en disco — todos llevan nota "ejecutar imageCollector antes de publicar" (la guía nueva es la única ya resuelta)
 - adata-urban-tapsafe: sigue sin tocar, esperando disponibilidad real del producto (no incorporado al calendario)
 - Workflow automático: `.github/workflows/publicar-automatico.yml` — Dom/Mar/Jue, programado a las 5:35 UTC (7:35 CEST / 6:35 CET); lee calendario y publica solo si hay entrada para hoy; notifica a Discord en caso de error
 - Ventana de publicación ajustada a 9:00-14:00 el 2026-06-18 (antes 9:00-11:00): los eventos `schedule` de GitHub Actions reciben prioridad de cola más baja que `push`/`workflow_dispatch`, y este repo viene observando retrasos sistemáticos de 4-7h respecto a la hora programada. `auto-publisher.js` no depende de la hora, solo de la fecha
