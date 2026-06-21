@@ -131,6 +131,57 @@ export async function layoutComparison(ctx, guide) {
   drawCompLabel(ctx, prodR.etiqueta, RIGHT.x + SLOT_W / 2, labelY, prodR.labelBg, prodR.labelText);
 }
 
+// ─── Layout 4: Doble monitor (dos pantallas juntas, no enfrentadas) ──────────
+
+export async function layoutDualMonitor(ctx, guide) {
+  const [prodL, prodR] = guide.productos;
+
+  const [left, right] = await Promise.all([
+    loadProduct(prodL.imagen),
+    loadProduct(prodR.imagen),
+  ]);
+
+  const cx = 600;
+  const SLOT_W = 480, SLOT_H = 390;
+  const SLOT_Y = (CONTENT_H - SLOT_H) / 2;
+  const GAP = 40;
+
+  const LEFT  = { x: cx - SLOT_W - GAP / 2, y: SLOT_Y };
+  const RIGHT = { x: cx + GAP / 2,          y: SLOT_Y };
+
+  ctx.fillStyle = BG;
+  ctx.fillRect(LEFT.x,  LEFT.y,  SLOT_W, SLOT_H);
+  ctx.fillRect(RIGHT.x, RIGHT.y, SLOT_W, SLOT_H);
+
+  drawProduct(ctx, left,  LEFT.x,  LEFT.y,  SLOT_W, SLOT_H, 20);
+  drawProduct(ctx, right, RIGHT.x, RIGHT.y, SLOT_W, SLOT_H, 20);
+
+  // Símbolo "+" en el centro (no "VS"): transmite combinación, no enfrentamiento
+  const plusCY = CONTENT_H / 2;
+  ctx.fillStyle = BRAND;
+  ctx.beginPath();
+  ctx.arc(cx, plusCY, 22, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.fillStyle = 'white';
+  ctx.font = 'bold 22px Arial';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText('+', cx, plusCY);
+  ctx.textAlign = 'left';
+  ctx.textBaseline = 'alphabetic';
+
+  // Etiquetas de precio bajo cada monitor
+  const leftCX  = LEFT.x  + SLOT_W / 2;
+  const rightCX = RIGHT.x + SLOT_W / 2;
+  drawPriceTag(ctx, prodL.precio, leftCX,  LEFT.y  + SLOT_H + 8);
+  drawPriceTag(ctx, prodR.precio, rightCX, RIGHT.y + SLOT_H + 8);
+
+  // Total badge (naranja, esquina inferior derecha)
+  if (guide.total) {
+    drawTotalBadge(ctx, `Total: ${guide.total}`, 1185, CONTENT_H - 40);
+  }
+}
+
 // ─── Layout 3: Setup profesional premium ─────────────────────────────────────
 
 export async function layoutThreeProductsPremium(ctx, guide) {
