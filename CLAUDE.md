@@ -251,7 +251,8 @@ Objetivos:
 ---
 
 ### Próximas acciones inmediatas
-- [ ] Publicar artículo del jueves esta semana
+- [ ] Ejecutar `imageCollector.js` para los 12 borradores calendarizados sin imagen real (09/07 a 09/08 — ver "Estado del calendario de publicaciones"), antes de sus respectivas fechas
+- [ ] Generar la imagen DALL-E de `doble-monitor-teletrabajo-merece-la-pena` con el prompt ya entregado (estilo Fitz + escritorio, fondo claro)
 - [ ] Lanzar prompt de búsqueda de productos cuando queden menos de 6 borradores
 - [ ] Solicitar alta en Awin en Julio 2026 cuando haya 30+ artículos publicados
 - [x] Configurar Google Search Console — propiedad fitzdesk.com verificada por DNS (TXT record, 2026-06-12); sitemap enviado, pendiente confirmación de indexación por parte de Google (hasta 24h)
@@ -349,33 +350,33 @@ De esos 14, **4 se conservaron y completaron** (traídos a `develop` con frontma
 - Ritmo: Domingo c/2 semanas (guía/comparativa) · Martes y jueves (análisis/lanzamiento, 9:00–14:00 — hora exacta no garantizada por retrasos de cola en GitHub Actions, ver nota 2026-06-18)
 - Calendario generado: 2026-06-21
 - **Corregido 2026-06-21: error de día de la semana.** Una sesión anterior calculó mal el día de semana de fechas de julio (asumió 10/07=jueves y 13/07=domingo cuando en realidad 10/07=viernes y 13/07=lunes). Verificado con cálculo de fecha real (no a mano): el jueves real sin cubrir era el **09/07** y el domingo quincenal real (14 días tras el 28/06) es el **12/07**. Todas las fechas de julio/agosto de esta entrada están verificadas con `Date.UTC()`, no contadas a mano
-- Calendario completo hasta 2026-08-11 (16 publicaciones totales, 4 ya publicadas)
+- Calendario completo hasta 2026-08-11 (17 publicaciones totales, 4 ya publicadas)
 - Próxima publicación pendiente: 2026-07-09 — aoc-q27p3cv-analisis (analisis, monitores, jueves)
 - Huérfanos incorporados al calendario en esta sesión (11): dolor-muneca-teletrabajo (12/07, domingo), asus-rog-strix-scar-18 (14/07), logitech-mobi-fold (16/07), lg-ultragear-34gx90sb-w (21/07), airra-labs-rotary-mouse (23/07), asus-portatiles-trabajo-exigente-2026 (26/07, domingo), jabra-evolve2-30-se (28/07), cherry-kc-6000-slim (30/07), logitech-mk470 (04/08), trust-tk-350-silent (06/08), razer-seiren-v3-pro (11/08)
-- Categorías alternadas para no repetir dos seguidas: monitores→portátiles→ratones→monitores→ratones→guía→setups→teclados→guía→setups→teclados→setups→teclados→setups
-- Ninguno de los 11 huérfanos incorporados tiene imagen real en disco todavía — todos llevan nota "ejecutar imageCollector antes de publicar"
+- Guía nueva creada y calendarizada el mismo día: `doble-monitor-teletrabajo-merece-la-pena` (09/08, domingo) — cubre el hueco quincenal de guías que ya no tenía ningún borrador disponible (los 3 existentes ya estaban todos asignados). 1042 palabras, enlaza los 4 análisis de monitores ya publicados (LG 27UP850N-W, Dell S2722QC, LG 27UN880, BenQ GW2780). Prompt de imagen DALL-E sugerido y entregado al usuario, generación manual pendiente
+- Categorías alternadas para no repetir dos seguidas: monitores→portátiles→ratones→monitores→ratones→guía→setups→teclados→guía→setups→teclados→setups→teclados→guía→setups
+- Ninguno de los 12 huérfanos/nuevos incorporados tiene imagen real en disco todavía — todos llevan nota "ejecutar imageCollector antes de publicar" (la guía nueva también la necesita)
 - adata-urban-tapsafe: sigue sin tocar, esperando disponibilidad real del producto (no incorporado al calendario)
 - Workflow automático: `.github/workflows/publicar-automatico.yml` — Dom/Mar/Jue, programado a las 5:35 UTC (7:35 CEST / 6:35 CET); lee calendario y publica solo si hay entrada para hoy; notifica a Discord en caso de error
 - Ventana de publicación ajustada a 9:00-14:00 el 2026-06-18 (antes 9:00-11:00): los eventos `schedule` de GitHub Actions reciben prioridad de cola más baja que `push`/`workflow_dispatch`, y este repo viene observando retrasos sistemáticos de 4-7h respecto a la hora programada. `auto-publisher.js` no depende de la hora, solo de la fecha
 - PENDIENTE: notifier.js no tiene lógica para disparar el recordatorio de domingo el sábado anterior a las 20:00 — checkPublicationReminders() solo actúa los días 2, 3 y 4 (mar, mié, jue). Para guías dominicales el recordatorio del sábado debe implementarse manualmente o extender la función.
 
-### Bug crítico encontrado y corregido 2026-06-21: el deploy nunca se dispara tras una publicación automática
+### Bug crítico encontrado, corregido y RESUELTO 2026-06-21: el deploy no se disparaba de forma fiable tras publicación automática
 
-`publicar-automatico.yml` publica haciendo `git push origin main` con el `GITHUB_TOKEN` automático del propio workflow. GitHub Actions tiene una restricción de seguridad: los pushes hechos con ese token **no disparan otros workflows** con trigger `on: push` (anti-bucle-infinito). Como `deploy.yml` solo escuchaba `push`, cada publicación automática quedaba en el código fuente de `main` pero **nunca se desplegaba al sitio real** — invisible en fitzdesk.com hasta que algo más empujara a `main`.
+`publicar-automatico.yml` publica haciendo `git push origin main` con el `GITHUB_TOKEN` automático del propio workflow. GitHub Actions tiene una restricción de seguridad: los pushes hechos con ese token pueden no disparar otros workflows con trigger `on: push` (anti-bucle-infinito). Como `deploy.yml` solo escuchaba `push`, esto dejaba publicaciones automáticas en el código fuente de `main` sin desplegarse al sitio real.
 
-Confirmado con evidencia: el commit `e566697` (HP ProBook, publicado por el bot el 18/06) no tiene ninguna ejecución de `deploy.yml` asociada; el último deploy exitoso fue el 16/06 (commit `8194316`, publicación manual de Samsung — un push manual sí dispara el workflow normalmente).
+**Investigación más a fondo (mismo día):** de las 3 publicaciones hechas por el bot (`ca531f8` mejor-ratón 14/06, `8194316` Samsung 16/06, `e566697` HP ProBook 18/06), ninguna disparó su propio deploy dedicado — pero mejor-ratón y Samsung quedaron "rescatados" por deploys posteriores disparados por otros pushes humanos cercanos en el tiempo (cada deploy reconstruye el sitio completo desde el estado actual de `main`, no solo el diff). HP ProBook fue el único que no tuvo esa suerte: no hubo ninguna otra actividad en `main` entre el 18/06 y el 21/06, así que quedó invisible los 3 días completos.
 
-**Fix aplicado** en `.github/workflows/deploy.yml`: añadido trigger `workflow_run` que escucha la finalización de "Publicar automático FitzDesk", independientemente del token que hizo el push. Incluye `ref: main` explícito en el checkout para evitar ambigüedad de qué commit construir.
+**Fix aplicado** en `.github/workflows/deploy.yml`: añadido trigger `workflow_run` que escucha la finalización de "Publicar automático FitzDesk", independientemente del token que hizo el push. Incluye `ref: main` explícito en el checkout.
 
-**IMPORTANTE — este fix vive en `develop` y no tiene efecto todavía.** GitHub Actions lee la definición del workflow desde la rama donde se ejecuta (`main`), así que hasta que no haya un merge `develop → main` (no realizado en esta sesión, fuera del límite "nunca tocar main"), el deploy seguirá sin dispararse tras publicaciones automáticas. HP ProBook 455 G10 sigue sin estar visible en el sitio real a fecha de esta nota — el archivo está en `main` pero el sitio desplegado no se ha reconstruido desde el 16/06.
+**Fix relacionado** en `.github/workflows/publicar-automatico.yml`: nuevo paso "Sincronizar develop con el artículo publicado" justo después de publicar en `main`. Sin esto, `develop` se quedaba para siempre con el borrador antiguo (`borrador: true`) tras cada publicación automática — invisible también en pruebas locales sobre `develop` y desincronizado del estado real. El paso cambia a `develop`, sustituye el borrador antiguo por el contenido ya publicado (sin `borrador: true`), copia la imagen si existe, y hace commit + push.
 
-### Bug relacionado corregido el mismo día: develop nunca se sincroniza tras publicar
+**✅ RESUELTO — ambos fixes ya están en `main`** (cherry-pick puntual, commit `ef6be93`, solo esos dos archivos de workflow — sin tocar contenido editorial ni el calendario). El push del cherry-pick disparó el deploy de inmediato (vía el trigger `push` ya existente), confirmado con éxito (run `27900752065`). Verificado en producción tras el deploy:
+- ✅ `hp-probook-455-g10-analisis` — visible (HTTP 200, título correcto)
+- ✅ `mejor-raton-teletrabajo-presupuesto-2026` — visible
+- ✅ `samsung-s27a600-analisis` — visible
 
-Detectado al investigar por qué `borrador-hp-probook-455-g10-analisis.md` seguía en `develop` con `borrador: true` pese a estar publicado en `main`: `publicar-automatico.yml` solo empuja el cambio a `main`, nunca a `develop`. Consecuencia: el artículo publicado queda invisible también en pruebas locales sobre `develop` (`[slug].astro` filtra `borrador: true` en `getStaticPaths()`), y cada publicación automática deja un duplicado obsoleto en `develop` que hay que limpiar a mano (como se hizo hoy con HP ProBook y Samsung).
-
-**Fix aplicado** en `.github/workflows/publicar-automatico.yml`: nuevo paso "Sincronizar develop con el artículo publicado" justo después de publicar en `main`. Cambia a la rama `develop`, sustituye el archivo borrador antiguo (quita el prefijo `borrador-` si cambió de nombre) por el contenido ya publicado (sin `borrador: true`), copia la imagen si existe, y hace commit + push a `develop`. Usa el mismo `GITHUB_TOKEN` del job — como ningún workflow escucha `push` sobre `develop`, no hay riesgo de bucle.
-
-Mismo límite que el fix anterior: vive en `develop`, no tiene efecto hasta el próximo merge a `main` (la definición del workflow que de verdad se ejecuta es la de `main`).
+A partir de ahora, cualquier publicación automática futura disparará el deploy de forma fiable (vía `workflow_run`) y sincronizará `develop` automáticamente.
 
 ## Lanzamientos en seguimiento
 - LG OLED 27" 5K 2000 nits — próxima revisión: 2026-07-09 — slug: lg-display-muestra-el-futuro-de-los-monitores-oled-gaming-con-2000-nits-5k-27-22
@@ -383,7 +384,8 @@ Mismo límite que el fix anterior: vive en `develop`, no tiene efecto hasta el p
 - Cuando lleguen al mercado: ejecutar agente actualizar-lanzamiento con el slug correspondiente
 
 ## Últimas publicaciones
-- Última publicación: 2026-06-16 — "Samsung S27A600NAU: QHD de 27\" sin USB-C pero sin compromisos en imagen" (analisis, publicado manualmente)
+- Última publicación: 2026-06-18 — "HP ProBook 455 G10: AMD Ryzen empresarial sin precio empresarial" (analisis) — publicado automáticamente vía workflow el 18/06, pero invisible en el sitio real hasta el 21/06 por el bug de deploy (ver sección de bugs); confirmado visible en producción tras el fix
+- 2026-06-16 — "Samsung S27A600NAU: QHD de 27\" sin USB-C pero sin compromisos en imagen" (analisis) — publicado automáticamente vía workflow (no manual, corregido este dato: los 3 artículos del bot tuvieron el mismo problema de deploy, ver bug arriba)
 - 2026-06-14 — "mejor-raton-teletrabajo-presupuesto-2026" (guia) — publicado automáticamente vía workflow
 - 2026-06-11 — "Surface Laptop Ultra: el portátil con NVIDIA RTX Spark que redefine Windows" (lanzamiento)
 
