@@ -1,9 +1,17 @@
 name: Deploy FitzDesk to GitHub Pages
 
+# Los pushes a main hechos con el GITHUB_TOKEN automático de otro workflow
+# (p. ej. publicar-automatico.yml) NO disparan el evento "push" de este
+# workflow — es una restricción de seguridad de GitHub Actions contra bucles
+# infinitos. Por eso se añade workflow_run: así, cuando publicar-automatico
+# termina (publique algo o no), este deploy se dispara igualmente.
 on:
   push:
     branches: [main]
   workflow_dispatch:
+  workflow_run:
+    workflows: ["Publicar automático FitzDesk"]
+    types: [completed]
 
 permissions:
   contents: read
@@ -18,9 +26,12 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          ref: main
 
       - name: Setup Node 22
         uses: actions/setup-node@v4

@@ -2,7 +2,7 @@
 title: "Trust TK-350 Silent Wireless: el teclado silencioso sin complicaciones"
 slug: "trust-tk-350-silent-analisis"
 categoria: "teclados"
-fecha: "2026-06-10"
+fecha: "2026-08-06"
 descripcion: "Análisis del Trust TK-350 Silent Wireless: teclado inalámbrico silencioso por menos de 60€ para el teletrabajo diario sin fricciones."
 imagen: "/images/articulos/trust-tk-350-silent-analisis.webp"
 puntuacion: 7.5

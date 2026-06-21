@@ -2,7 +2,7 @@
 title: "Cherry KC 6000 Slim: el teclado silencioso de bajo perfil para oficina"
 slug: "cherry-kc-6000-slim-analisis"
 categoria: "teclados"
-fecha: "2026-06-10"
+fecha: "2026-07-30"
 descripcion: "Análisis del Cherry KC 6000 Slim: teclado scissor de bajo perfil, ultra-silencioso y con USB para el teletrabajo diario sin ruido."
 imagen: "/images/articulos/cherry-kc-6000-slim-analisis.webp"
 puntuacion: 8.0

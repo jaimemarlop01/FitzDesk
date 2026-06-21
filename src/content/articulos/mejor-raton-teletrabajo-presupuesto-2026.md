@@ -8,7 +8,6 @@ imagen: "/images/articulos/mejor-raton-teletrabajo-presupuesto-2026.webp"
 tiempo_lectura: "7 min"
 tipo: "guia"
 presupuesto: "30€ - 99€"
-borrador: true
 ---
 
 El ratón es el periférico que más horas de contacto acumula en una jornada de trabajo remoto. Más que el teclado, más que los auriculares: la mano descansa sobre él durante horas seguidas, y la calidad de ese contacto determina en gran medida si acabas el día con la muñeca en forma o con tensión acumulada.

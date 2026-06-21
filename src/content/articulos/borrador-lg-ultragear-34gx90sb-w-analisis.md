@@ -2,7 +2,7 @@
 title: "LG UltraGear 34GX90SB-W: monitor OLED de 34\" con 240 Hz y WebOS"
 slug: "lg-ultragear-34gx90sb-w-analisis"
 categoria: "monitores"
-fecha: "2026-06-13"
+fecha: "2026-07-21"
 descripcion: "Análisis del LG UltraGear 34GX90SB-W: monitor OLED curvo de 34\" WQHD a 240 Hz con WebOS integrado, válido para teletrabajo y ocio."
 imagen: "/images/articulos/lg-ultragear-34gx90sb-w-analisis.webp"
 puntuacion: 8.0

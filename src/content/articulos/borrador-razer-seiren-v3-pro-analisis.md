@@ -2,7 +2,7 @@
 title: "Razer Seiren V3 Pro: micrófono USB/XLR con cancelación de ruido IA"
 slug: "razer-seiren-v3-pro-analisis"
 categoria: "setups"
-fecha: "2026-06-10"
+fecha: "2026-08-11"
 descripcion: "Análisis del Razer Seiren V3 Pro: micrófono USB/XLR con grabación de 32 bits y cancelación de ruido por IA para videollamadas y podcasts."
 imagen: "/images/articulos/razer-seiren-v3-pro-analisis.webp"
 puntuacion: 8.0

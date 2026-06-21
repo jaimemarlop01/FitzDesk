@@ -2,7 +2,7 @@
 title: "ASUS ROG Strix SCAR 18: potencia de sobremesa en formato portátil"
 slug: "asus-rog-strix-scar-18-analisis"
 categoria: "portatiles"
-fecha: "2026-06-03"
+fecha: "2026-07-14"
 descripcion: "Análisis del ASUS ROG Strix SCAR 18: portátil de alto rendimiento con CPU y GPU potentes, útil para edición de vídeo y desarrollo además de gaming."
 imagen: "/images/articulos/asus-rog-strix-scar-18-analisis.webp"
 puntuacion: 8.0

@@ -2,7 +2,7 @@
 title: "5 portátiles ASUS para teletrabajo exigente en 2026"
 slug: "asus-portatiles-trabajo-exigente-2026"
 categoria: "portatiles"
-fecha: "2026-06-03"
+fecha: "2026-07-26"
 descripcion: "Cinco portátiles ASUS para teletrabajo exigente en 2026: desde el ultraligero ExpertBook hasta el ProArt para diseño y edición."
 imagen: "/images/articulos/asus-portatiles-trabajo-exigente-2026.webp"
 tiempo_lectura: "7 min"

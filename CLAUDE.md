@@ -258,13 +258,13 @@ Objetivos:
 - [ ] Registrar @fitzdesk en redes sociales
 
 ## Estado de borradores
-- Última revisión: 2026-06-18
-- Última ejecución de completar-borradores: 2026-06-18
-- Borradores descartados: 0
-- Borradores completados: 10 (de 14 totales — 4 solo pendientes de imagen real, sin más problemas)
-- Borradores listos para publicar ahora mismo: 7 (hp-935-creator-wireless, hp-probook-455-g10, logitech-k380, razer-pro-click, samsung-s27a600, corsair-clipper-pro-mini-60, intel-wildcat-lake)
-- Borradores completos pero sin imagen en disco: 5 (aoc-q27p3cv, cherry-kc-6000-slim, jabra-evolve2-30-se, trust-tk-350-silent, razer-seiren-v3-pro) + asus-portatiles-trabajo-exigente-2026 (guia)
+- Última revisión: 2026-06-21
+- Última ejecución de completar-borradores: 2026-06-21
+- Borradores descartados: 0 en esta pasada
+- Borradores completados y con fecha en el calendario: 18 (7 ya estaban calendarizados + 11 huérfanos incorporados hoy, ver "Estado del calendario de publicaciones")
 - Lanzamientos Computex pendientes de disponibilidad: borrador-adata-urban-tapsafe (sin tocar, según instrucción — esperando disponibilidad real del producto)
+- **Limpieza 2026-06-21 — duplicados obsoletos en develop**: `borrador-hp-probook-455-g10-analisis.md` y `borrador-samsung-s27a600-analisis.md` seguían en develop con el nombre antiguo pese a estar ya publicados en `main` (el workflow de publicación nunca sincroniza el cambio de vuelta a develop). Eliminados de develop — el contenido publicado vive en `main`, no hace falta duplicarlo. También se quitó `borrador: true` de `mejor-raton-teletrabajo-presupuesto-2026.md` en develop, que llevaba ese campo desincronizado pese a estar publicado sin él en `main`
+- Dos ajustes de longitud en esta pasada: `dolor-muneca-teletrabajo-perifericos-ergonomicos` recortado de 1511 a 1395 palabras (superaba el máximo de guia); `logitech-mobi-fold-analisis` ampliado de 894 a 937 palabras (por debajo del mínimo de analisis)
 - Bugs corregidos en esta revisión (2026-06-18):
   - revisar-borradores.md exigía incorrectamente un bloque "Aviso de afiliado" en el cuerpo de analisis/comparativa — el aviso real se inserta automáticamente desde Footer.astro (site-wide). Corregido: ahora el agente marca como problema si el bloque SÍ aparece en el cuerpo (sobra), no si falta
   - 4 borradores (aoc-q27p3cv, cherry-kc-6000-slim, trust-tk-350-silent, jabra-evolve2-30-se) tenían el campo `imagen` con el prefijo "borrador-" mezclado, inconsistente con el slug — corregido a `/images/articulos/[slug].webp`
@@ -347,19 +347,27 @@ De esos 14, **4 se conservaron y completaron** (traídos a `develop` con frontma
 
 ## Estado del calendario de publicaciones
 - Ritmo: Domingo c/2 semanas (guía/comparativa) · Martes y jueves (análisis/lanzamiento, 9:00–14:00 — hora exacta no garantizada por retrasos de cola en GitHub Actions, ver nota 2026-06-18)
-- Calendario generado: 2026-06-17
-- Próxima publicación: 2026-06-18 — hp-probook-455-g10-analisis (analisis, jueves) — publicación automática vía workflow
-- Calendario completo hasta 2026-07-07 (7 publicaciones pendientes, todas con imagen y criterios)
-- Publicaciones completadas marcadas en JSON: 2026-06-14 (mejor-raton-teletrabajo-presupuesto-2026) y 2026-06-16 (borrador-samsung-s27a600-analisis)
-- Semanas de contenido disponibles: 3 (semanas del 17/06, 23/06 y 30/06) + entrada suelta el 07/07
-- Borradores listos para publicar: 7 análisis/lanzamientos + 1 guía (07/07 cierra el horizonte)
-- Borradores incompletos (no planificados): 8 (sin imagen en disco — logitech-mobi-fold, trust-tk-350-silent, jabra-evolve2-30-se, cherry-kc-6000-slim, aoc-q27p3cv, dolor-muneca-teletrabajo, asus-portatiles-trabajo-exigente) + samsung-s27a600 ya publicado
-- Sin programar (fuera del horizonte o sin imagen): logitech-mobi-fold-analisis (ratones), trust-tk-350-silent-analisis (teclados), jabra-evolve2-30-se-analisis (setups), cherry-kc-6000-slim-analisis (teclados), aoc-q27p3cv-analisis (monitores), dolor-muneca-teletrabajo-perifericos-ergonomicos (guia), asus-portatiles-trabajo-exigente-2026 (guia)
-- Slots vacíos (sin borrador disponible con imagen): 2026-07-10 (jueves), 2026-07-13 (domingo, semana 4 — sin guia disponible), 2026-07-15 (martes)
+- Calendario generado: 2026-06-21
+- **Corregido 2026-06-21: error de día de la semana.** Una sesión anterior calculó mal el día de semana de fechas de julio (asumió 10/07=jueves y 13/07=domingo cuando en realidad 10/07=viernes y 13/07=lunes). Verificado con cálculo de fecha real (no a mano): el jueves real sin cubrir era el **09/07** y el domingo quincenal real (14 días tras el 28/06) es el **12/07**. Todas las fechas de julio/agosto de esta entrada están verificadas con `Date.UTC()`, no contadas a mano
+- Calendario completo hasta 2026-08-11 (16 publicaciones totales, 4 ya publicadas)
+- Próxima publicación pendiente: 2026-07-09 — aoc-q27p3cv-analisis (analisis, monitores, jueves)
+- Huérfanos incorporados al calendario en esta sesión (11): dolor-muneca-teletrabajo (12/07, domingo), asus-rog-strix-scar-18 (14/07), logitech-mobi-fold (16/07), lg-ultragear-34gx90sb-w (21/07), airra-labs-rotary-mouse (23/07), asus-portatiles-trabajo-exigente-2026 (26/07, domingo), jabra-evolve2-30-se (28/07), cherry-kc-6000-slim (30/07), logitech-mk470 (04/08), trust-tk-350-silent (06/08), razer-seiren-v3-pro (11/08)
+- Categorías alternadas para no repetir dos seguidas: monitores→portátiles→ratones→monitores→ratones→guía→setups→teclados→guía→setups→teclados→setups→teclados→setups
+- Ninguno de los 11 huérfanos incorporados tiene imagen real en disco todavía — todos llevan nota "ejecutar imageCollector antes de publicar"
+- adata-urban-tapsafe: sigue sin tocar, esperando disponibilidad real del producto (no incorporado al calendario)
 - Workflow automático: `.github/workflows/publicar-automatico.yml` — Dom/Mar/Jue, programado a las 5:35 UTC (7:35 CEST / 6:35 CET); lee calendario y publica solo si hay entrada para hoy; notifica a Discord en caso de error
-- Ventana de publicación ajustada a 9:00-14:00 el 2026-06-18 (antes 9:00-11:00): los eventos `schedule` de GitHub Actions reciben prioridad de cola más baja que `push`/`workflow_dispatch`, y este repo viene observando retrasos sistemáticos de 4-7h respecto a la hora programada (100% de las ejecuciones registradas, no casos aislados — ej. 17/06 corrió 5h tarde, 15/06 corrió 7h tarde). No es un problema de configuración (sin `concurrency`, `runs-on` estándar, sin minutos de cuenta agotados al ser repo público) sino del plan gratuito de GitHub Actions. `auto-publisher.js` no depende de la hora, solo de la fecha, así que la publicación ocurre igual aunque tarde — la ventana documentada es ahora una expectativa realista, no una garantía exacta
-- Imágenes pendientes: ninguna para borradores programados — todas descargadas el 2026-06-11
+- Ventana de publicación ajustada a 9:00-14:00 el 2026-06-18 (antes 9:00-11:00): los eventos `schedule` de GitHub Actions reciben prioridad de cola más baja que `push`/`workflow_dispatch`, y este repo viene observando retrasos sistemáticos de 4-7h respecto a la hora programada. `auto-publisher.js` no depende de la hora, solo de la fecha
 - PENDIENTE: notifier.js no tiene lógica para disparar el recordatorio de domingo el sábado anterior a las 20:00 — checkPublicationReminders() solo actúa los días 2, 3 y 4 (mar, mié, jue). Para guías dominicales el recordatorio del sábado debe implementarse manualmente o extender la función.
+
+### Bug crítico encontrado y corregido 2026-06-21: el deploy nunca se dispara tras una publicación automática
+
+`publicar-automatico.yml` publica haciendo `git push origin main` con el `GITHUB_TOKEN` automático del propio workflow. GitHub Actions tiene una restricción de seguridad: los pushes hechos con ese token **no disparan otros workflows** con trigger `on: push` (anti-bucle-infinito). Como `deploy.yml` solo escuchaba `push`, cada publicación automática quedaba en el código fuente de `main` pero **nunca se desplegaba al sitio real** — invisible en fitzdesk.com hasta que algo más empujara a `main`.
+
+Confirmado con evidencia: el commit `e566697` (HP ProBook, publicado por el bot el 18/06) no tiene ninguna ejecución de `deploy.yml` asociada; el último deploy exitoso fue el 16/06 (commit `8194316`, publicación manual de Samsung — un push manual sí dispara el workflow normalmente).
+
+**Fix aplicado** en `.github/workflows/deploy.yml`: añadido trigger `workflow_run` que escucha la finalización de "Publicar automático FitzDesk", independientemente del token que hizo el push. Incluye `ref: main` explícito en el checkout para evitar ambigüedad de qué commit construir.
+
+**IMPORTANTE — este fix vive en `develop` y no tiene efecto todavía.** GitHub Actions lee la definición del workflow desde la rama donde se ejecuta (`main`), así que hasta que no haya un merge `develop → main` (no realizado en esta sesión, fuera del límite "nunca tocar main"), el deploy seguirá sin dispararse tras publicaciones automáticas. HP ProBook 455 G10 sigue sin estar visible en el sitio real a fecha de esta nota — el archivo está en `main` pero el sitio desplegado no se ha reconstruido desde el 16/06.
 
 ## Lanzamientos en seguimiento
 - LG OLED 27" 5K 2000 nits — próxima revisión: 2026-07-09 — slug: lg-display-muestra-el-futuro-de-los-monitores-oled-gaming-con-2000-nits-5k-27-22

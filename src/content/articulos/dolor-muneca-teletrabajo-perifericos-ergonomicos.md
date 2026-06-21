@@ -2,7 +2,7 @@
 title: "Muñeca dolorida al trabajar: qué periféricos ergonómicos necesitas"
 slug: "dolor-muneca-teletrabajo-perifericos-ergonomicos"
 categoria: "guias"
-fecha: "2026-07-13"
+fecha: "2026-07-12"
 descripcion: "¿Te duele la muñeca trabajando? Descubre qué ratón, teclado y accesorios ergonómicos pueden ayudarte a trabajar sin dolor."
 imagen: "/images/articulos/dolor-muneca-teletrabajo-perifericos-ergonomicos.webp"
 tiempo_lectura: "8 min"
@@ -33,9 +33,9 @@ La mayoría de las soluciones ergonómicas actúan sobre estas tres causas: camb
 
 ## El ratón: el mayor culpable
 
-Un ratón convencional mantiene la mano en pronación — palma hacia abajo — durante todas las horas que lo usas. Esa posición parece neutral pero no lo es: el antebrazo está rotado 180 grados respecto a su posición natural, que es la del apretón de manos (palma hacia el cuerpo, pulgar arriba).
+Un ratón convencional mantiene la mano en pronación —palma hacia abajo— durante todas las horas que lo usas: el antebrazo está rotado 180 grados respecto a su posición natural, la del apretón de manos.
 
-Los ratones verticales resuelven exactamente este problema al colocar la mano en esa posición natural. La tensión en el antebrazo desaparece casi inmediatamente. Hay una semana de adaptación — el cerebro tarda en reprogramar los movimientos — pero después la mayoría de usuarios no vuelven al ratón plano voluntariamente.
+Los ratones verticales resuelven este problema al colocar la mano en esa posición natural. Hay una semana de adaptación —el cerebro tarda en reprogramar los movimientos— pero después la mayoría de usuarios no vuelven al ratón plano voluntariamente.
 
 ### [Logitech Lift Vertical](/articulo/logitech-lift-vertical-analisis) — 69€ · Nota 8.4/10
 
@@ -73,36 +73,33 @@ Conecta hasta tres dispositivos con Easy-Switch, tiene retroiluminación adaptat
 
 ## Accesorios que marcan la diferencia
 
-**Reposamuñecas: cuándo ayudan y cuándo no.** Un reposamuñeca tiene sentido durante las pausas — cuando lees, en videollamadas, cuando piensas — pero no mientras escribes o mueves el ratón activamente. Usarlo como apoyo durante el movimiento crea puntos de presión que empeoran el problema. Compra uno de espuma de memoria, no de plástico rígido.
+**Reposamuñecas: cuándo ayudan y cuándo no.** Tiene sentido durante las pausas —al leer, en videollamadas— pero no mientras escribes o mueves el ratón activamente, ya que crea puntos de presión que empeoran el problema. Mejor de espuma de memoria que de plástico rígido.
 
-**Altura del monitor: el factor más ignorado.** El borde superior del monitor debe estar a la altura de los ojos o ligeramente por debajo. Si el monitor está demasiado bajo (como suele ocurrir con portátiles sin soporte), la cabeza se inclina hacia adelante, los hombros se curvan y esa tensión llega hasta las muñecas. Un soporte de monitor de 20-30€ resuelve este problema.
+**Altura del monitor: el factor más ignorado.** El borde superior debe quedar a la altura de los ojos o ligeramente por debajo. Si está demasiado bajo (frecuente con portátiles sin soporte), la cabeza se inclina hacia adelante y esa tensión llega hasta las muñecas. Un soporte de 20-30€ resuelve esto.
 
-**Posición correcta del ratón y teclado.** El ratón debe estar al mismo nivel que el teclado y lo más cerca posible del cuerpo. El codo debe formar un ángulo de 90 grados o ligeramente mayor. Si el ratón está demasiado lejos, el hombro se estira y la tensión se acumula en la parte externa de la muñeca.
+**Posición del ratón y teclado.** El ratón debe estar al mismo nivel que el teclado y cerca del cuerpo, con el codo en un ángulo de 90 grados o ligeramente mayor. Si está demasiado lejos, el hombro se estira y la tensión se acumula en la muñeca.
 
 ---
 
 ## Plan de acción según presupuesto
 
-**Hasta 70€ — cambio de ratón:**
-Empieza por el [Logitech Lift Vertical](/articulo/logitech-lift-vertical-analisis) a 69€. Si el dolor viene del ratón — que es lo más frecuente — esto solo puede resolver el problema. Espera dos semanas antes de evaluar si necesitas más cambios.
+**Hasta 70€:** solo el [Logitech Lift Vertical](/articulo/logitech-lift-vertical-analisis) (69€). Si el dolor viene del ratón —lo más frecuente— resuelve la mayor parte del problema. Espera dos semanas antes de evaluar si necesitas más cambios.
 
-**Hasta 150€ — ratón vertical + teclado de perfil bajo:**
-[Logitech Lift Vertical](/articulo/logitech-lift-vertical-analisis) (69€) + cualquier teclado de perfil bajo. Si no quieres gastarte el MX Keys S, un teclado de membrana de perfil bajo de 30-40€ mejorará la posición de muñeca considerablemente.
+**Hasta 150€:** Lift Vertical + un teclado de perfil bajo. Si no quieres el MX Keys S, un teclado de membrana de perfil bajo de 30-40€ ya mejora notablemente la posición de la muñeca.
 
-**Hasta 300€ — setup ergonómico completo:**
-[Logitech Lift Vertical](/articulo/logitech-lift-vertical-analisis) (69€) + [Logitech MX Keys S](/articulo/logitech-mx-keys-s-analisis) (119€) + soporte de monitor (~30€). Esta combinación ataca las tres causas del dolor simultáneamente y es el setup que recomendamos cuando el problema ya es crónico o cuando se quiere prevenir desde el principio.
+**Hasta 300€:** Lift Vertical (69€) + [MX Keys S](/articulo/logitech-mx-keys-s-analisis) (119€) + soporte de monitor (~30€). Ataca las tres causas a la vez y es el setup que recomendamos cuando el problema ya es crónico.
 
-Si el dolor es severo o ya tiene más de tres meses, consulta a un médico antes de hacer cambios en el setup. Los periféricos ergonómicos ayudan, pero no sustituyen la atención médica cuando el daño ya está hecho.
+Si el dolor es severo o lleva más de tres meses, consulta a un médico antes de cambiar el setup: los periféricos ayudan, pero no sustituyen la atención médica cuando el daño ya está hecho.
 
 ---
 
 ## 🐿️ Fitz recomienda
 
-He revisado muchos periféricos en FitzDesk, pero pocos cambios son tan inmediatos como pasar de un ratón plano a un vertical cuando te duele la muñeca. La primera semana es rara — el cerebro protesta — pero en la segunda semana ya no quieres volver.
+Pocos cambios son tan inmediatos como pasar de un ratón plano a uno vertical cuando duele la muñeca. La primera semana es rara —el cerebro protesta— pero en la segunda ya no se quiere volver atrás.
 
-Si tienes que elegir una sola compra para empezar, que sea el [Logitech Lift Vertical](/articulo/logitech-lift-vertical-analisis). 69€ para dejar de acabar el día con la muñeca tensa es una de las inversiones más rentables que puedes hacer en tu setup de teletrabajo.
+Si solo puedes hacer una compra para empezar, que sea el [Logitech Lift Vertical](/articulo/logitech-lift-vertical-analisis): 69€ para dejar de acabar el día con la muñeca tensa es de las inversiones más rentables que puedes hacer en tu setup.
 
-Y si ya tienes el ratón resuelto y sigues con molestias, mira el teclado. Casi siempre está demasiado alto o demasiado lejos del cuerpo.
+Si ya tienes el ratón resuelto y sigues con molestias, mira el teclado: casi siempre está demasiado alto o demasiado lejos del cuerpo.
 
 ## Conclusión
 

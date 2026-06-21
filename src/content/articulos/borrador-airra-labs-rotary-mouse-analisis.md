@@ -2,7 +2,7 @@
 title: "Airra Labs Rotary Mouse: el ratón que cambia la rueda por un dial"
 slug: "airra-labs-rotary-mouse-analisis"
 categoria: "ratones"
-fecha: "2026-06-18"
+fecha: "2026-07-23"
 descripcion: "Análisis del Rotary Mouse de Airra Labs, un ratón que sustituye la rueda tradicional por un mecanismo rotatorio tipo dial."
 imagen: "/images/articulos/airra-labs-rotary-mouse-analisis.webp"
 puntuacion: 7.0
