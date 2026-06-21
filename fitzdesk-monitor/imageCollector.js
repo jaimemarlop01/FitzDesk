@@ -7,6 +7,8 @@
  *   node imageCollector.js --publicados       # solo artículos publicados
  *   node imageCollector.js --borradores       # solo borradores
  *   node imageCollector.js --slug [slug]      # uno específico (sin .md)
+ *   node imageCollector.js --slug [slug] --query "[texto de búsqueda manual]"
+ *                                             # sobrescribe el título como término de búsqueda
  */
 
 import 'dotenv/config';
@@ -284,7 +286,7 @@ const stats = { total: 0, pccomponentes: 0, fabricante: 0, bing: 0, duckduckgo: 
 
 // ─── Procesar un artículo ────────────────────────────────────────────────────
 
-async function processArticle({ file, path: filePath }) {
+async function processArticle({ file, path: filePath }, queryOverride = null) {
   const raw    = readFileSync(filePath, 'utf-8');
   const parsed = matter(raw);
   const data   = parsed.data;
@@ -297,7 +299,7 @@ async function processArticle({ file, path: filePath }) {
     slug = file.replace('.md', '');
   }
 
-  const productName    = data.title ?? slug;
+  const productName    = queryOverride ?? data.title ?? slug;
   const enlaceAfiliado = data.enlace_afiliado ?? '';
 
   if (!needsImage(filePath, data)) {
@@ -332,11 +334,19 @@ async function main() {
   const args       = process.argv.slice(2);
   const slugIdx    = args.indexOf('--slug');
   const targetSlug = slugIdx !== -1 ? args[slugIdx + 1] : null;
+  const queryIdx   = args.indexOf('--query');
+  const queryOverride = queryIdx !== -1 ? args[queryIdx + 1] : null;
   const mode       = args.includes('--publicados') ? 'publicados'
                    : args.includes('--borradores')  ? 'borradores'
                    : 'todos';
 
+  if (queryOverride && !targetSlug) {
+    console.error('ERROR: --query solo se puede usar junto a --slug');
+    process.exit(1);
+  }
+
   console.log(`\nFitzDesk Image Collector — modo: ${targetSlug ? `slug:${targetSlug}` : mode}`);
+  if (queryOverride) console.log(`Query manual: "${queryOverride}"`);
   console.log('━'.repeat(52));
   if (!process.env.BING_API_KEY) {
     console.log('ℹ️  BING_API_KEY no configurada — se omite intento 3 (Bing)');
@@ -349,7 +359,7 @@ async function main() {
   const t0 = Date.now();
   for (const article of articles) {
     try {
-      await processArticle(article);
+      await processArticle(article, queryOverride);
     } catch (e) {
       console.error(`  ❌ ${article.file}: ${e.message}`);
     }
