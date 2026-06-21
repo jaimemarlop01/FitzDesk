@@ -205,6 +205,16 @@
       "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00. Imagen pendiente: ejecutar imageCollector antes de publicar"
     },
     {
+      "fecha": "2026-08-09",
+      "diaSemana": "domingo",
+      "slug": "borrador-doble-monitor-teletrabajo-merece-la-pena",
+      "titulo": "Doble monitor en teletrabajo: ¿merece la pena para tu trabajo?",
+      "categoria": "guias",
+      "prioridad": "MEDIA",
+      "tipo": "guia",
+      "nota": "Sin restricción de horario — publica cuando estés listo. Imagen pendiente: ejecutar imageCollector antes de publicar"
+    },
+    {
       "fecha": "2026-08-11",
       "diaSemana": "martes",
       "slug": "borrador-razer-seiren-v3-pro-analisis",
