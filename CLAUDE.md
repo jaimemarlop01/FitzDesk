@@ -251,7 +251,7 @@ Objetivos:
 ---
 
 ### Próximas acciones inmediatas
-- [ ] Ejecutar `imageCollector.js` para los 11 borradores calendarizados sin imagen real (09/07 a 11/08 — ver "Estado del calendario de publicaciones"), antes de sus respectivas fechas. `doble-monitor-teletrabajo-merece-la-pena` (09/08) ya tiene imagen — ver nota debajo
+- [ ] Resolver manualmente la imagen de 3 borradores donde `imageCollector.js` falló o encontró un resultado incorrecto (ver detalle en "Estado del calendario de publicaciones"): `airra-labs-rotary-mouse-analisis` (23/07), `asus-portatiles-trabajo-exigente-2026` (26/07), `razer-seiren-v3-pro-analisis` (11/08)
 - [ ] Lanzar prompt de búsqueda de productos cuando queden menos de 6 borradores
 - [ ] Solicitar alta en Awin en Julio 2026 cuando haya 30+ artículos publicados
 - [x] Configurar Google Search Console — propiedad fitzdesk.com verificada por DNS (TXT record, 2026-06-12); sitemap enviado, pendiente confirmación de indexación por parte de Google (hasta 24h)
@@ -349,7 +349,7 @@ De esos 14, **4 se conservaron y completaron** (traídos a `develop` con frontma
 - Ritmo: Domingo c/2 semanas (guía/comparativa) · Martes y jueves (análisis/lanzamiento, 9:00–14:00 — hora exacta no garantizada por retrasos de cola en GitHub Actions, ver nota 2026-06-18)
 - Calendario generado: 2026-06-21
 - **Corregido 2026-06-21: error de día de la semana.** Una sesión anterior calculó mal el día de semana de fechas de julio (asumió 10/07=jueves y 13/07=domingo cuando en realidad 10/07=viernes y 13/07=lunes). Verificado con cálculo de fecha real (no a mano): el jueves real sin cubrir era el **09/07** y el domingo quincenal real (14 días tras el 28/06) es el **12/07**. Todas las fechas de julio/agosto de esta entrada están verificadas con `Date.UTC()`, no contadas a mano
-- Calendario completo hasta 2026-08-11 (17 publicaciones totales, 4 ya publicadas)
+- Calendario completo hasta 2026-08-11 (22 publicaciones totales, 3 ya publicadas: mejor-raton 14/06, samsung 16/06, hp-probook 18/06)
 - Próxima publicación pendiente: 2026-07-09 — aoc-q27p3cv-analisis (analisis, monitores, jueves)
 - Huérfanos incorporados al calendario en esta sesión (11): dolor-muneca-teletrabajo (12/07, domingo), asus-rog-strix-scar-18 (14/07), logitech-mobi-fold (16/07), lg-ultragear-34gx90sb-w (21/07), airra-labs-rotary-mouse (23/07), asus-portatiles-trabajo-exigente-2026 (26/07, domingo), jabra-evolve2-30-se (28/07), cherry-kc-6000-slim (30/07), logitech-mk470 (04/08), trust-tk-350-silent (06/08), razer-seiren-v3-pro (11/08)
 - Guía nueva creada y calendarizada el mismo día: `doble-monitor-teletrabajo-merece-la-pena` (09/08, domingo) — cubre el hueco quincenal de guías que ya no tenía ningún borrador disponible (los 3 existentes ya estaban todos asignados). 1042 palabras, enlaza los 4 análisis de monitores ya publicados (LG 27UP850N-W, Dell S2722QC, LG 27UN880, BenQ GW2780)
