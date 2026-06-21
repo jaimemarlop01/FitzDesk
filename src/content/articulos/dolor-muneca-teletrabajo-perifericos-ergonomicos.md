@@ -9,6 +9,7 @@ tiempo_lectura: "8 min"
 tipo: "guia"
 presupuesto: "69€ - 189€"
 borrador: true
+imagen_thumb: "/images/articulos/dolor-muneca-teletrabajo-perifericos-ergonomicos-thumb.webp"
 ---
 
 El dolor de muñeca es el problema más frecuente entre las personas que trabajan en remoto y el que más se ignora hasta que se convierte en un problema real. No es un capricho ni una exageración: es una respuesta fisiológica a horas de mantener la mano en una posición que no es natural para la anatomía humana.

@@ -17,6 +17,7 @@ enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=trust+tk-350+silen
 tiempo_lectura: "5 min"
 tipo: "analisis"
 borrador: true
+imagen_thumb: "/images/articulos/trust-tk-350-silent-analisis-thumb.webp"
 ---
 
 Trust es la marca del periférico sin pretensiones. Sin el apellido gaming de Razer ni el premium de Logitech, Trust lleva años ocupando el espacio entre el teclado barato de supermercado y el accesorio de gama media. El TK-350 Silent Wireless es su apuesta para el segmento de teletrabajadores que quieren un teclado inalámbrico silencioso sin complicarse la vida ni gastar más de 60€.

@@ -17,6 +17,7 @@ enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=aoc+q27p3cv"
 tiempo_lectura: "6 min"
 tipo: "analisis"
 borrador: true
+imagen_thumb: "/images/articulos/aoc-q27p3cv-analisis-thumb.webp"
 ---
 
 El Dell S2722QC tiene un problema: el AOC Q27P3CV existe. A precio similar o inferior, AOC ha construido un monitor QHD de 27 pulgadas con panel IPS, USB-C de 65W y un hub USB integrado que convierte el monitor en el centro de conectividad del escritorio. Es el tipo de producto que no genera titulares en el sector pero que, puesto junto a la competencia en una comparativa objetiva, resulta difícil de ignorar.

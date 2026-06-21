@@ -17,6 +17,7 @@ enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=cherry+kc+6000+sli
 tiempo_lectura: "5 min"
 tipo: "analisis"
 borrador: true
+imagen_thumb: "/images/articulos/cherry-kc-6000-slim-analisis-thumb.webp"
 ---
 
 Cherry es el fabricante de los switches mecánicos más utilizados del mundo. Sin embargo, no todo lo que produce lleva switch mecánico: el KC 6000 Slim es su propuesta para quienes prefieren un teclado de bajo perfil, silencioso y duradero para el trabajo de oficina diario.

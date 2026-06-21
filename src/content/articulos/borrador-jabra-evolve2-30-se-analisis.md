@@ -17,6 +17,7 @@ enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=jabra+evolve2+30"
 tiempo_lectura: "5 min"
 tipo: "analisis"
 borrador: true
+imagen_thumb: "/images/articulos/jabra-evolve2-30-se-analisis-thumb.webp"
 ---
 
 Las videollamadas son el pan de cada día del teletrabajo moderno. Y mientras la cámara importa para la imagen, el micrófono importa para la experiencia de los demás. Los auriculares integrados del portátil, el micrófono de una webcam barata o los cascos del móvil son soluciones que funcionan, pero que en entornos con ruido de fondo —familia en casa, vecinos, tráfico— se quedan cortas.
