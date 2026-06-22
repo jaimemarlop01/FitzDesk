@@ -74,6 +74,8 @@ node guideGenerator.js --config guia.json
 node launchGenerator.js --config lanzamiento.json
 node imageCollector.js --slug [slug]
 node imageCollector.js --slug [slug] --query "[texto de búsqueda manual]"  # sobrescribe el title (añadido 2026-06-21)
+node socialPublisher.js --test --slug [slug]   # modo test, no publica nada real
+node socialPublisher.js --slug [slug]          # publica en Instagram + Facebook
 ```
 
 ---
@@ -252,7 +254,8 @@ Objetivos:
 ---
 
 ### Próximas acciones inmediatas
-- [ ] Resolver manualmente la imagen de 2 borradores donde `imageCollector.js` falló (ver detalle en "Estado del calendario de publicaciones"): `airra-labs-rotary-mouse-analisis` (23/07), `asus-portatiles-trabajo-exigente-2026` (26/07). `razer-seiren-v3-pro-analisis` ya resuelto (imagen oficial descargada directamente de Razer, 2026-06-21)
+- [ ] Sustituir las 2 imágenes placeholder (provisionales, no son fotos reales del producto) por imagen real cuando exista: `airra-labs-rotary-mouse-analisis` (23/07, icono genérico de ratón) y `asus-portatiles-trabajo-exigente-2026` (26/07, ilustración genérica de 5 portátiles) — ver detalle en "Estado del calendario de publicaciones". `razer-seiren-v3-pro-analisis` ya resuelto con imagen oficial real (descargada directamente de Razer, 2026-06-21)
+- [ ] Dar de alta los secrets `PINTEREST_ACCESS_TOKEN` y `PINTEREST_BOARD_ID` en GitHub cuando exista cuenta de Pinterest, y cambiar `PINTEREST_ENABLED = true` en `fitzdesk-monitor/socialPublisher.js`
 - [ ] Lanzar prompt de búsqueda de productos cuando queden menos de 6 borradores
 - [ ] Solicitar alta en Awin en Julio 2026 cuando haya 30+ artículos publicados
 - [x] Configurar Google Search Console — propiedad fitzdesk.com verificada por DNS (TXT record, 2026-06-12); sitemap enviado, pendiente confirmación de indexación por parte de Google (hasta 24h)
@@ -357,8 +360,8 @@ De esos 14, **4 se conservaron y completaron** (traídos a `develop` con frontma
 - **Corrección sobre el sistema de imágenes de guías**: se asumió inicialmente que las guías usaban ilustración cartoon vía DALL-E (existe `dallePrompt` en `guides.js`), pero verificado contra las imágenes reales publicadas: el sistema real en producción es `generateGuideImages.js` (Sharp/canvas), que compone fotos reales de producto ya analizadas — el `dallePrompt` nunca se usó de hecho. Se añadió un 4º layout `dual-monitor` en `composer.js` (dos monitores lado a lado con símbolo "+" en vez de "VS", ya que es un setup conjunto, no una comparativa de rivales) y se generó la imagen real con fotos de Dell S2722QC + LG 27UN880. `doble-monitor-teletrabajo-merece-la-pena` ya tiene imagen y thumb en disco
 - Categorías alternadas para no repetir dos seguidas: monitores→portátiles→ratones→monitores→ratones→guía→setups→teclados→guía→setups→teclados→setups→teclados→guía→setups
 - **imageCollector.js ejecutado 2026-06-21 sobre los 12 huérfanos pendientes**: 9/12 obtuvieron imagen real válida (aoc-q27p3cv, dolor-muneca, asus-rog-strix-scar-18, logitech-mobi-fold, lg-ultragear-34gx90sb-w, jabra-evolve2-30-se, cherry-kc-6000-slim, logitech-mk470, trust-tk-350-silent — vía DuckDuckGo o web de fabricante). 3/12 fallaron y necesitan resolución manual (DALL-E o búsqueda manual):
-  - `airra-labs-rotary-mouse-analisis` — la búsqueda devolvió una miniatura de YouTube sobre "cómo invertir la dirección de la rueda del ratón", sin relación con el producto. Eliminada
-  - `asus-portatiles-trabajo-exigente-2026` (guía, 5 portátiles distintos) — HTTP 403 de DuckDuckGo, sin imagen
+  - `airra-labs-rotary-mouse-analisis` — la búsqueda devolvió una miniatura de YouTube sobre "cómo invertir la dirección de la rueda del ratón", sin relación con el producto. Eliminada. **Placeholder generado 2026-06-22** con canvas/Sharp (icono genérico de ratón en gris claro sobre fondo #F9FAFB, texto "Imagen provisional") — sustituir por foto real cuando exista
+  - `asus-portatiles-trabajo-exigente-2026` (guía, 5 portátiles distintos) — HTTP 403 de DuckDuckGo, sin imagen. **Placeholder generado 2026-06-22** con el estilo completo de guía (logo, sello Fitz, banda naranja inferior, "mesa de madera" con 5 portátiles esquemáticos) indicando que necesita generación manual con DALL-E — sustituir cuando exista
   - `razer-seiren-v3-pro-analisis` — la imagen encontrada era del modelo "Seiren V3 CHROMA" (variante RGB gaming), no "Pro" (USB/XLR profesional que describe el artículo). Eliminada. **Reintentado 2026-06-21 con `--query` manual** (parámetro nuevo añadido a `imageCollector.js`, antes no existía): dos intentos con queries explícitos mencionando "Pro", "USB XLR" y "no RGB" — ambos devolvieron igualmente el Chroma (confirmado por texto literal "RAZER SEIREN V3 CHROMA" visible en una de las capturas). El índice de DuckDuckGo está dominado por el Chroma para esta búsqueda independientemente del texto usado. **✅ RESUELTO el mismo día**: descargada la imagen oficial directamente del CDN de Razer (medias-p1.phoenix.razer.com, `seiren-v3-pro-black-500x500.png`) y procesada con Sharp (fondo #F9FAFB, 1200x675 + thumb 400x225) replicando el método de `imageCollector.js`. Ya en disco
   - Nota: 2 de los 9 obtenidos (`asus-rog-strix-scar-18`, `cherry-kc-6000-slim`) son fotos genéricas de la marca/línea de producto, no necesariamente la foto exacta del modelo — aceptable pero no 100% verificado
 - `doble-monitor-teletrabajo-merece-la-pena` ya tenía imagen (generada con el compositor, ver nota arriba) — sin pendiente
@@ -415,6 +418,18 @@ A partir de ahora, cualquier publicación automática futura disparará el deplo
 - Si falta imagen o frontmatter inválido: notifica a Discord y no publica
 - Para probar: GitHub → Actions → Publicar automático FitzDesk → Run workflow → `fecha_override: YYYY-MM-DD`
 - Script helper: `fitzdesk-monitor/auto-publisher.js` (modos `--check` y `--process`)
+- Tras publicar en `main`, sincronizar `develop` y antes de notificar a Discord: ejecuta `socialPublisher.js` (ver sección siguiente)
+
+## Publicación en redes sociales — Instagram y Facebook (2026-06-22)
+
+- Script: `fitzdesk-monitor/socialPublisher.js` — `node socialPublisher.js --slug [slug]` (real) / `--test --slug [slug]` (no publica nada, muestra captions + comprueba secrets sin revelarlos)
+- Integrado como step "Publicar en redes sociales" en `publicar-automatico.yml`, justo después de sincronizar `develop` y antes de las notificaciones de Discord — solo corre si la publicación a `main` fue exitosa (`if: ... && success()`), timeout de 2 minutos
+- **Instagram**: flujo de 2 pasos vía Graph API (`POST /{ig-user-id}/media` para crear el contenedor, luego `POST /{ig-user-id}/media_publish`); el `ig-user-id` se obtiene en tiempo real con `GET /me?fields=id,name` usando `INSTAGRAM_ACCESS_TOKEN`
+- **Facebook**: `POST /{FACEBOOK_PAGE_ID}/photos` con la imagen y el caption
+- **Pinterest**: preparado en el código (`publishPinterest()`, `buildPinterestDescription()`) pero **desactivado** — `const PINTEREST_ENABLED = false` al inicio del archivo. Activar cambiando ese valor a `true` cuando se den de alta `PINTEREST_ACCESS_TOKEN` y `PINTEREST_BOARD_ID` en los secrets del repo
+- Manejo de errores: si Instagram falla, se loguea y continúa con Facebook; si Facebook falla, se loguea igual; si **ambas** fallan, se notifica a Discord vía `DISCORD_WEBHOOK_URL` con el detalle de ambos errores — nunca falla en silencio
+- Lee `title`, `descripcion` y `categoria` directamente del frontmatter del artículo ya publicado (no requiere pasar esos datos por el workflow) — solo necesita el slug
+- Secrets nuevos usados: `INSTAGRAM_ACCESS_TOKEN`, `INSTAGRAM_APP_ID`, `INSTAGRAM_APP_SECRET`, `FACEBOOK_PAGE_ACCESS_TOKEN`, `FACEBOOK_PAGE_ID` (ya disponibles en GitHub); `PINTEREST_ACCESS_TOKEN`/`PINTEREST_BOARD_ID` referenciados en el workflow pero todavía no creados como secrets (esperado, generan aviso benigno del linter del IDE)
 
 ## Archivos clave del monitor
 
@@ -428,6 +443,7 @@ A partir de ahora, cualquier publicación automática futura disparará el deplo
 | `imageCollector.js` | Busca y descarga imágenes de productos |
 | `articleUpdater.js` | Actualiza precio, descatalogados, nuevos modelos |
 | `auto-publisher.js` | Valida y procesa borradores para publicación automática |
+| `socialPublisher.js` | Publica en Instagram y Facebook (Pinterest preparado, desactivado) |
 
 ---
 

@@ -1,0 +1,312 @@
+#!/usr/bin/env node
+/**
+ * FitzDesk Social Publisher
+ * Publica el artículo recién publicado en Instagram y Facebook.
+ * Pinterest está preparado en el código pero desactivado (PINTEREST_ENABLED = false)
+ * hasta que se añadan PINTEREST_ACCESS_TOKEN y PINTEREST_BOARD_ID a los secrets de GitHub.
+ *
+ * Uso:
+ *   node socialPublisher.js --slug [slug]          # publicación real
+ *   node socialPublisher.js --test --slug [slug]   # modo test, no publica nada
+ */
+
+import 'dotenv/config';
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import matter from 'gray-matter';
+
+const __dirname    = path.dirname(fileURLToPath(import.meta.url));
+const ARTICLES_DIR = path.join(__dirname, '..', 'src', 'content', 'articulos');
+const SITE_URL      = 'https://fitzdesk.com';
+
+// Pinterest preparado pero desactivado — activar cuando se añadan
+// PINTEREST_ACCESS_TOKEN y PINTEREST_BOARD_ID a los secrets de GitHub
+const PINTEREST_ENABLED = false;
+
+function logInfo(msg)  { console.log(`ℹ️  ${msg}`); }
+function logOk(msg)    { console.log(`✅ ${msg}`); }
+function logWarn(msg)  { console.warn(`⚠️  ${msg}`); }
+function logError(msg) { console.error(`❌ ${msg}`); }
+
+// ─── Cargar artículo publicado ────────────────────────────────────────────────
+
+function loadArticle(slug) {
+  const filePath = path.join(ARTICLES_DIR, `${slug}.md`);
+  if (!fs.existsSync(filePath)) {
+    throw new Error(`Artículo no encontrado: ${slug}.md`);
+  }
+  const { data } = matter(fs.readFileSync(filePath, 'utf8'));
+  return {
+    title:       data.title ?? slug,
+    descripcion: data.descripcion ?? '',
+    categoria:   data.categoria ?? 'setups',
+  };
+}
+
+function imageUrlFor(slug) {
+  return `${SITE_URL}/images/articulos/${slug}.webp`;
+}
+
+// ─── Construir contenido por red ──────────────────────────────────────────────
+
+function buildInstagramCaption({ title, descripcion, categoria }, slug) {
+  const caption = [
+    title,
+    '',
+    descripcion,
+    '',
+    `🔗 fitzdesk.com/articulo/${slug}`,
+    '',
+    `#${categoria} #teletrabajo #homeoffice #setup #productividad #perifericos`,
+  ].join('\n');
+  return caption.slice(0, 2200);
+}
+
+function buildFacebookCaption({ title, descripcion }, slug) {
+  return [
+    title,
+    '',
+    descripcion,
+    '',
+    '🔗 Lee el análisis completo:',
+    `${SITE_URL}/articulo/${slug}`,
+  ].join('\n');
+}
+
+function buildPinterestDescription({ title, descripcion, categoria }) {
+  return [
+    title,
+    '',
+    descripcion,
+    '',
+    `#${categoria} #teletrabajo #homeoffice #setup #productividad #perifericos #trabajoremoto #officesetup #desksetup`,
+  ].join('\n');
+}
+
+// ─── Discord (notificación de error) ──────────────────────────────────────────
+
+async function notifyDiscordError(message) {
+  const webhook = process.env.DISCORD_WEBHOOK_URL;
+  if (!webhook) {
+    logWarn('DISCORD_WEBHOOK_URL no configurada — no se puede notificar el error a Discord');
+    return;
+  }
+  try {
+    await fetch(webhook, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        content: '⚠️ Publicación en redes sociales fallida',
+        embeds: [{ title: 'FitzDesk — Social Publisher', description: message.slice(0, 4000), color: 15548997 }],
+      }),
+    });
+  } catch (e) {
+    logError(`No se pudo notificar el fallo a Discord: ${e.message}`);
+  }
+}
+
+// ─── Instagram ────────────────────────────────────────────────────────────────
+
+async function getInstagramUserId(accessToken) {
+  const res  = await fetch(`https://graph.facebook.com/v19.0/me?fields=id,name&access_token=${accessToken}`);
+  const data = await res.json();
+  if (!res.ok || !data.id) throw new Error(`No se pudo obtener el ig-user-id: ${JSON.stringify(data)}`);
+  return data.id;
+}
+
+async function publishInstagram(article, slug) {
+  const accessToken = process.env.INSTAGRAM_ACCESS_TOKEN;
+  if (!accessToken) throw new Error('INSTAGRAM_ACCESS_TOKEN no configurado');
+
+  const igUserId = await getInstagramUserId(accessToken);
+  const caption  = buildInstagramCaption(article, slug);
+  const imageUrl = imageUrlFor(slug);
+
+  // Paso 1 — crear contenedor
+  const createRes  = await fetch(`https://graph.facebook.com/v19.0/${igUserId}/media`, {
+    method:  'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body:    JSON.stringify({ image_url: imageUrl, caption, access_token: accessToken }),
+  });
+  const createData = await createRes.json();
+  if (!createRes.ok || !createData.id) {
+    throw new Error(`Error creando contenedor de Instagram: ${JSON.stringify(createData)}`);
+  }
+
+  // Paso 2 — publicar contenedor
+  const publishRes  = await fetch(`https://graph.facebook.com/v19.0/${igUserId}/media_publish`, {
+    method:  'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body:    JSON.stringify({ creation_id: createData.id, access_token: accessToken }),
+  });
+  const publishData = await publishRes.json();
+  if (!publishRes.ok || !publishData.id) {
+    throw new Error(`Error publicando en Instagram: ${JSON.stringify(publishData)}`);
+  }
+
+  return publishData.id;
+}
+
+// ─── Facebook ─────────────────────────────────────────────────────────────────
+
+async function publishFacebook(article, slug) {
+  const accessToken = process.env.FACEBOOK_PAGE_ACCESS_TOKEN;
+  const pageId       = process.env.FACEBOOK_PAGE_ID;
+  if (!accessToken || !pageId) throw new Error('FACEBOOK_PAGE_ACCESS_TOKEN o FACEBOOK_PAGE_ID no configurados');
+
+  const caption  = buildFacebookCaption(article, slug);
+  const imageUrl = imageUrlFor(slug);
+
+  const res  = await fetch(`https://graph.facebook.com/v19.0/${pageId}/photos`, {
+    method:  'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body:    JSON.stringify({ url: imageUrl, caption, access_token: accessToken }),
+  });
+  const data = await res.json();
+  if (!res.ok || !data.id) throw new Error(`Error publicando en Facebook: ${JSON.stringify(data)}`);
+  return data.id;
+}
+
+// ─── Pinterest (preparado, desactivado) ───────────────────────────────────────
+
+async function publishPinterest(article, slug) {
+  const accessToken = process.env.PINTEREST_ACCESS_TOKEN;
+  const boardId       = process.env.PINTEREST_BOARD_ID;
+  if (!accessToken || !boardId) throw new Error('PINTEREST_ACCESS_TOKEN o PINTEREST_BOARD_ID no configurados');
+
+  const res  = await fetch('https://api.pinterest.com/v5/pins', {
+    method:  'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${accessToken}` },
+    body:    JSON.stringify({
+      board_id:     boardId,
+      media_source: { source_type: 'image_url', url: imageUrlFor(slug) },
+      title:        article.title,
+      description:  buildPinterestDescription(article),
+      link:         `${SITE_URL}/articulo/${slug}`,
+    }),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(`Error publicando en Pinterest: ${JSON.stringify(data)}`);
+  return data.id;
+}
+
+// ─── Modo test ────────────────────────────────────────────────────────────────
+
+function printBlock(title, text) {
+  console.log(`\n${title}`);
+  console.log('   ' + '─'.repeat(50));
+  console.log(text.split('\n').map(l => '   ' + l).join('\n'));
+  console.log('   ' + '─'.repeat(50));
+}
+
+function runTest(article, slug) {
+  console.log('\n━━━ FitzDesk Social Publisher — MODO TEST (no publica nada) ━━━');
+
+  console.log('\n📦 Secrets disponibles (solo presencia, nunca el valor):');
+  const secretChecks = [
+    ['INSTAGRAM_ACCESS_TOKEN',      process.env.INSTAGRAM_ACCESS_TOKEN],
+    ['INSTAGRAM_APP_ID',           process.env.INSTAGRAM_APP_ID],
+    ['INSTAGRAM_APP_SECRET',       process.env.INSTAGRAM_APP_SECRET],
+    ['FACEBOOK_PAGE_ACCESS_TOKEN', process.env.FACEBOOK_PAGE_ACCESS_TOKEN],
+    ['FACEBOOK_PAGE_ID',           process.env.FACEBOOK_PAGE_ID],
+    ['PINTEREST_ACCESS_TOKEN',     process.env.PINTEREST_ACCESS_TOKEN],
+    ['PINTEREST_BOARD_ID',         process.env.PINTEREST_BOARD_ID],
+    ['DISCORD_WEBHOOK_URL',        process.env.DISCORD_WEBHOOK_URL],
+  ];
+  for (const [name, value] of secretChecks) {
+    console.log(`   ${value ? '✅' : '❌'} ${name}`);
+  }
+
+  console.log('\n📸 Imagen que se usaría:');
+  console.log(`   ${imageUrlFor(slug)}`);
+
+  printBlock('📷 Instagram — caption que se publicaría:', buildInstagramCaption(article, slug));
+  printBlock('📘 Facebook — caption que se publicaría:',  buildFacebookCaption(article, slug));
+
+  console.log(`\n📌 Pinterest — ${PINTEREST_ENABLED ? 'ACTIVADO' : 'DESACTIVADO (PINTEREST_ENABLED = false)'}`);
+  if (PINTEREST_ENABLED) {
+    printBlock('Pinterest — descripción que se publicaría:', buildPinterestDescription(article));
+  }
+
+  console.log('\n✅ Modo test completado — no se ha publicado nada real.\n');
+}
+
+// ─── Main ─────────────────────────────────────────────────────────────────────
+
+async function main() {
+  const args    = process.argv.slice(2);
+  const isTest  = args.includes('--test');
+  const slugIdx = args.indexOf('--slug');
+  const slug    = slugIdx !== -1 ? args[slugIdx + 1] : null;
+
+  if (!slug) {
+    console.error('Uso: node socialPublisher.js [--test] --slug [slug]');
+    process.exit(1);
+  }
+
+  let article;
+  try {
+    article = loadArticle(slug);
+  } catch (e) {
+    console.error(`❌ ${e.message}`);
+    process.exit(1);
+  }
+
+  if (isTest) {
+    runTest(article, slug);
+    return;
+  }
+
+  console.log(`\n━━━ FitzDesk Social Publisher — ${slug} ━━━\n`);
+
+  const results = { instagram: null, facebook: null, pinterest: null };
+  const errors  = [];
+
+  // Instagram — si falla, loguear y continuar con Facebook
+  try {
+    results.instagram = await publishInstagram(article, slug);
+    logOk(`Instagram publicado — id: ${results.instagram}`);
+  } catch (e) {
+    logError(`Instagram: ${e.message}`);
+    errors.push(`Instagram: ${e.message}`);
+  }
+
+  // Facebook — si falla, loguear claramente
+  try {
+    results.facebook = await publishFacebook(article, slug);
+    logOk(`Facebook publicado — id: ${results.facebook}`);
+  } catch (e) {
+    logError(`Facebook: ${e.message}`);
+    errors.push(`Facebook: ${e.message}`);
+  }
+
+  if (PINTEREST_ENABLED) {
+    try {
+      results.pinterest = await publishPinterest(article, slug);
+      logOk(`Pinterest publicado — id: ${results.pinterest}`);
+    } catch (e) {
+      logError(`Pinterest: ${e.message}`);
+      errors.push(`Pinterest: ${e.message}`);
+    }
+  } else {
+    logInfo('Pinterest desactivado (PINTEREST_ENABLED = false) — omitido');
+  }
+
+  // Si ambos (Instagram y Facebook) fallaron, notificar a Discord — nunca fallar en silencio
+  if (!results.instagram && !results.facebook) {
+    await notifyDiscordError(
+      `Instagram y Facebook fallaron al publicar "${article.title}" (${slug}):\n${errors.join('\n')}`
+    );
+  }
+
+  console.log('\n━━━ Resumen ━━━');
+  console.log(`Instagram : ${results.instagram ? '✅' : '❌'}`);
+  console.log(`Facebook  : ${results.facebook  ? '✅' : '❌'}`);
+  console.log(`Pinterest : ${PINTEREST_ENABLED ? (results.pinterest ? '✅' : '❌') : '⏭️  desactivado'}`);
+}
+
+main().catch(e => {
+  console.error('Error crítico:', e.message);
+  process.exit(1);
+});

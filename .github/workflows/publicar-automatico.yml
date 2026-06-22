@@ -138,6 +138,23 @@ jobs:
             git push origin develop
           fi
 
+      # ── 6c. Publicar en redes sociales (Instagram + Facebook) ────────────────
+      # Pinterest está preparado en socialPublisher.js pero desactivado
+      # (PINTEREST_ENABLED = false) hasta que se den de alta esos secrets.
+      - name: Publicar en redes sociales
+        if: steps.check.outputs.status == 'ready' && steps.process.outcome == 'success' && success()
+        timeout-minutes: 2
+        env:
+          INSTAGRAM_ACCESS_TOKEN:     ${{ secrets.INSTAGRAM_ACCESS_TOKEN }}
+          INSTAGRAM_APP_ID:           ${{ secrets.INSTAGRAM_APP_ID }}
+          INSTAGRAM_APP_SECRET:       ${{ secrets.INSTAGRAM_APP_SECRET }}
+          FACEBOOK_PAGE_ACCESS_TOKEN: ${{ secrets.FACEBOOK_PAGE_ACCESS_TOKEN }}
+          FACEBOOK_PAGE_ID:           ${{ secrets.FACEBOOK_PAGE_ID }}
+          PINTEREST_ACCESS_TOKEN:     ${{ secrets.PINTEREST_ACCESS_TOKEN }}
+          PINTEREST_BOARD_ID:         ${{ secrets.PINTEREST_BOARD_ID }}
+          DISCORD_WEBHOOK_URL:        ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: node fitzdesk-monitor/socialPublisher.js --slug ${{ steps.check.outputs.published_slug }}
+
       # ── 7. Notificación Discord — éxito ──────────────────────────────────────
       - name: Discord — publicación exitosa
         if: steps.check.outputs.status == 'ready' && steps.process.outcome == 'success'
