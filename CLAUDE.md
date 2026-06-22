@@ -254,7 +254,7 @@ Objetivos:
 ---
 
 ### Próximas acciones inmediatas
-- [ ] Sustituir la imagen placeholder de `airra-labs-rotary-mouse-analisis` (23/07, icono genérico de ratón, provisional) cuando exista imagen real — ver detalle en "Estado del calendario de publicaciones". `razer-seiren-v3-pro-analisis` ya resuelto con imagen oficial real (descargada directamente de Razer, 2026-06-21). `asus-portatiles-trabajo-exigente-2026` ya resuelto con foto real proporcionada por el usuario (2026-06-22)
+- [ ] Conseguir imagen oficial real de `airra-labs-rotary-mouse-analisis` (desplazado al 11/08, último slot del calendario, el 2026-06-22 — ver "Estado del calendario de publicaciones"). El placeholder genérico de ratón no es válido para publicar. `razer-seiren-v3-pro-analisis` ya resuelto con imagen oficial real (descargada directamente de Razer, 2026-06-21). `asus-portatiles-trabajo-exigente-2026` ya resuelto con foto real proporcionada por el usuario (2026-06-22)
 - [ ] Dar de alta los secrets `PINTEREST_ACCESS_TOKEN` y `PINTEREST_BOARD_ID` en GitHub cuando exista cuenta de Pinterest, y cambiar `PINTEREST_ENABLED = true` en `fitzdesk-monitor/socialPublisher.js`
 - [ ] Lanzar prompt de búsqueda de productos cuando queden menos de 6 borradores
 - [ ] Solicitar alta en Awin en Julio 2026 cuando haya 30+ artículos publicados
@@ -351,7 +351,9 @@ De esos 14, **4 se conservaron y completaron** (traídos a `develop` con frontma
 
 ## Estado del calendario de publicaciones
 - Ritmo: Domingo c/2 semanas (guía/comparativa) · Martes y jueves (análisis/lanzamiento, 9:00–14:00 — hora exacta no garantizada por retrasos de cola en GitHub Actions, ver nota 2026-06-18)
-- Calendario generado: 2026-06-21
+- Calendario generado: 2026-06-22
+- **airra-labs-rotary-mouse pendiente de imagen oficial — no programar hasta conseguirla.** La búsqueda automática (imageCollector.js, incluso con `--query` manual) no encuentra una imagen real del producto; el placeholder generado el 2026-06-22 no es válido para publicar tal cual
+- **Cambio de calendario 2026-06-22**: `airra-labs-rotary-mouse-analisis` se retira de su slot del 23/07 (jueves) por falta de imagen oficial. En vez de dejar hueco o descartarlo, se desplazó toda la secuencia martes/jueves un slot hacia atrás (jabra-evolve2-30-se 28/07→23/07, cherry-kc-6000-slim 30/07→28/07, logitech-mk470 04/08→30/07, trust-tk-350-silent 06/08→04/08, razer-seiren-v3-pro 11/08→06/08) y Airra Labs pasa a ocupar el último slot libre, el 11/08 (martes). Acuerdo con el usuario: si sigue sin imagen cuando se vuelva a regenerar el calendario, se desplaza de nuevo al final (no se descarta el borrador, solo se pospone indefinidamente). Categorías vecinas verificadas sin repetición consecutiva tras el desplazamiento (21/07 monitores → 23/07 setups → 26/07 guias → 28/07 teclados → 30/07 setups → 04/08 teclados → 06/08 setups → 09/08 guias → 11/08 ratones)
 - **Corregido 2026-06-21: error de día de la semana.** Una sesión anterior calculó mal el día de semana de fechas de julio (asumió 10/07=jueves y 13/07=domingo cuando en realidad 10/07=viernes y 13/07=lunes). Verificado con cálculo de fecha real (no a mano): el jueves real sin cubrir era el **09/07** y el domingo quincenal real (14 días tras el 28/06) es el **12/07**. Todas las fechas de julio/agosto de esta entrada están verificadas con `Date.UTC()`, no contadas a mano
 - Calendario completo hasta 2026-08-11 (22 publicaciones totales, 3 ya publicadas: mejor-raton 14/06, samsung 16/06, hp-probook 18/06)
 - Próxima publicación pendiente: 2026-07-09 — aoc-q27p3cv-analisis (analisis, monitores, jueves)

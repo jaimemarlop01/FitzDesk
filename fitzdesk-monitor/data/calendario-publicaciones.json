@@ -1,5 +1,5 @@
 {
-  "generado": "2026-06-21",
+  "generado": "2026-06-22",
   "publicaciones": [
     {
       "fecha": "2026-06-14",
@@ -147,12 +147,12 @@
     {
       "fecha": "2026-07-23",
       "diaSemana": "jueves",
-      "slug": "borrador-airra-labs-rotary-mouse-analisis",
-      "titulo": "Airra Labs Rotary Mouse: el ratón que cambia la rueda por un dial",
-      "categoria": "ratones",
+      "slug": "borrador-jabra-evolve2-30-se-analisis",
+      "titulo": "Jabra Evolve2 30 SE: auriculares certificados para videollamadas",
+      "categoria": "setups",
       "prioridad": "MEDIA",
       "tipo": "analisis",
-      "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00. Imagen pendiente: ejecutar imageCollector antes de publicar"
+      "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00"
     },
     {
       "fecha": "2026-07-26",
@@ -167,16 +167,6 @@
     {
       "fecha": "2026-07-28",
       "diaSemana": "martes",
-      "slug": "borrador-jabra-evolve2-30-se-analisis",
-      "titulo": "Jabra Evolve2 30 SE: auriculares certificados para videollamadas",
-      "categoria": "setups",
-      "prioridad": "MEDIA",
-      "tipo": "analisis",
-      "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00"
-    },
-    {
-      "fecha": "2026-07-30",
-      "diaSemana": "jueves",
       "slug": "borrador-cherry-kc-6000-slim-analisis",
       "titulo": "Cherry KC 6000 Slim: el teclado silencioso de bajo perfil para oficina",
       "categoria": "teclados",
@@ -185,8 +175,8 @@
       "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00"
     },
     {
-      "fecha": "2026-08-04",
-      "diaSemana": "martes",
+      "fecha": "2026-07-30",
+      "diaSemana": "jueves",
       "slug": "borrador-logitech-mk470-analisis",
       "titulo": "Logitech MK470: combo teclado y ratón para teletrabajar sin complicaciones",
       "categoria": "setups",
@@ -195,11 +185,21 @@
       "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00"
     },
     {
-      "fecha": "2026-08-06",
-      "diaSemana": "jueves",
+      "fecha": "2026-08-04",
+      "diaSemana": "martes",
       "slug": "borrador-trust-tk-350-silent-analisis",
       "titulo": "Trust TK-350 Silent Wireless: el teclado silencioso sin complicaciones",
       "categoria": "teclados",
+      "prioridad": "MEDIA",
+      "tipo": "analisis",
+      "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00"
+    },
+    {
+      "fecha": "2026-08-06",
+      "diaSemana": "jueves",
+      "slug": "borrador-razer-seiren-v3-pro-analisis",
+      "titulo": "Razer Seiren V3 Pro: micrófono USB/XLR con cancelación de ruido IA",
+      "categoria": "setups",
       "prioridad": "MEDIA",
       "tipo": "analisis",
       "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00"
@@ -217,12 +217,12 @@
     {
       "fecha": "2026-08-11",
       "diaSemana": "martes",
-      "slug": "borrador-razer-seiren-v3-pro-analisis",
-      "titulo": "Razer Seiren V3 Pro: micrófono USB/XLR con cancelación de ruido IA",
-      "categoria": "setups",
-      "prioridad": "MEDIA",
+      "slug": "borrador-airra-labs-rotary-mouse-analisis",
+      "titulo": "Airra Labs Rotary Mouse: el ratón que cambia la rueda por un dial",
+      "categoria": "ratones",
+      "prioridad": "BAJA",
       "tipo": "analisis",
-      "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00"
+      "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00. Pendiente de imagen oficial — si sigue sin imagen al regenerar el calendario, desplazar de nuevo al último slot disponible (no descartar)"
     }
   ]
 }
