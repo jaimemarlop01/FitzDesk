@@ -16,7 +16,6 @@ precio: "79,99€"
 enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=razer+pro+click"
 tiempo_lectura: "6 min"
 tipo: "analisis"
-borrador: true
 imagen_thumb: "/images/articulos/razer-pro-click-analisis-thumb.webp"
 ---
 
