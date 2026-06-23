@@ -1,0 +1,50 @@
+name: Publicar en redes sociales (manual)
+
+# Workflow independiente para publicar o republicar un artículo ya existente
+# en Instagram/Facebook/Pinterest sin pasar por publicar-automatico.yml. Ese
+# pipeline asume que el artículo todavía es un borrador pendiente y falla en
+# el paso "Obtener borrador e imagen desde develop" si el artículo ya fue
+# publicado y renombrado (bug detectado el 2026-06-23) — este workflow no
+# toca el calendario ni el contenido, solo ejecuta socialPublisher.js.
+
+on:
+  workflow_dispatch:
+    inputs:
+      slug:
+        description: 'Slug del artículo ya publicado (sin prefijo borrador-)'
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  publicar-redes:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Instalar dependencias del monitor
+        working-directory: fitzdesk-monitor
+        run: npm ci --omit=dev
+
+      - name: Publicar en redes sociales
+        timeout-minutes: 2
+        env:
+          INSTAGRAM_ACCESS_TOKEN:     ${{ secrets.INSTAGRAM_ACCESS_TOKEN }}
+          INSTAGRAM_APP_ID:           ${{ secrets.INSTAGRAM_APP_ID }}
+          INSTAGRAM_APP_SECRET:       ${{ secrets.INSTAGRAM_APP_SECRET }}
+          FACEBOOK_PAGE_ACCESS_TOKEN: ${{ secrets.FACEBOOK_PAGE_ACCESS_TOKEN }}
+          FACEBOOK_PAGE_ID:           ${{ secrets.FACEBOOK_PAGE_ID }}
+          PINTEREST_ACCESS_TOKEN:     ${{ secrets.PINTEREST_ACCESS_TOKEN }}
+          PINTEREST_BOARD_ID:         ${{ secrets.PINTEREST_BOARD_ID }}
+          DISCORD_WEBHOOK_URL:        ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: node fitzdesk-monitor/socialPublisher.js --slug ${{ inputs.slug }}

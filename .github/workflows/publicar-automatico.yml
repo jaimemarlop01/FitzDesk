@@ -162,7 +162,19 @@ jobs:
             git push origin develop
           fi
 
-      # ── 6c. Publicar en redes sociales (Instagram + Facebook) ────────────────
+      # ── 6c. Instalar dependencias del monitor para redes sociales ────────────
+      # socialPublisher.js usa dotenv y gray-matter, que no son built-ins de
+      # Node. El checkout no incluye node_modules (gitignored) y este paso
+      # nunca existía — el step de abajo fallaba siempre con
+      # ERR_MODULE_NOT_FOUND, independientemente de los secrets (bug
+      # detectado y corregido el 2026-06-23, reproducido localmente
+      # simulando un checkout limpio de CI).
+      - name: Instalar dependencias del monitor
+        if: steps.check.outputs.status == 'ready' && steps.process.outcome == 'success' && success()
+        working-directory: fitzdesk-monitor
+        run: npm ci --omit=dev
+
+      # ── 6d. Publicar en redes sociales (Instagram + Facebook) ────────────────
       # Pinterest está preparado en socialPublisher.js pero desactivado
       # (PINTEREST_ENABLED = false) hasta que se den de alta esos secrets.
       - name: Publicar en redes sociales
