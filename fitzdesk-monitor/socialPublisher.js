@@ -6,8 +6,10 @@
  * hasta conseguir la aprobación del scope pins:write en la API de Pinterest.
  *
  * Uso:
- *   node socialPublisher.js --slug [slug]          # publicación real
- *   node socialPublisher.js --test --slug [slug]   # modo test, no publica nada
+ *   node socialPublisher.js --slug [slug]                       # publicación real (ambas redes)
+ *   node socialPublisher.js --slug [slug] --only facebook        # solo Facebook (reintentos sin duplicar Instagram)
+ *   node socialPublisher.js --slug [slug] --only instagram       # solo Instagram
+ *   node socialPublisher.js --test --slug [slug]                # modo test, no publica nada
  */
 
 import 'dotenv/config';
@@ -195,7 +197,7 @@ function printBlock(title, text) {
   console.log('   ' + '─'.repeat(50));
 }
 
-function runTest(article, slug) {
+function runTest(article, slug, runInstagram, runFacebook) {
   console.log('\n━━━ FitzDesk Social Publisher — MODO TEST (no publica nada) ━━━');
 
   console.log('\n📦 Secrets disponibles (solo presencia, nunca el valor):');
@@ -217,8 +219,17 @@ function runTest(article, slug) {
   console.log('\n📸 Imagen que se usaría:');
   console.log(`   ${imageUrlFor(slug)}`);
 
-  printBlock('📷 Instagram — caption que se publicaría:', buildInstagramCaption(article));
-  printBlock('📘 Facebook — caption que se publicaría:',  buildFacebookCaption(article, slug));
+  if (runInstagram) {
+    printBlock('📷 Instagram — caption que se publicaría:', buildInstagramCaption(article));
+  } else {
+    console.log('\n📷 Instagram — omitido (--only facebook)');
+  }
+
+  if (runFacebook) {
+    printBlock('📘 Facebook — caption que se publicaría:', buildFacebookCaption(article, slug));
+  } else {
+    console.log('\n📘 Facebook — omitido (--only instagram)');
+  }
 
   console.log(`\n📌 Pinterest — ${PINTEREST_ENABLED ? 'ACTIVADO' : 'DESACTIVADO (PINTEREST_ENABLED = false)'}`);
   if (PINTEREST_ENABLED) {
@@ -235,11 +246,21 @@ async function main() {
   const isTest  = args.includes('--test');
   const slugIdx = args.indexOf('--slug');
   const slug    = slugIdx !== -1 ? args[slugIdx + 1] : null;
+  const onlyIdx = args.indexOf('--only');
+  const only    = onlyIdx !== -1 ? args[onlyIdx + 1] : null;
 
-  if (!slug) {
-    console.error('Uso: node socialPublisher.js [--test] --slug [slug]');
+  if (only && only !== 'instagram' && only !== 'facebook') {
+    console.error('--only debe ser "instagram" o "facebook"');
     process.exit(1);
   }
+
+  if (!slug) {
+    console.error('Uso: node socialPublisher.js [--test] [--only instagram|facebook] --slug [slug]');
+    process.exit(1);
+  }
+
+  const runInstagram = !only || only === 'instagram';
+  const runFacebook  = !only || only === 'facebook';
 
   let article;
   try {
@@ -250,7 +271,7 @@ async function main() {
   }
 
   if (isTest) {
-    runTest(article, slug);
+    runTest(article, slug, runInstagram, runFacebook);
     return;
   }
 
@@ -260,21 +281,29 @@ async function main() {
   const errors  = [];
 
   // Instagram — si falla, loguear y continuar con Facebook
-  try {
-    results.instagram = await publishInstagram(article, slug);
-    logOk(`Instagram publicado — id: ${results.instagram}`);
-  } catch (e) {
-    logError(`Instagram: ${e.message}`);
-    errors.push(`Instagram: ${e.message}`);
+  if (runInstagram) {
+    try {
+      results.instagram = await publishInstagram(article, slug);
+      logOk(`Instagram publicado — id: ${results.instagram}`);
+    } catch (e) {
+      logError(`Instagram: ${e.message}`);
+      errors.push(`Instagram: ${e.message}`);
+    }
+  } else {
+    logInfo('Instagram omitido (--only facebook)');
   }
 
   // Facebook — si falla, loguear claramente
-  try {
-    results.facebook = await publishFacebook(article, slug);
-    logOk(`Facebook publicado — id: ${results.facebook}`);
-  } catch (e) {
-    logError(`Facebook: ${e.message}`);
-    errors.push(`Facebook: ${e.message}`);
+  if (runFacebook) {
+    try {
+      results.facebook = await publishFacebook(article, slug);
+      logOk(`Facebook publicado — id: ${results.facebook}`);
+    } catch (e) {
+      logError(`Facebook: ${e.message}`);
+      errors.push(`Facebook: ${e.message}`);
+    }
+  } else {
+    logInfo('Facebook omitido (--only instagram)');
   }
 
   if (PINTEREST_ENABLED) {
@@ -289,16 +318,20 @@ async function main() {
     logInfo('Pinterest desactivado (PINTEREST_ENABLED = false) — omitido');
   }
 
-  // Si ambos (Instagram y Facebook) fallaron, notificar a Discord — nunca fallar en silencio
-  if (!results.instagram && !results.facebook) {
+  // Si todas las redes intentadas fallaron, notificar a Discord — nunca fallar en silencio
+  const anySucceeded = (runInstagram && results.instagram) || (runFacebook && results.facebook);
+  if (!anySucceeded) {
+    const failedNetworks = [];
+    if (runInstagram && !results.instagram) failedNetworks.push('Instagram');
+    if (runFacebook && !results.facebook) failedNetworks.push('Facebook');
     await notifyDiscordError(
-      `Instagram y Facebook fallaron al publicar "${article.title}" (${slug}):\n${errors.join('\n')}`
+      `${failedNetworks.join(' y ')} fallaron al publicar "${article.title}" (${slug}):\n${errors.join('\n')}`
     );
   }
 
   console.log('\n━━━ Resumen ━━━');
-  console.log(`Instagram : ${results.instagram ? '✅' : '❌'}`);
-  console.log(`Facebook  : ${results.facebook  ? '✅' : '❌'}`);
+  console.log(`Instagram : ${runInstagram ? (results.instagram ? '✅' : '❌') : '⏭️  omitido'}`);
+  console.log(`Facebook  : ${runFacebook  ? (results.facebook  ? '✅' : '❌') : '⏭️  omitido'}`);
   console.log(`Pinterest : ${PINTEREST_ENABLED ? (results.pinterest ? '✅' : '❌') : '⏭️  desactivado'}`);
 }
 
