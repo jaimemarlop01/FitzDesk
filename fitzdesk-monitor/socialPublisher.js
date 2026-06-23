@@ -1,7 +1,9 @@
 #!/usr/bin/env node
 /**
  * FitzDesk Social Publisher
- * Publica el artículo recién publicado en Instagram, Facebook y Pinterest.
+ * Publica el artículo recién publicado en Instagram y Facebook.
+ * Pinterest está preparado en el código pero desactivado (PINTEREST_ENABLED = false)
+ * hasta conseguir la aprobación del scope pins:write en la API de Pinterest.
  *
  * Uso:
  *   node socialPublisher.js --slug [slug]          # publicación real
@@ -18,7 +20,9 @@ const __dirname    = path.dirname(fileURLToPath(import.meta.url));
 const ARTICLES_DIR = path.join(__dirname, '..', 'src', 'content', 'articulos');
 const SITE_URL      = 'https://fitzdesk.com';
 
-const PINTEREST_ENABLED = true;
+// Pinterest preparado pero desactivado — activar cuando se apruebe el scope
+// pins:write en la API de Pinterest
+const PINTEREST_ENABLED = false;
 
 function logInfo(msg)  { console.log(`ℹ️  ${msg}`); }
 function logOk(msg)    { console.log(`✅ ${msg}`); }
@@ -164,7 +168,7 @@ async function publishFacebook(article, slug) {
   return data.id;
 }
 
-// ─── Pinterest ────────────────────────────────────────────────────────────────
+// ─── Pinterest (preparado, desactivado) ───────────────────────────────────────
 
 async function publishPinterest(article, slug) {
   const accessToken = process.env.PINTEREST_ACCESS_TOKEN;
