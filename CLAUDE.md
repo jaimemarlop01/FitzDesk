@@ -380,7 +380,7 @@ De esos 14, **4 se conservaron y completaron** (traídos a `develop` con frontma
 
 **✅ RESUELTO** — sincronizado `fitzdesk-monitor/data/calendario-publicaciones.json` de `develop` a `main` (commit `bdbf079`, vía worktree aislado, solo ese archivo — verificado con `git show --stat`). `main` ya tiene las 22 entradas completas hasta el 11/08.
 
-**Pendiente de decisión del usuario**: este problema se repetirá cada vez que se edite el calendario en `develop`, salvo que se automatice la sincronización (p. ej. un paso adicional en `publicar-automatico.yml` que copie también el calendario completo a `main` en cada ejecución, igual que ya hace con el artículo y la imagen). De momento la sincronización es manual.
+**✅ Automatizado 2026-06-23, para que no vuelva a ocurrir**: nuevo paso "Sincronizar calendario desde develop" en `publicar-automatico.yml`, justo después de "Setup Node.js" y antes de "Comprobar calendario". En cada ejecución (incluidos los días sin publicación), sobrescribe la copia local de `calendario-publicaciones.json` con la versión de `develop` antes de leerla — así `auto-publisher.js --check` nunca vuelve a usar datos desfasados, aunque `main` no se haya sincronizado todavía. Si la versión de `develop` difiere de la que hay commiteada en `main`, el paso también la sube a `main` (mismo patrón que el paso 6b, que ya sincroniza develop tras publicar). `develop` queda así como única fuente de verdad real del calendario; la copia en `main` se mantiene al día automáticamente pero ya no es necesaria para que el sistema funcione bien.
 
 ### Bug crítico encontrado, corregido y RESUELTO 2026-06-21: el deploy no se disparaba de forma fiable tras publicación automática
 
@@ -426,6 +426,7 @@ A partir de ahora, cualquier publicación automática futura disparará el deplo
 
 - Workflow: `.github/workflows/publicar-automatico.yml`
 - Se ejecuta Dom/Mar/Jue, programado a las 5:35 UTC (7:35 CEST / 6:35 CET) — cron: `35 5 * * 0,2,4` — minuto descuadrado para evitar la congestión del minuto en punto; aun así, los eventos `schedule` quedan en cola de baja prioridad en GitHub Actions y pueden tardar varias horas en ejecutarse (ver nota en "Estado del calendario de publicaciones")
+- Antes de comprobar el calendario, sincroniza `fitzdesk-monitor/data/calendario-publicaciones.json` desde `develop` (fuente real de verdad) — evita que `main` se quede con una copia desfasada (bug detectado y corregido 2026-06-23)
 - Lee `fitzdesk-monitor/data/calendario-publicaciones.json`, busca entrada para hoy
 - Si hay publicación: obtiene el borrador desde `develop`, elimina `borrador: true`, renombra el archivo y hace push a `main` (dispara deploy automáticamente)
 - Si falta imagen o frontmatter inválido: notifica a Discord y no publica
