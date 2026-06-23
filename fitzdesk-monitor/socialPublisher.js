@@ -50,13 +50,11 @@ function imageUrlFor(slug) {
 
 // ─── Construir contenido por red ──────────────────────────────────────────────
 
-function buildInstagramCaption({ title, descripcion, categoria }, slug) {
+function buildInstagramCaption({ title, descripcion, categoria }) {
   const caption = [
     title,
     '',
     descripcion,
-    '',
-    `🔗 fitzdesk.com/articulo/${slug}`,
     '',
     `#${categoria} #teletrabajo #homeoffice #setup #productividad #perifericos`,
   ].join('\n');
@@ -114,7 +112,7 @@ async function publishInstagram(article, slug) {
   if (!accessToken) throw new Error('INSTAGRAM_ACCESS_TOKEN no configurado');
   if (!igAccountId) throw new Error('INSTAGRAM_ACCOUNT_ID no configurado');
 
-  const caption  = buildInstagramCaption(article, slug);
+  const caption  = buildInstagramCaption(article);
   const imageUrl = imageUrlFor(slug);
 
   // Paso 1 — crear contenedor
@@ -149,8 +147,7 @@ async function publishFacebook(article, slug) {
   const pageId       = process.env.FACEBOOK_PAGE_ID;
   if (!accessToken || !pageId) throw new Error('FACEBOOK_PAGE_ACCESS_TOKEN o FACEBOOK_PAGE_ID no configurados');
 
-  const caption  = buildFacebookCaption(article, slug);
-  const imageUrl = imageUrlFor(slug);
+  const caption = buildFacebookCaption(article, slug);
 
   const res  = await fetch(`https://graph.facebook.com/v25.0/${pageId}/feed`, {
     method:  'POST',
@@ -158,7 +155,6 @@ async function publishFacebook(article, slug) {
     body:    JSON.stringify({
       message:      caption,
       link:         `${SITE_URL}/articulo/${slug}`,
-      picture:      imageUrl,
       access_token: accessToken,
     }),
   });
@@ -221,7 +217,7 @@ function runTest(article, slug) {
   console.log('\n📸 Imagen que se usaría:');
   console.log(`   ${imageUrlFor(slug)}`);
 
-  printBlock('📷 Instagram — caption que se publicaría:', buildInstagramCaption(article, slug));
+  printBlock('📷 Instagram — caption que se publicaría:', buildInstagramCaption(article));
   printBlock('📘 Facebook — caption que se publicaría:',  buildFacebookCaption(article, slug));
 
   console.log(`\n📌 Pinterest — ${PINTEREST_ENABLED ? 'ACTIVADO' : 'DESACTIVADO (PINTEREST_ENABLED = false)'}`);
