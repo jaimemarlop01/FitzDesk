@@ -42,6 +42,7 @@
       "categoria": "ratones",
       "prioridad": "ALTA",
       "tipo": "analisis",
+      "publicado": true,
       "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00"
     },
     {
