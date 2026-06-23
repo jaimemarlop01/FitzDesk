@@ -73,6 +73,9 @@ node compareGenerator.js --config comparativa.json
 node guideGenerator.js --config guia.json
 node launchGenerator.js --config lanzamiento.json
 node imageCollector.js --slug [slug]
+node imageCollector.js --slug [slug] --query "[texto de búsqueda manual]"  # sobrescribe el title (añadido 2026-06-21)
+node socialPublisher.js --test --slug [slug]   # modo test, no publica nada real
+node socialPublisher.js --slug [slug]          # publica en Instagram + Facebook
 ```
 
 ---
@@ -97,6 +100,12 @@ GEMINI_API_KEY (opcional)
 5. **Enfoque editorial**: FitzDesk cubre todo lo que mejora el trabajo desde casa — incluyendo productos de origen gaming si son válidos para teletrabajo. El enfoque siempre es productividad, no ocio. NO cubrir: videojuegos, consolas, accesorios puramente de ocio sin utilidad laboral.
 6. **Fitz**: aparece en sección `## 🐿️ Fitz recomienda` en cada artículo
 7. **Afiliados**: aviso legal obligatorio al final de cada artículo
+
+---
+
+## Notas importantes
+
+**NOTA: El campo `enlace_afiliado`** en el frontmatter de los artículos contiene actualmente URLs directas a PcComponentes **SIN tracking de afiliado real**. Esto cambiará cuando Awin apruebe el programa de PcComponentes (previsto julio 2026 con 30+ artículos). Hasta entonces, tratar este campo como **"enlace de producto"**, no como **"enlace de afiliado"**, en cuanto a prioridad de corrección: un enlace roto o incompleto es un problema de severidad baja / UX, no bloqueante, y no implica pérdida de ingresos (no hay ingresos de afiliados posibles todavía).
 
 ---
 
@@ -245,23 +254,66 @@ Objetivos:
 ---
 
 ### Próximas acciones inmediatas
-- [ ] Publicar artículo del jueves esta semana
+- [ ] Conseguir imagen oficial real de `airra-labs-rotary-mouse-analisis` (desplazado al 11/08, último slot del calendario, el 2026-06-22 — ver "Estado del calendario de publicaciones"). El placeholder genérico de ratón no es válido para publicar. `razer-seiren-v3-pro-analisis` ya resuelto con imagen oficial real (descargada directamente de Razer, 2026-06-21). `asus-portatiles-trabajo-exigente-2026` ya resuelto con foto real proporcionada por el usuario (2026-06-22)
+- [ ] Activar Pinterest cuando se apruebe el scope `pins:write` en la API de Pinterest (aparcado el 2026-06-23 — se activó brevemente el mismo día y se revirtió a `PINTEREST_ENABLED = false` por falta de esa aprobación). Cuando se apruebe: cambiar `PINTEREST_ENABLED = true` en `socialPublisher.js` y confirmar que `PINTEREST_ACCESS_TOKEN`/`PINTEREST_BOARD_ID` existen como secrets reales en GitHub (a fecha de hoy no hay confirmación de que existan)
 - [ ] Lanzar prompt de búsqueda de productos cuando queden menos de 6 borradores
 - [ ] Solicitar alta en Awin en Julio 2026 cuando haya 30+ artículos publicados
 - [x] Configurar Google Search Console — propiedad fitzdesk.com verificada por DNS (TXT record, 2026-06-12); sitemap enviado, pendiente confirmación de indexación por parte de Google (hasta 24h)
 - [ ] Registrar @fitzdesk en redes sociales
 
 ## Estado de borradores
-- Última revisión: 2026-06-12
-- Borradores descartados (total acumulado): 8 correctos + 1 falso descarte (xbox-ally, asus-rog-strix, corsair-anade-icue, antec-computex + 6-tb-oferta-amazon, corsair-renueva-catalogo, nvidia-rtx-spark, borrador-surface-ultra-duplicado, corsair-anade-icue) · razer-seiren-v3-pro fue descarte incorrecto (micrófono para teletrabajo, regenerar)
-- Borradores en calendario con imagen y fecha listos: 9 (samsung-s27a600, hp-probook-455-g10, razer-pro-click, logitech-k380, monitor-4k-vs-full-hd, intel-wildcat-lake, corsair-clipper-pro-mini-60, hp-935-creator-wireless, mejor-raton-presupuesto) — imágenes descargadas el 2026-06-11, sin pendientes
-- Sin programar (fuera del horizonte de 4 semanas): logitech-mobi-fold-analisis (ratones, 2026-07-22), Cherry KC 6000 Slim (teclados), AOC Q27P3CV (monitores), Jabra Evolve2 30 SE (setups), Trust TK-350 Silent (teclados), ADATA Urban TapSafe (setups), dolor-muneca-teletrabajo-perifericos-ergonomicos (guia), asus-portatiles-trabajo-exigente-2026 (guia), Razer Seiren V3 Pro (setups — regenerar)
-- Lanzamientos Computex pendientes de disponibilidad: borrador-adata-urban-tapsafe
+- Última revisión: 2026-06-21
+- Última ejecución de completar-borradores: 2026-06-21
+- Borradores descartados: 0 en esta pasada
+- Borradores completados y con fecha en el calendario: 18 (7 ya estaban calendarizados + 11 huérfanos incorporados hoy, ver "Estado del calendario de publicaciones")
+- Lanzamientos Computex pendientes de disponibilidad: borrador-adata-urban-tapsafe (sin tocar, según instrucción — esperando disponibilidad real del producto)
+- **Limpieza 2026-06-21 — duplicados obsoletos en develop**: `borrador-hp-probook-455-g10-analisis.md` y `borrador-samsung-s27a600-analisis.md` seguían en develop con el nombre antiguo pese a estar ya publicados en `main` (el workflow de publicación nunca sincroniza el cambio de vuelta a develop). Eliminados de develop — el contenido publicado vive en `main`, no hace falta duplicarlo. También se quitó `borrador: true` de `mejor-raton-teletrabajo-presupuesto-2026.md` en develop, que llevaba ese campo desincronizado pese a estar publicado sin él en `main`
+- Dos ajustes de longitud en esta pasada: `dolor-muneca-teletrabajo-perifericos-ergonomicos` recortado de 1511 a 1395 palabras (superaba el máximo de guia); `logitech-mobi-fold-analisis` ampliado de 894 a 937 palabras (por debajo del mínimo de analisis)
+- Bugs corregidos en esta revisión (2026-06-18):
+  - revisar-borradores.md exigía incorrectamente un bloque "Aviso de afiliado" en el cuerpo de analisis/comparativa — el aviso real se inserta automáticamente desde Footer.astro (site-wide). Corregido: ahora el agente marca como problema si el bloque SÍ aparece en el cuerpo (sobra), no si falta
+  - 4 borradores (aoc-q27p3cv, cherry-kc-6000-slim, trust-tk-350-silent, jabra-evolve2-30-se) tenían el campo `imagen` con el prefijo "borrador-" mezclado, inconsistente con el slug — corregido a `/images/articulos/[slug].webp`
+  - 2 títulos superaban 70 caracteres (jabra-evolve2-30-se, samsung-s27a600) — recortados sin perder el producto
+  - 2 borradores (corsair-clipper-pro-mini-60, intel-wildcat-lake) tenían un comentario HTML de plantilla obsoleto ("BORRADOR AUTOMÁTICO — Pendiente: ...") con checklist ya resuelto — eliminado
+  - borrador-asus-portatiles-trabajo-exigente-2026: nombre de archivo no coincidía con el slug (huérfano desde su creación) — renombrado; cuerpo recortado de 1540 a 1396 palabras (rango guia 1000-1400); título recortado de 73 a 52 caracteres
+  - **borrador-razer-seiren-v3-pro fue descartado incorrectamente el 2026-06-10** ("placeholder irrecuperable" — falso: el contenido estaba completo salvo la última frase de la Conclusión, cortada a mitad, y un placeholder sin rellenar `[nombra un micrófono similar]` en una pregunta de la FAQ). Regenerado completo: Conclusión terminada, placeholder eliminado (esa pregunta de FAQ se quitó en vez de inventar una comparación sin base), formato "Perfil A/B" convertido a párrafo, criterios añadidos (setups), imagen_thumb añadido, slug añadido. 1012 palabras, dentro de rango analisis
+
+### Rama `borradores` — triaje 2026-06-18
+
+La rama `borradores` (donde el monitor escribe directamente vía API de GitHub) está estructuralmente desactualizada respecto a `develop` (le faltan comparar.astro, score.ts y otros cambios — no se hizo merge completo, solo se trajeron los `.md` nuevos puntualmente). Tenía 20 archivos de artículos que no existían en `develop`: 5 eran obsoletos (ya gestionados, ya publicados, o decomisionados intencionadamente) y 14 eran borradores genuinamente nuevos sin triar.
+
+De esos 14, **4 se conservaron y completaron** (traídos a `develop` con frontmatter, criterios e imagen placeholder estándar):
+- `airra-labs-rotary-mouse-analisis` (ratones) — corregido un carácter chino suelto (可能) mezclado en el texto español
+- `asus-rog-strix-scar-18-analisis` (portatiles) — Conclusión truncada terminada, enlace_afiliado roto corregido
+- `lg-ultragear-34gx90sb-w-analisis` (monitores) — tenía una alerta interna de "POSIBLE DUPLICADO" frente a `lg-display-muestra-el-futuro-de-los-monitores-oled-gaming-con-2000-nits-5k-27-22`; verificado que son productos distintos (27" 5K vs 34" WQHD 240Hz) — no era duplicado, alerta descartada
+- `logitech-mk470-analisis` (setups) — typo "esanother" corregido
+
+**10 se descartaron** (no se incorporaron a develop):
+- `corsair-shugo` (memorias RAM) y `corsair-icue-link-titan` (AIO cooler con pantalla) — componentes internos de PC, excluidos por línea editorial
+- `computex-antec` — mezcla refrigeración/torres (componentes excluidos) + placeholder `[COMPLETAR]` sin rellenar
+- `xbox-ally-x20` — consola de videojuegos portátil, excluida explícitamente por línea editorial
+- `6tb-disco-duro-amazon` y `tarjetas-sd-8tb-sandisk` — almacenamiento que no encaja en ninguna categoría válida de FitzDesk, contenido genérico
+- `corsair-nuevos-teclados` y `ducky-anne-pro` — no identifican un modelo concreto (demasiado genéricos para ser un análisis real), con placeholders sin rellenar
+- `despliegue-portatiles-rtx-spark` — mal categorizado como "monitor", solapa con el lanzamiento ya publicado de Surface Laptop Ultra
+- `logitech-mobi-fold` (trackpad) — duplicado exacto de un borrador ya existente y ya completado en `develop` (`logitech-mobi-fold-analisis.md`)
+
+### Rama `borradores` — descartes 2026-06-21
+
+2 borradores nuevos generados por el monitor desde el triaje del 18/06, descartados directamente en la rama `borradores` (eliminados con commit `375712c`, no se incorporaron a `develop`):
+- `ASUS ROG Strix LC IV` — refrigeración líquida AIO con pantalla integrada, componente interno de PC fuera del enfoque de periféricos/portátiles de FitzDesk
+- `ASUS ROG 20 Aniversario` — sobremesa gaming completa; doble motivo de descarte: FitzDesk no cubre sobremesas (ver `portatil-vs-sobremesa-teletrabajo-2026`) y es gaming puro sin utilidad de productividad
+
+**Caso dudoso confirmado como correcto, sin recuperar**: "Sillas gaming vs. Sillas de oficina ergonómicas" — descartado por Capa 1 del monitor. No se recupera porque "sillas ergonómicas" no es todavía una categoría activa de FitzDesk (prevista Fase 2, Marzo-Abril 2027).
+
+**Bug corregido en `analyzer.js`**: el segundo borrador descartado tenía `borrador: false` en el frontmatter pese a estar recién generado sin revisar. Causa: `generateDraft()` deja que la IA genere el frontmatter completo como texto libre (incluyendo el campo `borrador:`), y el código nunca lo validaba después — al contrario que `precio:` y `enlace_afiliado:`, que sí se sobrescriben siempre en `injectPcData()`. Corregido añadiendo una normalización forzada antes de `injectPcData()`: si el campo existe con cualquier valor (`true` o `false`), se fuerza a `true`; si no existe, se inserta antes del cierre del frontmatter. Mismo patrón defensivo que ya usaban `precio`/`enlace_afiliado`.
 
 ## Estado del código
-- Última revisión: 2026-06-11 (5ª pasada — correcciones de advertencias conocidas + revisión agente)
+- Última revisión: 2026-06-17 (6ª pasada — revisión post-sesión calidad textual y comparar.astro)
 - Errores críticos pendientes: 0 | Estado: ✅ Sin errores críticos
-- Advertencias: 0 — todas resueltas el 2026-06-12
+- Advertencias: 3 — ver detalle abajo
+- Advertencias detectadas 2026-06-17:
+  - ScoreBox.astro:20-22 — colores hardcodeados (#16a34a, #F97316, #DC2626) duplican var(--color-success/primary/error); deberían usar scoreColor() de src/lib/score.ts
+  - global.css:5 — --color-brand-dark es #EA6A00 pero CLAUDE.md documenta #EA580C; hay dos valores distintos en uso (comparar.astro usa --color-primary-dark: #EA580C)
+  - index.astro:378,398 / Footer.astro:89,134,154,169,174,180 — color #9CA3AF y #6B7280/#D1D5DB en CSS de secciones oscuras; candidatos a var(--color-text-secondary/#D1D5DB)
 - Correcciones aplicadas en esta pasada (8 archivos):
   - BaseLayout.astro — meta google-site-verification reemplazada por comentario HTML
   - buscar.astro — todos los colores hardcodeados → CSS vars; gradient → var(--color-background)
@@ -273,6 +325,13 @@ Objetivos:
   - src/content/config.ts — campos opcionales del monitor añadidos al schema Zod (imagen_thumb, presupuesto, enlace_a, enlace_b, enlaces, keyword_principal, keywords_secundarias, fecha_actualizacion, actualizado)
 - Sugerencias (1): monitor.yml no invalida caché npm entre runs del build web
 - Correcciones 2026-06-12 (sesión actual): sources.js — KEYWORDS_DESCARTE usa ahora hasWordDescarte() con \b para todos los términos (antes solo ≤4 chars), evita falsos positivos como "tablet" en "tablets" o "movil" en nombres de producto tipo Logitech Mobi Fold · monitor.yml — comentario de horario corregido (8:00 CET / 9:00 CEST + nota de retrasos GitHub) · tres agentes actualizados para criterios/radar · logitech-mobi-fold-analisis.md creado
+- Correcciones 2026-06-17 — completar-borradores sobre calendario:
+  - 4 analisis con criterios: añadido bloque criterios: a hp-probook-455-g10, razer-pro-click, logitech-k380, hp-935-creator-wireless (valores derivados del texto, escala 1-10)
+  - Longitud ajustada: hp-probook +100w, razer-pro-click +110w, hp-935-creator +175w, logitech-k380 +30w — todos en rango 900-1200
+  - Lanzamientos recortados: intel-wildcat-lake (1062→730w), corsair-clipper-pro-mini-60 (1170→770w) — eliminado relleno y texto de plantilla
+  - monitor-4k-vs-full-hd: sección Conclusión añadida
+  - corsair-clipper-pro-mini-60: añadido imagen_thumb faltante
+  - completar-borradores.md: corregida numeración invertida (criterios era paso 9 antes que aviso paso 8); corregido bug imagen_thumb (está en schema Zod, no eliminar)
 - Correcciones 2026-06-13 — revisar-calidad-textual (primera auditoría):
   - Automáticas (6 en 4 archivos): "multiple pantallas"→"múltiples", "teclas mécanicas"×3, emoji corrupto lg-gram-14, "laptops"→"portátiles" en index.astro
   - Estructura (3 artículos): keychron-k2-v2 — H2 Fitz recomienda añadido + Veredicto→Conclusión; lg-27un880 — contenido de plantilla en Fitz reemplazado por voz real; mejor-monitor-guia — sección Conclusión añadida
@@ -285,18 +344,60 @@ Objetivos:
   - 14 artículos de análisis — bloque `criterios:` con 5 valores reales por categoría (ratones: ergonomia/precision/autonomia/conectividad/calidad_precio · teclados: tacto/ruido/conectividad/durabilidad/calidad_precio · monitores: calidad_imagen/ergonomia_soporte/conectividad/cuidado_ocular/calidad_precio · portátiles: rendimiento/bateria/pantalla/teclado_trackpad/calidad_precio)
 
 ## Estado de precios
-- Última revisión de precios: 2026-06-12
-- Artículos con precio desactualizado: 0
-- Artículos pendientes de revisión (>30 días): 14 (logitech-mx-master-3s, logitech-lift-vertical, logitech-mx-anywhere-3s, lg-27un880, keychron-k8-pro, keychron-v1, keychron-k2-v2, benq-gw2780, dell-s2722qc, lg-27up850n-analisis, asus-vivobook-15-oled-analisis, lenovo-thinkpad-e14-gen6-analisis, lg-gram-14-2025-analisis, mejor-setup-teletrabajo-500-euros-2026)
+- Última revisión de precios: 2026-06-17
+- Artículos con precio desactualizado: 1 (lg-27un880 — enlace_afiliado apunta a URL raíz sin producto)
+- Artículos pendientes de revisión (>30 días): 13 (logitech-mx-master-3s, logitech-lift-vertical, logitech-mx-anywhere-3s, lg-27un880, keychron-k8-pro, keychron-k2-v2, keychron-v1, benq-gw2780, dell-s2722qc, logitech-mx-keys-s-analisis, asus-vivobook-15-oled-analisis, lenovo-thinkpad-e14-gen6-analisis, lg-gram-14-2025-analisis)
+- Notas: lg-27up850n-analisis (28 días) y mejor-setup-teletrabajo-500-euros-2026 (19 días) ya no superan los 30 días desde la última revisión manual del 2026-06-12; lg-27un880 tiene enlace_afiliado incompleto (solo dominio raíz)
 
 ## Estado del calendario de publicaciones
-- Ritmo: Domingo c/2 semanas (guía/comparativa) · Martes y jueves (análisis/lanzamiento, 9:00–11:00)
-- Calendario actualizado: 2026-06-11
-- Próxima publicación: 2026-06-14 — mejor-raton-teletrabajo-presupuesto-2026 (guia, domingo) — publicación automática vía workflow
-- Calendario completo hasta 2026-07-07 (9 publicaciones programadas, todas con imagen)
-- Workflow automático: `.github/workflows/publicar-automatico.yml` — Dom/Mar/Jue, programado a las 5:35 UTC (7:35 CEST / 6:35 CET) con margen de 1h25min para absorber retrasos de GitHub Actions y llegar dentro de la ventana 9:00-11:00; lee calendario y publica solo si hay entrada para hoy; notifica a Discord en caso de error
-- Imágenes pendientes: ninguna — todas descargadas el 2026-06-11
+- Ritmo: Domingo c/2 semanas (guía/comparativa) · Martes y jueves (análisis/lanzamiento, 9:00–14:00 — hora exacta no garantizada por retrasos de cola en GitHub Actions, ver nota 2026-06-18)
+- Calendario generado: 2026-06-22
+- **airra-labs-rotary-mouse pendiente de imagen oficial — no programar hasta conseguirla.** La búsqueda automática (imageCollector.js, incluso con `--query` manual) no encuentra una imagen real del producto; el placeholder generado el 2026-06-22 no es válido para publicar tal cual
+- **Cambio de calendario 2026-06-22**: `airra-labs-rotary-mouse-analisis` se retira de su slot del 23/07 (jueves) por falta de imagen oficial. En vez de dejar hueco o descartarlo, se desplazó toda la secuencia martes/jueves un slot hacia atrás (jabra-evolve2-30-se 28/07→23/07, cherry-kc-6000-slim 30/07→28/07, logitech-mk470 04/08→30/07, trust-tk-350-silent 06/08→04/08, razer-seiren-v3-pro 11/08→06/08) y Airra Labs pasa a ocupar el último slot libre, el 11/08 (martes). Acuerdo con el usuario: si sigue sin imagen cuando se vuelva a regenerar el calendario, se desplaza de nuevo al final (no se descarta el borrador, solo se pospone indefinidamente). Categorías vecinas verificadas sin repetición consecutiva tras el desplazamiento (21/07 monitores → 23/07 setups → 26/07 guias → 28/07 teclados → 30/07 setups → 04/08 teclados → 06/08 setups → 09/08 guias → 11/08 ratones)
+- **Corregido 2026-06-21: error de día de la semana.** Una sesión anterior calculó mal el día de semana de fechas de julio (asumió 10/07=jueves y 13/07=domingo cuando en realidad 10/07=viernes y 13/07=lunes). Verificado con cálculo de fecha real (no a mano): el jueves real sin cubrir era el **09/07** y el domingo quincenal real (14 días tras el 28/06) es el **12/07**. Todas las fechas de julio/agosto de esta entrada están verificadas con `Date.UTC()`, no contadas a mano
+- Calendario completo hasta 2026-08-11 (22 publicaciones totales, 4 ya publicadas: mejor-raton 14/06, samsung 16/06, hp-probook 18/06, razer-pro-click 23/06)
+- Próxima publicación pendiente: 2026-06-25 — logitech-k380-analisis (analisis, teclados, jueves)
+- Huérfanos incorporados al calendario en esta sesión (11): dolor-muneca-teletrabajo (12/07, domingo), asus-rog-strix-scar-18 (14/07), logitech-mobi-fold (16/07), lg-ultragear-34gx90sb-w (21/07), airra-labs-rotary-mouse (23/07), asus-portatiles-trabajo-exigente-2026 (26/07, domingo), jabra-evolve2-30-se (28/07), cherry-kc-6000-slim (30/07), logitech-mk470 (04/08), trust-tk-350-silent (06/08), razer-seiren-v3-pro (11/08)
+- Guía nueva creada y calendarizada el mismo día: `doble-monitor-teletrabajo-merece-la-pena` (09/08, domingo) — cubre el hueco quincenal de guías que ya no tenía ningún borrador disponible (los 3 existentes ya estaban todos asignados). 1042 palabras, enlaza los 4 análisis de monitores ya publicados (LG 27UP850N-W, Dell S2722QC, LG 27UN880, BenQ GW2780)
+- **Corrección sobre el sistema de imágenes de guías**: se asumió inicialmente que las guías usaban ilustración cartoon vía DALL-E (existe `dallePrompt` en `guides.js`), pero verificado contra las imágenes reales publicadas: el sistema real en producción es `generateGuideImages.js` (Sharp/canvas), que compone fotos reales de producto ya analizadas — el `dallePrompt` nunca se usó de hecho. Se añadió un 4º layout `dual-monitor` en `composer.js` (dos monitores lado a lado con símbolo "+" en vez de "VS", ya que es un setup conjunto, no una comparativa de rivales) y se generó la imagen real con fotos de Dell S2722QC + LG 27UN880. `doble-monitor-teletrabajo-merece-la-pena` ya tiene imagen y thumb en disco
+- Categorías alternadas para no repetir dos seguidas: monitores→portátiles→ratones→monitores→ratones→guía→setups→teclados→guía→setups→teclados→setups→teclados→guía→setups
+- **imageCollector.js ejecutado 2026-06-21 sobre los 12 huérfanos pendientes**: 9/12 obtuvieron imagen real válida (aoc-q27p3cv, dolor-muneca, asus-rog-strix-scar-18, logitech-mobi-fold, lg-ultragear-34gx90sb-w, jabra-evolve2-30-se, cherry-kc-6000-slim, logitech-mk470, trust-tk-350-silent — vía DuckDuckGo o web de fabricante). 3/12 fallaron y necesitan resolución manual (DALL-E o búsqueda manual):
+  - `airra-labs-rotary-mouse-analisis` — la búsqueda devolvió una miniatura de YouTube sobre "cómo invertir la dirección de la rueda del ratón", sin relación con el producto. Eliminada. **Placeholder generado 2026-06-22** con canvas/Sharp (icono genérico de ratón en gris claro sobre fondo #F9FAFB, texto "Imagen provisional") — sustituir por foto real cuando exista
+  - `asus-portatiles-trabajo-exigente-2026` (guía, 5 portátiles distintos) — HTTP 403 de DuckDuckGo, sin imagen. Generado placeholder esquemático el 2026-06-22 (luego descartado). **✅ RESUELTO el mismo día**: el usuario proporcionó una foto real (5 portátiles genéricos en fila sobre escritorio de madera clara, fondo gris claro) guardada en Descargas como "Sin título2.jpg" — procesada con Sharp (mismo método que el resto: fondo #F9FAFB, 1200x675 + thumb 400x225) y usada tal cual, sin marca FitzDesk ni logos ASUS visibles (limitación conocida y aceptada explícitamente por el usuario, distinta del resto de imágenes de guías que sí llevan logo/sello Fitz/banda naranja)
+  - `razer-seiren-v3-pro-analisis` — la imagen encontrada era del modelo "Seiren V3 CHROMA" (variante RGB gaming), no "Pro" (USB/XLR profesional que describe el artículo). Eliminada. **Reintentado 2026-06-21 con `--query` manual** (parámetro nuevo añadido a `imageCollector.js`, antes no existía): dos intentos con queries explícitos mencionando "Pro", "USB XLR" y "no RGB" — ambos devolvieron igualmente el Chroma (confirmado por texto literal "RAZER SEIREN V3 CHROMA" visible en una de las capturas). El índice de DuckDuckGo está dominado por el Chroma para esta búsqueda independientemente del texto usado. **✅ RESUELTO el mismo día**: descargada la imagen oficial directamente del CDN de Razer (medias-p1.phoenix.razer.com, `seiren-v3-pro-black-500x500.png`) y procesada con Sharp (fondo #F9FAFB, 1200x675 + thumb 400x225) replicando el método de `imageCollector.js`. Ya en disco
+  - Nota: 2 de los 9 obtenidos (`asus-rog-strix-scar-18`, `cherry-kc-6000-slim`) son fotos genéricas de la marca/línea de producto, no necesariamente la foto exacta del modelo — aceptable pero no 100% verificado
+- `doble-monitor-teletrabajo-merece-la-pena` ya tenía imagen (generada con el compositor, ver nota arriba) — sin pendiente
+- adata-urban-tapsafe: sigue sin tocar, esperando disponibilidad real del producto (no incorporado al calendario)
+- Workflow automático: `.github/workflows/publicar-automatico.yml` — Dom/Mar/Jue, programado a las 5:35 UTC (7:35 CEST / 6:35 CET); lee calendario y publica solo si hay entrada para hoy; notifica a Discord en caso de error
+- Ventana de publicación ajustada a 9:00-14:00 el 2026-06-18 (antes 9:00-11:00): los eventos `schedule` de GitHub Actions reciben prioridad de cola más baja que `push`/`workflow_dispatch`. `auto-publisher.js` no depende de la hora, solo de la fecha. **Corregido 2026-06-23**: el retraso real observado en el histórico de runs (16/06→18/06, 18/06→21/06) es de **2-3 días**, no de 4-7 horas como se documentó inicialmente — la estimación de horas quedó obsoleta. El run del 23/06 sí se ejecutó el mismo día (08:44 UTC, ~3h de retraso sobre el cron de las 5:35 UTC), así que el retraso es variable e impredecible, no hay un patrón fiable
 - PENDIENTE: notifier.js no tiene lógica para disparar el recordatorio de domingo el sábado anterior a las 20:00 — checkPublicationReminders() solo actúa los días 2, 3 y 4 (mar, mié, jue). Para guías dominicales el recordatorio del sábado debe implementarse manualmente o extender la función.
+
+### Bug crítico encontrado, corregido y RESUELTO 2026-06-23: el calendario de `main` se quedaba congelado y dejaba de tener entradas futuras
+
+`publicar-automatico.yml` hace `checkout` de `main` y `auto-publisher.js` lee el calendario **desde esa copia**, no desde `develop`. El workflow solo copia a `main` el artículo y la imagen del día publicado — nunca el archivo `calendario-publicaciones.json` completo. Resultado: cualquier edición del calendario hecha en `develop` (nuevas fechas, reordenaciones, altas/bajas de borradores) no tenía ningún efecto en producción hasta el siguiente merge manual completo `develop → main`.
+
+**Detectado al revisar la publicación de Razer Pro Click (23/06)**: el calendario de `main` solo tenía 9 entradas, hasta el 07/07 — le faltaban las 13 entradas siguientes (09/07 → 11/08) que ya existían en `develop`, incluido el desplazamiento de `airra-labs-rotary-mouse` aplicado ese mismo día. A partir del 09/07, `auto-publisher.js --check` no habría encontrado ninguna entrada para esa fecha y habría devuelto `status: skip` — sin error, sin notificación a Discord, simplemente sin publicar nada, de forma indefinida.
+
+**✅ RESUELTO** — sincronizado `fitzdesk-monitor/data/calendario-publicaciones.json` de `develop` a `main` (commit `bdbf079`, vía worktree aislado, solo ese archivo — verificado con `git show --stat`). `main` ya tiene las 22 entradas completas hasta el 11/08.
+
+**✅ Automatizado 2026-06-23, para que no vuelva a ocurrir**: nuevo paso "Sincronizar calendario desde develop" en `publicar-automatico.yml`, justo después de "Setup Node.js" y antes de "Comprobar calendario". En cada ejecución (incluidos los días sin publicación), sobrescribe la copia local de `calendario-publicaciones.json` con la versión de `develop` antes de leerla — así `auto-publisher.js --check` nunca vuelve a usar datos desfasados, aunque `main` no se haya sincronizado todavía. Si la versión de `develop` difiere de la que hay commiteada en `main`, el paso también la sube a `main` (mismo patrón que el paso 6b, que ya sincroniza develop tras publicar). `develop` queda así como única fuente de verdad real del calendario; la copia en `main` se mantiene al día automáticamente pero ya no es necesaria para que el sistema funcione bien.
+
+### Bug crítico encontrado, corregido y RESUELTO 2026-06-21: el deploy no se disparaba de forma fiable tras publicación automática
+
+`publicar-automatico.yml` publica haciendo `git push origin main` con el `GITHUB_TOKEN` automático del propio workflow. GitHub Actions tiene una restricción de seguridad: los pushes hechos con ese token pueden no disparar otros workflows con trigger `on: push` (anti-bucle-infinito). Como `deploy.yml` solo escuchaba `push`, esto dejaba publicaciones automáticas en el código fuente de `main` sin desplegarse al sitio real.
+
+**Investigación más a fondo (mismo día):** de las 3 publicaciones hechas por el bot (`ca531f8` mejor-ratón 14/06, `8194316` Samsung 16/06, `e566697` HP ProBook 18/06), ninguna disparó su propio deploy dedicado — pero mejor-ratón y Samsung quedaron "rescatados" por deploys posteriores disparados por otros pushes humanos cercanos en el tiempo (cada deploy reconstruye el sitio completo desde el estado actual de `main`, no solo el diff). HP ProBook fue el único que no tuvo esa suerte: no hubo ninguna otra actividad en `main` entre el 18/06 y el 21/06, así que quedó invisible los 3 días completos.
+
+**Fix aplicado** en `.github/workflows/deploy.yml`: añadido trigger `workflow_run` que escucha la finalización de "Publicar automático FitzDesk", independientemente del token que hizo el push. Incluye `ref: main` explícito en el checkout.
+
+**Fix relacionado** en `.github/workflows/publicar-automatico.yml`: nuevo paso "Sincronizar develop con el artículo publicado" justo después de publicar en `main`. Sin esto, `develop` se quedaba para siempre con el borrador antiguo (`borrador: true`) tras cada publicación automática — invisible también en pruebas locales sobre `develop` y desincronizado del estado real. El paso cambia a `develop`, sustituye el borrador antiguo por el contenido ya publicado (sin `borrador: true`), copia la imagen si existe, y hace commit + push.
+
+**✅ RESUELTO — ambos fixes ya están en `main`** (cherry-pick puntual, commit `ef6be93`, solo esos dos archivos de workflow — sin tocar contenido editorial ni el calendario). El push del cherry-pick disparó el deploy de inmediato (vía el trigger `push` ya existente), confirmado con éxito (run `27900752065`). Verificado en producción tras el deploy:
+- ✅ `hp-probook-455-g10-analisis` — visible (HTTP 200, título correcto)
+- ✅ `mejor-raton-teletrabajo-presupuesto-2026` — visible
+- ✅ `samsung-s27a600-analisis` — visible
+
+A partir de ahora, cualquier publicación automática futura disparará el deploy de forma fiable (vía `workflow_run`) y sincronizará `develop` automáticamente.
 
 ## Lanzamientos en seguimiento
 - LG OLED 27" 5K 2000 nits — próxima revisión: 2026-07-09 — slug: lg-display-muestra-el-futuro-de-los-monitores-oled-gaming-con-2000-nits-5k-27-22
@@ -304,8 +405,11 @@ Objetivos:
 - Cuando lleguen al mercado: ejecutar agente actualizar-lanzamiento con el slug correspondiente
 
 ## Últimas publicaciones
-- Última publicación: 2026-06-11 — "Surface Laptop Ultra: el portátil con NVIDIA RTX Spark que redefine Windows"
-- 2026-06-10 — "LG OLED 27\" 5K 2000 nits" (tipo: lanzamiento) — publicado en main
+- Última publicación: 2026-06-23 — "Razer Pro Click: el ratón profesional de Razer que olvida los LEDs" (analisis) — publicado automáticamente vía workflow a las 08:44 UTC; deploy disparado solo (vía `workflow_run`, sin push humano de rescate) y completado a los ~3 min. Primera publicación que confirma el fix del bug de deploy funcionando de extremo a extremo sin intervención manual. Confirmado visible en producción (HTTP 200, imagen + thumb + categoría ratones todos OK)
+- 2026-06-18 — "HP ProBook 455 G10: AMD Ryzen empresarial sin precio empresarial" (analisis) — publicado automáticamente vía workflow el 18/06, pero invisible en el sitio real hasta el 21/06 por el bug de deploy (ver sección de bugs); confirmado visible en producción tras el fix
+- 2026-06-16 — "Samsung S27A600NAU: QHD de 27\" sin USB-C pero sin compromisos en imagen" (analisis) — publicado automáticamente vía workflow (no manual, corregido este dato: los 3 artículos del bot tuvieron el mismo problema de deploy, ver bug arriba)
+- 2026-06-14 — "mejor-raton-teletrabajo-presupuesto-2026" (guia) — publicado automáticamente vía workflow
+- 2026-06-11 — "Surface Laptop Ultra: el portátil con NVIDIA RTX Spark que redefine Windows" (lanzamiento)
 
 ---
 
@@ -321,12 +425,25 @@ Objetivos:
 ## Publicación automática — GitHub Actions
 
 - Workflow: `.github/workflows/publicar-automatico.yml`
-- Se ejecuta Dom/Mar/Jue, programado a las 5:35 UTC (7:35 CEST / 6:35 CET) — cron: `35 5 * * 0,2,4` — minuto descuadrado y margen de 1h25min antes de la ventana 9:00-11:00 para absorber retrasos de cola
+- Se ejecuta Dom/Mar/Jue, programado a las 5:35 UTC (7:35 CEST / 6:35 CET) — cron: `35 5 * * 0,2,4` — minuto descuadrado para evitar la congestión del minuto en punto; aun así, los eventos `schedule` quedan en cola de baja prioridad en GitHub Actions y pueden tardar varias horas en ejecutarse (ver nota en "Estado del calendario de publicaciones")
+- Antes de comprobar el calendario, sincroniza `fitzdesk-monitor/data/calendario-publicaciones.json` desde `develop` (fuente real de verdad) — evita que `main` se quede con una copia desfasada (bug detectado y corregido 2026-06-23)
 - Lee `fitzdesk-monitor/data/calendario-publicaciones.json`, busca entrada para hoy
 - Si hay publicación: obtiene el borrador desde `develop`, elimina `borrador: true`, renombra el archivo y hace push a `main` (dispara deploy automáticamente)
 - Si falta imagen o frontmatter inválido: notifica a Discord y no publica
 - Para probar: GitHub → Actions → Publicar automático FitzDesk → Run workflow → `fecha_override: YYYY-MM-DD`
 - Script helper: `fitzdesk-monitor/auto-publisher.js` (modos `--check` y `--process`)
+- Tras publicar en `main`, sincronizar `develop` y antes de notificar a Discord: ejecuta `socialPublisher.js` (ver sección siguiente)
+
+## Publicación en redes sociales — Instagram y Facebook (2026-06-22)
+
+- Script: `fitzdesk-monitor/socialPublisher.js` — `node socialPublisher.js --slug [slug]` (real) / `--test --slug [slug]` (no publica nada, muestra captions + comprueba secrets sin revelarlos)
+- Integrado como step "Publicar en redes sociales" en `publicar-automatico.yml`, justo después de sincronizar `develop` y antes de las notificaciones de Discord — solo corre si la publicación a `main` fue exitosa (`if: ... && success()`), timeout de 2 minutos
+- **Instagram**: flujo de 2 pasos vía Graph API (`POST /{ig-user-id}/media` para crear el contenedor, luego `POST /{ig-user-id}/media_publish`); el `ig-user-id` se obtiene en tiempo real con `GET /me?fields=id,name` usando `INSTAGRAM_ACCESS_TOKEN`
+- **Facebook**: `POST /{FACEBOOK_PAGE_ID}/photos` con la imagen y el caption
+- **Pinterest**: preparado en el código (`publishPinterest()`, `buildPinterestDescription()`) pero **desactivado** — `const PINTEREST_ENABLED = false` al inicio del archivo. **Activado brevemente y revertido el mismo día (2026-06-23)**: se probó activarlo, pero queda aparcado hasta conseguir la aprobación del scope `pins:write` en la API de Pinterest. No depende solo de los secrets — sin ese scope aprobado, las llamadas a la API fallarían aunque `PINTEREST_ACCESS_TOKEN`/`PINTEREST_BOARD_ID` existieran
+- Manejo de errores: si Instagram falla, se loguea y continúa con Facebook; si Facebook falla, se loguea igual; si **ambas** fallan, se notifica a Discord vía `DISCORD_WEBHOOK_URL` con el detalle de ambos errores — nunca falla en silencio. Pinterest no participa en esa comprobación (no aplica mientras esté desactivado)
+- Lee `title`, `descripcion` y `categoria` directamente del frontmatter del artículo ya publicado (no requiere pasar esos datos por el workflow) — solo necesita el slug
+- Secrets nuevos usados: `INSTAGRAM_ACCESS_TOKEN`, `INSTAGRAM_APP_ID`, `INSTAGRAM_APP_SECRET`, `FACEBOOK_PAGE_ACCESS_TOKEN`, `FACEBOOK_PAGE_ID` (ya disponibles en GitHub); `PINTEREST_ACCESS_TOKEN`/`PINTEREST_BOARD_ID` referenciados en el workflow pero todavía no creados como secrets (esperado, generan aviso benigno del linter del IDE)
 
 ## Archivos clave del monitor
 
@@ -340,6 +457,7 @@ Objetivos:
 | `imageCollector.js` | Busca y descarga imágenes de productos |
 | `articleUpdater.js` | Actualiza precio, descatalogados, nuevos modelos |
 | `auto-publisher.js` | Valida y procesa borradores para publicación automática |
+| `socialPublisher.js` | Publica en Instagram y Facebook (Pinterest preparado, desactivado) |
 
 ---
 

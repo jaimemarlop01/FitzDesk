@@ -6,6 +6,12 @@ fecha: "2026-06-25"
 descripcion: "Análisis del Logitech K380: teclado Bluetooth compacto multi-dispositivo compatible con Windows, Mac, iOS y Android por menos de 40€."
 imagen: "/images/articulos/logitech-k380-analisis.webp"
 puntuacion: 8.7
+criterios:
+  tacto: 7.5
+  ruido: 8.5
+  conectividad: 8.5
+  durabilidad: 8.5
+  calidad_precio: 9.5
 precio: "39,99€"
 enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=logitech+k380"
 tiempo_lectura: "5 min"
@@ -75,4 +81,4 @@ Mi nota: 8.7/10
 
 ## Conclusión
 
-El Logitech K380 es uno de esos productos donde la relación precio-utilidad real es casi imposible de superar. Tres dispositivos, batería de dos años, compatibilidad universal y tacto de teclado decente por 40€: la propuesta se justifica sola. Para el setup de inicio, el escritorio secundario o el compañero del iPad, el K380 sigue siendo la referencia en su segmento y una de las compras más fáciles de recomendar en FitzDesk.
+El Logitech K380 es uno de esos productos donde la relación precio-utilidad real es casi imposible de superar. Tres dispositivos, batería de dos años, compatibilidad universal y tacto de teclado decente por 40€: la propuesta se justifica sola. Para el setup de inicio, el escritorio secundario o el compañero del iPad, el K380 sigue siendo la referencia en su segmento y una de las compras más fáciles de recomendar en FitzDesk. Al no necesitar receptor USB, es también la solución más práctica para tablets y teléfonos con Bluetooth que carecen de puertos USB libres para dongles, o para portátiles donde ese único USB-C no puede ocuparse con un receptor inalámbrico.

@@ -1,13 +1,26 @@
 /**
- * Configuración de las 3 guías de compra de FitzDesk.
+ * Configuración de las guías de compra de FitzDesk.
  *
  * Cada guía tiene dos sistemas de imagen:
  *   - layout + productos → generateGuideImages.js  (compositor Sharp, sin API)
  *   - dallePrompt        → generateDalleImages.js  (DALL-E 3, requiere OPENAI_API_KEY)
  *
- * Layouts disponibles: 'three-products' | 'comparison' | 'three-products-premium'
+ * El sistema real usado en producción es el compositor (fotos de producto reales,
+ * sin IA) — dallePrompt queda como alternativa no usada hasta ahora.
+ *
+ * Layouts disponibles: 'three-products' | 'comparison' | 'three-products-premium' | 'dual-monitor'
  */
 export const GUIDES = [
+  {
+    slug:   'doble-monitor-teletrabajo-merece-la-pena',
+    titulo: 'Doble monitor en teletrabajo: ¿merece la pena?',
+    layout: 'dual-monitor',
+    total:  '~808€',
+    productos: [
+      { imagen: 'dell-s2722qc-analisis.webp', precio: '329€' },
+      { imagen: 'lg-27un880.webp',             precio: '479€' },
+    ],
+  },
   {
     slug:   'mejor-setup-teletrabajo-500-euros-2026',
     titulo: 'El mejor setup para teletrabajo por menos de 500€',

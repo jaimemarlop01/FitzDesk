@@ -149,7 +149,7 @@ function applyPrecioUpdate(content, nuevoPrecio) {
   updated = updated.replace(/^precio:.*$/m, `precio: "${nuevoPrecio}"`);
   changes.push(`precio "${oldPrecio}" → "${nuevoPrecio}"`);
 
-  updated = setFrontmatterField(updated, 'fecha_actualizacion', today());
+  updated = setFrontmatterField(updated, 'fecha_actualizacion', `"${today()}"`);
   updated = setFrontmatterField(updated, 'actualizado', 'true');
   changes.push('fecha_actualizacion');
 
@@ -174,7 +174,7 @@ function applyDescatalogado(content, sustitutoSlug) {
     changes.push('aviso de descatalogado');
   }
 
-  updated = setFrontmatterField(updated, 'fecha_actualizacion', today());
+  updated = setFrontmatterField(updated, 'fecha_actualizacion', `"${today()}"`);
   updated = setFrontmatterField(updated, 'actualizado', 'true');
   changes.push('fecha_actualizacion');
 
@@ -226,7 +226,7 @@ async function applyNuevoModelo(content, nombreModelo, precioNuevo) {
     changes.push(`sección "¿Vale la pena el nuevo ${nombreModelo}?"`);
   }
 
-  updated = setFrontmatterField(updated, 'fecha_actualizacion', today());
+  updated = setFrontmatterField(updated, 'fecha_actualizacion', `"${today()}"`);
   updated = setFrontmatterField(updated, 'actualizado', 'true');
   changes.push('fecha_actualizacion');
 

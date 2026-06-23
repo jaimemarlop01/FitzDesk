@@ -12,7 +12,7 @@ criterios:
   durabilidad: 7.0
   calidad_precio: 8.5
 precio: "89€"
-enlace_afiliado: "https://www.pccomponentes.com"
+enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=keychron+k2+v2"
 fitzQuote: "El Keychron K2 V2 es el punto de entrada perfecto al mundo de los teclados mecánicos. Sonido, tactilidad y compatibilidad multi-dispositivo en un paquete que no arruina tu cartera. Si tuviese manos, escribiría con él."
 especificaciones:
   Disposicion: "TKL 75% (84 teclas)"
@@ -22,8 +22,8 @@ especificaciones:
   Bateria: "4000 mAh (hasta 200 horas)"
   Retroiluminacion: "RGB por tecla"
   Compatibilidad: "macOS, Windows, iOS, Android"
-  Carcasa: "Aluminio (version V2)"
-  Hotswap: "No (version estandar)"
+  Carcasa: "Aluminio (versión V2)"
+  Hotswap: "No (versión estándar)"
   Peso: "870 g"
 ---
 

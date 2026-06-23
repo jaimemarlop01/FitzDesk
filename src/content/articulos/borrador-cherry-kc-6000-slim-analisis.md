@@ -2,15 +2,22 @@
 title: "Cherry KC 6000 Slim: el teclado silencioso de bajo perfil para oficina"
 slug: "cherry-kc-6000-slim-analisis"
 categoria: "teclados"
-fecha: "2026-06-10"
+fecha: "2026-07-30"
 descripcion: "Análisis del Cherry KC 6000 Slim: teclado scissor de bajo perfil, ultra-silencioso y con USB para el teletrabajo diario sin ruido."
-imagen: "/images/articulos/borrador-cherry-kc-6000-slim-analisis.webp"
+imagen: "/images/articulos/cherry-kc-6000-slim-analisis.webp"
 puntuacion: 8.0
+criterios:
+  tacto: 7.5
+  ruido: 8.5
+  conectividad: 6.0
+  durabilidad: 8.5
+  calidad_precio: 8.0
 precio: "49,99€"
 enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=cherry+kc+6000+slim"
 tiempo_lectura: "5 min"
 tipo: "analisis"
 borrador: true
+imagen_thumb: "/images/articulos/cherry-kc-6000-slim-analisis-thumb.webp"
 ---
 
 Cherry es el fabricante de los switches mecánicos más utilizados del mundo. Sin embargo, no todo lo que produce lleva switch mecánico: el KC 6000 Slim es su propuesta para quienes prefieren un teclado de bajo perfil, silencioso y duradero para el trabajo de oficina diario.
@@ -51,6 +58,14 @@ Al ser cableado no hay latencia ni gestión de baterías. Para escritorios fijos
 ## ¿Para quién es ideal?
 
 El Cherry KC 6000 Slim es ideal para el teletrabajador que quiere un teclado silencioso y cómodo para escritura intensiva en un escritorio fijo. Es especialmente recomendable para quienes tienen videollamadas frecuentes y no quieren que el ruido del teclado se cuele en el micrófono. También encaja bien en setups minimalistas donde el bajo perfil mejora la estética y la ergonomía del escritorio.
+
+## Alternativas a considerar
+
+Si el requisito principal es la inalámbrica, Cherry tiene el **KC 6000 Slim Wireless** a un precio algo superior que mantiene el mismo mecanismo scissor y añade la conexión sin cables. Es la versión natural del mismo producto para quienes no quieren cable en el escritorio.
+
+Para quienes buscan Bluetooth con conectividad multi-dispositivo, el **Logitech K380** es una opción diferente: más compacto, sin teclado numérico, pero con la posibilidad de alternar entre tres equipos. Es útil para quien trabaja con portátil y tablet a la vez.
+
+A 50€ el Cherry KC 6000 Slim compite directamente con el Trust TK-350 Silent Wireless: uno prioriza el mecanismo y la durabilidad de la marca alemana con cable, el otro la inalámbrica a precio similar. Si el escritorio es fijo y el cable no molesta, el Cherry es la opción más sólida. Si la inalámbrica es innegociable a ese precio, el Trust es la alternativa natural.
 
 ## Preguntas frecuentes
 

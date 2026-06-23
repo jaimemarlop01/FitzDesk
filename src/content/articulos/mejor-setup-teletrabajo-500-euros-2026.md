@@ -67,11 +67,13 @@ Aunque el Logitech MX Anywhere 3S es un ratón excelente, puede que con el tiemp
 
 ## Alternativas si el presupuesto no llega
 
-- **Monitor alternativo más económico (Full HD 24")**: Si el BenQ GW2780 está fuera de tu presupuesto, considera un monitor Full HD de 24" como alternativa. Aunque la resolución y el tamaño pueden ser diferentes, un buen monitor de 24" puede ofrecer una excelente relación calidad-precio y ser una buena entrada al mundo de los monitores de buena calidad.
+Si hay que reducir los 277€ todavía más, cada componente tiene una versión más económica:
 
-- **Teclado de membrana como alternativa al Keychron**: Si el teclado mecánico Keychron V1 es demasiado caro, un teclado de membrana de buena calidad puede ser una alternativa viable. Aunque puede no ofrecer la misma durabilidad o satisfacción de escritura que un teclado mecánico, un teclado de membrana bien diseñado puede ser suficiente para muchas tareas de oficina y navegación.
+- **Monitor: BenQ GW2480 (24", Full HD, ~100-120€)** — mismo fabricante y tecnología IPS que el GW2780, en tamaño 24". En Full HD ambos muestran la misma información; el 24" puede ser incluso más cómodo en escritorios pequeños. Ahorro de ~30-50€.
 
-- **Ratón básico con buen sensor a precio reducido**: Para aquellos con un presupuesto muy ajustado, un ratón básico con un buen sensor puede ser una opción. Aunque puede carecer de las características avanzadas del Logitech MX Anywhere 3S, un ratón básico puede ser suficiente para tareas simples de oficina y navegación web.
+- **Teclado: Logitech K380 (~40€)** — membrana compacto con Bluetooth para tres dispositivos. Sin la retroalimentación táctil del mecánico, pero silencioso e inalámbrico. Ahorro de ~39€.
+
+- **Ratón: Logitech M330 Silent (~25€)** — inalámbrico, compacto y con clic silencioso. Sin sensor Darkfield ni botón central, pero suficiente para tareas de oficina habituales. Ahorro de ~24€.
 
 ## 🐿️ Fitz recomienda este setup
 
@@ -79,6 +81,8 @@ Me encanta este conjunto porque ofrece una gran calidad y valor. El BenQ GW2780 
 
 ## Conclusión
 
-En FitzDesk, nos esforzamos por proporcionarte las mejores guías y recomendaciones para tu setup de teletrabajo. Con este conjunto de productos, tienes todo lo esencial para empezar a trabajar de forma remota de manera efectiva y cómoda. Recuerda, por solo 277€, puedes tener un setup que te permita ser productivo y disfrutar de tu espacio de trabajo. No dudes en explorar nuestros análisis individuales de cada producto para más detalles y consideraciones. ¡Estamos emocionados de ver cómo este setup te ayuda a alcanzar tus objetivos!
+Por 277€, este setup cubre lo fundamental para trabajar cómodamente desde casa: una pantalla de 27" que evita la fatiga de la pantalla del portátil, un teclado mecánico que dura años y un ratón inalámbrico que funciona en cualquier superficie. No es el setup más completo posible, pero resuelve los problemas reales de quien empieza a teletrabajar.
+
+La ventaja de elegir bien desde el principio es que no hace falta cambiarlo todo cuando se quiere mejorar: si el monitor se queda pequeño, se cambia el monitor. Puedes leer los análisis individuales del [BenQ GW2780](/articulo/benq-gw2780-analisis/), el [Keychron V1](/articulo/keychron-v1-analisis/) y el [Logitech MX Anywhere 3S](/articulo/logitech-mx-anywhere-3s-analisis/) para tener más contexto antes de comprar.
 
 > ⚠️ **Aviso**: Los precios mostrados son orientativos. Te recomendamos verificar el precio actual antes de comprar.

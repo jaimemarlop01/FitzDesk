@@ -6,6 +6,12 @@ fecha: "2026-07-07"
 descripcion: "Análisis del HP 935 Creator Wireless: ratón láser multi-dispositivo con recarga USB-C para teletrabajadores con varios equipos y monitores 4K."
 imagen: "/images/articulos/hp-935-creator-wireless-analisis.webp"
 puntuacion: 8.3
+criterios:
+  ergonomia: 7.0
+  precision: 8.5
+  autonomia: 8.0
+  conectividad: 9.0
+  calidad_precio: 8.5
 precio: "59,99€"
 enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=hp+935+creator+wireless"
 tiempo_lectura: "5 min"
@@ -25,6 +31,8 @@ El sensor láser del HP 935 alcanza hasta 3.200 DPI con seguimiento sobre cualqu
 La conectividad es triple: Bluetooth 5.0, receptor USB-A de 2,4 GHz, y compatibilidad con hasta tres dispositivos simultáneos. Los botones de cambio de dispositivo permiten alternar entre ordenador de trabajo, portátil personal y tablet sin desconectar nada. Según sus especificaciones, la batería dura hasta tres meses con uso habitual y se recarga en menos de dos horas por USB-C.
 
 El diseño es simétrico, usable tanto por diestros como por zurdos, con cinco botones configurables. El peso (~101g) lo sitúa en un rango equilibrado, ni demasiado ligero ni pesado.
+
+El rango de DPI configurable —de 800 a 3.200 en incrementos ajustables desde el software HP Accessories— permite adaptar la velocidad del cursor al monitor usado. En pantallas Full HD, un DPI más bajo mantiene el control; en configuraciones 4K con pantallas grandes, el DPI alto evita recorridos excesivos de muñeca. Esta adaptabilidad es especialmente útil en setups con dos monitores de distinta resolución.
 
 ## Experiencia de uso esperada
 
@@ -52,6 +60,8 @@ El diseño simétrico es una ventaja para usuarios zurdos, que tienen opciones l
 
 El HP 935 Creator es ideal para el profesional que trabaja con más de dos equipos, especialmente si usa monitores 4K o superficies de escritorio no convencionales. También es la opción más clara para quien necesita un ratón simétrico multi-dispositivo sin llegar al precio del MX Master, o para usuarios zurdos que buscan calidad en la gama media.
 
+El sensor láser también convierte al HP 935 en la opción más fiable para escritorios de cristal, mármol o metal pulido, donde los sensores ópticos de gama media registran saltos o pierden el seguimiento. En esos entornos, que no son infrecuentes en setups minimalistas de oficina en casa, el sensor láser funciona con la misma precisión que sobre cualquier otra superficie.
+
 ## Preguntas frecuentes
 
 **¿Funciona bien con pantallas 4K?**
@@ -74,3 +84,5 @@ Mi nota: 8.3/10
 ## Conclusión
 
 El HP 935 Creator Wireless demuestra que HP tiene algo que decir en el segmento de ratones profesionales. El sensor láser para superficies problemáticas, la conectividad a tres dispositivos y la recarga USB-C lo convierten en una alternativa seria frente al Logitech MX Anywhere 3S, especialmente para zurdos o para escritorios con superficies de cristal. No reina en ningún aspecto, pero ofrece un conjunto equilibrado para el teletrabajador con múltiples equipos.
+
+Frente al MX Anywhere 3S, el HP 935 gana en número de dispositivos simultáneos (tres frente a dos) y en compatibilidad de superficie; cede en madurez del ecosistema software y en ergonomía para jornadas de ocho horas. Si el ecosistema Logitech ya está instalado y funciona bien, el cambio no es necesario. Si partes de cero o tienes un escritorio de cristal y múltiples equipos, el HP 935 Creator Wireless merece estar en la comparativa sin ningún complejo.

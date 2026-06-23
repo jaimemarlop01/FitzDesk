@@ -339,7 +339,7 @@ export async function notifyPublicationReminder({ slug, titulo, categoria, prior
         { name: '⭐ Prioridad', value: prioridad, inline: true  },
         {
           name:  '⏰ Horario de publicación',
-          value: 'Recuerda publicar entre las **9:00 y las 11:00** para maximizar el tráfico',
+          value: 'Recuerda publicar entre las **9:00 y las 14:00** para maximizar el tráfico (hora exacta no garantizada por retrasos de cola en GitHub Actions)',
           inline: false,
         },
         {

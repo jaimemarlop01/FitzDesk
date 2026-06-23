@@ -1,16 +1,23 @@
 ---
-title: "Jabra Evolve2 30 SE: auriculares certificados para videollamadas profesionales"
+title: "Jabra Evolve2 30 SE: auriculares certificados para videollamadas"
 slug: "jabra-evolve2-30-se-analisis"
 categoria: "setups"
-fecha: "2026-06-10"
+fecha: "2026-07-28"
 descripcion: "Análisis del Jabra Evolve2 30 SE: auriculares USB con cancelación de ruido y certificación Teams para videollamadas en entornos con ruido."
-imagen: "/images/articulos/borrador-jabra-evolve2-30-se-analisis.webp"
+imagen: "/images/articulos/jabra-evolve2-30-se-analisis.webp"
 puntuacion: 8.8
+criterios:
+  calidad_construccion: 8.5
+  facilidad_uso: 9.0
+  compatibilidad: 9.0
+  sonido_imagen: 8.5
+  calidad_precio: 8.5
 precio: "89,99€"
 enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=jabra+evolve2+30"
 tiempo_lectura: "5 min"
 tipo: "analisis"
 borrador: true
+imagen_thumb: "/images/articulos/jabra-evolve2-30-se-analisis-thumb.webp"
 ---
 
 Las videollamadas son el pan de cada día del teletrabajo moderno. Y mientras la cámara importa para la imagen, el micrófono importa para la experiencia de los demás. Los auriculares integrados del portátil, el micrófono de una webcam barata o los cascos del móvil son soluciones que funcionan, pero que en entornos con ruido de fondo —familia en casa, vecinos, tráfico— se quedan cortas.
@@ -53,6 +60,12 @@ Al ser cableado no hay latencia perceptible ni riesgo de interrupción por bater
 El Jabra Evolve2 30 SE es para el teletrabajador que hace varias videollamadas al día en un entorno con ruido de fondo —familia, mascotas, vecinos, tráfico— y quiere que sus interlocutores dejen de pedirle que se repita. También encaja en quienes trabajan en espacios compartidos como coworkings, pisos de estudiantes o despachos con varios ocupantes.
 
 No es necesario para quien trabaja en silencio absoluto: en ese caso, el micrófono integrado del portátil o una webcam con micrófono decente son soluciones suficientes.
+
+## Alternativas a considerar
+
+Si la inalámbrica es prioritaria, el **Jabra Evolve2 55** cubre el mismo caso de uso con conexión Bluetooth y cancelación activa de ruido también en la escucha. El precio es significativamente superior (~300€), lo que lo coloca en otro tramo de inversión.
+
+Para quien busca un auricular de sobremesa más básico a menor precio, las alternativas sin certificación Teams de marcas como Logitech o Plantronics ofrecen calidad de micrófono adecuada para reuniones esporádicas, pero sin el sistema de tres micrófonos ni la cancelación activa que diferencia al Jabra.
 
 ## Preguntas frecuentes
 

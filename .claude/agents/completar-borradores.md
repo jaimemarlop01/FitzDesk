@@ -68,10 +68,11 @@ Procesa el campo `fitzQuote` siempre en este orden — nunca lo elimines sin hab
 - Si el título es muy genérico (menos de 4 palabras sin mencionar el producto) → no lo cambies sin información suficiente
 
 **7. Campos de frontmatter no estándar**
-- Elimina campos que no pertenecen al schema: `imagen_thumb`, campos con nombres no reconocidos
+- Elimina campos que no pertenecen al schema: campos con nombres no reconocidos
+- `imagen_thumb` **sí está en el schema Zod** (añadido 2026-06-11) — no eliminarlo
 - `fitzQuote` se gestiona en el punto 4 — no eliminarlo aquí directamente
 
-**9. Bloque `criterios:` ausente en artículos de análisis**
+**8. Bloque `criterios:` ausente en artículos de análisis**
 - Solo aplica si `tipo: analisis`
 - Comprueba si el frontmatter contiene el bloque `criterios:` con exactamente 5 valores para la categoría del artículo
 - Claves por categoría:
@@ -95,9 +96,14 @@ Procesa el campo `fitzQuote` siempre en este orden — nunca lo elimines sin hab
     [criterio5]: X.X
   ```
 
-**8. Aviso de afiliado presente**
+**9. Aviso de afiliado presente**
 - Si el cuerpo contiene el texto `"Si compras a través de nuestros enlaces podemos recibir una pequeña comisión sin coste adicional para ti. Esto nos ayuda a seguir publicando análisis honestos e independientes."` → elimínalo completamente (incluyendo la línea `> ⚠️ **Aviso de afiliado**:` que lo precede)
 - FitzDesk no está dado de alta en ningún programa de afiliados actualmente. El aviso correcto se añade automáticamente desde el componente del layout cuando sea necesario.
+
+**10. Enlace de producto (`enlace_afiliado`) roto o incompleto**
+- Severidad baja / UX — **no bloqueante**. FitzDesk no tiene aprobado el programa de afiliados en Awin todavía (previsto julio 2026 con 30+ artículos), así que este campo es hoy un enlace de producto a PcComponentes sin tracking de afiliado real, no un enlace de afiliado en el sentido estricto
+- Si `enlace_afiliado` apunta solo al dominio raíz (`https://www.pccomponentes.com` sin ruta de producto), está vacío, o es evidentemente inválido → corrígelo a una URL de búsqueda específica del producto: `https://www.pccomponentes.com/buscar/?query=[nombre+del+producto]`
+- Sigue siendo relevante comprobar que el enlace exista y no devuelva 404 (afecta a la experiencia del usuario), pero no lo reportes ni lo trates como crítico o urgente
 
 ## PASO 3 — Verificar resultado final
 
@@ -159,3 +165,4 @@ Si la sección no existe, añádela después de `## Bugs pendientes de resolver`
 - **Nunca eliminar información sin preservarla primero** en el lugar correcto del artículo — si un campo de frontmatter contiene contenido útil (como `fitzQuote`), trasladarlo al cuerpo antes de borrarlo
 - Al eliminar un archivo, solo hacerlo si cumple los criterios de descarte — nunca por criterios estéticos
 - **Nunca añadir avisos de afiliado** en los borradores hasta que FitzDesk esté dado de alta oficialmente en un programa de afiliados
+- **`enlace_afiliado` roto o incompleto es severidad baja, nunca crítico** — ver nota en `CLAUDE.md` sobre el estado de Awin (programa todavía no aprobado, previsto julio 2026)

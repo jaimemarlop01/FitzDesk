@@ -16,7 +16,7 @@ import {
   W, H, BAND_H,
   drawBackground, drawBottomBand, drawFitzSeal, drawFitzLogo,
 } from './textRenderer.js';
-import { layoutThreeProducts, layoutComparison, layoutThreeProductsPremium } from './composer.js';
+import { layoutThreeProducts, layoutComparison, layoutThreeProductsPremium, layoutDualMonitor } from './composer.js';
 
 const __dirname   = dirname(fileURLToPath(import.meta.url));
 const OUT_DIR     = resolve(__dirname, '../public/images/articulos');
@@ -62,6 +62,9 @@ async function generateGuide(guide) {
       break;
     case 'three-products-premium':
       await layoutThreeProductsPremium(ctx, guide);
+      break;
+    case 'dual-monitor':
+      await layoutDualMonitor(ctx, guide);
       break;
     default:
       throw new Error(`Layout desconocido: ${guide.layout}`);
