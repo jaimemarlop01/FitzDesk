@@ -108,23 +108,17 @@ async function notifyDiscordError(message) {
 
 // ─── Instagram ────────────────────────────────────────────────────────────────
 
-async function getInstagramUserId(accessToken) {
-  const res  = await fetch(`https://graph.facebook.com/v19.0/me?fields=id,name&access_token=${accessToken}`);
-  const data = await res.json();
-  if (!res.ok || !data.id) throw new Error(`No se pudo obtener el ig-user-id: ${JSON.stringify(data)}`);
-  return data.id;
-}
-
 async function publishInstagram(article, slug) {
   const accessToken = process.env.INSTAGRAM_ACCESS_TOKEN;
+  const igAccountId = process.env.INSTAGRAM_ACCOUNT_ID;
   if (!accessToken) throw new Error('INSTAGRAM_ACCESS_TOKEN no configurado');
+  if (!igAccountId) throw new Error('INSTAGRAM_ACCOUNT_ID no configurado');
 
-  const igUserId = await getInstagramUserId(accessToken);
   const caption  = buildInstagramCaption(article, slug);
   const imageUrl = imageUrlFor(slug);
 
   // Paso 1 — crear contenedor
-  const createRes  = await fetch(`https://graph.facebook.com/v19.0/${igUserId}/media`, {
+  const createRes  = await fetch(`https://graph.facebook.com/v25.0/${igAccountId}/media`, {
     method:  'POST',
     headers: { 'Content-Type': 'application/json' },
     body:    JSON.stringify({ image_url: imageUrl, caption, access_token: accessToken }),
@@ -135,7 +129,7 @@ async function publishInstagram(article, slug) {
   }
 
   // Paso 2 — publicar contenedor
-  const publishRes  = await fetch(`https://graph.facebook.com/v19.0/${igUserId}/media_publish`, {
+  const publishRes  = await fetch(`https://graph.facebook.com/v25.0/${igAccountId}/media_publish`, {
     method:  'POST',
     headers: { 'Content-Type': 'application/json' },
     body:    JSON.stringify({ creation_id: createData.id, access_token: accessToken }),
@@ -158,10 +152,15 @@ async function publishFacebook(article, slug) {
   const caption  = buildFacebookCaption(article, slug);
   const imageUrl = imageUrlFor(slug);
 
-  const res  = await fetch(`https://graph.facebook.com/v19.0/${pageId}/photos`, {
+  const res  = await fetch(`https://graph.facebook.com/v25.0/${pageId}/feed`, {
     method:  'POST',
     headers: { 'Content-Type': 'application/json' },
-    body:    JSON.stringify({ url: imageUrl, caption, access_token: accessToken }),
+    body:    JSON.stringify({
+      message:      caption,
+      link:         `${SITE_URL}/articulo/${slug}`,
+      picture:      imageUrl,
+      access_token: accessToken,
+    }),
   });
   const data = await res.json();
   if (!res.ok || !data.id) throw new Error(`Error publicando en Facebook: ${JSON.stringify(data)}`);
@@ -206,6 +205,7 @@ function runTest(article, slug) {
   console.log('\n📦 Secrets disponibles (solo presencia, nunca el valor):');
   const secretChecks = [
     ['INSTAGRAM_ACCESS_TOKEN',      process.env.INSTAGRAM_ACCESS_TOKEN],
+    ['INSTAGRAM_ACCOUNT_ID',       process.env.INSTAGRAM_ACCOUNT_ID],
     ['INSTAGRAM_APP_ID',           process.env.INSTAGRAM_APP_ID],
     ['INSTAGRAM_APP_SECRET',       process.env.INSTAGRAM_APP_SECRET],
     ['FACEBOOK_PAGE_ACCESS_TOKEN', process.env.FACEBOOK_PAGE_ACCESS_TOKEN],
