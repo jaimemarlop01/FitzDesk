@@ -6,11 +6,16 @@ fecha: "2026-06-23"
 descripcion: "Análisis del Razer Pro Click: ratón inalámbrico ergonómico para trabajo de oficina con sensor de precisión y hasta 400h de batería."
 imagen: "/images/articulos/razer-pro-click-analisis.webp"
 puntuacion: 8.5
+criterios:
+  ergonomia: 8.5
+  precision: 9.0
+  autonomia: 9.5
+  conectividad: 7.5
+  calidad_precio: 8.5
 precio: "79,99€"
 enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=razer+pro+click"
 tiempo_lectura: "6 min"
 tipo: "analisis"
-borrador: true
 imagen_thumb: "/images/articulos/razer-pro-click-analisis-thumb.webp"
 ---
 
@@ -31,6 +36,8 @@ El diseño es ergonómico para mano derecha con forma que invita a un agarre de 
 Por sus características, cabe esperar un ratón cómodo para jornadas largas. La forma ergonómica y el peso equilibrado (~91g) deberían reducir la fatiga en la muñeca comparado con un ratón plano convencional. La rueda de desplazamiento no tiene el modo libre del MX Master 3S, pero por sus especificaciones ofrece desplazamiento suave adecuado para navegar documentos.
 
 La ausencia de RGB y el acabado en blanco o negro lo hacen indistinguible de cualquier periférico de oficina. Para entornos donde la apariencia importa —reuniones, espacios de coworking— es un punto a favor.
+
+En videollamadas, el scroll silencioso del Pro Click no genera ruido audible por los micrófonos cercanos, a diferencia de los ratones con scroll dentado mecánico. El software Razer Synapse permite asignar atajos por aplicación —silenciar el micrófono de Teams, avanzar diapositivas en PowerPoint, cambiar el DPI según la tarea—, aunque la curva de aprendizaje inicial del software es más pronunciada que la de Logitech Options+. Una vez configurado, los perfiles se almacenan en el dispositivo y funcionan en cualquier equipo sin instalar nada.
 
 ## Lo mejor
 
@@ -73,4 +80,4 @@ Mi nota: 8.5/10
 
 ## Conclusión
 
-El Razer Pro Click demuestra que la tecnología de precisión del mundo gaming tiene aplicación directa en el trabajo profesional. Con batería de larga duración, diseño ergonómico discreto y doble conectividad, es una propuesta seria en el segmento de ratones inalámbricos de calidad. Su principal rival sigue siendo el MX Master 3S, pero para quien valora la autonomía extrema y el sensor de primer nivel, merece una mirada atenta.
+El Razer Pro Click demuestra que la tecnología de precisión del mundo gaming tiene aplicación directa en el trabajo profesional. Con batería de larga duración, diseño ergonómico discreto y doble conectividad, es una propuesta seria en el segmento de ratones inalámbricos de calidad. Su principal rival sigue siendo el MX Master 3S, pero para quien valora la autonomía extrema y el sensor de primer nivel, merece una mirada atenta. A un precio similar al del MX Master 3S en campañas de descuento, el diferencial de decisión se reduce a preferencias concretas: scroll libre y gestos laterales en el lado Logitech; autonomía de meses y sensor Focus+ en el lado Razer.
