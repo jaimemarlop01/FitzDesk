@@ -369,8 +369,18 @@ De esos 14, **4 se conservaron y completaron** (traídos a `develop` con frontma
 - `doble-monitor-teletrabajo-merece-la-pena` ya tenía imagen (generada con el compositor, ver nota arriba) — sin pendiente
 - adata-urban-tapsafe: sigue sin tocar, esperando disponibilidad real del producto (no incorporado al calendario)
 - Workflow automático: `.github/workflows/publicar-automatico.yml` — Dom/Mar/Jue, programado a las 5:35 UTC (7:35 CEST / 6:35 CET); lee calendario y publica solo si hay entrada para hoy; notifica a Discord en caso de error
-- Ventana de publicación ajustada a 9:00-14:00 el 2026-06-18 (antes 9:00-11:00): los eventos `schedule` de GitHub Actions reciben prioridad de cola más baja que `push`/`workflow_dispatch`, y este repo viene observando retrasos sistemáticos de 4-7h respecto a la hora programada. `auto-publisher.js` no depende de la hora, solo de la fecha
+- Ventana de publicación ajustada a 9:00-14:00 el 2026-06-18 (antes 9:00-11:00): los eventos `schedule` de GitHub Actions reciben prioridad de cola más baja que `push`/`workflow_dispatch`. `auto-publisher.js` no depende de la hora, solo de la fecha. **Corregido 2026-06-23**: el retraso real observado en el histórico de runs (16/06→18/06, 18/06→21/06) es de **2-3 días**, no de 4-7 horas como se documentó inicialmente — la estimación de horas quedó obsoleta. El run del 23/06 sí se ejecutó el mismo día (08:44 UTC, ~3h de retraso sobre el cron de las 5:35 UTC), así que el retraso es variable e impredecible, no hay un patrón fiable
 - PENDIENTE: notifier.js no tiene lógica para disparar el recordatorio de domingo el sábado anterior a las 20:00 — checkPublicationReminders() solo actúa los días 2, 3 y 4 (mar, mié, jue). Para guías dominicales el recordatorio del sábado debe implementarse manualmente o extender la función.
+
+### Bug crítico encontrado, corregido y RESUELTO 2026-06-23: el calendario de `main` se quedaba congelado y dejaba de tener entradas futuras
+
+`publicar-automatico.yml` hace `checkout` de `main` y `auto-publisher.js` lee el calendario **desde esa copia**, no desde `develop`. El workflow solo copia a `main` el artículo y la imagen del día publicado — nunca el archivo `calendario-publicaciones.json` completo. Resultado: cualquier edición del calendario hecha en `develop` (nuevas fechas, reordenaciones, altas/bajas de borradores) no tenía ningún efecto en producción hasta el siguiente merge manual completo `develop → main`.
+
+**Detectado al revisar la publicación de Razer Pro Click (23/06)**: el calendario de `main` solo tenía 9 entradas, hasta el 07/07 — le faltaban las 13 entradas siguientes (09/07 → 11/08) que ya existían en `develop`, incluido el desplazamiento de `airra-labs-rotary-mouse` aplicado ese mismo día. A partir del 09/07, `auto-publisher.js --check` no habría encontrado ninguna entrada para esa fecha y habría devuelto `status: skip` — sin error, sin notificación a Discord, simplemente sin publicar nada, de forma indefinida.
+
+**✅ RESUELTO** — sincronizado `fitzdesk-monitor/data/calendario-publicaciones.json` de `develop` a `main` (commit `bdbf079`, vía worktree aislado, solo ese archivo — verificado con `git show --stat`). `main` ya tiene las 22 entradas completas hasta el 11/08.
+
+**Pendiente de decisión del usuario**: este problema se repetirá cada vez que se edite el calendario en `develop`, salvo que se automatice la sincronización (p. ej. un paso adicional en `publicar-automatico.yml` que copie también el calendario completo a `main` en cada ejecución, igual que ya hace con el artículo y la imagen). De momento la sincronización es manual.
 
 ### Bug crítico encontrado, corregido y RESUELTO 2026-06-21: el deploy no se disparaba de forma fiable tras publicación automática
 
