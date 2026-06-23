@@ -74,8 +74,10 @@ node guideGenerator.js --config guia.json
 node launchGenerator.js --config lanzamiento.json
 node imageCollector.js --slug [slug]
 node imageCollector.js --slug [slug] --query "[texto de búsqueda manual]"  # sobrescribe el title (añadido 2026-06-21)
-node socialPublisher.js --test --slug [slug]   # modo test, no publica nada real
-node socialPublisher.js --slug [slug]          # publica en Instagram + Facebook
+node socialPublisher.js --test --slug [slug]                  # modo test, no publica nada real
+node socialPublisher.js --slug [slug]                         # publica en Instagram + Facebook
+node socialPublisher.js --slug [slug] --only facebook         # solo Facebook (reintentos sin duplicar Instagram, añadido 2026-06-23)
+node socialPublisher.js --slug [slug] --only instagram        # solo Instagram
 ```
 
 ---
@@ -445,6 +447,7 @@ A partir de ahora, cualquier publicación automática futura disparará el deplo
 - Lee `title`, `descripcion` y `categoria` directamente del frontmatter del artículo ya publicado (no requiere pasar esos datos por el workflow) — solo necesita el slug
 - Secrets usados: `INSTAGRAM_ACCESS_TOKEN`, `INSTAGRAM_ACCOUNT_ID` (nuevo 2026-06-23 — **sin confirmar que exista todavía en GitHub**, ver pendiente abajo), `INSTAGRAM_APP_ID`, `INSTAGRAM_APP_SECRET`, `FACEBOOK_PAGE_ACCESS_TOKEN`, `FACEBOOK_PAGE_ID`; `PINTEREST_ACCESS_TOKEN`/`PINTEREST_BOARD_ID` referenciados en el workflow pero todavía no creados como secrets (esperado, generan aviso benigno del linter del IDE)
 - **PENDIENTE**: confirmar que `INSTAGRAM_ACCOUNT_ID` (valor esperado: `17841423535230042`) existe como secret real en GitHub antes de la próxima publicación automática o ejecución de `publicar-en-redes.yml` — sin él, Instagram fallará con "INSTAGRAM_ACCOUNT_ID no configurado"
+- **Sin idempotencia**: el script no comprueba en ningún sitio si un artículo ya se publicó antes en Instagram/Facebook (ni caché local ni consulta a la API). Relanzarlo para el mismo slug publica de nuevo en **ambas** redes, sin excepción. Para reintentar solo la red que falló sin duplicar la que ya tuvo éxito, usar `--only facebook` o `--only instagram` (añadido 2026-06-23) — tanto en el script como en el input `only` de `publicar-en-redes.yml`
 
 ### Bug crítico encontrado y corregido 2026-06-23: "Publicar en redes sociales" nunca había funcionado de verdad
 
