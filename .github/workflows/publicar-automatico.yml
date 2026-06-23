@@ -3,10 +3,10 @@ name: Publicar automático FitzDesk
 # Domingo, martes y jueves. Objetivo: publicar dentro de la ventana 9:00-14:00 hora España.
 # Programado a las 5:35 UTC (7:35 CEST / 6:35 CET) — minuto descuadrado para evitar la
 # congestión del minuto en punto. Aun así, los eventos "schedule" de GitHub Actions reciben
-# prioridad de cola más baja que push/workflow_dispatch, y este repo observa retrasos
-# sistemáticos de 4-7h (no son casos aislados). auto-publisher.js solo compara la fecha,
-# no la hora, así que la publicación ocurre igual aunque se ejecute tarde. La ventana
-# 9:00-14:00 es una expectativa realista, no una garantía — ver CLAUDE.md (2026-06-18).
+# prioridad de cola más baja que push/workflow_dispatch, y el retraso real observado es
+# variable e impredecible (de horas a 2-3 días, ver CLAUDE.md 2026-06-23). auto-publisher.js
+# solo compara la fecha, no la hora, así que la publicación ocurre igual aunque se ejecute
+# tarde. La ventana 9:00-14:00 es una expectativa realista, no una garantía.
 on:
   schedule:
     - cron: '35 5 * * 0,2,4'
@@ -38,6 +38,30 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22'
+
+      # ── 2b. Sincronizar el calendario desde develop ──────────────────────────
+      # develop es la fuente real de verdad del calendario (ahí se edita siempre).
+      # Sin este paso, main puede quedarse con una copia vieja del calendario y
+      # el --check de abajo dejaría de encontrar entradas futuras en silencio
+      # (bug detectado el 2026-06-23, ver CLAUDE.md). Se sobrescribe el archivo
+      # local SIEMPRE antes de leerlo, y si difiere de lo que hay en main se
+      # sube también, para que main no vuelva a quedarse desfasado.
+      - name: Sincronizar calendario desde develop
+        run: |
+          git fetch origin develop
+          git show origin/develop:fitzdesk-monitor/data/calendario-publicaciones.json \
+            > fitzdesk-monitor/data/calendario-publicaciones.json
+
+          if git diff --quiet -- fitzdesk-monitor/data/calendario-publicaciones.json; then
+            echo "Calendario de main ya estaba al día"
+          else
+            git config user.name  "FitzDesk Bot"
+            git config user.email "bot@fitzdesk.com"
+            git add fitzdesk-monitor/data/calendario-publicaciones.json
+            git commit -m "chore: sincronizar calendario de publicaciones desde develop"
+            git push origin main
+            echo "Calendario de main sincronizado con develop"
+          fi
 
       # ── 3. Leer calendario y decidir qué publicar ────────────────────────────
       - name: Comprobar calendario
@@ -137,6 +161,23 @@ jobs:
             git commit -m "chore: sincronizar ${{ steps.check.outputs.titulo }} publicado en main"
             git push origin develop
           fi
+
+      # ── 6c. Publicar en redes sociales (Instagram + Facebook) ────────────────
+      # Pinterest está preparado en socialPublisher.js pero desactivado
+      # (PINTEREST_ENABLED = false) hasta que se den de alta esos secrets.
+      - name: Publicar en redes sociales
+        if: steps.check.outputs.status == 'ready' && steps.process.outcome == 'success' && success()
+        timeout-minutes: 2
+        env:
+          INSTAGRAM_ACCESS_TOKEN:     ${{ secrets.INSTAGRAM_ACCESS_TOKEN }}
+          INSTAGRAM_APP_ID:           ${{ secrets.INSTAGRAM_APP_ID }}
+          INSTAGRAM_APP_SECRET:       ${{ secrets.INSTAGRAM_APP_SECRET }}
+          FACEBOOK_PAGE_ACCESS_TOKEN: ${{ secrets.FACEBOOK_PAGE_ACCESS_TOKEN }}
+          FACEBOOK_PAGE_ID:           ${{ secrets.FACEBOOK_PAGE_ID }}
+          PINTEREST_ACCESS_TOKEN:     ${{ secrets.PINTEREST_ACCESS_TOKEN }}
+          PINTEREST_BOARD_ID:         ${{ secrets.PINTEREST_BOARD_ID }}
+          DISCORD_WEBHOOK_URL:        ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: node fitzdesk-monitor/socialPublisher.js --slug ${{ steps.check.outputs.published_slug }}
 
       # ── 7. Notificación Discord — éxito ──────────────────────────────────────
       - name: Discord — publicación exitosa
