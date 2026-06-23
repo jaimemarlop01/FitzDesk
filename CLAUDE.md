@@ -445,6 +445,20 @@ A partir de ahora, cualquier publicación automática futura disparará el deplo
 - Lee `title`, `descripcion` y `categoria` directamente del frontmatter del artículo ya publicado (no requiere pasar esos datos por el workflow) — solo necesita el slug
 - Secrets nuevos usados: `INSTAGRAM_ACCESS_TOKEN`, `INSTAGRAM_APP_ID`, `INSTAGRAM_APP_SECRET`, `FACEBOOK_PAGE_ACCESS_TOKEN`, `FACEBOOK_PAGE_ID` (ya disponibles en GitHub); `PINTEREST_ACCESS_TOKEN`/`PINTEREST_BOARD_ID` referenciados en el workflow pero todavía no creados como secrets (esperado, generan aviso benigno del linter del IDE)
 
+### Bug crítico encontrado y corregido 2026-06-23: "Publicar en redes sociales" nunca había funcionado de verdad
+
+`socialPublisher.js` usa `dotenv` y `gray-matter`, que no son built-ins de Node. `publicar-automatico.yml` nunca tuvo un paso `npm install`/`npm ci` para `fitzdesk-monitor` — el checkout no incluye `node_modules` (gitignored). Resultado: el step "Publicar en redes sociales" fallaba siempre con `ERR_MODULE_NOT_FOUND: Cannot find package 'dotenv'`, **independientemente de si los secrets existían o no**. No hay ningún registro en este documento de una publicación real confirmada en Instagram/Facebook (con ID de respuesta) desde que se integró el 22/06 — consistente con que nunca llegó a ejecutarse con éxito.
+
+**Detectado** al intentar republicar manualmente `razer-pro-click-analisis` vía `workflow_dispatch` con `fecha_override`. Reproducido localmente simulando el checkout limpio de CI (`git archive origin/main` + sin `node_modules`): el script revienta en el `import 'dotenv/config'` antes de llegar siquiera a comprobar los secrets.
+
+**✅ RESUELTO**: añadido el paso "Instalar dependencias del monitor" (`npm ci --omit=dev` en `fitzdesk-monitor/`) justo antes de "Publicar en redes sociales" en `publicar-automatico.yml`. Verificado localmente con una simulación completa del checkout de CI + `npm ci`: el script ya carga el artículo y genera los captions correctamente (faltan solo los secrets, que sí existen en GitHub Actions).
+
+### Bug relacionado encontrado el mismo día: relanzar el workflow para un día ya publicado falla siempre
+
+`auto-publisher.js --check` no distingue si la entrada del calendario ya tiene `publicado: true` — solo mira si hay una entrada para la fecha. Al relanzar `publicar-automatico.yml` con `fecha_override` sobre un día ya publicado, el paso "Obtener borrador e imagen desde develop" intenta hacer `git checkout origin/develop -- src/content/articulos/borrador-[slug].md`, pero ese archivo ya no existe (fue renombrado sin el prefijo `borrador-` al publicarse la primera vez) → falla siempre con el mismo error. No es un fallo puntual, se repetirá en cualquier reintento futuro sobre una fecha ya publicada.
+
+**Solución aplicada — workflow nuevo en vez de tocar `auto-publisher.js`**: `.github/workflows/publicar-en-redes.yml`, disparable manualmente (`workflow_dispatch`, input `slug`), que solo ejecuta `socialPublisher.js --slug [slug]` sobre el artículo ya publicado en `main` — sin pasar por el calendario ni por `auto-publisher.js`. Sirve para republicar en redes sociales (o publicar la primera vez si el pipeline automático falló en ese paso) sin arriesgar el resto del pipeline de contenido. Uso: GitHub → Actions → "Publicar en redes sociales (manual)" → Run workflow → introducir el slug ya publicado (sin prefijo `borrador-`).
+
 ## Archivos clave del monitor
 
 | Archivo | Función |
