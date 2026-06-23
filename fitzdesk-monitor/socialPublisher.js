@@ -149,6 +149,13 @@ async function publishFacebook(article, slug) {
   const pageId       = process.env.FACEBOOK_PAGE_ID;
   if (!accessToken || !pageId) throw new Error('FACEBOOK_PAGE_ACCESS_TOKEN o FACEBOOK_PAGE_ID no configurados');
 
+  // TODO temporal de depuración (2026-06-23) — quitar en cuanto se confirme el
+  // origen del error de permisos. No imprime el token completo ni un prefijo
+  // (el enmascarado automático de GitHub Actions solo oculta el valor exacto
+  // del secreto, no subcadenas parciales — el repo es público, así que un
+  // prefijo largo quedaría expuesto en un log visible para cualquiera).
+  logInfo(`[debug] FACEBOOK_PAGE_ACCESS_TOKEN: longitud=${accessToken.length}, termina en "...${accessToken.slice(-4)}"`);
+
   const caption = buildFacebookCaption(article, slug);
 
   const res  = await fetch(`https://graph.facebook.com/v25.0/${pageId}/feed`, {
