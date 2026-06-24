@@ -1,4 +1,6 @@
 ---
+import { scoreColor } from '../lib/score';
+
 export interface Props {
   puntuacion: number;
   precio?: string;
@@ -16,10 +18,7 @@ const verdict =
   puntuacion >= 6   ? 'Aceptable' :
   'No recomendado';
 
-const color =
-  puntuacion >= 9 ? '#16a34a' :
-  puntuacion >= 7.5 ? '#F97316' :
-  '#DC2626';
+const color = scoreColor(puntuacion);
 ---
 
 <div class="score-box">
