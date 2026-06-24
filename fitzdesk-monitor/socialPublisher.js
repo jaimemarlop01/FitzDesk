@@ -1,9 +1,23 @@
 #!/usr/bin/env node
 /**
  * FitzDesk Social Publisher
- * Publica el artículo recién publicado en Instagram y Facebook.
- * Pinterest está preparado en el código pero desactivado (PINTEREST_ENABLED = false)
- * hasta conseguir la aprobación del scope pins:write en la API de Pinterest.
+ * Publica el artículo recién publicado en Instagram (carrusel de 4 slides)
+ * y Facebook, usando imágenes optimizadas por red en vez de la imagen
+ * original del artículo (se generan bajo demanda si no existen) y captions
+ * generados con Groq adaptados al formato de cada red (con fallback a
+ * plantilla fija si la IA falla). Antes de publicar, socialReviewer.js
+ * revisa imágenes y textos — si encuentra un fallo corregible, lo corrige
+ * y sigue; si encuentra un fallo no corregible, bloquea la publicación y
+ * se notifica por Discord. Pinterest está preparado en el código pero
+ * desactivado (PINTEREST_ENABLED = false) hasta conseguir la aprobación
+ * del scope pins:write en la API de Pinterest.
+ *
+ * Instagram: instagramImageGenerator.js genera 4 slides (Puppeteer, PNG
+ * 1080x1350) — gancho visual, lo mejor, lo mejorable, veredicto de Fitz —
+ * publicados como carrusel vía Graph API.
+ * Facebook: socialImageGenerator.js (Sharp, WEBP 1200x630) — su función
+ * generateInstagramImage() (Sharp, imagen única) quedó sustituida por el
+ * carrusel y ya no se usa aquí, aunque sigue disponible en el archivo.
  *
  * Uso:
  *   node socialPublisher.js --slug [slug]                       # publicación real (ambas redes)
@@ -16,94 +30,57 @@ import 'dotenv/config';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import matter from 'gray-matter';
+import { generateFacebookImage } from './socialImageGenerator.js';
+import { generateInstagramCarousel } from './instagramImageGenerator.js';
+import {
+  SITE_URL, logInfo, logOk, logWarn, logError,
+  loadArticle, imageUrlFor, buildPinterestDescription,
+  getInstagramCaption, getFacebookCaption, notifyDiscordError,
+} from './socialContent.js';
+import { reviewBeforePublish } from './socialReviewer.js';
 
-const __dirname    = path.dirname(fileURLToPath(import.meta.url));
-const ARTICLES_DIR = path.join(__dirname, '..', 'src', 'content', 'articulos');
-const SITE_URL      = 'https://fitzdesk.com';
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const REDES_DIR  = path.join(__dirname, '..', 'public', 'images', 'redes');
+
+const INSTAGRAM_SLIDE_COUNT = 4;
 
 // Pinterest preparado pero desactivado — activar cuando se apruebe el scope
 // pins:write en la API de Pinterest
 const PINTEREST_ENABLED = false;
 
-function logInfo(msg)  { console.log(`ℹ️  ${msg}`); }
-function logOk(msg)    { console.log(`✅ ${msg}`); }
-function logWarn(msg)  { console.warn(`⚠️  ${msg}`); }
-function logError(msg) { console.error(`❌ ${msg}`); }
-
-// ─── Cargar artículo publicado ────────────────────────────────────────────────
-
-function loadArticle(slug) {
-  const filePath = path.join(ARTICLES_DIR, `${slug}.md`);
-  if (!fs.existsSync(filePath)) {
-    throw new Error(`Artículo no encontrado: ${slug}.md`);
-  }
-  const { data } = matter(fs.readFileSync(filePath, 'utf8'));
-  return {
-    title:       data.title ?? slug,
-    descripcion: data.descripcion ?? '',
-    categoria:   data.categoria ?? 'setups',
-  };
+// Imagen de Facebook (Sharp/WEBP 1200x630) — generada una sola vez por
+// artículo y reutilizada en reintentos. Si no existe en disco, se genera
+// bajo demanda antes de publicar.
+function facebookImagePath(slug) {
+  return path.join(REDES_DIR, `${slug}-facebook.webp`);
 }
 
-function imageUrlFor(slug) {
-  return `${SITE_URL}/images/articulos/${slug}.webp`;
+function facebookImageUrlFor(slug) {
+  return `${SITE_URL}/images/redes/${slug}-facebook.webp`;
 }
 
-// ─── Construir contenido por red ──────────────────────────────────────────────
-
-function buildInstagramCaption({ title, descripcion, categoria }) {
-  const caption = [
-    title,
-    '',
-    descripcion,
-    '',
-    `#${categoria} #teletrabajo #homeoffice #setup #productividad #perifericos`,
-  ].join('\n');
-  return caption.slice(0, 2200);
+async function ensureFacebookImage(slug) {
+  if (fs.existsSync(facebookImagePath(slug))) return;
+  logInfo('Imagen de Facebook no encontrada — generándola...');
+  await generateFacebookImage(slug);
 }
 
-function buildFacebookCaption({ title, descripcion }, slug) {
-  return [
-    title,
-    '',
-    descripcion,
-    '',
-    '🔗 Lee el análisis completo:',
-    `${SITE_URL}/articulo/${slug}`,
-  ].join('\n');
+// Carrusel de Instagram (Puppeteer/PNG 1080x1350 x4 slides) — mismo criterio
+// de generación bajo demanda que la imagen de Facebook.
+function instagramSlidePath(slug, n) {
+  return path.join(REDES_DIR, `${slug}-instagram-${n}.png`);
 }
 
-function buildPinterestDescription({ title, descripcion, categoria }) {
-  return [
-    title,
-    '',
-    descripcion,
-    '',
-    `#${categoria} #teletrabajo #homeoffice #setup #productividad #perifericos #trabajoremoto #officesetup #desksetup`,
-  ].join('\n');
+function instagramSlideUrlFor(slug, n) {
+  return `${SITE_URL}/images/redes/${slug}-instagram-${n}.png`;
 }
 
-// ─── Discord (notificación de error) ──────────────────────────────────────────
-
-async function notifyDiscordError(message) {
-  const webhook = process.env.DISCORD_WEBHOOK_URL;
-  if (!webhook) {
-    logWarn('DISCORD_WEBHOOK_URL no configurada — no se puede notificar el error a Discord');
-    return;
-  }
-  try {
-    await fetch(webhook, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        content: '⚠️ Publicación en redes sociales fallida',
-        embeds: [{ title: 'FitzDesk — Social Publisher', description: message.slice(0, 4000), color: 15548997 }],
-      }),
-    });
-  } catch (e) {
-    logError(`No se pudo notificar el fallo a Discord: ${e.message}`);
-  }
+async function ensureInstagramCarousel(slug) {
+  const allExist = Array.from({ length: INSTAGRAM_SLIDE_COUNT }, (_, i) => i + 1)
+    .every(n => fs.existsSync(instagramSlidePath(slug, n)));
+  if (allExist) return;
+  logInfo('Carrusel de Instagram no encontrado — generando los 4 slides...');
+  await generateInstagramCarousel(slug);
 }
 
 // ─── Instagram ────────────────────────────────────────────────────────────────
@@ -125,38 +102,62 @@ async function waitForContainerReady(containerId, accessToken, { retries = 10, d
   throw new Error('El contenedor de Instagram no estuvo listo a tiempo (timeout esperando status_code=FINISHED)');
 }
 
-async function publishInstagram(article, slug) {
+// Crea un contenedor individual marcado como is_carousel_item — no se
+// publica por separado, solo se referencia luego desde el contenedor de
+// carrusel (children).
+async function createCarouselItem(igAccountId, accessToken, imageUrl) {
+  const res  = await fetch(`https://graph.facebook.com/v25.0/${igAccountId}/media`, {
+    method:  'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body:    JSON.stringify({ image_url: imageUrl, is_carousel_item: true, access_token: accessToken }),
+  });
+  const data = await res.json();
+  if (!res.ok || !data.id) {
+    throw new Error(`Error creando item de carrusel: ${JSON.stringify(data)}`);
+  }
+  return data.id;
+}
+
+// El caption ya viene generado (y revisado/corregido) desde fuera — esta
+// función ya no llama a Groq directamente, solo publica.
+async function publishInstagram(slug, caption) {
   const accessToken = process.env.INSTAGRAM_ACCESS_TOKEN;
   const igAccountId = process.env.INSTAGRAM_ACCOUNT_ID;
   if (!accessToken) throw new Error('INSTAGRAM_ACCESS_TOKEN no configurado');
   if (!igAccountId) throw new Error('INSTAGRAM_ACCOUNT_ID no configurado');
 
-  const caption  = buildInstagramCaption(article);
-  const imageUrl = imageUrlFor(slug);
+  await ensureInstagramCarousel(slug);
 
-  // Paso 1 — crear contenedor
-  const createRes  = await fetch(`https://graph.facebook.com/v25.0/${igAccountId}/media`, {
-    method:  'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body:    JSON.stringify({ image_url: imageUrl, caption, access_token: accessToken }),
-  });
-  const createData = await createRes.json();
-  if (!createRes.ok || !createData.id) {
-    throw new Error(`Error creando contenedor de Instagram: ${JSON.stringify(createData)}`);
+  // Paso 1 — crear un contenedor por cada slide del carrusel y esperar a
+  // que cada uno esté listo antes de seguir
+  const itemIds = [];
+  for (let n = 1; n <= INSTAGRAM_SLIDE_COUNT; n++) {
+    const itemId = await createCarouselItem(igAccountId, accessToken, instagramSlideUrlFor(slug, n));
+    await waitForContainerReady(itemId, accessToken);
+    itemIds.push(itemId);
   }
 
-  // Paso 1b — esperar a que el contenedor esté listo
-  await waitForContainerReady(createData.id, accessToken);
+  // Paso 2 — crear el contenedor de carrusel con los 4 IDs y el caption
+  const carouselRes  = await fetch(`https://graph.facebook.com/v25.0/${igAccountId}/media`, {
+    method:  'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body:    JSON.stringify({ media_type: 'CAROUSEL', children: itemIds, caption, access_token: accessToken }),
+  });
+  const carouselData = await carouselRes.json();
+  if (!carouselRes.ok || !carouselData.id) {
+    throw new Error(`Error creando contenedor de carrusel: ${JSON.stringify(carouselData)}`);
+  }
+  await waitForContainerReady(carouselData.id, accessToken);
 
-  // Paso 2 — publicar contenedor
+  // Paso 3 — publicar el carrusel
   const publishRes  = await fetch(`https://graph.facebook.com/v25.0/${igAccountId}/media_publish`, {
     method:  'POST',
     headers: { 'Content-Type': 'application/json' },
-    body:    JSON.stringify({ creation_id: createData.id, access_token: accessToken }),
+    body:    JSON.stringify({ creation_id: carouselData.id, access_token: accessToken }),
   });
   const publishData = await publishRes.json();
   if (!publishRes.ok || !publishData.id) {
-    throw new Error(`Error publicando en Instagram: ${JSON.stringify(publishData)}`);
+    throw new Error(`Error publicando el carrusel de Instagram: ${JSON.stringify(publishData)}`);
   }
 
   return publishData.id;
@@ -164,12 +165,12 @@ async function publishInstagram(article, slug) {
 
 // ─── Facebook ─────────────────────────────────────────────────────────────────
 
-async function publishFacebook(article, slug) {
+async function publishFacebook(slug, caption) {
   const accessToken = process.env.FACEBOOK_PAGE_ACCESS_TOKEN;
   const pageId       = process.env.FACEBOOK_PAGE_ID;
   if (!accessToken || !pageId) throw new Error('FACEBOOK_PAGE_ACCESS_TOKEN o FACEBOOK_PAGE_ID no configurados');
 
-  const caption = buildFacebookCaption(article, slug);
+  await ensureFacebookImage(slug);
 
   const res  = await fetch(`https://graph.facebook.com/v25.0/${pageId}/feed`, {
     method:  'POST',
@@ -177,6 +178,7 @@ async function publishFacebook(article, slug) {
     body:    JSON.stringify({
       message:      caption,
       link:         `${SITE_URL}/articulo/${slug}`,
+      picture:      facebookImageUrlFor(slug),
       access_token: accessToken,
     }),
   });
@@ -217,11 +219,12 @@ function printBlock(title, text) {
   console.log('   ' + '─'.repeat(50));
 }
 
-function runTest(article, slug, runInstagram, runFacebook) {
+async function runTest(article, slug, runInstagram, runFacebook) {
   console.log('\n━━━ FitzDesk Social Publisher — MODO TEST (no publica nada) ━━━');
 
   console.log('\n📦 Secrets disponibles (solo presencia, nunca el valor):');
   const secretChecks = [
+    ['GROQ_API_KEY',               process.env.GROQ_API_KEY],
     ['INSTAGRAM_ACCESS_TOKEN',      process.env.INSTAGRAM_ACCESS_TOKEN],
     ['INSTAGRAM_ACCOUNT_ID',       process.env.INSTAGRAM_ACCOUNT_ID],
     ['INSTAGRAM_APP_ID',           process.env.INSTAGRAM_APP_ID],
@@ -236,17 +239,24 @@ function runTest(article, slug, runInstagram, runFacebook) {
     console.log(`   ${value ? '✅' : '❌'} ${name}`);
   }
 
-  console.log('\n📸 Imagen que se usaría:');
-  console.log(`   ${imageUrlFor(slug)}`);
+  console.log('\n📸 Imágenes que se usarían (se generan bajo demanda si no existen):');
+  for (let n = 1; n <= INSTAGRAM_SLIDE_COUNT; n++) {
+    const exists = fs.existsSync(instagramSlidePath(slug, n));
+    console.log(`   ${exists ? '✅ ya existe' : '⏳ se generaría'} — Instagram slide ${n}: ${instagramSlideUrlFor(slug, n)}`);
+  }
+  const fbExists = fs.existsSync(facebookImagePath(slug));
+  console.log(`   ${fbExists ? '✅ ya existe' : '⏳ se generaría'} — Facebook: ${facebookImageUrlFor(slug)}`);
 
   if (runInstagram) {
-    printBlock('📷 Instagram — caption que se publicaría:', buildInstagramCaption(article));
+    const caption = await getInstagramCaption(article);
+    printBlock('📷 Instagram — caption que se publicaría (IA con fallback a plantilla):', caption);
   } else {
     console.log('\n📷 Instagram — omitido (--only facebook)');
   }
 
   if (runFacebook) {
-    printBlock('📘 Facebook — caption que se publicaría:', buildFacebookCaption(article, slug));
+    const caption = await getFacebookCaption(article, slug);
+    printBlock('📘 Facebook — texto que se publicaría (IA con fallback a plantilla):', caption);
   } else {
     console.log('\n📘 Facebook — omitido (--only instagram)');
   }
@@ -291,7 +301,7 @@ async function main() {
   }
 
   if (isTest) {
-    runTest(article, slug, runInstagram, runFacebook);
+    await runTest(article, slug, runInstagram, runFacebook);
     return;
   }
 
@@ -300,10 +310,38 @@ async function main() {
   const results = { instagram: null, facebook: null, pinterest: null };
   const errors  = [];
 
+  // Generar el contenido y las imágenes ANTES de revisar, para que el
+  // reviewer compruebe exactamente lo que se va a publicar.
+  let instagramCaption = runInstagram ? await getInstagramCaption(article) : null;
+  let facebookCaption  = runFacebook  ? await getFacebookCaption(article, slug) : null;
+  if (runInstagram) await ensureInstagramCarousel(slug);
+  if (runFacebook)  await ensureFacebookImage(slug);
+
+  logInfo('Revisando imágenes y textos antes de publicar...');
+  const review = await reviewBeforePublish(slug, {
+    instagramCaption, facebookCaption, runInstagram, runFacebook,
+  });
+  instagramCaption = review.instagramCaption;
+  facebookCaption  = review.facebookCaption;
+
+  if (!review.ok) {
+    logError('La revisión automática bloqueó la publicación:');
+    review.blockers.forEach(b => logError(`  - ${b}`));
+    await notifyDiscordError(
+      `La revisión automática bloqueó la publicación de "${article.title}" (${slug}):\n${review.blockers.join('\n')}`,
+      'FitzDesk — Social Reviewer',
+    );
+    console.log('\n━━━ Resumen ━━━');
+    console.log(`Instagram : ${runInstagram ? '🚫 bloqueado por revisión' : '⏭️  omitido'}`);
+    console.log(`Facebook  : ${runFacebook  ? '🚫 bloqueado por revisión' : '⏭️  omitido'}`);
+    return;
+  }
+  logOk('Revisión completada — listo para publicar');
+
   // Instagram — si falla, loguear y continuar con Facebook
   if (runInstagram) {
     try {
-      results.instagram = await publishInstagram(article, slug);
+      results.instagram = await publishInstagram(slug, instagramCaption);
       logOk(`Instagram publicado — id: ${results.instagram}`);
     } catch (e) {
       logError(`Instagram: ${e.message}`);
@@ -316,7 +354,7 @@ async function main() {
   // Facebook — si falla, loguear claramente
   if (runFacebook) {
     try {
-      results.facebook = await publishFacebook(article, slug);
+      results.facebook = await publishFacebook(slug, facebookCaption);
       logOk(`Facebook publicado — id: ${results.facebook}`);
     } catch (e) {
       logError(`Facebook: ${e.message}`);
