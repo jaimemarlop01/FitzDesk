@@ -33,6 +33,7 @@ especificaciones:
   Scroll: "MagSpeed electromagnético"
 fecha_actualizacion: "2026-06-24"
 actualizado: true
+imagen_thumb: "/images/articulos/logitech-mx-master-3s-analisis-thumb.webp"
 ---
 > 📅 **Artículo actualizado en junio de 2026**: Precio actualizado a 145,99€ en PcComponentes.
 

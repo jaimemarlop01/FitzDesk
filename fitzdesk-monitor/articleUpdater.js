@@ -112,7 +112,13 @@ function applyContentUpdates(content, data) {
 
   if (data.keyword_principal && !hasFrontmatterField(content, 'keyword_principal')) {
     const insertion = `keyword_principal: "${data.keyword_principal}"\nkeywords_secundarias:\n${data.keywords_secundarias.map(k => `  - "${k}"`).join('\n')}`;
-    updated = updated.replace(/^(tiempo_lectura:.*)/m, `$1\ntipo: "analisis"\n${insertion}`);
+    // Bug detectado y corregido el 2026-06-24: esta línea insertaba "tipo:
+    // analisis" sin comprobar si ya existía en el frontmatter original,
+    // duplicando el campo en casi todos los artículos reales (que ya
+    // tienen "tipo" desde que se generaron). Ahora solo se añade si
+    // realmente falta.
+    const tipoLine = hasFrontmatterField(content, 'tipo') ? '' : 'tipo: "analisis"\n';
+    updated = updated.replace(/^(tiempo_lectura:.*)/m, `$1\n${tipoLine}${insertion}`);
     if (!hasFrontmatterField(updated, 'tipo')) {
       updated = updated.replace(/^(borrador:.*)/m, `tipo: "analisis"\n${insertion}\n$1`);
     }
