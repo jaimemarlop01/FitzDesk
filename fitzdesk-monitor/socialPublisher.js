@@ -5,9 +5,12 @@
  * y Facebook, usando imágenes optimizadas por red en vez de la imagen
  * original del artículo (se generan bajo demanda si no existen) y captions
  * generados con Groq adaptados al formato de cada red (con fallback a
- * plantilla fija si la IA falla). Pinterest está preparado en el código
- * pero desactivado (PINTEREST_ENABLED = false) hasta conseguir la
- * aprobación del scope pins:write en la API de Pinterest.
+ * plantilla fija si la IA falla). Antes de publicar, socialReviewer.js
+ * revisa imágenes y textos — si encuentra un fallo corregible, lo corrige
+ * y sigue; si encuentra un fallo no corregible, bloquea la publicación y
+ * se notifica por Discord. Pinterest está preparado en el código pero
+ * desactivado (PINTEREST_ENABLED = false) hasta conseguir la aprobación
+ * del scope pins:write en la API de Pinterest.
  *
  * Instagram: instagramImageGenerator.js genera 4 slides (Puppeteer, PNG
  * 1080x1350) — gancho visual, lo mejor, lo mejorable, veredicto de Fitz —
@@ -27,50 +30,23 @@ import 'dotenv/config';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import matter from 'gray-matter';
-import Groq from 'groq-sdk';
 import { generateFacebookImage } from './socialImageGenerator.js';
 import { generateInstagramCarousel } from './instagramImageGenerator.js';
+import {
+  SITE_URL, logInfo, logOk, logWarn, logError,
+  loadArticle, imageUrlFor, buildPinterestDescription,
+  getInstagramCaption, getFacebookCaption, notifyDiscordError,
+} from './socialContent.js';
+import { reviewBeforePublish } from './socialReviewer.js';
 
-const __dirname    = path.dirname(fileURLToPath(import.meta.url));
-const ARTICLES_DIR = path.join(__dirname, '..', 'src', 'content', 'articulos');
-const REDES_DIR     = path.join(__dirname, '..', 'public', 'images', 'redes');
-const SITE_URL      = 'https://fitzdesk.com';
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const REDES_DIR  = path.join(__dirname, '..', 'public', 'images', 'redes');
 
 const INSTAGRAM_SLIDE_COUNT = 4;
 
 // Pinterest preparado pero desactivado — activar cuando se apruebe el scope
 // pins:write en la API de Pinterest
 const PINTEREST_ENABLED = false;
-
-const groqClient = process.env.GROQ_API_KEY ? new Groq({ apiKey: process.env.GROQ_API_KEY }) : null;
-
-function logInfo(msg)  { console.log(`ℹ️  ${msg}`); }
-function logOk(msg)    { console.log(`✅ ${msg}`); }
-function logWarn(msg)  { console.warn(`⚠️  ${msg}`); }
-function logError(msg) { console.error(`❌ ${msg}`); }
-
-// ─── Cargar artículo publicado ────────────────────────────────────────────────
-
-function loadArticle(slug) {
-  const filePath = path.join(ARTICLES_DIR, `${slug}.md`);
-  if (!fs.existsSync(filePath)) {
-    throw new Error(`Artículo no encontrado: ${slug}.md`);
-  }
-  const { data, content } = matter(fs.readFileSync(filePath, 'utf8'));
-  return {
-    title:       data.title ?? slug,
-    descripcion: data.descripcion ?? '',
-    categoria:   data.categoria ?? 'setups',
-    puntuacion:  typeof data.puntuacion === 'number' ? data.puntuacion : null,
-    precio:      data.precio ?? null,
-    content:     content?.trim() ?? '',
-  };
-}
-
-function imageUrlFor(slug) {
-  return `${SITE_URL}/images/articulos/${slug}.webp`;
-}
 
 // Imagen de Facebook (Sharp/WEBP 1200x630) — generada una sola vez por
 // artículo y reutilizada en reintentos. Si no existe en disco, se genera
@@ -105,151 +81,6 @@ async function ensureInstagramCarousel(slug) {
   if (allExist) return;
   logInfo('Carrusel de Instagram no encontrado — generando los 4 slides...');
   await generateInstagramCarousel(slug);
-}
-
-// ─── Construir contenido por red ──────────────────────────────────────────────
-
-function buildInstagramCaption({ title, descripcion, categoria }) {
-  const caption = [
-    title,
-    '',
-    descripcion,
-    '',
-    `#${categoria} #teletrabajo #homeoffice #setup #productividad #perifericos`,
-  ].join('\n');
-  return caption.slice(0, 2200);
-}
-
-function buildFacebookCaption({ title, descripcion }, slug) {
-  return [
-    title,
-    '',
-    descripcion,
-    '',
-    '🔗 Lee el análisis completo:',
-    `${SITE_URL}/articulo/${slug}`,
-  ].join('\n');
-}
-
-function buildPinterestDescription({ title, descripcion, categoria }) {
-  return [
-    title,
-    '',
-    descripcion,
-    '',
-    `#${categoria} #teletrabajo #homeoffice #setup #productividad #perifericos #trabajoremoto #officesetup #desksetup`,
-  ].join('\n');
-}
-
-// ─── Captions generados con IA (Groq) — con fallback a plantilla fija ─────────
-
-function buildInstagramPrompt({ title, descripcion, categoria, puntuacion, precio, content }) {
-  return `Eres Fitz, la ardilla mascota de FitzDesk (web de análisis de periféricos y setups para teletrabajo, tono cercano y con personalidad pero profesional). Escribe el caption de Instagram para promocionar este artículo ya publicado.
-
-ARTÍCULO
-Título: ${title}
-Categoría: ${categoria}
-Descripción: ${descripcion}
-${puntuacion !== null ? `Puntuación: ${puntuacion}/10` : ''}
-${precio ? `Precio: ${precio}` : ''}
-
-CONTENIDO DEL ANÁLISIS
-${content}
-
-Escribe el caption final siguiendo EXACTAMENTE esta estructura (sin etiquetas como "1." ni explicaciones, solo el texto final con líneas en blanco entre bloques):
-
-1. Primera línea: un gancho (pregunta o afirmación) que pare el scroll, relacionado con el producto.
-2. 2-3 líneas cortas con los beneficios más relevantes — tradúcelos a beneficio real para el lector, sin specs en crudo (nada de cifras técnicas sueltas tal cual).
-3. El veredicto de Fitz en una sola frase con personalidad.
-4. Exactamente esta línea de CTA: "Análisis completo en fitzdesk.com 🐿️"
-5. Máximo 5 hashtags relevantes en español, en minúsculas, separados por espacios.
-
-Español de España, sin emojis excesivos (máximo 2-3 en todo el texto). No inventes datos que no estén en el contenido del análisis.`;
-}
-
-function buildFacebookPrompt({ title, descripcion, categoria, puntuacion, precio, content }) {
-  return `Eres Fitz, la ardilla mascota de FitzDesk (web de análisis de periféricos y setups para teletrabajo, tono cercano y con personalidad pero profesional). Escribe el texto del post de Facebook para este artículo ya publicado. No incluyas ningún enlace ni URL — se añade automáticamente después de tu texto.
-
-ARTÍCULO
-Título: ${title}
-Categoría: ${categoria}
-Descripción: ${descripcion}
-${puntuacion !== null ? `Puntuación: ${puntuacion}/10` : ''}
-${precio ? `Precio: ${precio}` : ''}
-
-CONTENIDO DEL ANÁLISIS
-${content}
-
-Escribe el texto final siguiendo EXACTAMENTE esta estructura (sin etiquetas como "1." ni explicaciones, solo el texto final con líneas en blanco entre bloques):
-
-1. Párrafo gancho (2-3 líneas) explicando por qué este producto es relevante para alguien que teletrabaja.
-2. 3-4 puntos clave del análisis, cada uno en su propia línea empezando por "•".
-3. Una pregunta dirigida a la audiencia para generar comentarios, relacionada con el tema del artículo (ej: "¿Usáis teclado Bluetooth o preferís cable?").
-4. Máximo 2 hashtags al final, solo si aportan algo real.
-
-No incluyas ningún enlace ni URL en tu respuesta (el enlace al artículo se añade automáticamente después y genera su propia vista previa). No inventes datos que no estén en el contenido del análisis. Español de España.`;
-}
-
-// Groq (llama-3.3-70b-versatile) mezcla ocasionalmente algún carácter CJK
-// suelto en medio de palabras en español (bug conocido del modelo, visto
-// también en borradores generados por analyzer.js) — se eliminan como red
-// de seguridad antes de publicar nada en redes sociales.
-function stripStrayCjk(text) {
-  return text.replace(/[一-鿿㐀-䶿豈-﫿]/g, '');
-}
-
-async function callGroq(prompt) {
-  if (!groqClient) throw new Error('GROQ_API_KEY no configurada');
-  const completion = await groqClient.chat.completions.create({
-    model:      'llama-3.3-70b-versatile',
-    max_tokens: 600,
-    messages:   [{ role: 'user', content: prompt }],
-  });
-  const text = completion.choices[0]?.message?.content?.trim();
-  if (!text) throw new Error('Groq no devolvió contenido');
-  return stripStrayCjk(text);
-}
-
-async function getInstagramCaption(article) {
-  try {
-    const text = await callGroq(buildInstagramPrompt(article));
-    return text.slice(0, 2200);
-  } catch (e) {
-    logWarn(`Groq falló generando el caption de Instagram (${e.message}) — usando plantilla de respaldo`);
-    return buildInstagramCaption(article);
-  }
-}
-
-async function getFacebookCaption(article, slug) {
-  try {
-    const text = await callGroq(buildFacebookPrompt(article));
-    return `${text}\n\n${SITE_URL}/articulo/${slug}`;
-  } catch (e) {
-    logWarn(`Groq falló generando el texto de Facebook (${e.message}) — usando plantilla de respaldo`);
-    return buildFacebookCaption(article, slug);
-  }
-}
-
-// ─── Discord (notificación de error) ──────────────────────────────────────────
-
-async function notifyDiscordError(message) {
-  const webhook = process.env.DISCORD_WEBHOOK_URL;
-  if (!webhook) {
-    logWarn('DISCORD_WEBHOOK_URL no configurada — no se puede notificar el error a Discord');
-    return;
-  }
-  try {
-    await fetch(webhook, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        content: '⚠️ Publicación en redes sociales fallida',
-        embeds: [{ title: 'FitzDesk — Social Publisher', description: message.slice(0, 4000), color: 15548997 }],
-      }),
-    });
-  } catch (e) {
-    logError(`No se pudo notificar el fallo a Discord: ${e.message}`);
-  }
 }
 
 // ─── Instagram ────────────────────────────────────────────────────────────────
@@ -287,13 +118,13 @@ async function createCarouselItem(igAccountId, accessToken, imageUrl) {
   return data.id;
 }
 
-async function publishInstagram(article, slug) {
+// El caption ya viene generado (y revisado/corregido) desde fuera — esta
+// función ya no llama a Groq directamente, solo publica.
+async function publishInstagram(slug, caption) {
   const accessToken = process.env.INSTAGRAM_ACCESS_TOKEN;
   const igAccountId = process.env.INSTAGRAM_ACCOUNT_ID;
   if (!accessToken) throw new Error('INSTAGRAM_ACCESS_TOKEN no configurado');
   if (!igAccountId) throw new Error('INSTAGRAM_ACCOUNT_ID no configurado');
-
-  const caption = await getInstagramCaption(article);
 
   await ensureInstagramCarousel(slug);
 
@@ -334,12 +165,10 @@ async function publishInstagram(article, slug) {
 
 // ─── Facebook ─────────────────────────────────────────────────────────────────
 
-async function publishFacebook(article, slug) {
+async function publishFacebook(slug, caption) {
   const accessToken = process.env.FACEBOOK_PAGE_ACCESS_TOKEN;
   const pageId       = process.env.FACEBOOK_PAGE_ID;
   if (!accessToken || !pageId) throw new Error('FACEBOOK_PAGE_ACCESS_TOKEN o FACEBOOK_PAGE_ID no configurados');
-
-  const caption = await getFacebookCaption(article, slug);
 
   await ensureFacebookImage(slug);
 
@@ -481,10 +310,38 @@ async function main() {
   const results = { instagram: null, facebook: null, pinterest: null };
   const errors  = [];
 
+  // Generar el contenido y las imágenes ANTES de revisar, para que el
+  // reviewer compruebe exactamente lo que se va a publicar.
+  let instagramCaption = runInstagram ? await getInstagramCaption(article) : null;
+  let facebookCaption  = runFacebook  ? await getFacebookCaption(article, slug) : null;
+  if (runInstagram) await ensureInstagramCarousel(slug);
+  if (runFacebook)  await ensureFacebookImage(slug);
+
+  logInfo('Revisando imágenes y textos antes de publicar...');
+  const review = await reviewBeforePublish(slug, {
+    instagramCaption, facebookCaption, runInstagram, runFacebook,
+  });
+  instagramCaption = review.instagramCaption;
+  facebookCaption  = review.facebookCaption;
+
+  if (!review.ok) {
+    logError('La revisión automática bloqueó la publicación:');
+    review.blockers.forEach(b => logError(`  - ${b}`));
+    await notifyDiscordError(
+      `La revisión automática bloqueó la publicación de "${article.title}" (${slug}):\n${review.blockers.join('\n')}`,
+      'FitzDesk — Social Reviewer',
+    );
+    console.log('\n━━━ Resumen ━━━');
+    console.log(`Instagram : ${runInstagram ? '🚫 bloqueado por revisión' : '⏭️  omitido'}`);
+    console.log(`Facebook  : ${runFacebook  ? '🚫 bloqueado por revisión' : '⏭️  omitido'}`);
+    return;
+  }
+  logOk('Revisión completada — listo para publicar');
+
   // Instagram — si falla, loguear y continuar con Facebook
   if (runInstagram) {
     try {
-      results.instagram = await publishInstagram(article, slug);
+      results.instagram = await publishInstagram(slug, instagramCaption);
       logOk(`Instagram publicado — id: ${results.instagram}`);
     } catch (e) {
       logError(`Instagram: ${e.message}`);
@@ -497,7 +354,7 @@ async function main() {
   // Facebook — si falla, loguear claramente
   if (runFacebook) {
     try {
-      results.facebook = await publishFacebook(article, slug);
+      results.facebook = await publishFacebook(slug, facebookCaption);
       logOk(`Facebook publicado — id: ${results.facebook}`);
     } catch (e) {
       logError(`Facebook: ${e.message}`);

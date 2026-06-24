@@ -1,0 +1,413 @@
+#!/usr/bin/env node
+/**
+ * FitzDesk Social Reviewer
+ * Agente de revisión automática antes de publicar en redes sociales.
+ *
+ * Imágenes (programático, sin IA): existencia, dimensiones exactas (Sharp),
+ * tamaño de archivo dentro de rango, PNG válido por magic bytes. Si falla,
+ * regenera el carrusel con instagramImageGenerator.js y vuelve a comprobar
+ * una vez. Si sigue fallando, bloquea.
+ *
+ * Textos: las comprobaciones mecánicas (URLs, nº de hashtags, puntuación
+ * final, caracteres raros, presencia de pregunta/enlace) se hacen con
+ * regex — más fiable que pedirle a un LLM que cuente caracteres. Groq solo
+ * se usa para lo que el código no puede juzgar por sí mismo: si el tono es
+ * cercano y no genérico, y para reescribir el texto cuando una comprobación
+ * mecánica falla. Si Groq no está disponible, las comprobaciones mecánicas
+ * siguen funcionando igual; solo el juicio de tono y la autocorrección
+ * quedan deshabilitados (se reporta, no se bloquea solo por eso).
+ *
+ * Uso:
+ *   node socialReviewer.js --slug [slug]
+ */
+
+import 'dotenv/config';
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath, pathToFileURL } from 'node:url';
+import sharp from 'sharp';
+import Groq from 'groq-sdk';
+import {
+  SITE_URL, logInfo, logOk, logWarn, logError,
+  loadArticle, getInstagramCaption, getFacebookCaption,
+} from './socialContent.js';
+import {
+  loadArticleData, getCarouselContent, generateInstagramCarousel,
+  GENERIC_PRO_EXPLANATIONS, GENERIC_CON_EXPLANATIONS,
+} from './instagramImageGenerator.js';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const REDES_DIR  = path.join(__dirname, '..', 'public', 'images', 'redes');
+
+const INSTAGRAM_SLIDE_COUNT = 4;
+const EXPECTED_WIDTH  = 1080;
+const EXPECTED_HEIGHT = 1350;
+const MAX_IMAGE_BYTES = 2 * 1024 * 1024;
+const MIN_IMAGE_BYTES = 50 * 1024;
+const PNG_MAGIC = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
+
+const groqClient = process.env.GROQ_API_KEY ? new Groq({ apiKey: process.env.GROQ_API_KEY }) : null;
+
+function instagramSlidePath(slug, n) {
+  return path.join(REDES_DIR, `${slug}-instagram-${n}.png`);
+}
+
+// ─── Revisión de imágenes (programática, sin IA) ───────────────────────────────
+
+async function checkOneImage(filePath) {
+  const issues = [];
+
+  if (!fs.existsSync(filePath)) {
+    return { ok: false, issues: ['el archivo no existe'] };
+  }
+
+  const buffer = fs.readFileSync(filePath);
+
+  if (buffer.length < 8 || !buffer.subarray(0, 8).equals(PNG_MAGIC)) {
+    issues.push('no es un PNG válido (magic bytes incorrectos)');
+  }
+  if (buffer.length > MAX_IMAGE_BYTES) {
+    issues.push(`pesa más de 2MB (${(buffer.length / 1024 / 1024).toFixed(2)}MB)`);
+  }
+  if (buffer.length < MIN_IMAGE_BYTES) {
+    issues.push(`pesa menos de 50KB (${(buffer.length / 1024).toFixed(1)}KB)`);
+  }
+
+  try {
+    const meta = await sharp(buffer).metadata();
+    if (meta.width !== EXPECTED_WIDTH || meta.height !== EXPECTED_HEIGHT) {
+      issues.push(`dimensiones ${meta.width}x${meta.height} (se esperaba ${EXPECTED_WIDTH}x${EXPECTED_HEIGHT})`);
+    }
+  } catch (e) {
+    issues.push(`Sharp no pudo leer la imagen (${e.message})`);
+  }
+
+  return { ok: issues.length === 0, issues };
+}
+
+export async function reviewInstagramImages(slug) {
+  async function checkAll() {
+    const results = [];
+    for (let n = 1; n <= INSTAGRAM_SLIDE_COUNT; n++) {
+      const filePath = instagramSlidePath(slug, n);
+      results.push({ slide: n, path: filePath, ...(await checkOneImage(filePath)) });
+    }
+    return results;
+  }
+
+  let results      = await checkAll();
+  let regenerated  = false;
+
+  if (results.some(r => !r.ok)) {
+    logWarn('Una o más imágenes de Instagram no pasan la revisión — regenerando el carrusel...');
+    try {
+      await generateInstagramCarousel(slug);
+      regenerated = true;
+      results = await checkAll();
+    } catch (e) {
+      return {
+        ok: false, regenerated: false, results,
+        blocker: `No se pudo regenerar el carrusel de Instagram: ${e.message}`,
+      };
+    }
+  }
+
+  const stillFailing = results.filter(r => !r.ok);
+  return {
+    ok: stillFailing.length === 0,
+    regenerated,
+    results,
+    blocker: stillFailing.length
+      ? `Las imágenes de Instagram (slides ${stillFailing.map(r => r.slide).join(', ')}) siguen sin pasar la revisión tras regenerar: ${stillFailing.map(r => r.issues.join('; ')).join(' | ')}`
+      : null,
+  };
+}
+
+// ─── Comprobaciones de texto programáticas ─────────────────────────────────────
+
+function countHashtags(text)  { return (text.match(/#\w+/g) || []).length; }
+function hasUrl(text)         { return /https?:\/\/|www\./i.test(text); }
+function hasStrayCjk(text)    { return /[一-鿿㐀-䶿豈-﫿]/.test(text); }
+function endsInPunctuation(t) { return /[.!?]\s*$/.test((t || '').trim()); }
+function firstLine(text)      { return text.split('\n').map(l => l.trim()).find(Boolean) || ''; }
+
+function isGenericExplanation(text) {
+  const t = (text || '').trim();
+  return GENERIC_PRO_EXPLANATIONS.includes(t) || GENERIC_CON_EXPLANATIONS.includes(t);
+}
+
+function wordSet(text) {
+  return new Set(
+    text.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
+      .replace(/[^a-z0-9\s#]/g, ' ').split(/\s+/).filter(Boolean)
+  );
+}
+
+function jaccardSimilarity(a, b) {
+  const setA = wordSet(a);
+  const setB = wordSet(b);
+  const inter = [...setA].filter(w => setB.has(w)).length;
+  const union = new Set([...setA, ...setB]).size;
+  return union === 0 ? 0 : inter / union;
+}
+
+// ─── Groq: juicio cualitativo + autocorrección ─────────────────────────────────
+
+async function judgeToneWithGroq(text, network) {
+  if (!groqClient) return { ok: true, note: 'Groq no disponible — comprobación de tono omitida' };
+  try {
+    const prompt = `Eres un editor exigente de FitzDesk (web de periféricos y setups para teletrabajo; la marca tiene un tono cercano, honesto, con la mascota Fitz, nunca corporativo ni robótico). Lee este texto pensado para ${network} y responde EXACTAMENTE "SI" si el tono es cercano y natural, o "NO: [motivo en pocas palabras]" si suena genérico, robótico o corporativo.\n\nTEXTO:\n${text}`;
+    const completion = await groqClient.chat.completions.create({
+      model: 'llama-3.3-70b-versatile', max_tokens: 60,
+      messages: [{ role: 'user', content: prompt }],
+    });
+    const reply = completion.choices[0]?.message?.content?.trim() || '';
+    if (/^s[ií]/i.test(reply)) return { ok: true };
+    return { ok: false, note: reply.replace(/^no:?\s*/i, '') || 'tono no coherente con FitzDesk' };
+  } catch (e) {
+    return { ok: true, note: `Groq falló al juzgar el tono (${e.message}) — comprobación omitida` };
+  }
+}
+
+async function fixCaptionWithGroq(caption, instructions) {
+  if (!groqClient) throw new Error('GROQ_API_KEY no configurada — no se puede corregir automáticamente');
+  const prompt = `Corrige este texto para que cumpla las reglas indicadas, manteniendo el resto del contenido y el tono lo más intacto posible. Responde solo con el texto corregido, sin explicaciones ni comillas envolventes.\n\nREGLAS A CUMPLIR:\n${instructions}\n\nTEXTO ORIGINAL:\n${caption}`;
+  const completion = await groqClient.chat.completions.create({
+    model: 'llama-3.3-70b-versatile', max_tokens: 700,
+    messages: [{ role: 'user', content: prompt }],
+  });
+  const text = completion.choices[0]?.message?.content?.trim();
+  if (!text) throw new Error('Groq no devolvió contenido al corregir');
+  return text;
+}
+
+// ─── Revisión de texto: Instagram ───────────────────────────────────────────────
+
+function instagramMechanicalChecks(text) {
+  return [
+    { name: 'Gancho en la primera línea', ok: firstLine(text).length > 8 },
+    { name: 'Sin URLs',                   ok: !hasUrl(text) },
+    { name: 'Máximo 5 hashtags',          ok: countHashtags(text) <= 5 },
+    { name: 'Sin caracteres CJK/extraños', ok: !hasStrayCjk(text) },
+  ];
+}
+
+export async function reviewInstagramText({ caption, prosExplanations = [], contrasExplanations = [], veredicto }) {
+  let fixedCaption = caption;
+  let fixed = false;
+
+  let mechanical = instagramMechanicalChecks(fixedCaption);
+  if (mechanical.some(c => !c.ok)) {
+    const failed = mechanical.filter(c => !c.ok).map(c => c.name);
+    try {
+      fixedCaption = await fixCaptionWithGroq(fixedCaption,
+        failed.map(n => `- ${n}`).join('\n') +
+        '\n- Mantén la estructura: gancho, beneficios, veredicto de Fitz, CTA "Análisis completo en fitzdesk.com 🐿️", hashtags al final');
+      mechanical = instagramMechanicalChecks(fixedCaption);
+      fixed = mechanical.every(c => c.ok);
+    } catch (e) {
+      return {
+        ok: false, caption: fixedCaption, checks: mechanical, fixed: false,
+        blocker: `No se pudo corregir el caption de Instagram: ${e.message}`,
+      };
+    }
+  }
+
+  const explanationFails = [...prosExplanations, ...contrasExplanations]
+    .filter(Boolean).filter(isGenericExplanation).length;
+  const otherChecks = [
+    {
+      name: 'Frases explicativas no genéricas',
+      ok:   explanationFails === 0,
+      note: explanationFails ? `${explanationFails} frase(s) son la plantilla de respaldo, no de Groq` : undefined,
+    },
+  ];
+  if (veredicto !== undefined) {
+    otherChecks.push({ name: 'Veredicto del slide 4 termina en punto', ok: endsInPunctuation(veredicto) });
+  }
+  const tone = await judgeToneWithGroq(fixedCaption, 'Instagram');
+  otherChecks.push({ name: 'Tono coherente con FitzDesk', ok: tone.ok, note: tone.note });
+
+  const blockingFails = mechanical.filter(c => !c.ok);
+  return {
+    ok:      blockingFails.length === 0,
+    caption: fixedCaption,
+    fixed:   fixed && fixedCaption !== caption,
+    checks:  [...mechanical, ...otherChecks],
+    blocker: blockingFails.length
+      ? `El caption de Instagram sigue sin cumplir tras intentar corregirlo: ${blockingFails.map(c => c.name).join(', ')}`
+      : null,
+  };
+}
+
+// ─── Revisión de texto: Facebook ─────────────────────────────────────────────────
+
+function facebookMechanicalChecks(text, expectedLink) {
+  return [
+    { name: 'Tiene pregunta para comentarios', ok: /\?/.test(text) },
+    { name: 'Tiene enlace al artículo',        ok: text.includes(expectedLink) },
+    { name: 'Máximo 2 hashtags',               ok: countHashtags(text) <= 2 },
+    { name: 'Sin caracteres CJK/extraños',     ok: !hasStrayCjk(text) },
+  ];
+}
+
+export async function reviewFacebookText({ caption, instagramCaption, slug }) {
+  let fixedCaption = caption;
+  let fixed = false;
+  // El enlace correcto se conoce de antemano (no depende de lo que escriba
+  // la IA) — comprobamos la URL completa, no solo el prefijo, para no
+  // aceptar un enlace roto como "/articulo/" sin slug.
+  const expectedLink = `${SITE_URL}/articulo/${slug}`;
+
+  let mechanical = facebookMechanicalChecks(fixedCaption, expectedLink);
+  if (mechanical.some(c => !c.ok)) {
+    const failed = mechanical.filter(c => !c.ok).map(c => c.name);
+    try {
+      fixedCaption = await fixCaptionWithGroq(fixedCaption,
+        failed.map(n => `- ${n}`).join('\n') +
+        `\n- Si falta el enlace, añade exactamente esta línea al final: ${expectedLink}`);
+      mechanical = facebookMechanicalChecks(fixedCaption, expectedLink);
+      fixed = mechanical.every(c => c.ok);
+    } catch (e) {
+      return {
+        ok: false, caption: fixedCaption, checks: mechanical, fixed: false,
+        blocker: `No se pudo corregir el texto de Facebook: ${e.message}`,
+      };
+    }
+  }
+
+  const similarity   = instagramCaption ? jaccardSimilarity(fixedCaption, instagramCaption) : 0;
+  const notIdentical = {
+    name: 'No es idéntico al de Instagram',
+    ok:   fixedCaption.trim() !== (instagramCaption || '').trim() && similarity < 0.85,
+  };
+
+  const blockingFails = mechanical.filter(c => !c.ok);
+  return {
+    ok:      blockingFails.length === 0,
+    caption: fixedCaption,
+    fixed:   fixed && fixedCaption !== caption,
+    checks:  [...mechanical, notIdentical],
+    blocker: blockingFails.length
+      ? `El texto de Facebook sigue sin cumplir tras intentar corregirlo: ${blockingFails.map(c => c.name).join(', ')}`
+      : null,
+  };
+}
+
+// ─── Orquestación completa ──────────────────────────────────────────────────────
+
+async function safeGetCarouselContent(slug) {
+  try {
+    const articleData = loadArticleData(slug);
+    return await getCarouselContent(articleData);
+  } catch (e) {
+    logWarn(`No se pudo obtener pros/contras/veredicto para revisar el texto de los slides (${e.message})`);
+    return { prosExplanations: [], contrasExplanations: [], veredicto: undefined };
+  }
+}
+
+export async function reviewBeforePublish(slug, { instagramCaption, facebookCaption, runInstagram = true, runFacebook = true } = {}) {
+  const report   = { slug, images: null, instagram: null, facebook: null };
+  const blockers = [];
+
+  if (runInstagram) {
+    report.images = await reviewInstagramImages(slug);
+    if (!report.images.ok) blockers.push(report.images.blocker);
+
+    const { prosExplanations, contrasExplanations, veredicto } = await safeGetCarouselContent(slug);
+    report.instagram = await reviewInstagramText({
+      caption: instagramCaption, prosExplanations, contrasExplanations, veredicto,
+    });
+    if (!report.instagram.ok) blockers.push(report.instagram.blocker);
+  }
+
+  if (runFacebook) {
+    report.facebook = await reviewFacebookText({
+      caption: facebookCaption,
+      instagramCaption: report.instagram?.caption ?? instagramCaption,
+      slug,
+    });
+    if (!report.facebook.ok) blockers.push(report.facebook.blocker);
+  }
+
+  return {
+    ok: blockers.length === 0,
+    instagramCaption: report.instagram?.caption ?? instagramCaption,
+    facebookCaption:  report.facebook?.caption ?? facebookCaption,
+    blockers: blockers.filter(Boolean),
+    report,
+  };
+}
+
+// ─── CLI ────────────────────────────────────────────────────────────────────────
+
+function printChecks(checks) {
+  for (const c of checks) {
+    console.log(`   ${c.ok ? '✅' : '❌'} ${c.name}${c.note ? ` — ${c.note}` : ''}`);
+  }
+}
+
+async function main() {
+  const args    = process.argv.slice(2);
+  const slugIdx = args.indexOf('--slug');
+  const slug    = slugIdx !== -1 ? args[slugIdx + 1] : null;
+
+  if (!slug) {
+    console.error('Uso: node socialReviewer.js --slug [slug]');
+    process.exit(1);
+  }
+
+  console.log(`\n━━━ FitzDesk Social Reviewer — ${slug} ━━━`);
+
+  let article;
+  try {
+    article = loadArticle(slug);
+  } catch (e) {
+    logError(e.message);
+    process.exit(1);
+  }
+
+  logInfo('Generando captions de Instagram y Facebook para revisar...');
+  const instagramCaption = await getInstagramCaption(article);
+  const facebookCaption  = await getFacebookCaption(article, slug);
+
+  const result = await reviewBeforePublish(slug, { instagramCaption, facebookCaption });
+
+  console.log('\n📸 IMÁGENES DE INSTAGRAM (1080x1350, PNG, 50KB-2MB)');
+  for (const r of result.report.images?.results ?? []) {
+    console.log(`   ${r.ok ? '✅' : '❌'} Slide ${r.slide}${r.issues.length ? ` — ${r.issues.join('; ')}` : ''}`);
+  }
+  if (result.report.images?.regenerated) {
+    logInfo('Se regeneró el carrusel automáticamente durante la revisión.');
+  }
+
+  console.log('\n📷 TEXTO DE INSTAGRAM');
+  printChecks(result.report.instagram?.checks ?? []);
+  if (result.report.instagram?.fixed) logOk('El caption se corrigió automáticamente con Groq.');
+  printBlockIfPresent('Caption final:', result.instagramCaption);
+
+  console.log('\n📘 TEXTO DE FACEBOOK');
+  printChecks(result.report.facebook?.checks ?? []);
+  if (result.report.facebook?.fixed) logOk('El texto se corrigió automáticamente con Groq.');
+  printBlockIfPresent('Texto final:', result.facebookCaption);
+
+  console.log(`\n${result.ok ? '✅ TODO CORRECTO — listo para publicar' : '🚫 BLOQUEADO — no se debe publicar'}`);
+  if (!result.ok) {
+    result.blockers.forEach(b => logError(b));
+  }
+  console.log('');
+
+  process.exit(result.ok ? 0 : 1);
+}
+
+function printBlockIfPresent(title, text) {
+  if (!text) return;
+  console.log(`\n   ${title}`);
+  console.log('   ' + '─'.repeat(50));
+  console.log(text.split('\n').map(l => '   ' + l).join('\n'));
+  console.log('   ' + '─'.repeat(50));
+}
+
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  main();
+}

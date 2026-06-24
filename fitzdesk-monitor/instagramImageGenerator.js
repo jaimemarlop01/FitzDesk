@@ -42,7 +42,7 @@ function logError(msg) { console.error(`❌ ${msg}`); }
 
 // ─── Cargar datos del artículo ─────────────────────────────────────────────────
 
-function loadArticleData(slug) {
+export function loadArticleData(slug) {
   const filePath = path.join(ARTICLES_DIR, `${slug}.md`);
   if (!fs.existsSync(filePath)) {
     throw new Error(`Artículo no encontrado: ${slug}.md`);
@@ -145,13 +145,15 @@ async function condenseVerdictWithGroq(sourceText) {
 
 // Frases de respaldo si Groq no está disponible — genéricas pero coherentes
 // con el tipo de punto (pro o contra), no con el texto exacto del ítem.
-const GENERIC_PRO_EXPLANATIONS = [
+// Exportadas para que socialReviewer.js pueda detectar si una explicación
+// es literalmente una de estas (señal de que Groq no se usó o falló).
+export const GENERIC_PRO_EXPLANATIONS = [
   'Una ventaja que se nota en el uso diario',
   'Pensado para hacerte la vida más fácil',
   'Un punto a favor frente a otras opciones',
   'Justo lo que se le pide a un buen producto de trabajo',
 ];
-const GENERIC_CON_EXPLANATIONS = [
+export const GENERIC_CON_EXPLANATIONS = [
   'Algo a tener en cuenta antes de comprar',
   'No es decisivo, pero conviene saberlo',
   'El único pero que le encontramos',
@@ -164,8 +166,35 @@ function genericExplanation(kind, i) {
 
 async function explainItemsWithGroq(items, content) {
   const itemsList = items.map((item, i) => `${i + 1}. ${item}`).join('\n');
-  const prompt = `A partir de este análisis de producto, para cada uno de los siguientes puntos escribe una frase corta (máximo 10 palabras) que explique el beneficio real para el usuario, en tono cercano, sin repetir literalmente el punto ni usar comillas. Responde con exactamente ${items.length} líneas, una por punto, en el mismo orden, sin numeración ni guiones.\n\nPUNTOS:\n${itemsList}\n\nCONTENIDO DEL ANÁLISIS:\n${content}`;
-  const text  = await callGroqText(prompt);
+  const prompt = `Eres Fitz, la ardilla mascota de FitzDesk: cercana, honesta y nada robótica. Para cada uno de los siguientes puntos de un análisis de producto, escribe una frase que explique el IMPACTO REAL para alguien que teletrabaja — no una descripción técnica del punto.
+
+Reglas:
+- Máximo 8 palabras
+- Tono cercano y humano, como si hablaras con un amigo
+- Céntrate en lo que el usuario siente, gana o evita en su día a día — no repitas el dato técnico con otras palabras
+- No repitas palabras del punto principal
+- Sin comillas
+
+Frases MALAS (mecánicas, solo repiten el punto con otras palabras):
+- "Rueda menos fluida causa frustración"
+- "Software complejo esfuerza configuración"
+
+Frases BUENAS (impacto real, tono natural):
+- "Olvídate de cargarlo durante semanas"
+- "El cursor va exactamente donde quieres"
+- "Conecta el portátil y el móvil a la vez"
+- "Si eres zurdo, busca otra opción"
+- "La rueda no se desliza tan suave como en el MX Master"
+- "Configurarlo lleva más tiempo del que debería"
+
+Responde con exactamente ${items.length} líneas, una por punto, en el mismo orden, sin numeración ni guiones ni explicaciones.
+
+PUNTOS:
+${itemsList}
+
+CONTENIDO DEL ANÁLISIS:
+${content}`;
+  const text = await callGroqText(prompt);
   return text.split('\n').map(l => l.replace(/^[-*\d.\s]+/, '').replace(/^["']|["']$/g, '').trim()).filter(Boolean);
 }
 
@@ -179,7 +208,7 @@ async function getItemExplanations(items, content, kind) {
   }
 }
 
-async function getCarouselContent({ data, content }) {
+export async function getCarouselContent({ data, content }) {
   // 1. Frontmatter (poco habitual en este esquema, pero se respeta si existe)
   let pros        = Array.isArray(data.lo_mejor) ? data.lo_mejor : [];
   let contras     = Array.isArray(data.lo_mejorable) ? data.lo_mejorable : [];
