@@ -78,6 +78,7 @@ node socialPublisher.js --test --slug [slug]                  # modo test, no pu
 node socialPublisher.js --slug [slug]                         # publica en Instagram + Facebook
 node socialPublisher.js --slug [slug] --only facebook         # solo Facebook (reintentos sin duplicar Instagram, añadido 2026-06-23)
 node socialPublisher.js --slug [slug] --only instagram        # solo Instagram
+node socialImageGenerator.js --slug [slug]                    # genera/regenera las imágenes de Instagram+Facebook a mano (añadido 2026-06-24)
 ```
 
 ---
@@ -441,7 +442,9 @@ A partir de ahora, cualquier publicación automática futura disparará el deplo
 - Script: `fitzdesk-monitor/socialPublisher.js` — `node socialPublisher.js --slug [slug]` (real) / `--test --slug [slug]` (no publica nada, muestra captions + comprueba secrets sin revelarlos)
 - Integrado como step "Publicar en redes sociales" en `publicar-automatico.yml`, justo después de sincronizar `develop` y antes de las notificaciones de Discord — solo corre si la publicación a `main` fue exitosa (`if: ... && success()`), timeout de 2 minutos
 - **Instagram**: flujo de 2 pasos vía Graph API v25.0 (`POST /{INSTAGRAM_ACCOUNT_ID}/media` para crear el contenedor, luego `POST /{INSTAGRAM_ACCOUNT_ID}/media_publish`). **Corregido 2026-06-23**: antes obtenía el ID en tiempo real con `GET /me?fields=id,name`, que devuelve el ID del propietario del token (no necesariamente la cuenta de Instagram Business) — bug real, confirmado en el código. Ahora usa directamente el secret `INSTAGRAM_ACCOUNT_ID` (cuenta de Instagram Business vinculada a la página de Facebook), sin llamada adicional
-- **Facebook**: `POST /{FACEBOOK_PAGE_ID}/feed` (Graph API v25.0) con `message` (caption), `link` (URL del artículo) y `picture` (imagen). **Cambiado 2026-06-23** desde `/{FACEBOOK_PAGE_ID}/photos` — el motivo reportado ("usaba `publish_actions`, deprecado") no se correspondía con el código real (nunca se referenció ese permiso; `/photos` ya usaba `pages_manage_posts`), pero el cambio a `/feed` se aplicó igualmente porque añade la vista previa del enlace al artículo, no solo la foto suelta
+- **Facebook**: `POST /{FACEBOOK_PAGE_ID}/feed` (Graph API v25.0) con `message` (caption), `link` (URL del artículo) y `picture` (imagen — reintroducido 2026-06-24, ver imágenes de redes abajo). **Cambiado 2026-06-23** desde `/{FACEBOOK_PAGE_ID}/photos` — el motivo reportado ("usaba `publish_actions`, deprecado") no se correspondía con el código real (nunca se referenció ese permiso; `/photos` ya usaba `pages_manage_posts`), pero el cambio a `/feed` se aplicó igualmente porque añade la vista previa del enlace al artículo, no solo la foto suelta
+- **Imágenes de redes (2026-06-24)**: `socialImageGenerator.js` genera, con Sharp + un overlay SVG (sin canvas), una versión por red a partir de la imagen original del artículo — Instagram 1080x1080 (franja de marca de 180px) y Facebook 1200x630 (franja de 120px), ambas con franja naranja `--color-primary` (#F97316), "FitzDesk" en blanco a la izquierda y el título (truncado a 60 caracteres + "...") en blanco a la derecha. Usa la fuente del sistema disponible (sin fuente bundleada) vía `font-family="Arial, sans-serif"` en el SVG. Se guardan en `public/images/redes/[slug]-instagram.webp` y `[slug]-facebook.webp` — deben commitearse igual que las imágenes de `articulos/`, porque Meta las descarga desde la URL pública en producción, no desde el filesystem de CI
+- `socialPublisher.js` genera estas imágenes **bajo demanda** (`ensureSocialImage()`) si no existen todavía antes de publicar — no hace falta ejecutar `socialImageGenerator.js` por separado en el flujo normal, solo para pruebas o regeneración manual: `node socialImageGenerator.js --slug [slug]`
 - **Pinterest**: preparado en el código (`publishPinterest()`, `buildPinterestDescription()`) pero **desactivado** — `const PINTEREST_ENABLED = false` al inicio del archivo. **Activado brevemente y revertido el mismo día (2026-06-23)**: se probó activarlo, pero queda aparcado hasta conseguir la aprobación del scope `pins:write` en la API de Pinterest. No depende solo de los secrets — sin ese scope aprobado, las llamadas a la API fallarían aunque `PINTEREST_ACCESS_TOKEN`/`PINTEREST_BOARD_ID` existieran
 - Manejo de errores: si Instagram falla, se loguea y continúa con Facebook; si Facebook falla, se loguea igual; si **ambas** fallan, se notifica a Discord vía `DISCORD_WEBHOOK_URL` con el detalle de ambos errores — nunca falla en silencio. Pinterest no participa en esa comprobación (no aplica mientras esté desactivado)
 - Lee `title`, `descripcion` y `categoria` directamente del frontmatter del artículo ya publicado (no requiere pasar esos datos por el workflow) — solo necesita el slug
@@ -487,6 +490,7 @@ Tras activar el publisher (22/06) y corregir los bugs de código (23/06 — `INS
 | `articleUpdater.js` | Actualiza precio, descatalogados, nuevos modelos |
 | `auto-publisher.js` | Valida y procesa borradores para publicación automática |
 | `socialPublisher.js` | Publica en Instagram y Facebook (Pinterest preparado, desactivado) |
+| `socialImageGenerator.js` | Genera imágenes optimizadas por red (franja de marca + título) a partir de la imagen del artículo |
 
 ---
 

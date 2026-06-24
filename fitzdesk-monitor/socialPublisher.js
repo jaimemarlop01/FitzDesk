@@ -1,7 +1,9 @@
 #!/usr/bin/env node
 /**
  * FitzDesk Social Publisher
- * Publica el artículo recién publicado en Instagram y Facebook.
+ * Publica el artículo recién publicado en Instagram y Facebook, usando
+ * imágenes optimizadas por red (socialImageGenerator.js) en vez de la
+ * imagen original del artículo — se generan bajo demanda si no existen.
  * Pinterest está preparado en el código pero desactivado (PINTEREST_ENABLED = false)
  * hasta conseguir la aprobación del scope pins:write en la API de Pinterest.
  *
@@ -17,9 +19,11 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import matter from 'gray-matter';
+import { generateInstagramImage, generateFacebookImage } from './socialImageGenerator.js';
 
 const __dirname    = path.dirname(fileURLToPath(import.meta.url));
 const ARTICLES_DIR = path.join(__dirname, '..', 'src', 'content', 'articulos');
+const REDES_DIR     = path.join(__dirname, '..', 'public', 'images', 'redes');
 const SITE_URL      = 'https://fitzdesk.com';
 
 // Pinterest preparado pero desactivado — activar cuando se apruebe el scope
@@ -48,6 +52,24 @@ function loadArticle(slug) {
 
 function imageUrlFor(slug) {
   return `${SITE_URL}/images/articulos/${slug}.webp`;
+}
+
+// Imagen específica de red (franja de marca + título) — generada una sola
+// vez por artículo y reutilizada en reintentos. Si no existe en disco, se
+// genera bajo demanda con socialImageGenerator.js antes de publicar.
+function socialImagePath(slug, network) {
+  return path.join(REDES_DIR, `${slug}-${network}.webp`);
+}
+
+function socialImageUrlFor(slug, network) {
+  return `${SITE_URL}/images/redes/${slug}-${network}.webp`;
+}
+
+async function ensureSocialImage(slug, network) {
+  if (fs.existsSync(socialImagePath(slug, network))) return;
+  logInfo(`Imagen de ${network} no encontrada — generándola con socialImageGenerator.js...`);
+  if (network === 'instagram') await generateInstagramImage(slug);
+  else await generateFacebookImage(slug);
 }
 
 // ─── Construir contenido por red ──────────────────────────────────────────────
@@ -131,8 +153,10 @@ async function publishInstagram(article, slug) {
   if (!accessToken) throw new Error('INSTAGRAM_ACCESS_TOKEN no configurado');
   if (!igAccountId) throw new Error('INSTAGRAM_ACCOUNT_ID no configurado');
 
-  const caption  = buildInstagramCaption(article);
-  const imageUrl = imageUrlFor(slug);
+  const caption = buildInstagramCaption(article);
+
+  await ensureSocialImage(slug, 'instagram');
+  const imageUrl = socialImageUrlFor(slug, 'instagram');
 
   // Paso 1 — crear contenedor
   const createRes  = await fetch(`https://graph.facebook.com/v25.0/${igAccountId}/media`, {
@@ -171,12 +195,15 @@ async function publishFacebook(article, slug) {
 
   const caption = buildFacebookCaption(article, slug);
 
+  await ensureSocialImage(slug, 'facebook');
+
   const res  = await fetch(`https://graph.facebook.com/v25.0/${pageId}/feed`, {
     method:  'POST',
     headers: { 'Content-Type': 'application/json' },
     body:    JSON.stringify({
       message:      caption,
       link:         `${SITE_URL}/articulo/${slug}`,
+      picture:      socialImageUrlFor(slug, 'facebook'),
       access_token: accessToken,
     }),
   });
@@ -236,8 +263,11 @@ function runTest(article, slug, runInstagram, runFacebook) {
     console.log(`   ${value ? '✅' : '❌'} ${name}`);
   }
 
-  console.log('\n📸 Imagen que se usaría:');
-  console.log(`   ${imageUrlFor(slug)}`);
+  console.log('\n📸 Imágenes que se usarían (se generan bajo demanda si no existen):');
+  for (const network of ['instagram', 'facebook']) {
+    const exists = fs.existsSync(socialImagePath(slug, network));
+    console.log(`   ${exists ? '✅ ya existe' : '⏳ se generaría'} — ${socialImageUrlFor(slug, network)}`);
+  }
 
   if (runInstagram) {
     printBlock('📷 Instagram — caption que se publicaría:', buildInstagramCaption(article));
