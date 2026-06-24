@@ -16,6 +16,12 @@ precio: "39,99€"
 enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=logitech+k380"
 tiempo_lectura: "5 min"
 tipo: "analisis"
+keyword_principal: "teclado bluetooth"
+keywords_secundarias:
+  - "teclado multi-dispositivo"
+  - "teclado para iPad"
+  - "teclado para Mac"
+  - "teclado inalámbrico"
 borrador: true
 imagen_thumb: "/images/articulos/logitech-k380-analisis-thumb.webp"
 ---

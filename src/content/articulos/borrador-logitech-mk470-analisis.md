@@ -1,5 +1,5 @@
 ---
-title: "Logitech MK470: combo teclado y ratón para teletrabajar sin complicaciones"
+title: "Logitech MK470: combo teclado y ratón para teletrabajo sencillo"
 slug: "logitech-mk470-analisis"
 categoria: "setups"
 fecha: "2026-08-04"

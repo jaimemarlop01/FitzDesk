@@ -35,7 +35,7 @@ import { generateInstagramCarousel } from './instagramImageGenerator.js';
 import {
   SITE_URL, logInfo, logOk, logWarn, logError,
   loadArticle, imageUrlFor, buildPinterestDescription,
-  getInstagramCaption, getFacebookCaption, notifyDiscordError,
+  getInstagramCaption, getFacebookCaption, notifyDiscordError, notifyDiscordSuccess,
 } from './socialContent.js';
 import { reviewBeforePublish } from './socialReviewer.js';
 
@@ -376,8 +376,25 @@ async function main() {
     logInfo('Pinterest desactivado (PINTEREST_ENABLED = false) — omitido');
   }
 
-  // Si todas las redes intentadas fallaron, notificar a Discord — nunca fallar en silencio
+  // Si todas las redes intentadas fallaron, notificar a Discord — nunca fallar
+  // en silencio. Si al menos una se publicó, notificar también el éxito (con
+  // el estado de cada red, incluida la que haya fallado) — antes no se
+  // avisaba de nada cuando todo iba bien, solo se veía en los logs.
   const anySucceeded = (runInstagram && results.instagram) || (runFacebook && results.facebook);
+  const statusLines  = [];
+  if (runInstagram) {
+    statusLines.push({
+      name:  'Instagram',
+      value: results.instagram ? `✅ id: ${results.instagram}` : `❌ ${errors.find(e => e.startsWith('Instagram:')) ?? 'fallo desconocido'}`,
+    });
+  }
+  if (runFacebook) {
+    statusLines.push({
+      name:  'Facebook',
+      value: results.facebook ? `✅ id: ${results.facebook}` : `❌ ${errors.find(e => e.startsWith('Facebook:')) ?? 'fallo desconocido'}`,
+    });
+  }
+
   if (!anySucceeded) {
     const failedNetworks = [];
     if (runInstagram && !results.instagram) failedNetworks.push('Instagram');
@@ -385,6 +402,8 @@ async function main() {
     await notifyDiscordError(
       `${failedNetworks.join(' y ')} fallaron al publicar "${article.title}" (${slug}):\n${errors.join('\n')}`
     );
+  } else {
+    await notifyDiscordSuccess({ title: article.title, slug, statusLines });
   }
 
   console.log('\n━━━ Resumen ━━━');

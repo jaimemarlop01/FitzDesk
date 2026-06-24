@@ -11,7 +11,7 @@ criterios:
   autonomia: 9.0
   conectividad: 9.0
   calidad_precio: 9.2
-precio: "49€"
+precio: "59,99€"
 enlace_afiliado: "https://www.pccomponentes.com/logitech-mx-anywhere-3s"
 tiempo_lectura: "6 min"
 tipo: "analisis"
@@ -33,6 +33,8 @@ especificaciones:
   Superficies: "Funciona sobre cristal y superficies brillantes"
   Botones: "6"
   Scroll: "MagSpeed electromagnético"
+fecha_actualizacion: "2026-06-24"
+actualizado: true
 ---
 
 ## Para quienes trabajan donde haga falta
