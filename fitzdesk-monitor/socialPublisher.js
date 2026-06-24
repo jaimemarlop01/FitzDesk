@@ -2,10 +2,17 @@
 /**
  * FitzDesk Social Publisher
  * Publica el artículo recién publicado en Instagram y Facebook, usando
- * imágenes optimizadas por red (socialImageGenerator.js) en vez de la
- * imagen original del artículo — se generan bajo demanda si no existen.
- * Pinterest está preparado en el código pero desactivado (PINTEREST_ENABLED = false)
- * hasta conseguir la aprobación del scope pins:write en la API de Pinterest.
+ * imágenes optimizadas por red en vez de la imagen original del artículo
+ * (se generan bajo demanda si no existen) y captions generados con Groq
+ * adaptados al formato de cada red (con fallback a plantilla fija si la
+ * IA falla). Pinterest está preparado en el código pero desactivado
+ * (PINTEREST_ENABLED = false) hasta conseguir la aprobación del scope
+ * pins:write en la API de Pinterest.
+ *
+ * Imagen de Instagram: instagramImageGenerator.js (Puppeteer, PNG 1080x1350).
+ * Imagen de Facebook: socialImageGenerator.js (Sharp, WEBP 1200x630) — su
+ * pieza de Instagram (Sharp) quedó sustituida por Puppeteer y ya no se usa
+ * aquí, aunque sigue disponible en el archivo.
  *
  * Uso:
  *   node socialPublisher.js --slug [slug]                       # publicación real (ambas redes)
@@ -19,7 +26,9 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import matter from 'gray-matter';
-import { generateInstagramImage, generateFacebookImage } from './socialImageGenerator.js';
+import Groq from 'groq-sdk';
+import { generateFacebookImage } from './socialImageGenerator.js';
+import { generateInstagramImage } from './instagramImageGenerator.js';
 
 const __dirname    = path.dirname(fileURLToPath(import.meta.url));
 const ARTICLES_DIR = path.join(__dirname, '..', 'src', 'content', 'articulos');
@@ -29,6 +38,10 @@ const SITE_URL      = 'https://fitzdesk.com';
 // Pinterest preparado pero desactivado — activar cuando se apruebe el scope
 // pins:write en la API de Pinterest
 const PINTEREST_ENABLED = false;
+
+const SOCIAL_IMAGE_EXT = { instagram: 'png', facebook: 'webp' };
+
+const groqClient = process.env.GROQ_API_KEY ? new Groq({ apiKey: process.env.GROQ_API_KEY }) : null;
 
 function logInfo(msg)  { console.log(`ℹ️  ${msg}`); }
 function logOk(msg)    { console.log(`✅ ${msg}`); }
@@ -42,11 +55,14 @@ function loadArticle(slug) {
   if (!fs.existsSync(filePath)) {
     throw new Error(`Artículo no encontrado: ${slug}.md`);
   }
-  const { data } = matter(fs.readFileSync(filePath, 'utf8'));
+  const { data, content } = matter(fs.readFileSync(filePath, 'utf8'));
   return {
     title:       data.title ?? slug,
     descripcion: data.descripcion ?? '',
     categoria:   data.categoria ?? 'setups',
+    puntuacion:  typeof data.puntuacion === 'number' ? data.puntuacion : null,
+    precio:      data.precio ?? null,
+    content:     content?.trim() ?? '',
   };
 }
 
@@ -54,20 +70,21 @@ function imageUrlFor(slug) {
   return `${SITE_URL}/images/articulos/${slug}.webp`;
 }
 
-// Imagen específica de red (franja de marca + título) — generada una sola
-// vez por artículo y reutilizada en reintentos. Si no existe en disco, se
-// genera bajo demanda con socialImageGenerator.js antes de publicar.
+// Imagen específica de red (Instagram: Puppeteer/PNG 1080x1350, Facebook:
+// Sharp/WEBP 1200x630) — generada una sola vez por artículo y reutilizada
+// en reintentos. Si no existe en disco, se genera bajo demanda antes de
+// publicar.
 function socialImagePath(slug, network) {
-  return path.join(REDES_DIR, `${slug}-${network}.webp`);
+  return path.join(REDES_DIR, `${slug}-${network}.${SOCIAL_IMAGE_EXT[network]}`);
 }
 
 function socialImageUrlFor(slug, network) {
-  return `${SITE_URL}/images/redes/${slug}-${network}.webp`;
+  return `${SITE_URL}/images/redes/${slug}-${network}.${SOCIAL_IMAGE_EXT[network]}`;
 }
 
 async function ensureSocialImage(slug, network) {
   if (fs.existsSync(socialImagePath(slug, network))) return;
-  logInfo(`Imagen de ${network} no encontrada — generándola con socialImageGenerator.js...`);
+  logInfo(`Imagen de ${network} no encontrada — generándola...`);
   if (network === 'instagram') await generateInstagramImage(slug);
   else await generateFacebookImage(slug);
 }
@@ -104,6 +121,95 @@ function buildPinterestDescription({ title, descripcion, categoria }) {
     '',
     `#${categoria} #teletrabajo #homeoffice #setup #productividad #perifericos #trabajoremoto #officesetup #desksetup`,
   ].join('\n');
+}
+
+// ─── Captions generados con IA (Groq) — con fallback a plantilla fija ─────────
+
+function buildInstagramPrompt({ title, descripcion, categoria, puntuacion, precio, content }) {
+  return `Eres Fitz, la ardilla mascota de FitzDesk (web de análisis de periféricos y setups para teletrabajo, tono cercano y con personalidad pero profesional). Escribe el caption de Instagram para promocionar este artículo ya publicado.
+
+ARTÍCULO
+Título: ${title}
+Categoría: ${categoria}
+Descripción: ${descripcion}
+${puntuacion !== null ? `Puntuación: ${puntuacion}/10` : ''}
+${precio ? `Precio: ${precio}` : ''}
+
+CONTENIDO DEL ANÁLISIS
+${content}
+
+Escribe el caption final siguiendo EXACTAMENTE esta estructura (sin etiquetas como "1." ni explicaciones, solo el texto final con líneas en blanco entre bloques):
+
+1. Primera línea: un gancho (pregunta o afirmación) que pare el scroll, relacionado con el producto.
+2. 2-3 líneas cortas con los beneficios más relevantes — tradúcelos a beneficio real para el lector, sin specs en crudo (nada de cifras técnicas sueltas tal cual).
+3. El veredicto de Fitz en una sola frase con personalidad.
+4. Exactamente esta línea de CTA: "Análisis completo en fitzdesk.com 🐿️"
+5. Máximo 5 hashtags relevantes en español, en minúsculas, separados por espacios.
+
+Español de España, sin emojis excesivos (máximo 2-3 en todo el texto). No inventes datos que no estén en el contenido del análisis.`;
+}
+
+function buildFacebookPrompt({ title, descripcion, categoria, puntuacion, precio, content }) {
+  return `Eres Fitz, la ardilla mascota de FitzDesk (web de análisis de periféricos y setups para teletrabajo, tono cercano y con personalidad pero profesional). Escribe el texto del post de Facebook para este artículo ya publicado. No incluyas ningún enlace ni URL — se añade automáticamente después de tu texto.
+
+ARTÍCULO
+Título: ${title}
+Categoría: ${categoria}
+Descripción: ${descripcion}
+${puntuacion !== null ? `Puntuación: ${puntuacion}/10` : ''}
+${precio ? `Precio: ${precio}` : ''}
+
+CONTENIDO DEL ANÁLISIS
+${content}
+
+Escribe el texto final siguiendo EXACTAMENTE esta estructura (sin etiquetas como "1." ni explicaciones, solo el texto final con líneas en blanco entre bloques):
+
+1. Un párrafo de introducción (3-4 frases), más desarrollado que en Instagram, explicando por qué este producto es relevante para alguien que teletrabaja.
+2. 3-4 puntos clave del análisis, cada uno en su propia línea empezando por "•".
+3. Una pregunta dirigida a la audiencia para generar comentarios, relacionada con el tema del artículo.
+4. Sin hashtags, o como máximo 2 al final si aportan algo real.
+
+No incluyas ningún enlace ni URL en tu respuesta. No inventes datos que no estén en el contenido del análisis. Español de España.`;
+}
+
+// Groq (llama-3.3-70b-versatile) mezcla ocasionalmente algún carácter CJK
+// suelto en medio de palabras en español (bug conocido del modelo, visto
+// también en borradores generados por analyzer.js) — se eliminan como red
+// de seguridad antes de publicar nada en redes sociales.
+function stripStrayCjk(text) {
+  return text.replace(/[一-鿿㐀-䶿豈-﫿]/g, '');
+}
+
+async function callGroq(prompt) {
+  if (!groqClient) throw new Error('GROQ_API_KEY no configurada');
+  const completion = await groqClient.chat.completions.create({
+    model:      'llama-3.3-70b-versatile',
+    max_tokens: 600,
+    messages:   [{ role: 'user', content: prompt }],
+  });
+  const text = completion.choices[0]?.message?.content?.trim();
+  if (!text) throw new Error('Groq no devolvió contenido');
+  return stripStrayCjk(text);
+}
+
+async function getInstagramCaption(article) {
+  try {
+    const text = await callGroq(buildInstagramPrompt(article));
+    return text.slice(0, 2200);
+  } catch (e) {
+    logWarn(`Groq falló generando el caption de Instagram (${e.message}) — usando plantilla de respaldo`);
+    return buildInstagramCaption(article);
+  }
+}
+
+async function getFacebookCaption(article, slug) {
+  try {
+    const text = await callGroq(buildFacebookPrompt(article));
+    return `${text}\n\n${SITE_URL}/articulo/${slug}`;
+  } catch (e) {
+    logWarn(`Groq falló generando el texto de Facebook (${e.message}) — usando plantilla de respaldo`);
+    return buildFacebookCaption(article, slug);
+  }
 }
 
 // ─── Discord (notificación de error) ──────────────────────────────────────────
@@ -153,7 +259,7 @@ async function publishInstagram(article, slug) {
   if (!accessToken) throw new Error('INSTAGRAM_ACCESS_TOKEN no configurado');
   if (!igAccountId) throw new Error('INSTAGRAM_ACCOUNT_ID no configurado');
 
-  const caption = buildInstagramCaption(article);
+  const caption = await getInstagramCaption(article);
 
   await ensureSocialImage(slug, 'instagram');
   const imageUrl = socialImageUrlFor(slug, 'instagram');
@@ -193,7 +299,7 @@ async function publishFacebook(article, slug) {
   const pageId       = process.env.FACEBOOK_PAGE_ID;
   if (!accessToken || !pageId) throw new Error('FACEBOOK_PAGE_ACCESS_TOKEN o FACEBOOK_PAGE_ID no configurados');
 
-  const caption = buildFacebookCaption(article, slug);
+  const caption = await getFacebookCaption(article, slug);
 
   await ensureSocialImage(slug, 'facebook');
 
@@ -244,11 +350,12 @@ function printBlock(title, text) {
   console.log('   ' + '─'.repeat(50));
 }
 
-function runTest(article, slug, runInstagram, runFacebook) {
+async function runTest(article, slug, runInstagram, runFacebook) {
   console.log('\n━━━ FitzDesk Social Publisher — MODO TEST (no publica nada) ━━━');
 
   console.log('\n📦 Secrets disponibles (solo presencia, nunca el valor):');
   const secretChecks = [
+    ['GROQ_API_KEY',               process.env.GROQ_API_KEY],
     ['INSTAGRAM_ACCESS_TOKEN',      process.env.INSTAGRAM_ACCESS_TOKEN],
     ['INSTAGRAM_ACCOUNT_ID',       process.env.INSTAGRAM_ACCOUNT_ID],
     ['INSTAGRAM_APP_ID',           process.env.INSTAGRAM_APP_ID],
@@ -270,13 +377,15 @@ function runTest(article, slug, runInstagram, runFacebook) {
   }
 
   if (runInstagram) {
-    printBlock('📷 Instagram — caption que se publicaría:', buildInstagramCaption(article));
+    const caption = await getInstagramCaption(article);
+    printBlock('📷 Instagram — caption que se publicaría (IA con fallback a plantilla):', caption);
   } else {
     console.log('\n📷 Instagram — omitido (--only facebook)');
   }
 
   if (runFacebook) {
-    printBlock('📘 Facebook — caption que se publicaría:', buildFacebookCaption(article, slug));
+    const caption = await getFacebookCaption(article, slug);
+    printBlock('📘 Facebook — texto que se publicaría (IA con fallback a plantilla):', caption);
   } else {
     console.log('\n📘 Facebook — omitido (--only instagram)');
   }
@@ -321,7 +430,7 @@ async function main() {
   }
 
   if (isTest) {
-    runTest(article, slug, runInstagram, runFacebook);
+    await runTest(article, slug, runInstagram, runFacebook);
     return;
   }
 
