@@ -239,6 +239,12 @@ ${baseHead()}
     height: 62%;
     background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.55) 45%, rgba(0,0,0,0.92) 100%);
   }
+  .gradient-top {
+    position: absolute;
+    left: 0; right: 0; top: 0;
+    height: 420px;
+    background: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%);
+  }
   .logo {
     position: absolute;
     top: 48px; left: 48px;
@@ -283,6 +289,7 @@ ${baseHead()}
 </head>
 <body>
   <div class="canvas">
+    <div class="gradient-top"></div>
     <div class="gradient"></div>
     <div class="logo">
       <span class="logo-emoji">🐿️</span>
@@ -318,9 +325,10 @@ ${baseHead()}
     width: ${WIDTH}px;
     height: ${HEIGHT}px;
     background: #1F2937;
-    padding: 110px 64px;
+    padding: 64px;
     display: flex;
     flex-direction: column;
+    justify-content: center;
   }
   .heading { color: ${headingColor}; font-size: 56px; font-weight: 800; margin-bottom: 72px; }
   .list-item { display: flex; align-items: flex-start; gap: 20px; margin-bottom: 48px; }
@@ -412,11 +420,74 @@ ${baseHead()}
 
 // ─── Captura con Puppeteer ──────────────────────────────────────────────────────
 
-async function captureHtml(browser, html, outputPath) {
+// Reduce el font-size de selector progresivamente mientras el texto
+// desborde su caja (scrollHeight > clientHeight, la forma estándar de
+// detectar recorte con -webkit-line-clamp activo). Si al llegar a minSize
+// sigue sin caber en normalLines, amplía a maxLines antes de rendirse (la
+// elipsis de line-clamp se encarga del resto si aun así desborda).
+async function autofitLineClamp(page, selector, { startSize, minSize, normalLines, maxLines, step = 2 }) {
+  await page.evaluate((sel, startSize, minSize, normalLines, maxLines, step) => {
+    const el = document.querySelector(sel);
+    let fontSize = startSize;
+    el.style.fontSize = `${fontSize}px`;
+    el.style.webkitLineClamp = String(normalLines);
+
+    const overflowing = () => el.scrollHeight > el.clientHeight + 1;
+
+    while (overflowing() && fontSize > minSize) {
+      fontSize = Math.max(minSize, fontSize - step);
+      el.style.fontSize = `${fontSize}px`;
+    }
+
+    if (overflowing() && maxLines > normalLines) {
+      el.style.webkitLineClamp = String(maxLines);
+    }
+  }, selector, startSize, minSize, normalLines, maxLines, step);
+}
+
+// Para el veredicto: igual que arriba, pero si al máximo de líneas y
+// tamaño mínimo todavía desborda, recorta el TEXTO por frase completa
+// (nunca a mitad de palabra) probando frase a frase hasta la última que
+// quepa, en vez de dejar que line-clamp corte en cualquier punto.
+async function autofitVerdict(page, selector, originalText, options) {
+  await autofitLineClamp(page, selector, options);
+
+  const stillOverflowing = await page.evaluate(sel => {
+    const el = document.querySelector(sel);
+    return el.scrollHeight > el.clientHeight + 1;
+  }, selector);
+  if (!stillOverflowing) return;
+
+  const sentences = originalText.match(/[^.!?]+[.!?]+(\s|$)/g)?.map(s => s.trim()).filter(Boolean)
+    || [originalText];
+
+  let truncated = '';
+  for (const sentence of sentences) {
+    const candidate = truncated ? `${truncated} ${sentence}` : sentence;
+    await page.evaluate((sel, val) => { document.querySelector(sel).textContent = val; }, selector, candidate);
+    const fits = await page.evaluate(sel => {
+      const el = document.querySelector(sel);
+      return el.scrollHeight <= el.clientHeight + 1;
+    }, selector);
+    if (!fits) break;
+    truncated = candidate;
+  }
+
+  // El bucle puede haber dejado puesto en el DOM el último candidato que
+  // NO cupo (se prueba antes de saber si encaja) — hay que volver a fijar
+  // explícitamente el último texto que sí encajó. Si ni siquiera la
+  // primera frase cabe, se muestra igualmente (mejor desbordar ligeramente
+  // que dejar el slide vacío).
+  const finalText = truncated || sentences[0];
+  await page.evaluate((sel, val) => { document.querySelector(sel).textContent = val; }, selector, finalText);
+}
+
+async function captureHtml(browser, html, outputPath, afterRender) {
   const page = await browser.newPage();
   try {
     await page.setViewport({ width: WIDTH, height: HEIGHT });
     await page.setContent(html, { waitUntil: 'load' });
+    if (afterRender) await afterRender(page);
     await page.screenshot({ path: outputPath, type: 'png' });
   } finally {
     await page.close();
@@ -427,23 +498,37 @@ export async function generateInstagramCarousel(slug) {
   const articleData = loadArticleData(slug);
   const { pros, contras, veredicto } = await getCarouselContent(articleData);
 
-  const slidesHtml = [
-    buildSlide1Html(articleData),
-    buildListSlideHtml({ heading: '✅ Lo mejor', headingColor: '#F97316', items: pros, icon: '✅' }),
-    buildListSlideHtml({ heading: '⚠️ Lo mejorable', headingColor: '#FFFFFF', items: contras, icon: '⚠️' }),
-    buildVerdictSlideHtml({ veredicto, puntuacion: articleData.puntuacion }),
+  const slides = [
+    {
+      html: buildSlide1Html(articleData),
+      afterRender: page => autofitLineClamp(page, '.title', {
+        startSize: 58, minSize: 36, normalLines: 2, maxLines: 3, step: 2,
+      }),
+    },
+    {
+      html: buildListSlideHtml({ heading: '✅ Lo mejor', headingColor: '#F97316', items: pros, icon: '✅' }),
+    },
+    {
+      html: buildListSlideHtml({ heading: '⚠️ Lo mejorable', headingColor: '#FFFFFF', items: contras, icon: '⚠️' }),
+    },
+    {
+      html: buildVerdictSlideHtml({ veredicto, puntuacion: articleData.puntuacion }),
+      afterRender: page => autofitVerdict(page, '.verdict', veredicto, {
+        startSize: 50, minSize: 28, normalLines: 2, maxLines: 3, step: 2,
+      }),
+    },
   ];
 
   fs.mkdirSync(OUTPUT_DIR, { recursive: true });
-  const outputPaths = slidesHtml.map((_, i) => path.join(OUTPUT_DIR, `${slug}-instagram-${i + 1}.png`));
+  const outputPaths = slides.map((_, i) => path.join(OUTPUT_DIR, `${slug}-instagram-${i + 1}.png`));
 
   const browser = await puppeteer.launch({
     headless: true,
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
   });
   try {
-    for (let i = 0; i < slidesHtml.length; i++) {
-      await captureHtml(browser, slidesHtml[i], outputPaths[i]);
+    for (let i = 0; i < slides.length; i++) {
+      await captureHtml(browser, slides[i].html, outputPaths[i], slides[i].afterRender);
     }
   } finally {
     await browser.close();
