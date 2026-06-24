@@ -60,10 +60,14 @@ function setFrontmatterField(content, field, value) {
 
 /** Inserta texto justo después del bloque frontmatter (tras el segundo ---) */
 function insertAfterFrontmatter(content, text) {
-  const openEnd  = content.indexOf('\n', 3);
-  const closeIdx = content.indexOf('\n---\n', openEnd);
-  if (closeIdx === -1) return content;
-  const insertPos = closeIdx + 5;
+  // Tolera BOM al inicio y saltos de línea CRLF o LF — algunos artículos
+  // del repo usan CRLF, lo que rompía la búsqueda literal de '\n---\n'
+  // y hacía que la función devolviera el contenido sin insertar nada,
+  // sin avisar del fallo (bug detectado el 2026-06-24).
+  const bomLen = content.charCodeAt(0) === 0xFEFF ? 1 : 0;
+  const match  = content.slice(bomLen).match(/^-{3}\r?\n[\s\S]*?\r?\n-{3}\r?\n/);
+  if (!match) return content;
+  const insertPos = bomLen + match[0].length;
   return content.slice(0, insertPos) + text + '\n' + content.slice(insertPos);
 }
 
@@ -108,7 +112,13 @@ function applyContentUpdates(content, data) {
 
   if (data.keyword_principal && !hasFrontmatterField(content, 'keyword_principal')) {
     const insertion = `keyword_principal: "${data.keyword_principal}"\nkeywords_secundarias:\n${data.keywords_secundarias.map(k => `  - "${k}"`).join('\n')}`;
-    updated = updated.replace(/^(tiempo_lectura:.*)/m, `$1\ntipo: "analisis"\n${insertion}`);
+    // Bug detectado y corregido el 2026-06-24: esta línea insertaba "tipo:
+    // analisis" sin comprobar si ya existía en el frontmatter original,
+    // duplicando el campo en casi todos los artículos reales (que ya
+    // tienen "tipo" desde que se generaron). Ahora solo se añade si
+    // realmente falta.
+    const tipoLine = hasFrontmatterField(content, 'tipo') ? '' : 'tipo: "analisis"\n';
+    updated = updated.replace(/^(tiempo_lectura:.*)/m, `$1\n${tipoLine}${insertion}`);
     if (!hasFrontmatterField(updated, 'tipo')) {
       updated = updated.replace(/^(borrador:.*)/m, `tipo: "analisis"\n${insertion}\n$1`);
     }

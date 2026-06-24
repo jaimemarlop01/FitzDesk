@@ -11,7 +11,9 @@ criterios:
   conectividad: 7.5
   durabilidad: 7.0
   calidad_precio: 8.5
-precio: "89€"
+precio: "60€ (agotado)"
+fecha_actualizacion: "2026-06-24"
+actualizado: true
 enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=keychron+k2+v2"
 fitzQuote: "El Keychron K2 V2 es el punto de entrada perfecto al mundo de los teclados mecánicos. Sonido, tactilidad y compatibilidad multi-dispositivo en un paquete que no arruina tu cartera. Si tuviese manos, escribiría con él."
 especificaciones:
@@ -26,6 +28,8 @@ especificaciones:
   Hotswap: "No (versión estándar)"
   Peso: "870 g"
 ---
+
+> ⚠️ **Este modelo está agotado en la tienda oficial de Keychron (SKU K2-C2H) y ausente en PcComponentes, Amazon.es, idealo.es y COOLMOD.** El precio mostrado (60€) es una conversión desde 68,24$ de la tienda oficial, no un precio de compra activo en España — actualízalo si vuelve a tener stock.
 
 ## El teclado mecánico que todo el mundo recomienda
 

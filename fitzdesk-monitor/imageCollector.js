@@ -57,6 +57,24 @@ function detectBrand(text) {
 
 // ─── HTTP helper: extrae og:image / twitter:image de un HTML ─────────────────
 
+// Patrones de imágenes genéricas/de marca que NO son la foto de un producto
+// concreto. Muchas páginas de búsqueda de fabricantes (ej. logitech.com/search)
+// son SPA renderizadas por JS: el HTML estático que recibe fetch() nunca tiene
+// el resultado real, solo el og:image genérico de la home/plantilla del sitio
+// (mismo valor sin importar la query, confirmado en logitech.com). Aceptar ese
+// valor como si fuera la foto del producto es la causa exacta del bug: todas
+// las búsquedas de productos Logitech devolvían el logo "logi" de marca en vez
+// de la foto real (bug detectado y corregido el 2026-06-24).
+const GENERIC_IMAGE_PATTERNS = [
+  'favicon', 'logo', 'global-og-image', 'default-og', 'og-default',
+  'social-share-default', 'site-og-image', 'placeholder',
+];
+
+function isGenericImage(url) {
+  const lower = url.toLowerCase();
+  return GENERIC_IMAGE_PATTERNS.some(p => lower.includes(p));
+}
+
 async function fetchOgImage(url, timeout = 7000) {
   try {
     const res = await fetch(url, {
@@ -70,8 +88,8 @@ async function fetchOgImage(url, timeout = 7000) {
               ?? html.match(/<meta[^>]*name=["']twitter:image["'][^>]*content=["']([^"']+)["']/i)
               ?? html.match(/<meta[^>]*content=["']([^"']+)["'][^>]*name=["']twitter:image["']/i);
     const imgUrl = og?.[1];
-    // Evitar iconos y logos pequeños
-    if (imgUrl && !imgUrl.includes('favicon') && !imgUrl.includes('logo') && imgUrl.length > 10) {
+    // Evitar iconos, logos pequeños e imágenes genéricas de plantilla/marca
+    if (imgUrl && imgUrl.length > 10 && !isGenericImage(imgUrl)) {
       return imgUrl;
     }
   } catch {}

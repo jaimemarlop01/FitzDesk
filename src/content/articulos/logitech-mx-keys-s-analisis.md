@@ -33,6 +33,7 @@ especificaciones:
 fecha_actualizacion: "2026-06-24"
 actualizado: true
 ---
+> 📅 **Artículo actualizado en junio de 2026**: Precio actualizado a 74,95€ en PcComponentes.
 
 ## El teclado de los que valoran la fluidez sobre todo
 

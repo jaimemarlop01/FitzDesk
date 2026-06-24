@@ -15,6 +15,11 @@ criterios:
 precio: "54,99€"
 enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=trust+tk-350+silent"
 tiempo_lectura: "5 min"
+keyword_principal: "teclado inalámbrico silencioso"
+keywords_secundarias:
+  - "teclados baratos"
+  - "teclados para teletrabajo"
+  - "teclados inalámbricos"
 tipo: "analisis"
 borrador: true
 imagen_thumb: "/images/articulos/trust-tk-350-silent-analisis-thumb.webp"

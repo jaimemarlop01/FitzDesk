@@ -33,6 +33,7 @@ especificaciones:
 fecha_actualizacion: "2026-06-24"
 actualizado: true
 ---
+> 📅 **Artículo actualizado en junio de 2026**: Precio actualizado a 45,90€ en PcComponentes.
 
 ## Cuando el dolor de muñeca obliga a cambiar de ratón
 

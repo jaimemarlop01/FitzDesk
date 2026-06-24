@@ -11,7 +11,7 @@ criterios:
   conectividad: 9.0
   cuidado_ocular: 8.5
   calidad_precio: 8.8
-precio: "329€"
+precio: "623,83€"
 enlace_afiliado: "https://www.pccomponentes.com/dell-s2722qc"
 tiempo_lectura: "6 min"
 tipo: "analisis"
@@ -30,7 +30,10 @@ especificaciones:
   Cobertura_color: "sRGB 99%"
   Ajustes: "Inclinación (sin altura ajustable en soporte base)"
   Altavoces: "No incluidos"
+fecha_actualizacion: "2026-06-24"
+actualizado: true
 ---
+> 📅 **Artículo actualizado en junio de 2026**: Precio actualizado a 623,83€ (PcComponentes ya no lo lista; precio verificado en idealo.es).
 
 ## La alternativa más inteligente a los monitores 4K de 400€
 
