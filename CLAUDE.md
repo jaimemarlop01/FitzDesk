@@ -259,7 +259,7 @@ Objetivos:
 ---
 
 ### Próximas acciones inmediatas
-- [ ] Cherry-pick a `main` de todo lo de imágenes/captions de redes (`socialImageGenerator.js`, `instagramImageGenerator.js`, captions con Groq, dependencia `puppeteer`) — todo sigue solo en `develop`, a petición explícita; sin esto en `main`, las publicaciones automáticas reales seguirán usando la imagen original del artículo y las plantillas fijas de caption en vez de las versiones nuevas
+- [x] ✅ Merge completo `develop` → `main` (2026-06-24, commit `a9b108a`) — todo el sistema de imágenes/captions/revisión de redes (`socialImageGenerator.js`, `instagramImageGenerator.js`, `socialContent.js`, `socialReviewer.js`, dependencia `puppeteer`) ya está en producción
 - [ ] Conseguir imagen oficial real de `airra-labs-rotary-mouse-analisis` (desplazado al 11/08, último slot del calendario, el 2026-06-22 — ver "Estado del calendario de publicaciones"). El placeholder genérico de ratón no es válido para publicar. `razer-seiren-v3-pro-analisis` ya resuelto con imagen oficial real (descargada directamente de Razer, 2026-06-21). `asus-portatiles-trabajo-exigente-2026` ya resuelto con foto real proporcionada por el usuario (2026-06-22)
 - [ ] Activar Pinterest cuando se apruebe el scope `pins:write` en la API de Pinterest (aparcado el 2026-06-23 — se activó brevemente el mismo día y se revirtió a `PINTEREST_ENABLED = false` por falta de esa aprobación). Cuando se apruebe: cambiar `PINTEREST_ENABLED = true` en `socialPublisher.js` y confirmar que `PINTEREST_ACCESS_TOKEN`/`PINTEREST_BOARD_ID` existen como secrets reales en GitHub (a fecha de hoy no hay confirmación de que existan)
 - [ ] Lanzar prompt de búsqueda de productos cuando queden menos de 6 borradores
