@@ -33,6 +33,7 @@ especificaciones:
 fecha_actualizacion: "2026-06-24"
 actualizado: true
 ---
+> 📅 **Artículo actualizado en junio de 2026**: Precio actualizado a 623,83€ (PcComponentes ya no lo lista; precio verificado en idealo.es).
 
 ## La alternativa más inteligente a los monitores 4K de 400€
 

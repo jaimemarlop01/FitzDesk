@@ -11,7 +11,7 @@ criterios:
   conectividad: 5.0
   durabilidad: 8.5
   calidad_precio: 9.0
-precio: "79€"
+precio: "71,39€ (agotado online)"
 enlace_afiliado: "https://www.pccomponentes.com/keychron-v1"
 tiempo_lectura: "7 min"
 tipo: "analisis"
@@ -30,7 +30,10 @@ especificaciones:
   Software: "QMK/VIA (open source)"
   Formato: "75% (84 teclas)"
   Peso: "1.1 kg"
+fecha_actualizacion: "2026-06-24"
+actualizado: true
 ---
+> 📅 **Artículo actualizado en junio de 2026**: Precio actualizado a 71,39€ (PcComponentes ya no lo lista; precio de COOLMOD, actualmente agotado para compra online).
 
 ## Cuando el presupuesto y la calidad parecen incompatibles
 

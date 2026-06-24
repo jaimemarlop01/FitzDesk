@@ -34,6 +34,7 @@ especificaciones:
 fecha_actualizacion: "2026-06-24"
 actualizado: true
 ---
+> 📅 **Artículo actualizado en junio de 2026**: Precio actualizado a 119,95€ (PcComponentes ya no lo lista; precio verificado en COOLMOD).
 
 ## La puerta de entrada al mundo mecánico serio
 

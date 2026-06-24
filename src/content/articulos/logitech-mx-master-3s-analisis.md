@@ -34,6 +34,7 @@ especificaciones:
 fecha_actualizacion: "2026-06-24"
 actualizado: true
 ---
+> 📅 **Artículo actualizado en junio de 2026**: Precio actualizado a 145,99€ en PcComponentes.
 
 ## El ratón que todos los trabajadores remotos acaban comprando
 

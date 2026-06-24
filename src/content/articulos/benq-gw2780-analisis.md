@@ -33,6 +33,7 @@ especificaciones:
 fecha_actualizacion: "2026-06-24"
 actualizado: true
 ---
+> 📅 **Artículo actualizado en junio de 2026**: Precio actualizado a 266,81€ en PcComponentes.
 
 ## El monitor de los que dan el salto desde la pantalla del portátil
 

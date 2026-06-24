@@ -36,6 +36,7 @@ especificaciones:
 fecha_actualizacion: "2026-06-24"
 actualizado: true
 ---
+> 📅 **Artículo actualizado en junio de 2026**: Precio actualizado a 59,99€ en PcComponentes.
 
 ## Para quienes trabajan donde haga falta
 
