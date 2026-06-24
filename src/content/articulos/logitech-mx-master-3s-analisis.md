@@ -11,7 +11,7 @@ criterios:
   autonomia: 9.0
   conectividad: 9.0
   calidad_precio: 8.5
-precio: "99€"
+precio: "145,99€"
 enlace_afiliado: "https://www.pccomponentes.com/logitech-mx-master-3s"
 tiempo_lectura: "7 min"
 tipo: "analisis"
@@ -31,6 +31,8 @@ especificaciones:
   Compatibilidad: "Windows, macOS, iPadOS, Linux"
   Botones: "7 programables"
   Scroll: "MagSpeed electromagnético"
+fecha_actualizacion: "2026-06-24"
+actualizado: true
 ---
 
 ## El ratón que todos los trabajadores remotos acaban comprando

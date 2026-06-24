@@ -16,6 +16,11 @@ precio: "279,99€"
 enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=aoc+q27p3cv"
 tiempo_lectura: "6 min"
 tipo: "analisis"
+keyword_principal: "monitor QHD USB-C"
+keywords_secundarias:
+  - "monitores para teletrabajo"
+  - "monitores con USB-C"
+  - "monitores QHD"
 borrador: true
 imagen_thumb: "/images/articulos/aoc-q27p3cv-analisis-thumb.webp"
 ---

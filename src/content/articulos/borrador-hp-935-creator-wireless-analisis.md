@@ -16,6 +16,11 @@ precio: "59,99€"
 enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=hp+935+creator+wireless"
 tiempo_lectura: "5 min"
 tipo: "analisis"
+keyword_principal: "ratón inalámbrico multi-dispositivo"
+keywords_secundarias:
+  - "ratón láser para 4K"
+  - "ratón para teletrabajo"
+  - "ratón inalámbrico para múltiples dispositivos"
 borrador: true
 imagen_thumb: "/images/articulos/hp-935-creator-wireless-analisis-thumb.webp"
 ---

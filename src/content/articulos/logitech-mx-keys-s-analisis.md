@@ -11,7 +11,7 @@ criterios:
   conectividad: 9.0
   durabilidad: 8.5
   calidad_precio: 7.5
-precio: "119€"
+precio: "74,95€"
 enlace_afiliado: "https://www.pccomponentes.com/logitech-mx-keys-s"
 tiempo_lectura: "6 min"
 tipo: "analisis"
@@ -30,6 +30,8 @@ especificaciones:
   Retroiluminacion: "Adaptativa inteligente por luz ambiente"
   Compatibilidad: "Windows, macOS, iPadOS, Android"
   Teclas_especiales: "Teclas de función para flujo de trabajo (Logi Options+)"
+fecha_actualizacion: "2026-06-24"
+actualizado: true
 ---
 
 ## El teclado de los que valoran la fluidez sobre todo

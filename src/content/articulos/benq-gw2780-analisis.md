@@ -11,7 +11,7 @@ criterios:
   conectividad: 7.5
   cuidado_ocular: 9.3
   calidad_precio: 9.0
-precio: "149€"
+precio: "266,81€"
 enlace_afiliado: "https://www.pccomponentes.com/benq-gw2780"
 tiempo_lectura: "5 min"
 tipo: "analisis"
@@ -30,6 +30,8 @@ especificaciones:
   Altavoces: "2x2W integrados"
   Ajustes: "Inclinación -5°/+20°"
   Certificacion: "TÜV Rheinland Eye Comfort"
+fecha_actualizacion: "2026-06-24"
+actualizado: true
 ---
 
 ## El monitor de los que dan el salto desde la pantalla del portátil

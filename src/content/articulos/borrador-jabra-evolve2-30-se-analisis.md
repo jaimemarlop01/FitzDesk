@@ -16,6 +16,11 @@ precio: "89,99€"
 enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=jabra+evolve2+30"
 tiempo_lectura: "5 min"
 tipo: "analisis"
+keyword_principal: "auriculares para videollamadas"
+keywords_secundarias:
+  - "auriculares con cancelación de ruido"
+  - "Jabra Evolve2 30 SE"
+  - "auriculares para teletrabajo"
 borrador: true
 imagen_thumb: "/images/articulos/jabra-evolve2-30-se-analisis-thumb.webp"
 ---
