@@ -74,8 +74,10 @@ node guideGenerator.js --config guia.json
 node launchGenerator.js --config lanzamiento.json
 node imageCollector.js --slug [slug]
 node imageCollector.js --slug [slug] --query "[texto de búsqueda manual]"  # sobrescribe el title (añadido 2026-06-21)
-node socialPublisher.js --test --slug [slug]   # modo test, no publica nada real
-node socialPublisher.js --slug [slug]          # publica en Instagram + Facebook
+node socialPublisher.js --test --slug [slug]                  # modo test, no publica nada real
+node socialPublisher.js --slug [slug]                         # publica en Instagram + Facebook
+node socialPublisher.js --slug [slug] --only facebook         # solo Facebook (reintentos sin duplicar Instagram, añadido 2026-06-23)
+node socialPublisher.js --slug [slug] --only instagram        # solo Instagram
 ```
 
 ---
@@ -438,12 +440,39 @@ A partir de ahora, cualquier publicación automática futura disparará el deplo
 
 - Script: `fitzdesk-monitor/socialPublisher.js` — `node socialPublisher.js --slug [slug]` (real) / `--test --slug [slug]` (no publica nada, muestra captions + comprueba secrets sin revelarlos)
 - Integrado como step "Publicar en redes sociales" en `publicar-automatico.yml`, justo después de sincronizar `develop` y antes de las notificaciones de Discord — solo corre si la publicación a `main` fue exitosa (`if: ... && success()`), timeout de 2 minutos
-- **Instagram**: flujo de 2 pasos vía Graph API (`POST /{ig-user-id}/media` para crear el contenedor, luego `POST /{ig-user-id}/media_publish`); el `ig-user-id` se obtiene en tiempo real con `GET /me?fields=id,name` usando `INSTAGRAM_ACCESS_TOKEN`
-- **Facebook**: `POST /{FACEBOOK_PAGE_ID}/photos` con la imagen y el caption
+- **Instagram**: flujo de 2 pasos vía Graph API v25.0 (`POST /{INSTAGRAM_ACCOUNT_ID}/media` para crear el contenedor, luego `POST /{INSTAGRAM_ACCOUNT_ID}/media_publish`). **Corregido 2026-06-23**: antes obtenía el ID en tiempo real con `GET /me?fields=id,name`, que devuelve el ID del propietario del token (no necesariamente la cuenta de Instagram Business) — bug real, confirmado en el código. Ahora usa directamente el secret `INSTAGRAM_ACCOUNT_ID` (cuenta de Instagram Business vinculada a la página de Facebook), sin llamada adicional
+- **Facebook**: `POST /{FACEBOOK_PAGE_ID}/feed` (Graph API v25.0) con `message` (caption), `link` (URL del artículo) y `picture` (imagen). **Cambiado 2026-06-23** desde `/{FACEBOOK_PAGE_ID}/photos` — el motivo reportado ("usaba `publish_actions`, deprecado") no se correspondía con el código real (nunca se referenció ese permiso; `/photos` ya usaba `pages_manage_posts`), pero el cambio a `/feed` se aplicó igualmente porque añade la vista previa del enlace al artículo, no solo la foto suelta
 - **Pinterest**: preparado en el código (`publishPinterest()`, `buildPinterestDescription()`) pero **desactivado** — `const PINTEREST_ENABLED = false` al inicio del archivo. **Activado brevemente y revertido el mismo día (2026-06-23)**: se probó activarlo, pero queda aparcado hasta conseguir la aprobación del scope `pins:write` en la API de Pinterest. No depende solo de los secrets — sin ese scope aprobado, las llamadas a la API fallarían aunque `PINTEREST_ACCESS_TOKEN`/`PINTEREST_BOARD_ID` existieran
 - Manejo de errores: si Instagram falla, se loguea y continúa con Facebook; si Facebook falla, se loguea igual; si **ambas** fallan, se notifica a Discord vía `DISCORD_WEBHOOK_URL` con el detalle de ambos errores — nunca falla en silencio. Pinterest no participa en esa comprobación (no aplica mientras esté desactivado)
 - Lee `title`, `descripcion` y `categoria` directamente del frontmatter del artículo ya publicado (no requiere pasar esos datos por el workflow) — solo necesita el slug
-- Secrets nuevos usados: `INSTAGRAM_ACCESS_TOKEN`, `INSTAGRAM_APP_ID`, `INSTAGRAM_APP_SECRET`, `FACEBOOK_PAGE_ACCESS_TOKEN`, `FACEBOOK_PAGE_ID` (ya disponibles en GitHub); `PINTEREST_ACCESS_TOKEN`/`PINTEREST_BOARD_ID` referenciados en el workflow pero todavía no creados como secrets (esperado, generan aviso benigno del linter del IDE)
+- Secrets usados: `INSTAGRAM_ACCESS_TOKEN`, `INSTAGRAM_ACCOUNT_ID`, `INSTAGRAM_APP_ID`, `INSTAGRAM_APP_SECRET`, `FACEBOOK_PAGE_ACCESS_TOKEN`, `FACEBOOK_PAGE_ID`; `PINTEREST_ACCESS_TOKEN`/`PINTEREST_BOARD_ID` referenciados en el workflow pero todavía no creados como secrets (esperado, generan aviso benigno del linter del IDE)
+- **Sin idempotencia**: el script no comprueba en ningún sitio si un artículo ya se publicó antes en Instagram/Facebook (ni caché local ni consulta a la API). Relanzarlo para el mismo slug publica de nuevo en **ambas** redes, sin excepción. Para reintentar solo la red que falló sin duplicar la que ya tuvo éxito, usar `--only facebook` o `--only instagram` (añadido 2026-06-23) — tanto en el script como en el input `only` de `publicar-en-redes.yml`
+
+### ✅ RESUELTO 2026-06-24: primera publicación real confirmada en Instagram y Facebook
+
+Tras activar el publisher (22/06) y corregir los bugs de código (23/06 — `INSTAGRAM_ACCOUNT_ID`, endpoint `/feed`, `npm ci` faltante), las pruebas reales seguían fallando. Dos causas adicionales, ambas de configuración en el lado de Meta, no de código:
+
+1. **Instagram — "Media ID is not available" (código 9007)**: `media_publish` se llamaba justo después de crear el contenedor, sin esperar a que Instagram terminara de descargar/procesar la imagen. **Corregido en código**: nueva función `waitForContainerReady()` que sondea `status_code` hasta `FINISHED` (máx. ~20s) antes de publicar.
+2. **Facebook — error `(#200)` de permisos, persistente incluso con un token con todos los scopes concedidos** (`pages_read_engagement`, `pages_manage_posts` confirmados vía `/me/permissions`). Tras descartar rol de app, acceso a página y vínculo Business Manager (todo correcto), la causa real era que **`FACEBOOK_PAGE_ID` guardado en GitHub no era el ID correcto de la página** — el error `(#200)` de Meta es genérico y no distingue "permiso insuficiente" de "ID de página equivocado". Resuelto obteniendo el ID real (`1097597110114567`) vía `GET /me/accounts` con un token de Usuario del Sistema, y actualizando el secret.
+3. De paso, se migró de un token personal (Graph API Explorer, con el problema recurrente de que el desplegable "página" revertía solo a "usuario") a un **Usuario del Sistema de Business Manager ya existente** ("FitzDesk Automatización", con Página + App + Instagram ya asignados con acceso total) — más robusto para automatización porque no caduca como un token personal. `FACEBOOK_PAGE_ACCESS_TOKEN` e `INSTAGRAM_ACCESS_TOKEN` actualizados con un token de ese Usuario del Sistema.
+
+**Confirmado**: ejecución de `publicar-en-redes.yml` del 2026-06-24 08:32 UTC completada con éxito, publicación real verificada en ambas redes para `razer-pro-click-analisis`.
+
+**Limpieza pendiente**: el `console.log` temporal de depuración en `publishFacebook()` (longitud + últimos 4 caracteres del token) sigue en el código — quitarlo ahora que el problema está resuelto.
+
+### Bug crítico encontrado y corregido 2026-06-23: "Publicar en redes sociales" nunca había funcionado de verdad
+
+`socialPublisher.js` usa `dotenv` y `gray-matter`, que no son built-ins de Node. `publicar-automatico.yml` nunca tuvo un paso `npm install`/`npm ci` para `fitzdesk-monitor` — el checkout no incluye `node_modules` (gitignored). Resultado: el step "Publicar en redes sociales" fallaba siempre con `ERR_MODULE_NOT_FOUND: Cannot find package 'dotenv'`, **independientemente de si los secrets existían o no**. No hay ningún registro en este documento de una publicación real confirmada en Instagram/Facebook (con ID de respuesta) desde que se integró el 22/06 — consistente con que nunca llegó a ejecutarse con éxito.
+
+**Detectado** al intentar republicar manualmente `razer-pro-click-analisis` vía `workflow_dispatch` con `fecha_override`. Reproducido localmente simulando el checkout limpio de CI (`git archive origin/main` + sin `node_modules`): el script revienta en el `import 'dotenv/config'` antes de llegar siquiera a comprobar los secrets.
+
+**✅ RESUELTO**: añadido el paso "Instalar dependencias del monitor" (`npm ci --omit=dev` en `fitzdesk-monitor/`) justo antes de "Publicar en redes sociales" en `publicar-automatico.yml`. Verificado localmente con una simulación completa del checkout de CI + `npm ci`: el script ya carga el artículo y genera los captions correctamente (faltan solo los secrets, que sí existen en GitHub Actions).
+
+### Bug relacionado encontrado el mismo día: relanzar el workflow para un día ya publicado falla siempre
+
+`auto-publisher.js --check` no distingue si la entrada del calendario ya tiene `publicado: true` — solo mira si hay una entrada para la fecha. Al relanzar `publicar-automatico.yml` con `fecha_override` sobre un día ya publicado, el paso "Obtener borrador e imagen desde develop" intenta hacer `git checkout origin/develop -- src/content/articulos/borrador-[slug].md`, pero ese archivo ya no existe (fue renombrado sin el prefijo `borrador-` al publicarse la primera vez) → falla siempre con el mismo error. No es un fallo puntual, se repetirá en cualquier reintento futuro sobre una fecha ya publicada.
+
+**Solución aplicada — workflow nuevo en vez de tocar `auto-publisher.js`**: `.github/workflows/publicar-en-redes.yml`, disparable manualmente (`workflow_dispatch`, input `slug`), que solo ejecuta `socialPublisher.js --slug [slug]` sobre el artículo ya publicado en `main` — sin pasar por el calendario ni por `auto-publisher.js`. Sirve para republicar en redes sociales (o publicar la primera vez si el pipeline automático falló en ese paso) sin arriesgar el resto del pipeline de contenido. Uso: GitHub → Actions → "Publicar en redes sociales (manual)" → Run workflow → introducir el slug ya publicado (sin prefijo `borrador-`).
 
 ## Archivos clave del monitor
 
