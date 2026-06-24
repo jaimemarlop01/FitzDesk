@@ -11,7 +11,7 @@ criterios:
   conectividad: 9.0
   durabilidad: 8.7
   calidad_precio: 8.3
-precio: "109€"
+precio: "119,95€"
 enlace_afiliado: "https://www.pccomponentes.com/keychron-k8-pro"
 tiempo_lectura: "7 min"
 tipo: "analisis"
@@ -31,6 +31,8 @@ especificaciones:
   Compatibilidad: "Mac y Windows (teclas incluidas para ambos)"
   Material: "Aluminio (marco) + plástico (base)"
   Registros: "N-key rollover"
+fecha_actualizacion: "2026-06-24"
+actualizado: true
 ---
 
 ## La puerta de entrada al mundo mecánico serio
