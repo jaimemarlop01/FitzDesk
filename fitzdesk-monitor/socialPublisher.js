@@ -1,18 +1,20 @@
 #!/usr/bin/env node
 /**
  * FitzDesk Social Publisher
- * Publica el artículo recién publicado en Instagram y Facebook, usando
- * imágenes optimizadas por red en vez de la imagen original del artículo
- * (se generan bajo demanda si no existen) y captions generados con Groq
- * adaptados al formato de cada red (con fallback a plantilla fija si la
- * IA falla). Pinterest está preparado en el código pero desactivado
- * (PINTEREST_ENABLED = false) hasta conseguir la aprobación del scope
- * pins:write en la API de Pinterest.
+ * Publica el artículo recién publicado en Instagram (carrusel de 4 slides)
+ * y Facebook, usando imágenes optimizadas por red en vez de la imagen
+ * original del artículo (se generan bajo demanda si no existen) y captions
+ * generados con Groq adaptados al formato de cada red (con fallback a
+ * plantilla fija si la IA falla). Pinterest está preparado en el código
+ * pero desactivado (PINTEREST_ENABLED = false) hasta conseguir la
+ * aprobación del scope pins:write en la API de Pinterest.
  *
- * Imagen de Instagram: instagramImageGenerator.js (Puppeteer, PNG 1080x1350).
- * Imagen de Facebook: socialImageGenerator.js (Sharp, WEBP 1200x630) — su
- * pieza de Instagram (Sharp) quedó sustituida por Puppeteer y ya no se usa
- * aquí, aunque sigue disponible en el archivo.
+ * Instagram: instagramImageGenerator.js genera 4 slides (Puppeteer, PNG
+ * 1080x1350) — gancho visual, lo mejor, lo mejorable, veredicto de Fitz —
+ * publicados como carrusel vía Graph API.
+ * Facebook: socialImageGenerator.js (Sharp, WEBP 1200x630) — su función
+ * generateInstagramImage() (Sharp, imagen única) quedó sustituida por el
+ * carrusel y ya no se usa aquí, aunque sigue disponible en el archivo.
  *
  * Uso:
  *   node socialPublisher.js --slug [slug]                       # publicación real (ambas redes)
@@ -28,18 +30,18 @@ import { fileURLToPath } from 'node:url';
 import matter from 'gray-matter';
 import Groq from 'groq-sdk';
 import { generateFacebookImage } from './socialImageGenerator.js';
-import { generateInstagramImage } from './instagramImageGenerator.js';
+import { generateInstagramCarousel } from './instagramImageGenerator.js';
 
 const __dirname    = path.dirname(fileURLToPath(import.meta.url));
 const ARTICLES_DIR = path.join(__dirname, '..', 'src', 'content', 'articulos');
 const REDES_DIR     = path.join(__dirname, '..', 'public', 'images', 'redes');
 const SITE_URL      = 'https://fitzdesk.com';
 
+const INSTAGRAM_SLIDE_COUNT = 4;
+
 // Pinterest preparado pero desactivado — activar cuando se apruebe el scope
 // pins:write en la API de Pinterest
 const PINTEREST_ENABLED = false;
-
-const SOCIAL_IMAGE_EXT = { instagram: 'png', facebook: 'webp' };
 
 const groqClient = process.env.GROQ_API_KEY ? new Groq({ apiKey: process.env.GROQ_API_KEY }) : null;
 
@@ -70,23 +72,39 @@ function imageUrlFor(slug) {
   return `${SITE_URL}/images/articulos/${slug}.webp`;
 }
 
-// Imagen específica de red (Instagram: Puppeteer/PNG 1080x1350, Facebook:
-// Sharp/WEBP 1200x630) — generada una sola vez por artículo y reutilizada
-// en reintentos. Si no existe en disco, se genera bajo demanda antes de
-// publicar.
-function socialImagePath(slug, network) {
-  return path.join(REDES_DIR, `${slug}-${network}.${SOCIAL_IMAGE_EXT[network]}`);
+// Imagen de Facebook (Sharp/WEBP 1200x630) — generada una sola vez por
+// artículo y reutilizada en reintentos. Si no existe en disco, se genera
+// bajo demanda antes de publicar.
+function facebookImagePath(slug) {
+  return path.join(REDES_DIR, `${slug}-facebook.webp`);
 }
 
-function socialImageUrlFor(slug, network) {
-  return `${SITE_URL}/images/redes/${slug}-${network}.${SOCIAL_IMAGE_EXT[network]}`;
+function facebookImageUrlFor(slug) {
+  return `${SITE_URL}/images/redes/${slug}-facebook.webp`;
 }
 
-async function ensureSocialImage(slug, network) {
-  if (fs.existsSync(socialImagePath(slug, network))) return;
-  logInfo(`Imagen de ${network} no encontrada — generándola...`);
-  if (network === 'instagram') await generateInstagramImage(slug);
-  else await generateFacebookImage(slug);
+async function ensureFacebookImage(slug) {
+  if (fs.existsSync(facebookImagePath(slug))) return;
+  logInfo('Imagen de Facebook no encontrada — generándola...');
+  await generateFacebookImage(slug);
+}
+
+// Carrusel de Instagram (Puppeteer/PNG 1080x1350 x4 slides) — mismo criterio
+// de generación bajo demanda que la imagen de Facebook.
+function instagramSlidePath(slug, n) {
+  return path.join(REDES_DIR, `${slug}-instagram-${n}.png`);
+}
+
+function instagramSlideUrlFor(slug, n) {
+  return `${SITE_URL}/images/redes/${slug}-instagram-${n}.png`;
+}
+
+async function ensureInstagramCarousel(slug) {
+  const allExist = Array.from({ length: INSTAGRAM_SLIDE_COUNT }, (_, i) => i + 1)
+    .every(n => fs.existsSync(instagramSlidePath(slug, n)));
+  if (allExist) return;
+  logInfo('Carrusel de Instagram no encontrado — generando los 4 slides...');
+  await generateInstagramCarousel(slug);
 }
 
 // ─── Construir contenido por red ──────────────────────────────────────────────
@@ -164,12 +182,12 @@ ${content}
 
 Escribe el texto final siguiendo EXACTAMENTE esta estructura (sin etiquetas como "1." ni explicaciones, solo el texto final con líneas en blanco entre bloques):
 
-1. Un párrafo de introducción (3-4 frases), más desarrollado que en Instagram, explicando por qué este producto es relevante para alguien que teletrabaja.
+1. Párrafo gancho (2-3 líneas) explicando por qué este producto es relevante para alguien que teletrabaja.
 2. 3-4 puntos clave del análisis, cada uno en su propia línea empezando por "•".
-3. Una pregunta dirigida a la audiencia para generar comentarios, relacionada con el tema del artículo.
-4. Sin hashtags, o como máximo 2 al final si aportan algo real.
+3. Una pregunta dirigida a la audiencia para generar comentarios, relacionada con el tema del artículo (ej: "¿Usáis teclado Bluetooth o preferís cable?").
+4. Máximo 2 hashtags al final, solo si aportan algo real.
 
-No incluyas ningún enlace ni URL en tu respuesta. No inventes datos que no estén en el contenido del análisis. Español de España.`;
+No incluyas ningún enlace ni URL en tu respuesta (el enlace al artículo se añade automáticamente después y genera su propia vista previa). No inventes datos que no estén en el contenido del análisis. Español de España.`;
 }
 
 // Groq (llama-3.3-70b-versatile) mezcla ocasionalmente algún carácter CJK
@@ -253,6 +271,22 @@ async function waitForContainerReady(containerId, accessToken, { retries = 10, d
   throw new Error('El contenedor de Instagram no estuvo listo a tiempo (timeout esperando status_code=FINISHED)');
 }
 
+// Crea un contenedor individual marcado como is_carousel_item — no se
+// publica por separado, solo se referencia luego desde el contenedor de
+// carrusel (children).
+async function createCarouselItem(igAccountId, accessToken, imageUrl) {
+  const res  = await fetch(`https://graph.facebook.com/v25.0/${igAccountId}/media`, {
+    method:  'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body:    JSON.stringify({ image_url: imageUrl, is_carousel_item: true, access_token: accessToken }),
+  });
+  const data = await res.json();
+  if (!res.ok || !data.id) {
+    throw new Error(`Error creando item de carrusel: ${JSON.stringify(data)}`);
+  }
+  return data.id;
+}
+
 async function publishInstagram(article, slug) {
   const accessToken = process.env.INSTAGRAM_ACCESS_TOKEN;
   const igAccountId = process.env.INSTAGRAM_ACCOUNT_ID;
@@ -261,32 +295,38 @@ async function publishInstagram(article, slug) {
 
   const caption = await getInstagramCaption(article);
 
-  await ensureSocialImage(slug, 'instagram');
-  const imageUrl = socialImageUrlFor(slug, 'instagram');
+  await ensureInstagramCarousel(slug);
 
-  // Paso 1 — crear contenedor
-  const createRes  = await fetch(`https://graph.facebook.com/v25.0/${igAccountId}/media`, {
-    method:  'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body:    JSON.stringify({ image_url: imageUrl, caption, access_token: accessToken }),
-  });
-  const createData = await createRes.json();
-  if (!createRes.ok || !createData.id) {
-    throw new Error(`Error creando contenedor de Instagram: ${JSON.stringify(createData)}`);
+  // Paso 1 — crear un contenedor por cada slide del carrusel y esperar a
+  // que cada uno esté listo antes de seguir
+  const itemIds = [];
+  for (let n = 1; n <= INSTAGRAM_SLIDE_COUNT; n++) {
+    const itemId = await createCarouselItem(igAccountId, accessToken, instagramSlideUrlFor(slug, n));
+    await waitForContainerReady(itemId, accessToken);
+    itemIds.push(itemId);
   }
 
-  // Paso 1b — esperar a que el contenedor esté listo
-  await waitForContainerReady(createData.id, accessToken);
+  // Paso 2 — crear el contenedor de carrusel con los 4 IDs y el caption
+  const carouselRes  = await fetch(`https://graph.facebook.com/v25.0/${igAccountId}/media`, {
+    method:  'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body:    JSON.stringify({ media_type: 'CAROUSEL', children: itemIds, caption, access_token: accessToken }),
+  });
+  const carouselData = await carouselRes.json();
+  if (!carouselRes.ok || !carouselData.id) {
+    throw new Error(`Error creando contenedor de carrusel: ${JSON.stringify(carouselData)}`);
+  }
+  await waitForContainerReady(carouselData.id, accessToken);
 
-  // Paso 2 — publicar contenedor
+  // Paso 3 — publicar el carrusel
   const publishRes  = await fetch(`https://graph.facebook.com/v25.0/${igAccountId}/media_publish`, {
     method:  'POST',
     headers: { 'Content-Type': 'application/json' },
-    body:    JSON.stringify({ creation_id: createData.id, access_token: accessToken }),
+    body:    JSON.stringify({ creation_id: carouselData.id, access_token: accessToken }),
   });
   const publishData = await publishRes.json();
   if (!publishRes.ok || !publishData.id) {
-    throw new Error(`Error publicando en Instagram: ${JSON.stringify(publishData)}`);
+    throw new Error(`Error publicando el carrusel de Instagram: ${JSON.stringify(publishData)}`);
   }
 
   return publishData.id;
@@ -301,7 +341,7 @@ async function publishFacebook(article, slug) {
 
   const caption = await getFacebookCaption(article, slug);
 
-  await ensureSocialImage(slug, 'facebook');
+  await ensureFacebookImage(slug);
 
   const res  = await fetch(`https://graph.facebook.com/v25.0/${pageId}/feed`, {
     method:  'POST',
@@ -309,7 +349,7 @@ async function publishFacebook(article, slug) {
     body:    JSON.stringify({
       message:      caption,
       link:         `${SITE_URL}/articulo/${slug}`,
-      picture:      socialImageUrlFor(slug, 'facebook'),
+      picture:      facebookImageUrlFor(slug),
       access_token: accessToken,
     }),
   });
@@ -371,10 +411,12 @@ async function runTest(article, slug, runInstagram, runFacebook) {
   }
 
   console.log('\n📸 Imágenes que se usarían (se generan bajo demanda si no existen):');
-  for (const network of ['instagram', 'facebook']) {
-    const exists = fs.existsSync(socialImagePath(slug, network));
-    console.log(`   ${exists ? '✅ ya existe' : '⏳ se generaría'} — ${socialImageUrlFor(slug, network)}`);
+  for (let n = 1; n <= INSTAGRAM_SLIDE_COUNT; n++) {
+    const exists = fs.existsSync(instagramSlidePath(slug, n));
+    console.log(`   ${exists ? '✅ ya existe' : '⏳ se generaría'} — Instagram slide ${n}: ${instagramSlideUrlFor(slug, n)}`);
   }
+  const fbExists = fs.existsSync(facebookImagePath(slug));
+  console.log(`   ${fbExists ? '✅ ya existe' : '⏳ se generaría'} — Facebook: ${facebookImageUrlFor(slug)}`);
 
   if (runInstagram) {
     const caption = await getInstagramCaption(article);
