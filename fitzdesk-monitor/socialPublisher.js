@@ -108,6 +108,23 @@ async function notifyDiscordError(message) {
 
 // ─── Instagram ────────────────────────────────────────────────────────────────
 
+// Tras crear el contenedor, Instagram tarda unos segundos en descargar y
+// procesar la imagen antes de poder publicarlo — publicar antes de tiempo
+// falla con "Media ID is not available" (código 9007). Se espera a que
+// status_code pase a FINISHED, con un máximo de ~20s.
+async function waitForContainerReady(containerId, accessToken, { retries = 10, delayMs = 2000 } = {}) {
+  for (let i = 0; i < retries; i++) {
+    const res  = await fetch(`https://graph.facebook.com/v25.0/${containerId}?fields=status_code&access_token=${accessToken}`);
+    const data = await res.json();
+    if (data.status_code === 'FINISHED') return;
+    if (data.status_code === 'ERROR') {
+      throw new Error(`Contenedor de Instagram en estado ERROR: ${JSON.stringify(data)}`);
+    }
+    await new Promise(resolve => setTimeout(resolve, delayMs));
+  }
+  throw new Error('El contenedor de Instagram no estuvo listo a tiempo (timeout esperando status_code=FINISHED)');
+}
+
 async function publishInstagram(article, slug) {
   const accessToken = process.env.INSTAGRAM_ACCESS_TOKEN;
   const igAccountId = process.env.INSTAGRAM_ACCOUNT_ID;
@@ -127,6 +144,9 @@ async function publishInstagram(article, slug) {
   if (!createRes.ok || !createData.id) {
     throw new Error(`Error creando contenedor de Instagram: ${JSON.stringify(createData)}`);
   }
+
+  // Paso 1b — esperar a que el contenedor esté listo
+  await waitForContainerReady(createData.id, accessToken);
 
   // Paso 2 — publicar contenedor
   const publishRes  = await fetch(`https://graph.facebook.com/v25.0/${igAccountId}/media_publish`, {
