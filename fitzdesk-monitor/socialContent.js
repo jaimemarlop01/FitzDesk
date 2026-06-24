@@ -170,7 +170,7 @@ export async function getFacebookCaption(article, slug) {
   }
 }
 
-// ─── Discord (notificación de error) ──────────────────────────────────────────
+// ─── Discord (notificaciones) ───────────────────────────────────────────────────
 
 export async function notifyDiscordError(message, title = 'FitzDesk — Social Publisher') {
   const webhook = process.env.DISCORD_WEBHOOK_URL;
@@ -189,5 +189,32 @@ export async function notifyDiscordError(message, title = 'FitzDesk — Social P
     });
   } catch (e) {
     logError(`No se pudo notificar el fallo a Discord: ${e.message}`);
+  }
+}
+
+// statusLines: [{ name: 'Instagram', value: '✅ id: 123' }, ...] — se notifica
+// en cuanto al menos una red haya publicado correctamente, mostrando también
+// el estado de las que fallaron u omitieron para que el mensaje sea completo.
+export async function notifyDiscordSuccess({ title, slug, statusLines }) {
+  const webhook = process.env.DISCORD_WEBHOOK_URL;
+  if (!webhook) {
+    logWarn('DISCORD_WEBHOOK_URL no configurada — no se puede notificar el éxito a Discord');
+    return;
+  }
+  try {
+    await fetch(webhook, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        embeds: [{
+          title:       '✅ Publicado en redes sociales',
+          description: `**${title}**\n${SITE_URL}/articulo/${slug}`,
+          color:       5763719,
+          fields:      statusLines.map(({ name, value }) => ({ name, value, inline: true })),
+        }],
+      }),
+    });
+  } catch (e) {
+    logError(`No se pudo notificar el éxito a Discord: ${e.message}`);
   }
 }
