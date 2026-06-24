@@ -1,11 +1,12 @@
 ---
-title: "Logitech Mobi Fold: el ratón compacto plegable para trabajar desde cualquier lugar"
+title: "Logitech Mobi Fold: ratón compacto plegable para teletrabajo móvil"
 slug: "logitech-mobi-fold-analisis"
 categoria: "ratones"
 fecha: "2026-07-16"
 descripcion: "Logitech Mobi Fold: ratón Bluetooth compacto y plegable, silencioso, ideal para teletrabajadores en movimiento."
 imagen: "/images/articulos/logitech-mobi-fold-analisis.webp"
 precio: "Ver precio"
+enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=logitech+mobi+fold"
 tiempo_lectura: "7 min"
 tipo: "analisis"
 puntuacion: 8.0

@@ -269,10 +269,21 @@ Objetivos:
 
 ## Estado de borradores
 - Última revisión: 2026-06-21
-- Última ejecución de completar-borradores: 2026-06-21
+- Última ejecución de completar-borradores: 2026-06-24
 - Borradores descartados: 0 en esta pasada
 - Borradores completados y con fecha en el calendario: 18 (7 ya estaban calendarizados + 11 huérfanos incorporados hoy, ver "Estado del calendario de publicaciones")
-- Lanzamientos Computex pendientes de disponibilidad: borrador-adata-urban-tapsafe (sin tocar, según instrucción — esperando disponibilidad real del producto)
+- Lanzamientos Computex pendientes de disponibilidad: borrador-adata-urban-tapsafe (precio sin tocar, según instrucción — esperando disponibilidad real del producto; imagen rota corregida, ver pasada 2026-06-24)
+- **Pasada 2026-06-24 — corrección puntual sobre 8 borradores señalados por el Revisor de borradores** (working directory; sin tocar `borrador: true`, sin renombrar archivos, sin push a `main`):
+  - `borrador-adata-lleva-a-computex-b2026b-el-urban-tapsafe-un-ssd-externo-que-se-desbloquea-.md` — el campo `imagen` apuntaba a un archivo .webp inexistente en disco. Generado placeholder honesto (mismo estilo que el de Airra Labs: fondo `#F9FAFB`, patrón de puntos, icono genérico de SSD, texto "Imagen provisional — pendiente de imagen oficial") + thumb. Precio sigue sin resolver, intencionadamente (lanzamiento sin disponibilidad real todavía)
+  - `airra-labs-rotary-mouse-analisis` — `precio: "Ver precio"` no se pudo resolver con una fuente fiable; queda pendiente de revisión humana o de disponibilidad real del producto. Imagen placeholder ya existente intencionadamente sin tocar
+  - `borrador-asus-rog-strix-scar-18-analisis.md` — verificada la longitud real de `descripcion`: 147 caracteres, dentro del límite de 150 (el conteo de 153 reportado por el Revisor no se correspondía con el contenido actual del archivo). No requirió cambio. `precio: "Ver precio"` sigue sin resolver, pendiente
+  - `lg-ultragear-34gx90sb-w-analisis` — `precio: "Ver precio"` sin fuente fiable, queda pendiente
+  - `borrador-logitech-k380-analisis.md` — la imagen (`logitech-k380-analisis.webp`) era el logo genérico "logi" de Logitech, idéntica byte a byte a las de mk470 y mobi-fold. Se intentó `imageCollector.js --slug logitech-k380-analisis` con varias queries manuales (español e inglés): en todos los casos la ruta "vía fabricante" siguió devolviendo el mismo logo genérico del dominio logitech.com en vez de una foto del producto — bug del collector con el sitio de Logitech, no resuelto. Sustituida por un placeholder honesto propio (icono de teclado) + thumb, en vez de dejar la imagen engañosa. Precio (39,99€) ya estaba resuelto, sin cambios
+  - `borrador-logitech-mk470-analisis.md` — mismo bug de imagen genérica que K380, mismo fix (placeholder honesto, icono de combo teclado+ratón). `title` recortado de 74 a 63 caracteres ("Logitech MK470: combo teclado y ratón para teletrabajo sencillo"). `precio: "Ver precio"` sin resolver, pendiente
+  - `razer-seiren-v3-pro-analisis` — `precio: "Ver precio"` sin fuente fiable, queda pendiente (imagen oficial ya resuelta en pasada anterior, sin tocar)
+  - `logitech-mobi-fold-analisis.md` — mismo bug de imagen genérica, mismo fix (placeholder honesto, icono de ratón). `title` recortado de 82 a 66 caracteres ("Logitech Mobi Fold: ratón compacto plegable para teletrabajo móvil"). Añadido `enlace_afiliado` que faltaba por completo (`https://www.pccomponentes.com/buscar/?query=logitech+mobi+fold`, mismo formato que el resto del sitio). `precio: "Ver precio"` sin resolver, pendiente
+  - **Pendiente de resolución manual o con fuente externa**: precios reales de airra-labs-rotary-mouse, asus-rog-strix-scar-18, lg-ultragear-34gx90sb-w, logitech-k380 (ya tiene), logitech-mk470, razer-seiren-v3-pro, logitech-mobi-fold — y las 3 imágenes honestas-placeholder (K380, MK470, Mobi Fold) siguen pendientes de una foto real de producto, igual que Airra Labs
+  - Build verificado con `npm run build` tras los cambios: 37 páginas generadas, sin errores ni warnings; los borradores con `borrador: true` no generan página propia, como se esperaba
 - **Limpieza 2026-06-21 — duplicados obsoletos en develop**: `borrador-hp-probook-455-g10-analisis.md` y `borrador-samsung-s27a600-analisis.md` seguían en develop con el nombre antiguo pese a estar ya publicados en `main` (el workflow de publicación nunca sincroniza el cambio de vuelta a develop). Eliminados de develop — el contenido publicado vive en `main`, no hace falta duplicarlo. También se quitó `borrador: true` de `mejor-raton-teletrabajo-presupuesto-2026.md` en develop, que llevaba ese campo desincronizado pese a estar publicado sin él en `main`
 - Dos ajustes de longitud en esta pasada: `dolor-muneca-teletrabajo-perifericos-ergonomicos` recortado de 1511 a 1395 palabras (superaba el máximo de guia); `logitech-mobi-fold-analisis` ampliado de 894 a 937 palabras (por debajo del mínimo de analisis)
 - Bugs corregidos en esta revisión (2026-06-18):
@@ -313,9 +324,21 @@ De esos 14, **4 se conservaron y completaron** (traídos a `develop` con frontma
 **Bug corregido en `analyzer.js`**: el segundo borrador descartado tenía `borrador: false` en el frontmatter pese a estar recién generado sin revisar. Causa: `generateDraft()` deja que la IA genere el frontmatter completo como texto libre (incluyendo el campo `borrador:`), y el código nunca lo validaba después — al contrario que `precio:` y `enlace_afiliado:`, que sí se sobrescriben siempre en `injectPcData()`. Corregido añadiendo una normalización forzada antes de `injectPcData()`: si el campo existe con cualquier valor (`true` o `false`), se fuerza a `true`; si no existe, se inserta antes del cierre del frontmatter. Mismo patrón defensivo que ya usaban `precio`/`enlace_afiliado`.
 
 ## Estado del código
-- Última revisión: 2026-06-17 (6ª pasada — revisión post-sesión calidad textual y comparar.astro)
+- Última revisión: 2026-06-24 (7ª pasada — revisión de los archivos nuevos de redes sociales: socialPublisher.js, socialContent.js, socialReviewer.js, instagramImageGenerator.js, socialImageGenerator.js, además de barrido completo de src/ y fitzdesk-monitor/)
 - Errores críticos pendientes: 0 | Estado: ✅ Sin errores críticos
-- Advertencias: 3 — ver detalle abajo
+- Advertencias 2026-06-24: 2 (1 nueva + 1 ya conocida sin corregir, ver detalle abajo). 1 advertencia conocida corregida en esta pasada.
+- Correcciones aplicadas en esta pasada (2 archivos):
+  - ScoreBox.astro — colores hardcodeados (#16a34a, #F97316, #DC2626) reemplazados por scoreColor() de src/lib/score.ts (advertencia pendiente desde 2026-06-17, ahora resuelta — mismo patrón ya aplicado en ArticleCard.astro y [slug].astro)
+  - buscar.astro:591 — `.card-sep` usaba #9CA3AF hardcodeado en vez de var(--color-text-secondary); corregido
+- Advertencias pendientes tras esta pasada:
+  - global.css:5 — --color-brand-dark sigue siendo #EA6A00 mientras CLAUDE.md documenta #EA580C; dos valores distintos en uso (comparar.astro usa --color-primary-dark: #EA580C). Verificado de nuevo el 2026-06-24, persiste sin cambios.
+  - index.astro / Footer.astro — colores #9CA3AF, #6B7280, #D1D5DB hardcodeados en CSS de secciones oscuras (why-section, footer); persisten sin cambios desde 2026-06-17, candidatos a var(--color-text-secondary) o una nueva variable para textos sobre fondo oscuro
+- Sugerencias menores 2026-06-24 (sin corregir, bajo impacto):
+  - slugify() está duplicada en 4 archivos del monitor (analyzer.js, compareGenerator.js, guideGenerator.js, launchGenerator.js) — mismo cuerpo de 8 líneas en los 4; candidata a extraer a un helper compartido si se vuelve a tocar alguno de estos scripts
+  - instagramImageGenerator.js:86-90 — función scoreColor() local con colores hardcodeados (#16a34a/#F97316/#DC2626) que replica src/lib/score.ts; no se puede importar directamente porque ese módulo es TypeScript en el ámbito de Astro y este archivo corre en Node puro fuera del build — el comentario en el código ya lo explica, se deja igual
+  - _convert_tmp.cjs (raíz del repo, sin trackear en git) — script de conversión puntual de una imagen con una ruta local de Windows hardcodeada (C:/Users/jaimi/Downloads/...); no forma parte del código fuente real, candidato a borrar si ya no se necesita
+  - publicar-automatico.yml / publicar-en-redes.yml — el step "Setup Node.js" no usa `cache: npm`, a diferencia de monitor.yml y deploy.yml; impacto bajo porque fitzdesk-monitor tiene pocas dependencias y estos workflows corren pocas veces por semana
+- Verificado sin regresión 2026-06-24 (archivos nuevos de esta sesión — socialPublisher.js, socialContent.js, socialReviewer.js, instagramImageGenerator.js, socialImageGenerator.js): todas las llamadas fetch están dentro de try/catch en el punto de uso; GROQ_API_KEY se comprueba con guard antes de instanciar el cliente Groq en socialContent.js y socialReviewer.js; sin console.log de debug (todos son output de CLI intencional); sin "as any"; sin acceso a DOM relevante (son scripts Node puro, no scripts de navegador)
 - Advertencias detectadas 2026-06-17:
   - ScoreBox.astro:20-22 — colores hardcodeados (#16a34a, #F97316, #DC2626) duplican var(--color-success/primary/error); deberían usar scoreColor() de src/lib/score.ts
   - global.css:5 — --color-brand-dark es #EA6A00 pero CLAUDE.md documenta #EA580C; hay dos valores distintos en uso (comparar.astro usa --color-primary-dark: #EA580C)
