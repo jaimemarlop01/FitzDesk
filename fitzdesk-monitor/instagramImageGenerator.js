@@ -143,6 +143,42 @@ async function condenseVerdictWithGroq(sourceText) {
   return await callGroqText(prompt, 100);
 }
 
+// Frases de respaldo si Groq no está disponible — genéricas pero coherentes
+// con el tipo de punto (pro o contra), no con el texto exacto del ítem.
+const GENERIC_PRO_EXPLANATIONS = [
+  'Una ventaja que se nota en el uso diario',
+  'Pensado para hacerte la vida más fácil',
+  'Un punto a favor frente a otras opciones',
+  'Justo lo que se le pide a un buen producto de trabajo',
+];
+const GENERIC_CON_EXPLANATIONS = [
+  'Algo a tener en cuenta antes de comprar',
+  'No es decisivo, pero conviene saberlo',
+  'El único pero que le encontramos',
+];
+
+function genericExplanation(kind, i) {
+  const list = kind === 'pro' ? GENERIC_PRO_EXPLANATIONS : GENERIC_CON_EXPLANATIONS;
+  return list[i % list.length];
+}
+
+async function explainItemsWithGroq(items, content) {
+  const itemsList = items.map((item, i) => `${i + 1}. ${item}`).join('\n');
+  const prompt = `A partir de este análisis de producto, para cada uno de los siguientes puntos escribe una frase corta (máximo 10 palabras) que explique el beneficio real para el usuario, en tono cercano, sin repetir literalmente el punto ni usar comillas. Responde con exactamente ${items.length} líneas, una por punto, en el mismo orden, sin numeración ni guiones.\n\nPUNTOS:\n${itemsList}\n\nCONTENIDO DEL ANÁLISIS:\n${content}`;
+  const text  = await callGroqText(prompt);
+  return text.split('\n').map(l => l.replace(/^[-*\d.\s]+/, '').replace(/^["']|["']$/g, '').trim()).filter(Boolean);
+}
+
+async function getItemExplanations(items, content, kind) {
+  try {
+    const explanations = await explainItemsWithGroq(items, content);
+    return items.map((_, i) => explanations[i] || genericExplanation(kind, i));
+  } catch (e) {
+    logWarn(`Groq falló generando explicaciones de "${kind}" (${e.message}) — usando frases genéricas`);
+    return items.map((_, i) => genericExplanation(kind, i));
+  }
+}
+
 async function getCarouselContent({ data, content }) {
   // 1. Frontmatter (poco habitual en este esquema, pero se respeta si existe)
   let pros        = Array.isArray(data.lo_mejor) ? data.lo_mejor : [];
@@ -185,11 +221,17 @@ async function getCarouselContent({ data, content }) {
     veredicto = raw.split(/(?<=[.?!])\s/)[0]?.slice(0, 140) || 'Análisis completo en fitzdesk.com';
   }
 
-  return {
-    pros:    pros.length ? pros : ['Ver análisis completo en fitzdesk.com'],
-    contras: contras.length ? contras : ['Ver análisis completo en fitzdesk.com'],
-    veredicto,
-  };
+  // Las frases explicativas solo tienen sentido si hay pros/contras reales
+  // (no para el placeholder de respaldo "Ver análisis completo...")
+  const prosFallback    = pros.length === 0;
+  const contrasFallback = contras.length === 0;
+  pros    = pros.length    ? pros    : ['Ver análisis completo en fitzdesk.com'];
+  contras = contras.length ? contras : ['Ver análisis completo en fitzdesk.com'];
+
+  const prosExplanations    = prosFallback    ? pros.map(() => null)    : await getItemExplanations(pros, content, 'pro');
+  const contrasExplanations = contrasFallback ? contras.map(() => null) : await getItemExplanations(contras, content, 'con');
+
+  return { pros, contras, veredicto, prosExplanations, contrasExplanations };
 }
 
 // ─── Plantillas HTML ────────────────────────────────────────────────────────────
@@ -242,8 +284,8 @@ ${baseHead()}
   .gradient-top {
     position: absolute;
     left: 0; right: 0; top: 0;
-    height: 420px;
-    background: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%);
+    height: 560px;
+    background: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 75%, rgba(0,0,0,0) 100%);
   }
   .logo {
     position: absolute;
@@ -307,11 +349,14 @@ ${baseHead()}
 }
 
 // Slides 2 y 3 — listas (Lo mejor / Lo mejorable) sobre fondo oscuro
-function buildListSlideHtml({ heading, headingColor, items, icon }) {
-  const itemsHtml = items.map(item => `
+function buildListSlideHtml({ heading, headingColor, items, explanations, icon, slideNumber, totalSlides, showSwipeHint }) {
+  const itemsHtml = items.map((item, i) => `
     <div class="list-item">
       <span class="list-icon">${icon}</span>
-      <span class="list-text">${escapeHtml(item)}</span>
+      <div class="list-text-wrap">
+        <span class="list-text">${escapeHtml(item)}</span>
+        ${explanations?.[i] ? `<span class="list-explanation">${escapeHtml(explanations[i])}</span>` : ''}
+      </div>
     </div>`).join('');
 
   return `
@@ -330,10 +375,27 @@ ${baseHead()}
     flex-direction: column;
     justify-content: center;
   }
+  .slide-number {
+    position: absolute;
+    top: 48px; right: 48px;
+    color: #9CA3AF;
+    font-size: 24px;
+    font-weight: 600;
+  }
   .heading { color: ${headingColor}; font-size: 56px; font-weight: 800; margin-bottom: 72px; }
-  .list-item { display: flex; align-items: flex-start; gap: 20px; margin-bottom: 48px; }
+  .list-item { display: flex; align-items: flex-start; gap: 20px; margin-bottom: 44px; }
   .list-icon { font-size: 40px; line-height: 1.3; }
+  .list-text-wrap { display: flex; flex-direction: column; gap: 8px; }
   .list-text { color: #FFFFFF; font-size: 38px; font-weight: 600; line-height: 1.3; }
+  .list-explanation { color: #9CA3AF; font-size: 24px; font-weight: 500; line-height: 1.3; }
+  .swipe-hint {
+    position: absolute;
+    bottom: 104px; left: 0; right: 0;
+    text-align: center;
+    color: #9CA3AF;
+    font-size: 26px;
+    font-weight: 600;
+  }
   .logo-small {
     position: absolute;
     bottom: 48px; right: 48px;
@@ -348,8 +410,10 @@ ${baseHead()}
 </head>
 <body>
   <div class="canvas">
+    <div class="slide-number">${slideNumber}/${totalSlides}</div>
     <div class="heading">${escapeHtml(heading)}</div>
     ${itemsHtml}
+    ${showSwipeHint ? '<div class="swipe-hint">Desliza →</div>' : ''}
     <div class="logo-small">
       <span class="logo-small-emoji">🐿️</span>
       <span class="logo-small-text">FitzDesk</span>
@@ -361,7 +425,7 @@ ${baseHead()}
 }
 
 // Slide 4 — veredicto de Fitz, sobre fondo naranja
-function buildVerdictSlideHtml({ veredicto, puntuacion }) {
+function buildVerdictSlideHtml({ veredicto, puntuacion, slideNumber, totalSlides }) {
   return `
 <!DOCTYPE html>
 <html lang="es">
@@ -379,6 +443,13 @@ ${baseHead()}
     justify-content: center;
     text-align: center;
     padding: 0 80px;
+  }
+  .slide-number {
+    position: absolute;
+    top: 48px; right: 48px;
+    color: #9CA3AF;
+    font-size: 24px;
+    font-weight: 600;
   }
   .icon { font-size: 140px; margin-bottom: 24px; }
   .subtitle {
@@ -407,6 +478,7 @@ ${baseHead()}
 </head>
 <body>
   <div class="canvas">
+    <div class="slide-number">${slideNumber}/${totalSlides}</div>
     <div class="icon">🐿️</div>
     <div class="subtitle">Veredicto de Fitz</div>
     <div class="verdict">${escapeHtml(veredicto)}</div>
@@ -494,9 +566,11 @@ async function captureHtml(browser, html, outputPath, afterRender) {
   }
 }
 
+const TOTAL_SLIDES = 4;
+
 export async function generateInstagramCarousel(slug) {
   const articleData = loadArticleData(slug);
-  const { pros, contras, veredicto } = await getCarouselContent(articleData);
+  const { pros, contras, veredicto, prosExplanations, contrasExplanations } = await getCarouselContent(articleData);
 
   const slides = [
     {
@@ -506,13 +580,19 @@ export async function generateInstagramCarousel(slug) {
       }),
     },
     {
-      html: buildListSlideHtml({ heading: '✅ Lo mejor', headingColor: '#F97316', items: pros, icon: '✅' }),
+      html: buildListSlideHtml({
+        heading: '✅ Lo mejor', headingColor: '#F97316', items: pros, explanations: prosExplanations,
+        icon: '✅', slideNumber: 2, totalSlides: TOTAL_SLIDES, showSwipeHint: true,
+      }),
     },
     {
-      html: buildListSlideHtml({ heading: '⚠️ Lo mejorable', headingColor: '#FFFFFF', items: contras, icon: '⚠️' }),
+      html: buildListSlideHtml({
+        heading: '⚠️ Lo mejorable', headingColor: '#FFFFFF', items: contras, explanations: contrasExplanations,
+        icon: '⚠️', slideNumber: 3, totalSlides: TOTAL_SLIDES, showSwipeHint: true,
+      }),
     },
     {
-      html: buildVerdictSlideHtml({ veredicto, puntuacion: articleData.puntuacion }),
+      html: buildVerdictSlideHtml({ veredicto, puntuacion: articleData.puntuacion, slideNumber: 4, totalSlides: TOTAL_SLIDES }),
       afterRender: page => autofitVerdict(page, '.verdict', veredicto, {
         startSize: 50, minSize: 28, normalLines: 2, maxLines: 3, step: 2,
       }),
