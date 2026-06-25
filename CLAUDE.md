@@ -543,6 +543,16 @@ Tras activar el publisher (22/06) y corregir los bugs de código (23/06 — `INS
 
 **Confirmado**: ejecución de `publicar-en-redes.yml` del 2026-06-24 08:32 UTC completada con éxito, publicación real verificada en ambas redes para `razer-pro-click-analisis`.
 
+### ❌→✅ Bug real encontrado 2026-06-25: la publicación de Logitech K380 en redes falló (bloqueada por el revisor), causa real distinta de lo que parecía
+
+La publicación automática del 25/06 (`logitech-k380-analisis`) llegó a Discord con un aviso de fallo: *"La revisión automática bloqueó la publicación... No se pudo corregir el texto de Facebook: GROQ_API_KEY no configurada — no se puede corregir automáticamente"*. El paso "Publicar en redes sociales" del workflow había terminado con conclusion `success` a nivel de GitHub Actions (el proceso no se cuelga ni revienta cuando el revisor bloquea una red, solo lo registra y notifica) — por eso parecía que todo había ido bien hasta que el usuario confirmó que no había nada publicado en Facebook/Instagram.
+
+**Causa real**: ni `publicar-automatico.yml` ni `publicar-en-redes.yml` pasaban `GROQ_API_KEY` en el bloque `env:` del step "Publicar en redes sociales" — pese a que `GROQ_API_KEY` es un secret que ya existe en el repo (usado por `monitor.yml`). El caption de Facebook se generó con Groq sin problema en pasos anteriores del propio script (con fallback a plantilla si fallara), pero cuando `socialReviewer.js` detectó algo corregible solo con Groq (`fixCaptionWithGroq()`) y lo intentó, `process.env.GROQ_API_KEY` era `undefined` en ese step concreto — `callGroq()` lanza esa excepción exacta cuando no hay cliente Groq instanciado. Esto explica por qué el 23/06 con `razer-pro-click-analisis` sí funcionó (la plantilla de esa vez pasó todas las comprobaciones mecánicas sin necesitar el arreglo de Groq) y el 25/06 con K380 no.
+
+**No se pudo ver el log real del job** para diagnosticar esto directamente: la API de GitHub exige permisos de administrador del repo para descargar logs de Actions, y no había `gh` CLI ni token configurado en el entorno de trabajo. Diagnosticado en su lugar a partir del texto exacto del aviso de Discord que pegó el usuario, y confirmado leyendo el bloque `env:` de ambos workflows.
+
+**Corregido**: añadida la línea `GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}` al bloque `env:` del step "Publicar en redes sociales" en ambos workflows (`publicar-automatico.yml` y `publicar-en-redes.yml`). Pendiente de verificación real: re-ejecutar `publicar-en-redes.yml` manualmente con `slug: logitech-k380-analisis` para confirmar que ya publica en ambas redes — no se pudo lanzar desde aquí (workflow_dispatch requiere la interfaz de GitHub o un token, ninguno disponible en este entorno).
+
 **Limpieza pendiente**: el `console.log` temporal de depuración en `publishFacebook()` (longitud + últimos 4 caracteres del token) sigue en el código — quitarlo ahora que el problema está resuelto.
 
 ### Bug crítico encontrado y corregido 2026-06-23: "Publicar en redes sociales" nunca había funcionado de verdad
