@@ -23,7 +23,7 @@ import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import matter from 'gray-matter';
 import puppeteer from 'puppeteer';
-import Groq from 'groq-sdk';
+import { callGroq } from './socialContent.js';
 
 const __dirname    = path.dirname(fileURLToPath(import.meta.url));
 const ARTICLES_DIR = path.join(__dirname, '..', 'src', 'content', 'articulos');
@@ -32,8 +32,6 @@ const OUTPUT_DIR    = path.join(PUBLIC_DIR, 'images', 'redes');
 
 const WIDTH  = 1080;
 const HEIGHT = 1350;
-
-const groqClient = process.env.GROQ_API_KEY ? new Groq({ apiKey: process.env.GROQ_API_KEY }) : null;
 
 function logInfo(msg)  { console.log(`ℹ️  ${msg}`); }
 function logOk(msg)    { console.log(`✅ ${msg}`); }
@@ -114,33 +112,15 @@ function parseBulletList(sectionText, maxItems) {
     .slice(0, maxItems);
 }
 
-// Groq mezcla ocasionalmente algún carácter CJK suelto en español (bug
-// conocido del modelo, ver socialPublisher.js) — misma red de seguridad.
-function stripStrayCjk(text) {
-  return text.replace(/[一-鿿㐀-䶿豈-﫿]/g, '');
-}
-
-async function callGroqText(prompt, maxTokens = 400) {
-  if (!groqClient) throw new Error('GROQ_API_KEY no configurada');
-  const completion = await groqClient.chat.completions.create({
-    model:      'llama-3.3-70b-versatile',
-    max_tokens: maxTokens,
-    messages:   [{ role: 'user', content: prompt }],
-  });
-  const text = completion.choices[0]?.message?.content?.trim();
-  if (!text) throw new Error('Groq no devolvió contenido');
-  return stripStrayCjk(text);
-}
-
 async function extractListWithGroq(content, { label, max }) {
   const prompt = `A partir de este análisis de producto, extrae ${max} ${label} concretos. Responde solo con la lista, una idea por línea, sin numeración ni guiones ni explicaciones, frases muy cortas (máximo 8 palabras cada una).\n\nCONTENIDO:\n${content}`;
-  const text = await callGroqText(prompt);
+  const text = await callGroq(prompt);
   return text.split('\n').map(l => l.replace(/^[-*\d.\s]+/, '').trim()).filter(Boolean).slice(0, max);
 }
 
 async function condenseVerdictWithGroq(sourceText) {
   const prompt = `Eres Fitz, la ardilla mascota de FitzDesk. A partir de este texto, escribe tu veredicto final en una frase corta y con personalidad, máximo 2 líneas (unas 16-18 palabras), sin emojis ni comillas. Responde solo con la frase final.\n\nTEXTO:\n${sourceText}`;
-  return await callGroqText(prompt, 100);
+  return await callGroq(prompt, 100);
 }
 
 // Frases de respaldo si Groq no está disponible — genéricas pero coherentes
@@ -194,7 +174,7 @@ ${itemsList}
 
 CONTENIDO DEL ANÁLISIS:
 ${content}`;
-  const text = await callGroqText(prompt);
+  const text = await callGroq(prompt);
   return text.split('\n').map(l => l.replace(/^[-*\d.\s]+/, '').replace(/^["']|["']$/g, '').trim()).filter(Boolean);
 }
 

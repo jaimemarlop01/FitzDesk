@@ -138,16 +138,43 @@ export function stripStrayCjk(text) {
   return text.replace(/[一-鿿㐀-䶿豈-﫿]/g, '');
 }
 
-export async function callGroq(prompt, maxTokens = 600) {
+// Errores de red transitorios (no de la API de Groq en sí) que merece la
+// pena reintentar con una conexión nueva. "Premature close" es la firma
+// clásica de un socket keep-alive que el servidor ya cerró pero el cliente
+// reutiliza — bug conocido del fetch de Node, frecuente en runners de corta
+// vida como GitHub Actions. Detectado el 2026-06-25: bloqueó la publicación
+// de un artículo entero porque CADA llamada a Groq de esa ejecución falló
+// con el mismo error, sin ningún reintento.
+const ERRORES_RED_TRANSITORIOS = ['premature close', 'econnreset', 'fetch failed', 'socket hang up'];
+
+function esErrorDeRedTransitorio(mensaje) {
+  const m = mensaje.toLowerCase();
+  return ERRORES_RED_TRANSITORIOS.some(p => m.includes(p));
+}
+
+export async function callGroq(prompt, maxTokens = 600, intentos = 3) {
   if (!groqClient) throw new Error('GROQ_API_KEY no configurada');
-  const completion = await groqClient.chat.completions.create({
-    model:      'llama-3.3-70b-versatile',
-    max_tokens: maxTokens,
-    messages:   [{ role: 'user', content: prompt }],
-  });
-  const text = completion.choices[0]?.message?.content?.trim();
-  if (!text) throw new Error('Groq no devolvió contenido');
-  return stripStrayCjk(text);
+
+  let ultimoError;
+  for (let intento = 1; intento <= intentos; intento++) {
+    try {
+      const completion = await groqClient.chat.completions.create({
+        model:      'llama-3.3-70b-versatile',
+        max_tokens: maxTokens,
+        messages:   [{ role: 'user', content: prompt }],
+      });
+      const text = completion.choices[0]?.message?.content?.trim();
+      if (!text) throw new Error('Groq no devolvió contenido');
+      return stripStrayCjk(text);
+    } catch (e) {
+      ultimoError = e;
+      const reintentar = intento < intentos && esErrorDeRedTransitorio(e.message ?? '');
+      if (!reintentar) throw e;
+      logWarn(`Groq: error de red transitorio (intento ${intento}/${intentos}, reintentando): ${e.message}`);
+      await new Promise(r => setTimeout(r, 500 * intento));
+    }
+  }
+  throw ultimoError;
 }
 
 export async function getInstagramCaption(article) {
