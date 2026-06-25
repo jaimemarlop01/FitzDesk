@@ -576,7 +576,7 @@ Con los dos bugs anteriores corregidos, el usuario relanzó otra vez y llegaron 
 
 **No se pudo probar el flujo completo de extremo a extremo** (generar → comitear → desplegar → publicar) desde este entorno de trabajo, al no poder lanzar `workflow_dispatch` sin `gh` CLI/token local — verificado en su lugar: sintaxis YAML válida de ambos workflows, sintaxis JS válida de `socialPublisher.js`, build de Astro sin errores, y `node socialPublisher.js --test --slug logitech-k380-analisis` en local confirma que el caption de Facebook ya no menciona ninguna imagen propia y que Groq sigue funcionando bien tras el fix de reintentos.
 
-**Pendiente de verificación real**: volver a re-ejecutar `publicar-en-redes.yml` manualmente con `slug: logitech-k380-analisis` para confirmar que ya publica en ambas redes.
+**✅ RESUELTO Y CONFIRMADO 2026-06-25**: el usuario re-ejecutó `publicar-en-redes.yml` con `slug: logitech-k380-analisis` y confirmó publicación correcta en ambas redes. Los 4 bugs encontrados y corregidos en una sola tarde (GROQ_API_KEY faltante en el `env:` del workflow, sin reintentos ante fallos de red transitorios de Groq, carrusel de Instagram nunca desplegado antes de llamar a Meta, y el override `picture` de Facebook bloqueado por falta de verificación de dominio) quedan todos verificados de extremo a extremo, no solo en teoría.
 
 **Nota de limpieza anterior ya resuelta**: el `console.log` de depuración del token de Facebook que se mencionaba aquí ya no está en el código (comprobado el 2026-06-25) — esta nota quedaba desactualizada.
 
