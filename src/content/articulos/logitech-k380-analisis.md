@@ -22,7 +22,6 @@ keywords_secundarias:
   - "teclado para iPad"
   - "teclado para Mac"
   - "teclado inalámbrico"
-borrador: true
 imagen_thumb: "/images/articulos/logitech-k380-analisis-thumb.webp"
 ---
 
