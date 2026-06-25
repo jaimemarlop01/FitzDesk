@@ -46,7 +46,18 @@ function slideCountFor(slug) {
 const EXPECTED_WIDTH  = 1080;
 const EXPECTED_HEIGHT = 1350;
 const MAX_IMAGE_BYTES = 2 * 1024 * 1024;
-const MIN_IMAGE_BYTES = 50 * 1024;
+// Bug crítico corregido el 2026-06-25: un único umbral de 50KB para todos
+// los slides rechazaba SIEMPRE el slide 2 del carrusel de oferta ("Por qué
+// comprarlo ahora": fondo oscuro liso + hasta 3 líneas cortas, sin las
+// frases explicativas en gris que sí rellenan los slides 2/3 del carrusel
+// normal de 4) — confirmado en vivo, ese slide pesa de forma consistente
+// ~44KB, por debajo de 50KB pero por encima de cualquier umbral razonable
+// para detectar una imagen realmente corrupta/vacía. Resultado: el revisor
+// bloqueaba SIEMPRE la publicación en redes de cualquier oferta, sin que
+// fuera un fallo puntual de compresión. Umbral más bajo para el carrusel de
+// 3 slides (oferta), el de 4 (análisis normal) se mantiene igual.
+const MIN_IMAGE_BYTES_NORMAL = 50 * 1024;
+const MIN_IMAGE_BYTES_OFERTA = 25 * 1024;
 const PNG_MAGIC = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
 
 function instagramSlidePath(slug, n) {
@@ -55,7 +66,7 @@ function instagramSlidePath(slug, n) {
 
 // ─── Revisión de imágenes (programática, sin IA) ───────────────────────────────
 
-async function checkOneImage(filePath) {
+async function checkOneImage(filePath, minBytes) {
   const issues = [];
 
   if (!fs.existsSync(filePath)) {
@@ -70,8 +81,8 @@ async function checkOneImage(filePath) {
   if (buffer.length > MAX_IMAGE_BYTES) {
     issues.push(`pesa más de 2MB (${(buffer.length / 1024 / 1024).toFixed(2)}MB)`);
   }
-  if (buffer.length < MIN_IMAGE_BYTES) {
-    issues.push(`pesa menos de 50KB (${(buffer.length / 1024).toFixed(1)}KB)`);
+  if (buffer.length < minBytes) {
+    issues.push(`pesa menos de ${(minBytes / 1024).toFixed(0)}KB (${(buffer.length / 1024).toFixed(1)}KB)`);
   }
 
   try {
@@ -88,12 +99,13 @@ async function checkOneImage(filePath) {
 
 export async function reviewInstagramImages(slug) {
   const slideCount = slideCountFor(slug);
+  const minBytes = slideCount === 3 ? MIN_IMAGE_BYTES_OFERTA : MIN_IMAGE_BYTES_NORMAL;
 
   async function checkAll() {
     const results = [];
     for (let n = 1; n <= slideCount; n++) {
       const filePath = instagramSlidePath(slug, n);
-      results.push({ slide: n, path: filePath, ...(await checkOneImage(filePath)) });
+      results.push({ slide: n, path: filePath, ...(await checkOneImage(filePath, minBytes)) });
     }
     return results;
   }
