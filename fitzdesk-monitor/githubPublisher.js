@@ -27,13 +27,24 @@ function githubHeaders() {
   };
 }
 
+// Advertencia detectada en la revisión de seguridad PCDays (2026-06-25):
+// ninguna llamada fetch() de este archivo tenía timeout propio — un fallo de
+// red puntual podía dejar el job colgado hasta el límite del runner de
+// GitHub Actions, en vez de fallar rápido y notificar. ghFetch() centraliza
+// un timeout razonable para todas las llamadas a la API de GitHub de este
+// módulo (mismo patrón que ya usa pcdays-cleanup.js para su propio fetch).
+const GH_TIMEOUT_MS = 15000;
+function ghFetch(url, opts = {}) {
+  return fetch(url, { ...opts, signal: AbortSignal.timeout(GH_TIMEOUT_MS) });
+}
+
 /**
  * Asegura que la rama borradores existe.
  * Si no existe, la crea a partir de GITHUB_BRANCH (main).
  */
 async function ensureBranchExists() {
   const refUrl = `${API_BASE}/repos/${GITHUB_OWNER}/${GITHUB_REPO}/git/ref/heads/${GITHUB_BRANCH_BORRADORES}`;
-  const res = await fetch(refUrl, { headers: githubHeaders() });
+  const res = await ghFetch(refUrl, { headers: githubHeaders() });
 
   if (res.ok) return; // ya existe
 
@@ -43,7 +54,7 @@ async function ensureBranchExists() {
   }
 
   // Obtener SHA de main para crear la rama desde ahí
-  const mainRes = await fetch(
+  const mainRes = await ghFetch(
     `${API_BASE}/repos/${GITHUB_OWNER}/${GITHUB_REPO}/git/ref/heads/${GITHUB_BRANCH}`,
     { headers: githubHeaders() },
   );
@@ -53,7 +64,7 @@ async function ensureBranchExists() {
   }
   const { object: { sha } } = await mainRes.json();
 
-  const createRes = await fetch(`${API_BASE}/repos/${GITHUB_OWNER}/${GITHUB_REPO}/git/refs`, {
+  const createRes = await ghFetch(`${API_BASE}/repos/${GITHUB_OWNER}/${GITHUB_REPO}/git/refs`, {
     method:  'POST',
     headers: githubHeaders(),
     body:    JSON.stringify({ ref: `refs/heads/${GITHUB_BRANCH_BORRADORES}`, sha }),
@@ -70,7 +81,7 @@ async function ensureBranchExists() {
  */
 async function getFileSha(path) {
   const url = `${API_BASE}/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${path}?ref=${GITHUB_BRANCH_BORRADORES}`;
-  const res = await fetch(url, { headers: githubHeaders() });
+  const res = await ghFetch(url, { headers: githubHeaders() });
   if (res.status === 404) return null;
   if (!res.ok) {
     const body = await res.text();
@@ -108,7 +119,7 @@ export async function createDraft(slug, content) {
     ...(sha ? { sha } : {}),
   };
 
-  const res = await fetch(url, {
+  const res = await ghFetch(url, {
     method:  'PUT',
     headers: githubHeaders(),
     body:    JSON.stringify(body),
@@ -146,7 +157,7 @@ export async function downloadDataFile(remotePath, localPath) {
   if (!GITHUB_TOKEN) return false;
   try {
     const url = `${API_BASE}/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${remotePath}?ref=${GITHUB_BRANCH_BORRADORES}`;
-    const res = await fetch(url, { headers: githubHeaders() });
+    const res = await ghFetch(url, { headers: githubHeaders() });
     if (res.status === 404) return false;
     if (!res.ok) return false;
     const data = await res.json();
@@ -169,13 +180,13 @@ export async function uploadDataFile(remotePath, localPath, commitMessage) {
     const content = readFileSync(localPath, 'utf-8');
     const contentB64 = Buffer.from(content, 'utf-8').toString('base64');
 
-    const shaRes = await fetch(
+    const shaRes = await ghFetch(
       `${API_BASE}/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${remotePath}?ref=${GITHUB_BRANCH_BORRADORES}`,
       { headers: githubHeaders() },
     );
     const sha = shaRes.ok ? (await shaRes.json()).sha : null;
 
-    const res = await fetch(
+    const res = await ghFetch(
       `${API_BASE}/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${remotePath}`,
       {
         method: 'PUT',
@@ -242,7 +253,7 @@ export async function publishDirectly(slug, content, imagePath = null, imageBuff
   const contentB64 = Buffer.from(content, 'utf-8').toString('base64');
   const sha = await getFileShaOnBranch(filePath, GITHUB_BRANCH);
 
-  const res = await fetch(`${API_BASE}/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${filePath}`, {
+  const res = await ghFetch(`${API_BASE}/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${filePath}`, {
     method:  'PUT',
     headers: githubHeaders(),
     body: JSON.stringify({
@@ -256,7 +267,7 @@ export async function publishDirectly(slug, content, imagePath = null, imageBuff
 
   if (imagePath && imageBuffer) {
     const imgSha = await getFileShaOnBranch(imagePath, GITHUB_BRANCH);
-    const imgRes = await fetch(`${API_BASE}/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${imagePath}`, {
+    const imgRes = await ghFetch(`${API_BASE}/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${imagePath}`, {
       method:  'PUT',
       headers: githubHeaders(),
       body: JSON.stringify({
@@ -275,7 +286,7 @@ export async function publishDirectly(slug, content, imagePath = null, imageBuff
 
 async function getFileShaOnBranch(path, branch) {
   const url = `${API_BASE}/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${path}?ref=${branch}`;
-  const res = await fetch(url, { headers: githubHeaders() });
+  const res = await ghFetch(url, { headers: githubHeaders() });
   if (res.status === 404) return null;
   if (!res.ok) return null;
   const data = await res.json();
@@ -294,7 +305,7 @@ async function getFileShaOnBranch(path, branch) {
  */
 export async function dispatchWorkflow(workflowFile, inputs = {}) {
   if (!GITHUB_TOKEN) throw new Error('GITHUB_TOKEN no configurado');
-  const res = await fetch(
+  const res = await ghFetch(
     `${API_BASE}/repos/${GITHUB_OWNER}/${GITHUB_REPO}/actions/workflows/${workflowFile}/dispatches`,
     {
       method:  'POST',
@@ -337,7 +348,7 @@ export async function dispatchWorkflowAndWait(workflowFile, inputs = {}, { timeo
 }
 
 async function latestRunId(workflowFile) {
-  const res = await fetch(
+  const res = await ghFetch(
     `${API_BASE}/repos/${GITHUB_OWNER}/${GITHUB_REPO}/actions/workflows/${workflowFile}/runs?per_page=1`,
     { headers: githubHeaders() },
   );
@@ -347,7 +358,7 @@ async function latestRunId(workflowFile) {
 }
 
 async function getRun(runId) {
-  const res = await fetch(`${API_BASE}/repos/${GITHUB_OWNER}/${GITHUB_REPO}/actions/runs/${runId}`, { headers: githubHeaders() });
+  const res = await ghFetch(`${API_BASE}/repos/${GITHUB_OWNER}/${GITHUB_REPO}/actions/runs/${runId}`, { headers: githubHeaders() });
   if (!res.ok) throw new Error(`No se pudo consultar el run ${runId}: ${res.status}`);
   return res.json();
 }

@@ -56,11 +56,29 @@ export function isLimitReached(maxPerDay) {
   return read().count >= maxPerDay;
 }
 
-/** Registra una oferta publicada hoy. Devuelve el nuevo total. */
-export function recordPublished(slug) {
+/**
+ * Registra una oferta publicada hoy. Devuelve el nuevo total.
+ *
+ * Mitigación de condición de carrera (revisión de seguridad PCDays,
+ * 2026-06-25): si dos ejecuciones del monitor se solapan en el tiempo (poco
+ * probable pero no descartable con el cron cada 2h del modo --pcdays más
+ * disparos manuales, y dado que `publishDirectly`+`dispatchWorkflowAndWait`
+ * mantienen el proceso vivo varios minutos por cada oferta publicada,
+ * ampliando la ventana de solape), `syncFromRemote()` al inicio de
+ * runCheck() ya no es suficiente — cada llamada vuelve a sincronizar contra
+ * GitHub justo antes de incrementar, para que la ventana de solape real sea
+ * solo la de esta función, no la de todo el ciclo de ofertas. No es un lock
+ * atómico de verdad (seguiría siendo posible perder un incremento si dos
+ * llamadas leen el mismo valor en el mismo instante), pero reduce el riesgo
+ * de forma significativa sin la complejidad de un mecanismo de bloqueo
+ * distribuido — aceptado como mitigación razonable, no como garantía total.
+ */
+export async function recordPublished(slug) {
+  await syncFromRemote();
   const data = read();
   data.count += 1;
   data.slugs.push(slug);
   save(data);
+  await syncToRemote();
   return data.count;
 }

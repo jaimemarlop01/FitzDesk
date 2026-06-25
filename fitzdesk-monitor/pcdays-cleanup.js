@@ -26,7 +26,7 @@ import { execFileSync } from 'node:child_process';
 import { readFileSync, readdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { logInfo, logOk, logWarn, logError, notifyPcdaysCleanupReport, notifyPcdaysModeStatus } from './notifier.js';
+import { logInfo, logSuccess, logWarn, logError, notifyPcdaysCleanupReport, notifyPcdaysModeStatus } from './notifier.js';
 
 const __dirname   = dirname(fileURLToPath(import.meta.url));
 const CONTENT_DIR = join(__dirname, '..', 'src', 'content', 'articulos');
@@ -103,7 +103,7 @@ async function main() {
     const subioDePrecio = precioOfertaNum !== null && precioActualNum !== null && precioActualNum > precioOfertaNum * 1.03;
 
     if (!subioDePrecio) {
-      logOk(`  🟢 Sigue al mismo precio aproximado (${precioActual}) — oferta sigue activa`);
+      logSuccess(`  🟢 Sigue al mismo precio aproximado (${precioActual}) — oferta sigue activa`);
       siguenActivas.push({ slug, titulo, precioAnterior: data.precio_oferta, precioActual });
       continue;
     }

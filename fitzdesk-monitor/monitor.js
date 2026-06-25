@@ -539,7 +539,15 @@ async function runCheck({ pcdaysMode = false } = {}) {
         precio_oferta:   `${cand.oferta.precio}€`,
         descuento:       cand.oferta.descuentoEstimado != null ? `${cand.oferta.descuentoEstimado}%` : undefined,
         fuente:          cand.oferta.fuente,
-        enlace_afiliado: '',
+        // Bug crítico detectado y corregido el 2026-06-25 (revisión de
+        // seguridad PCDays): aquí siempre se pasaba '', y
+        // checkOfertaCompleteness() exige que enlace_afiliado empiece por
+        // pccomponentes.com — el resultado era que NINGUNA oferta detectada
+        // por el monitor podía completarse nunca, así que el sistema de
+        // publicación automática no publicaba nada en absoluto. Mismo
+        // formato de "enlace de producto" (búsqueda, sin tracking real) que
+        // usa el resto del proyecto (ver CLAUDE.md).
+        enlace_afiliado: `https://www.pccomponentes.com/buscar/?query=${encodeURIComponent(cand.producto)}`,
         informacion:     cand.informacion,
       });
       addTokens(draft.tokensUsed);
@@ -552,86 +560,109 @@ async function runCheck({ pcdaysMode = false } = {}) {
     const precioOfertaStr = `${cand.oferta.precio}€`;
     const descuentoStr = descuentoPct != null ? `${descuentoPct}%` : undefined;
 
-    // TAREA 1 — comprobación mecánica de completitud (sustituye al agente,
-    // que no se puede invocar desde un script sin supervisión, ver CLAUDE.md)
-    const check = checkOfertaCompleteness({ content: draft.content, slug: draft.slug });
-
-    if (!check.complete) {
-      const filePath = await saveDraftPersisted(draft.slug, draft.filename, draft.content);
-      totalOfertas++;
-      ofertasEnRevision++;
-      draftTitles.push(`🔥 ${cand.itemTitle} (incompleta)`);
-      await notifyOferta({
-        titulo: cand.producto, slug: draft.slug,
-        precio_oferta: precioOfertaStr, descuento: descuentoStr, fuente: cand.oferta.fuente,
-        analisis_relacionado: draft.related?.slug, filePath,
-      });
-      logWarn(`  ⚠️ Oferta incompleta — borrador guardado para revisión: ${check.missing.join('; ')}`);
-      continue;
-    }
-
-    // TAREA 2 — umbral de descuento para publicación automática
-    const puedeAutoPublicar = descuentoPct != null && descuentoPct >= AUTO_PUBLISH_THRESHOLD;
-    if (!puedeAutoPublicar) {
-      const filePath = await saveDraftPersisted(draft.slug, draft.filename, draft.content);
-      totalOfertas++;
-      ofertasEnRevision++;
-      draftTitles.push(`🔥 ${cand.itemTitle} (revisión manual)`);
-      const motivo = descuentoPct == null
-        ? 'descuento no verificado en el texto original de la noticia — no se puede confirmar automáticamente'
-        : `descuento del ${descuentoPct}% por debajo del umbral de publicación automática (${AUTO_PUBLISH_THRESHOLD}%)`;
-      await notifyOfertaPendienteRevision({
-        titulo: cand.producto, slug: draft.slug,
-        precio_oferta: precioOfertaStr, descuento: descuentoStr, motivo, filePath,
-      });
-      continue;
-    }
-
-    // TAREA 3 — límite diario de publicaciones automáticas
-    if (ofertaLimitReached(MAX_OFERTAS_PER_DAY)) {
-      const filePath = await saveDraftPersisted(draft.slug, draft.filename, draft.content);
-      totalOfertas++;
-      ofertasEnRevision++;
-      draftTitles.push(`🔥 ${cand.itemTitle} (límite diario alcanzado)`);
-      await notifyOfertaPendienteRevision({
-        titulo: cand.producto, slug: draft.slug,
-        precio_oferta: precioOfertaStr, descuento: descuentoStr,
-        motivo: `límite diario de ${MAX_OFERTAS_PER_DAY} ofertas publicadas alcanzado — esta queda en cola para revisión manual`,
-        filePath,
-      });
-      continue;
-    }
-
-    // ── Todo OK: publicar inmediatamente, sin pasar por el calendario ──
+    // Bug de seguridad encontrado y corregido el 2026-06-25 (revisión PCDays):
+    // todo este bloque (completitud, umbral, límite diario, publicación)
+    // corría sin ningún try/catch alrededor. Una excepción aquí (por ejemplo
+    // checkOfertaCompleteness fallando al parsear un YAML roto, o un error
+    // de red al notificar a Discord) abortaba TODO runCheck() de golpe
+    // —sin notificar nada—, dejando sin procesar el resto de la cola de
+    // ofertas (incluidas las de mayor descuento si el fallo ocurría pronto)
+    // y sin sincronizar ofertaLimiter/cache al final. Ahora un fallo en una
+    // sola oferta candidata no debe poder tirar abajo las demás.
     try {
-      const url = await publishDirectly(draft.slug, draft.content);
-      recordOfertaPublished(draft.slug);
-      totalOfertas++;
-      ofertasPublicadas++;
-      draftTitles.push(`🚀 ${cand.itemTitle} (publicada)`);
+      // TAREA 1 — comprobación mecánica de completitud (sustituye al agente,
+      // que no se puede invocar desde un script sin supervisión, ver CLAUDE.md)
+      const check = checkOfertaCompleteness({ content: draft.content, slug: draft.slug });
 
-      await notifyOfertaPublicada({
-        titulo: cand.producto, slug: draft.slug, url,
-        precio_oferta: precioOfertaStr, descuento: descuentoStr,
-      });
-
-      try {
-        await dispatchWorkflowAndWait('deploy.yml', {});
-        await dispatchWorkflow('publicar-en-redes.yml', { slug: draft.slug });
-      } catch (postPublishErr) {
-        logWarn(`  ⚠️ Oferta publicada pero el deploy o el disparo de redes falló: ${postPublishErr.message}`);
+      if (!check.complete) {
+        const filePath = await saveDraftPersisted(draft.slug, draft.filename, draft.content);
+        totalOfertas++;
+        ofertasEnRevision++;
+        draftTitles.push(`🔥 ${cand.itemTitle} (incompleta)`);
+        await notifyOferta({
+          titulo: cand.producto, slug: draft.slug,
+          precio_oferta: precioOfertaStr, descuento: descuentoStr, fuente: cand.oferta.fuente,
+          analisis_relacionado: draft.related?.slug, filePath,
+        });
+        logWarn(`  ⚠️ Oferta incompleta — borrador guardado para revisión: ${check.missing.join('; ')}`);
+        continue;
       }
-    } catch (pubErr) {
-      logWarn(`  ✗ Error publicando oferta directamente, se guarda como borrador: ${pubErr.message}`);
-      const filePath = await saveDraftPersisted(draft.slug, draft.filename, draft.content);
-      totalOfertas++;
-      ofertasEnRevision++;
-      await notifyOfertaPendienteRevision({
-        titulo: cand.producto, slug: draft.slug,
-        precio_oferta: precioOfertaStr, descuento: descuentoStr,
-        motivo: `fallo al publicar automáticamente: ${pubErr.message}`,
-        filePath,
-      });
+
+      // TAREA 2 — umbral de descuento para publicación automática
+      const puedeAutoPublicar = descuentoPct != null && descuentoPct >= AUTO_PUBLISH_THRESHOLD;
+      if (!puedeAutoPublicar) {
+        const filePath = await saveDraftPersisted(draft.slug, draft.filename, draft.content);
+        totalOfertas++;
+        ofertasEnRevision++;
+        draftTitles.push(`🔥 ${cand.itemTitle} (revisión manual)`);
+        const motivo = descuentoPct == null
+          ? 'descuento no verificado en el texto original de la noticia — no se puede confirmar automáticamente'
+          : `descuento del ${descuentoPct}% por debajo del umbral de publicación automática (${AUTO_PUBLISH_THRESHOLD}%)`;
+        await notifyOfertaPendienteRevision({
+          titulo: cand.producto, slug: draft.slug,
+          precio_oferta: precioOfertaStr, descuento: descuentoStr, motivo, filePath,
+        });
+        continue;
+      }
+
+      // TAREA 3 — límite diario de publicaciones automáticas
+      if (ofertaLimitReached(MAX_OFERTAS_PER_DAY)) {
+        const filePath = await saveDraftPersisted(draft.slug, draft.filename, draft.content);
+        totalOfertas++;
+        ofertasEnRevision++;
+        draftTitles.push(`🔥 ${cand.itemTitle} (límite diario alcanzado)`);
+        await notifyOfertaPendienteRevision({
+          titulo: cand.producto, slug: draft.slug,
+          precio_oferta: precioOfertaStr, descuento: descuentoStr,
+          motivo: `límite diario de ${MAX_OFERTAS_PER_DAY} ofertas publicadas alcanzado — esta queda en cola para revisión manual`,
+          filePath,
+        });
+        continue;
+      }
+
+      // ── Todo OK: publicar inmediatamente, sin pasar por el calendario ──
+      try {
+        const url = await publishDirectly(draft.slug, draft.content);
+        await recordOfertaPublished(draft.slug);
+        totalOfertas++;
+        ofertasPublicadas++;
+        draftTitles.push(`🚀 ${cand.itemTitle} (publicada)`);
+
+        await notifyOfertaPublicada({
+          titulo: cand.producto, slug: draft.slug, url,
+          precio_oferta: precioOfertaStr, descuento: descuentoStr,
+        });
+
+        try {
+          await dispatchWorkflowAndWait('deploy.yml', {});
+          await dispatchWorkflow('publicar-en-redes.yml', { slug: draft.slug });
+        } catch (postPublishErr) {
+          logWarn(`  ⚠️ Oferta publicada pero el deploy o el disparo de redes falló: ${postPublishErr.message}`);
+        }
+      } catch (pubErr) {
+        logWarn(`  ✗ Error publicando oferta directamente, se guarda como borrador: ${pubErr.message}`);
+        const filePath = await saveDraftPersisted(draft.slug, draft.filename, draft.content);
+        totalOfertas++;
+        ofertasEnRevision++;
+        await notifyOfertaPendienteRevision({
+          titulo: cand.producto, slug: draft.slug,
+          precio_oferta: precioOfertaStr, descuento: descuentoStr,
+          motivo: `fallo al publicar automáticamente: ${pubErr.message}`,
+          filePath,
+        });
+      }
+    } catch (candidateErr) {
+      logError(`  ✗ Error inesperado procesando oferta "${cand.itemTitle}": ${candidateErr.message}`);
+      try {
+        await notifyOfertaPendienteRevision({
+          titulo: cand.producto, slug: cand.itemTitle,
+          precio_oferta: precioOfertaStr, descuento: descuentoStr,
+          motivo: `error inesperado al procesar la oferta, revisar manualmente: ${candidateErr.message}`,
+          filePath: 'no se generó (falló antes de guardar el borrador)',
+        });
+      } catch (notifyErr) {
+        logError(`  ✗ Además falló la notificación a Discord: ${notifyErr.message}`);
+      }
     }
   }
 

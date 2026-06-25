@@ -127,6 +127,19 @@ PARÁMETROS: 250-400 palabras en total. Nunca inventes un precio, descuento o da
 
 // ─── Construir el artículo completo (frontmatter + cuerpo) ───────────────────
 
+// Bug de seguridad encontrado y corregido el 2026-06-25 (revisión PCDays):
+// los valores interpolados en el frontmatter venían sin sanear (producto y
+// fuente, en particular, llegan del título/snippet del RSS sin ningún
+// control). Una comilla doble suelta en el texto original de una noticia
+// rompía el YAML generado y hacía que gray-matter lanzara una excepción al
+// parsearlo más adelante (en checkOfertaCompleteness) — y esa llamada no
+// estaba protegida con try/catch, así que tiraba abajo todo el ciclo de
+// procesado de ofertas sin notificar nada a Discord. Escapar aquí cierra el
+// problema en origen, además del try/catch añadido en monitor.js.
+function yamlEscape(value) {
+  return String(value ?? '').replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+}
+
 function buildFrontmatter(config, slug, related) {
   const { producto, categoria, precio_oferta, precio_normal, descuento, enlace_afiliado, fuente } = config;
   const analisisSlug = related?.slug ?? '';
@@ -135,20 +148,28 @@ function buildFrontmatter(config, slug, related) {
   // queda pendiente de imagen igual que cualquier borrador sin foto.
   const imagen = related ? `/images/articulos/${related.slug}.webp` : `/images/articulos/${slug}.webp`;
 
+  const productoSafe      = yamlEscape(producto);
+  const categoriaSafe     = yamlEscape(categoria);
+  const precioOfertaSafe  = yamlEscape(precio_oferta);
+  const precioNormalSafe  = yamlEscape(precio_normal);
+  const descuentoSafe     = yamlEscape(descuento);
+  const fuenteSafe        = yamlEscape(fuente);
+  const enlaceSafe        = yamlEscape(enlace_afiliado);
+
   const lines = [
     '---',
-    `title: "${producto}: precio mínimo histórico a ${precio_oferta}"`,
+    `title: "${productoSafe}: precio mínimo histórico a ${precioOfertaSafe}"`,
     `slug: "${slug}"`,
-    `categoria: "${categoria}"`,
+    `categoria: "${categoriaSafe}"`,
     `fecha: "${today()}"`,
-    `descripcion: "El ${producto} está en oferta a ${precio_oferta}${fuente ? ` en ${fuente}` : ''}, su precio más bajo hasta la fecha."`,
+    `descripcion: "El ${productoSafe} está en oferta a ${precioOfertaSafe}${fuente ? ` en ${fuenteSafe}` : ''}, su precio más bajo hasta la fecha."`,
     `imagen: "${imagen}"`,
-    `precio_oferta: "${precio_oferta}"`,
+    `precio_oferta: "${precioOfertaSafe}"`,
   ];
-  if (precio_normal) lines.push(`precio_normal: "${precio_normal}"`);
-  if (descuento)      lines.push(`descuento: "${descuento}"`);
+  if (precio_normal) lines.push(`precio_normal: "${precioNormalSafe}"`);
+  if (descuento)      lines.push(`descuento: "${descuentoSafe}"`);
   lines.push(
-    `enlace_afiliado: "${enlace_afiliado ?? ''}"`,
+    `enlace_afiliado: "${enlaceSafe}"`,
     `tiempo_lectura: "2 min"`,
     `tipo: "oferta"`,
     `oferta_activa: true`,

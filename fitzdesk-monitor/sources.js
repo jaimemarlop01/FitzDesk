@@ -264,7 +264,18 @@ export function detectOferta(item) {
     return { isOferta: false, motivo: 'Fuente no reconocida como fiable (PcComponentes/Amazon/MediaMarkt/El Corte Inglés)' };
   }
 
-  const descuentoMatch = text.match(/(\d{1,2})\s*%/);
+  // Bug detectado en la revisión de seguridad PCDays (2026-06-25): la regex
+  // anterior (/(\d{1,2})\s*%/) coincidía con el PRIMER porcentaje de todo el
+  // texto, sin importar de qué hablara (autonomía de batería, IVA, cualquier
+  // estadística de la noticia) — ese número, sin relación con el descuento
+  // real, podía superar el umbral de auto-publicación. Ahora solo se acepta
+  // un % que vaya precedido de "-" (convención típica "-20%") o seguido de
+  // una palabra de descuento ("20% de descuento/dto/rebaja") — si no
+  // aparece en ese contexto, se trata como no verificado (igual de
+  // conservador que si no hubiera ningún % en el texto).
+  const descuentoMatch =
+    text.match(/-\s*(\d{1,2})\s*%/) ||
+    text.match(/(\d{1,2})\s*%\s*(?:de\s+)?(?:descuento|dto\.?|rebaja)/);
   const descuentoEstimado = descuentoMatch ? parseInt(descuentoMatch[1], 10) : null;
   if (descuentoEstimado !== null && descuentoEstimado < DESCUENTO_MINIMO) {
     return {
