@@ -27,13 +27,24 @@ function githubHeaders() {
   };
 }
 
+// Advertencia detectada en la revisión de seguridad PCDays (2026-06-25):
+// ninguna llamada fetch() de este archivo tenía timeout propio — un fallo de
+// red puntual podía dejar el job colgado hasta el límite del runner de
+// GitHub Actions, en vez de fallar rápido y notificar. ghFetch() centraliza
+// un timeout razonable para todas las llamadas a la API de GitHub de este
+// módulo (mismo patrón que ya usa pcdays-cleanup.js para su propio fetch).
+const GH_TIMEOUT_MS = 15000;
+function ghFetch(url, opts = {}) {
+  return fetch(url, { ...opts, signal: AbortSignal.timeout(GH_TIMEOUT_MS) });
+}
+
 /**
  * Asegura que la rama borradores existe.
  * Si no existe, la crea a partir de GITHUB_BRANCH (main).
  */
 async function ensureBranchExists() {
   const refUrl = `${API_BASE}/repos/${GITHUB_OWNER}/${GITHUB_REPO}/git/ref/heads/${GITHUB_BRANCH_BORRADORES}`;
-  const res = await fetch(refUrl, { headers: githubHeaders() });
+  const res = await ghFetch(refUrl, { headers: githubHeaders() });
 
   if (res.ok) return; // ya existe
 
@@ -43,7 +54,7 @@ async function ensureBranchExists() {
   }
 
   // Obtener SHA de main para crear la rama desde ahí
-  const mainRes = await fetch(
+  const mainRes = await ghFetch(
     `${API_BASE}/repos/${GITHUB_OWNER}/${GITHUB_REPO}/git/ref/heads/${GITHUB_BRANCH}`,
     { headers: githubHeaders() },
   );
@@ -53,7 +64,7 @@ async function ensureBranchExists() {
   }
   const { object: { sha } } = await mainRes.json();
 
-  const createRes = await fetch(`${API_BASE}/repos/${GITHUB_OWNER}/${GITHUB_REPO}/git/refs`, {
+  const createRes = await ghFetch(`${API_BASE}/repos/${GITHUB_OWNER}/${GITHUB_REPO}/git/refs`, {
     method:  'POST',
     headers: githubHeaders(),
     body:    JSON.stringify({ ref: `refs/heads/${GITHUB_BRANCH_BORRADORES}`, sha }),
@@ -70,7 +81,7 @@ async function ensureBranchExists() {
  */
 async function getFileSha(path) {
   const url = `${API_BASE}/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${path}?ref=${GITHUB_BRANCH_BORRADORES}`;
-  const res = await fetch(url, { headers: githubHeaders() });
+  const res = await ghFetch(url, { headers: githubHeaders() });
   if (res.status === 404) return null;
   if (!res.ok) {
     const body = await res.text();
@@ -108,7 +119,7 @@ export async function createDraft(slug, content) {
     ...(sha ? { sha } : {}),
   };
 
-  const res = await fetch(url, {
+  const res = await ghFetch(url, {
     method:  'PUT',
     headers: githubHeaders(),
     body:    JSON.stringify(body),
@@ -136,14 +147,17 @@ export async function createDraft(slug, content) {
 const CACHE_GITHUB_PATH = 'fitzdesk-monitor/data/cache.json';
 
 /**
- * Descarga cache.json desde la rama borradores y lo escribe en localPath.
+ * Descarga un archivo de datos desde la rama borradores y lo escribe en
+ * localPath. Genérico — usado tanto para cache.json como para cualquier
+ * otro archivo de estado del monitor que necesite persistir entre
+ * ejecuciones en CI (p. ej. el contador diario de ofertas publicadas).
  * Devuelve true si se descargó, false si no existe todavía en GitHub.
  */
-export async function downloadCache(localPath) {
+export async function downloadDataFile(remotePath, localPath) {
   if (!GITHUB_TOKEN) return false;
   try {
-    const url = `${API_BASE}/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${CACHE_GITHUB_PATH}?ref=${GITHUB_BRANCH_BORRADORES}`;
-    const res = await fetch(url, { headers: githubHeaders() });
+    const url = `${API_BASE}/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${remotePath}?ref=${GITHUB_BRANCH_BORRADORES}`;
+    const res = await ghFetch(url, { headers: githubHeaders() });
     if (res.status === 404) return false;
     if (!res.ok) return false;
     const data = await res.json();
@@ -151,52 +165,200 @@ export async function downloadCache(localPath) {
     const dir = dirname(localPath);
     if (dir && !existsSync(dir)) mkdirSync(dir, { recursive: true });
     writeFileSync(localPath, content, 'utf-8');
-    logInfo(`✅ Caché descargado desde GitHub (${JSON.parse(content).entries?.length ?? 0} entradas)`);
     return true;
   } catch (err) {
-    logWarn(`⚠️ No se pudo descargar caché desde GitHub: ${err.message}`);
+    logWarn(`⚠️ No se pudo descargar ${remotePath} desde GitHub: ${err.message}`);
     return false;
   }
 }
 
-/**
- * Sube cache.json local a la rama borradores en GitHub.
- */
-export async function uploadCache(localPath) {
+/** Sube un archivo de datos local a la rama borradores en GitHub. */
+export async function uploadDataFile(remotePath, localPath, commitMessage) {
   if (!GITHUB_TOKEN) return;
   try {
     if (!existsSync(localPath)) return;
     const content = readFileSync(localPath, 'utf-8');
     const contentB64 = Buffer.from(content, 'utf-8').toString('base64');
 
-    // Obtener SHA actual si existe
-    const shaRes = await fetch(
-      `${API_BASE}/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${CACHE_GITHUB_PATH}?ref=${GITHUB_BRANCH_BORRADORES}`,
+    const shaRes = await ghFetch(
+      `${API_BASE}/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${remotePath}?ref=${GITHUB_BRANCH_BORRADORES}`,
       { headers: githubHeaders() },
     );
     const sha = shaRes.ok ? (await shaRes.json()).sha : null;
 
-    const body = {
-      message: 'chore: actualizar caché del monitor',
-      content: contentB64,
-      branch:  GITHUB_BRANCH_BORRADORES,
-      ...(sha ? { sha } : {}),
-    };
-
-    const res = await fetch(
-      `${API_BASE}/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${CACHE_GITHUB_PATH}`,
-      { method: 'PUT', headers: githubHeaders(), body: JSON.stringify(body) },
+    const res = await ghFetch(
+      `${API_BASE}/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${remotePath}`,
+      {
+        method: 'PUT',
+        headers: githubHeaders(),
+        body: JSON.stringify({
+          message: commitMessage,
+          content: contentB64,
+          branch:  GITHUB_BRANCH_BORRADORES,
+          ...(sha ? { sha } : {}),
+        }),
+      },
     );
-    if (res.ok) {
-      const entries = JSON.parse(content).entries?.length ?? 0;
-      logInfo(`✅ Caché subido a GitHub (${entries} entradas)`);
-    } else {
-      logWarn(`⚠️ No se pudo subir caché a GitHub: ${res.status}`);
-    }
+    if (!res.ok) logWarn(`⚠️ No se pudo subir ${remotePath} a GitHub: ${res.status}`);
   } catch (err) {
-    logWarn(`⚠️ Error subiendo caché a GitHub: ${err.message}`);
+    logWarn(`⚠️ Error subiendo ${remotePath} a GitHub: ${err.message}`);
+  }
+}
+
+/**
+ * Descarga cache.json desde la rama borradores y lo escribe en localPath.
+ * Devuelve true si se descargó, false si no existe todavía en GitHub.
+ */
+export async function downloadCache(localPath) {
+  const ok = await downloadDataFile(CACHE_GITHUB_PATH, localPath);
+  if (ok) {
+    try {
+      const entries = JSON.parse(readFileSync(localPath, 'utf-8')).entries?.length ?? 0;
+      logInfo(`✅ Caché descargado desde GitHub (${entries} entradas)`);
+    } catch { /* informativo, no crítico */ }
+  }
+  return ok;
+}
+
+/**
+ * Sube cache.json local a la rama borradores en GitHub.
+ */
+export async function uploadCache(localPath) {
+  await uploadDataFile(CACHE_GITHUB_PATH, localPath, 'chore: actualizar caché del monitor');
+  if (existsSync(localPath)) {
+    try {
+      const entries = JSON.parse(readFileSync(localPath, 'utf-8')).entries?.length ?? 0;
+      logInfo(`✅ Caché subido a GitHub (${entries} entradas)`);
+    } catch { /* informativo, no crítico */ }
   }
 }
 
 /** true si el publisher está disponible (GITHUB_TOKEN configurado) */
 export const isAvailable = () => Boolean(GITHUB_TOKEN);
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Publicación directa en main (ofertas PCDays — sin pasar por el calendario)
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * Publica un artículo directamente en `main`, sin prefijo "borrador-" y sin
+ * pasar por la rama `borradores` ni el calendario. Pensado solo para ofertas
+ * de alta confianza durante PCDays (ver TAREA 1 — modo PCDays, CLAUDE.md).
+ * No dispara el deploy por sí mismo — usa dispatchWorkflow() después.
+ */
+export async function publishDirectly(slug, content, imagePath = null, imageBuffer = null) {
+  if (!GITHUB_TOKEN) throw new Error('GITHUB_TOKEN no configurado — no se puede publicar directamente');
+
+  const filePath = `${CONTENT_DIR}/${slug}.md`;
+  const contentB64 = Buffer.from(content, 'utf-8').toString('base64');
+  const sha = await getFileShaOnBranch(filePath, GITHUB_BRANCH);
+
+  const res = await ghFetch(`${API_BASE}/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${filePath}`, {
+    method:  'PUT',
+    headers: githubHeaders(),
+    body: JSON.stringify({
+      message: `feat: publicar oferta ${slug.replace(/-/g, ' ')}`,
+      content: contentB64,
+      branch:  GITHUB_BRANCH,
+      ...(sha ? { sha } : {}),
+    }),
+  });
+  if (!res.ok) throw new Error(`GitHub API ${res.status}: ${await res.text()}`);
+
+  if (imagePath && imageBuffer) {
+    const imgSha = await getFileShaOnBranch(imagePath, GITHUB_BRANCH);
+    const imgRes = await ghFetch(`${API_BASE}/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${imagePath}`, {
+      method:  'PUT',
+      headers: githubHeaders(),
+      body: JSON.stringify({
+        message: `feat: imagen para oferta ${slug.replace(/-/g, ' ')}`,
+        content: imageBuffer.toString('base64'),
+        branch:  GITHUB_BRANCH,
+        ...(imgSha ? { sha: imgSha } : {}),
+      }),
+    });
+    if (!imgRes.ok) logWarn(`No se pudo subir la imagen de ${slug}: ${imgRes.status}`);
+  }
+
+  logInfo(`✅ Oferta publicada directamente en ${GITHUB_BRANCH}: ${filePath}`);
+  return `https://fitzdesk.com/articulo/${slug}/`;
+}
+
+async function getFileShaOnBranch(path, branch) {
+  const url = `${API_BASE}/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${path}?ref=${branch}`;
+  const res = await ghFetch(url, { headers: githubHeaders() });
+  if (res.status === 404) return null;
+  if (!res.ok) return null;
+  const data = await res.json();
+  return data.sha ?? null;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Disparar y esperar workflows de GitHub Actions (deploy, redes sociales)
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * Dispara un workflow por workflow_dispatch sin esperar a que termine
+ * ("fire and forget") — usado para la publicación en redes sociales tras
+ * publicar una oferta: ese workflow ya notifica su propio resultado a
+ * Discord, así que el monitor no necesita bloquearse esperándolo.
+ */
+export async function dispatchWorkflow(workflowFile, inputs = {}) {
+  if (!GITHUB_TOKEN) throw new Error('GITHUB_TOKEN no configurado');
+  const res = await ghFetch(
+    `${API_BASE}/repos/${GITHUB_OWNER}/${GITHUB_REPO}/actions/workflows/${workflowFile}/dispatches`,
+    {
+      method:  'POST',
+      headers: githubHeaders(),
+      body:    JSON.stringify({ ref: GITHUB_BRANCH, inputs }),
+    },
+  );
+  if (!res.ok) throw new Error(`No se pudo disparar ${workflowFile}: ${res.status} ${await res.text()}`);
+}
+
+/**
+ * Dispara un workflow y espera a que el run que arranque a partir de ahora
+ * termine. Igual que el patrón "gh workflow run + gh run watch" ya usado en
+ * publicar-en-redes.yml/publicar-automatico.yml, pero vía API REST porque
+ * aquí no hay `gh` CLI disponible (proceso Node, no un step de bash).
+ */
+export async function dispatchWorkflowAndWait(workflowFile, inputs = {}, { timeoutMs = 5 * 60 * 1000, pollMs = 8000 } = {}) {
+  const before = await latestRunId(workflowFile);
+  await dispatchWorkflow(workflowFile, inputs);
+
+  const start = Date.now();
+  let runId = null;
+  while (Date.now() - start < timeoutMs) {
+    await new Promise(r => setTimeout(r, pollMs));
+    const id = await latestRunId(workflowFile);
+    if (id && id !== before) { runId = id; break; }
+  }
+  if (!runId) throw new Error(`${workflowFile} no arrancó a tiempo tras el dispatch`);
+
+  while (Date.now() - start < timeoutMs) {
+    const run = await getRun(runId);
+    if (run.status === 'completed') {
+      if (run.conclusion !== 'success') throw new Error(`${workflowFile} (run ${runId}) terminó con: ${run.conclusion}`);
+      logInfo(`✅ ${workflowFile} (run ${runId}) completado con éxito`);
+      return run;
+    }
+    await new Promise(r => setTimeout(r, pollMs));
+  }
+  throw new Error(`${workflowFile} (run ${runId}) no terminó a tiempo`);
+}
+
+async function latestRunId(workflowFile) {
+  const res = await ghFetch(
+    `${API_BASE}/repos/${GITHUB_OWNER}/${GITHUB_REPO}/actions/workflows/${workflowFile}/runs?per_page=1`,
+    { headers: githubHeaders() },
+  );
+  if (!res.ok) return null;
+  const data = await res.json();
+  return data.workflow_runs?.[0]?.id ?? null;
+}
+
+async function getRun(runId) {
+  const res = await ghFetch(`${API_BASE}/repos/${GITHUB_OWNER}/${GITHUB_REPO}/actions/runs/${runId}`, { headers: githubHeaders() });
+  if (!res.ok) throw new Error(`No se pudo consultar el run ${runId}: ${res.status}`);
+  return res.json();
+}

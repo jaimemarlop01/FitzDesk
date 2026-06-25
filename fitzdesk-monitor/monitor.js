@@ -5,15 +5,24 @@ import { join, resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import cron from 'node-cron';
 
-import { SOURCES, KEYWORDS_MARCA, passesStrictFilter, diagnoseFilter } from './sources.js';
+import { SOURCES, KEYWORDS_MARCA, passesStrictFilter, diagnoseFilter, detectOferta } from './sources.js';
 import { isProcessed, isProcessedByUrl, isProcessedByTitleHash, markProcessed, getCacheStats, normalizeUrl, hashTitle, reloadFromDisk } from './cache.js';
 import { generateDraft, searchPcComponentes } from './analyzer.js';
-import { createDraft as githubCreateDraft, isAvailable as githubAvailable, downloadCache, uploadCache } from './githubPublisher.js';
-import { logInfo, logSuccess, logWarn, logError, notifyDraft, notifySummary, notifyDailySummary, notifyPublicationReminder, notifyLaunchReminder } from './notifier.js';
+import { buildOfertaDraft, checkOfertaCompleteness, findRelatedAnalysis } from './offerGenerator.js';
+import {
+  createDraft as githubCreateDraft, isAvailable as githubAvailable, downloadCache, uploadCache,
+  publishDirectly, dispatchWorkflow, dispatchWorkflowAndWait,
+} from './githubPublisher.js';
+import {
+  logInfo, logSuccess, logWarn, logError, notifyDraft, notifySummary, notifyDailySummary,
+  notifyPublicationReminder, notifyLaunchReminder, notifyOferta, notifyOfertaPendienteRevision,
+  notifyOfertaPublicada, notifyPcdaysModeStatus,
+} from './notifier.js';
 import { findProductImage, downloadProductImage } from './imageSearch.js';
 import { findAndDownloadImage } from './imageCollector.js';
 import { verifyWithGemini } from './reviewer.js';
 import { getTokensUsed, isTokenLimitReached, addTokens, DAILY_LIMIT } from './tokenTracker.js';
+import { syncFromRemote as syncOfertasFromRemote, syncToRemote as syncOfertasToRemote, isLimitReached as ofertaLimitReached, recordPublished as recordOfertaPublished } from './ofertaLimiter.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const parser = new Parser({
@@ -55,6 +64,93 @@ function saveDraft(filename, content) {
   const filePath = join(CONTENT_PATH, filename);
   writeFileSync(filePath, content, 'utf-8');
   return filePath;
+}
+
+/**
+ * Guarda un borrador (de oferta o no) usando el mismo patrón ya establecido
+ * para los análisis normales: en producción (CI), vía la API de GitHub a la
+ * rama `borradores` (que sí persiste entre ejecuciones); en local, en disco.
+ * Sin esto, un `saveDraft()` directo en CI se pierde al terminar el job —
+ * bug real detectado el 2026-06-25 al integrar el guardado de ofertas.
+ */
+async function saveDraftPersisted(slug, filename, content) {
+  if (githubAvailable()) {
+    try {
+      return await githubCreateDraft(slug, content);
+    } catch (ghErr) {
+      logWarn(`⚠️ Error al crear borrador en GitHub: ${ghErr.message} — guardando localmente`);
+      return saveDraft(filename, content);
+    }
+  }
+  return saveDraft(filename, content);
+}
+
+// Inserta una línea de frontmatter justo antes del cierre `---`, tolerando
+// BOM y CRLF (mismo patrón que insertAfterFrontmatter()/splitFrontmatterBody()
+// en articleUpdater.js). Bug corregido el 2026-06-25 (revisión de código):
+// dos de los tres puntos de inserción de applyPrecioToExistingAnalysis()
+// usaban antes `indexOf('\n---', ...)`, que sigue encontrando el cierre en
+// un archivo CRLF (porque '\n---' es subcadena de '\r\n---') pero inserta
+// una línea con LF en un archivo que usa CRLF en todo lo demás — saltos de
+// línea mixtos en el mismo archivo. Unificado a un único helper con regex.
+function insertFrontmatterLine(content, line) {
+  const bomLen = content.charCodeAt(0) === 0xFEFF ? 1 : 0;
+  const fmMatch = content.slice(bomLen).match(/^-{3}\r?\n[\s\S]*?\r?\n-{3}\r?\n/);
+  if (!fmMatch) return content;
+  // Inserta justo antes del delimitador de cierre, no después.
+  const closingDelim = fmMatch[0].match(/\r?\n(-{3}\r?\n)$/)[1];
+  const beforeClosing = bomLen + fmMatch[0].length - closingDelim.length;
+  return content.slice(0, beforeClosing) + line + '\n' + content.slice(beforeClosing);
+}
+
+/**
+ * Actualiza solo el precio de un análisis YA PUBLICADO cuando el monitor
+ * detecta una oferta sobre un producto que ya tiene análisis en FitzDesk
+ * (decisión del usuario, 2026-06-25 — ver el bloque que llama a esta
+ * función). Misma lógica que applyPrecioUpdate() en articleUpdater.js, pero
+ * definida aquí en vez de importada: importar articleUpdater.js como módulo
+ * ejecutaría su guard de nivel superior (process.exit(1) si falta
+ * GROQ_API_KEY) como efecto secundario del propio import, tirando todo el
+ * monitor abajo aunque este camino nunca necesite Groq.
+ */
+function applyPrecioToExistingAnalysis(content, nuevoPrecio, fuente) {
+  let updated = content;
+
+  // precio: — bug corregido el 2026-06-25: antes se sustituía sin comprobar
+  // si el campo existía, a diferencia de fecha_actualizacion/actualizado
+  // (caso de borde no observado en el repo actual, pero sin garantía de
+  // código de que siempre exista).
+  if (/^precio:/m.test(updated)) {
+    updated = updated.replace(/^precio:.*$/m, `precio: "${nuevoPrecio}"`);
+  } else {
+    updated = insertFrontmatterLine(updated, `precio: "${nuevoPrecio}"`);
+  }
+
+  const fechaHoy = new Date().toISOString().slice(0, 10);
+  if (/^fecha_actualizacion:/m.test(updated)) {
+    updated = updated.replace(/^fecha_actualizacion:.*$/m, `fecha_actualizacion: "${fechaHoy}"`);
+  } else {
+    updated = insertFrontmatterLine(updated, `fecha_actualizacion: "${fechaHoy}"`);
+  }
+
+  if (/^actualizado:/m.test(updated)) {
+    updated = updated.replace(/^actualizado:.*$/m, 'actualizado: true');
+  } else {
+    updated = insertFrontmatterLine(updated, 'actualizado: true');
+  }
+
+  if (!/^> 📅 \*\*Artículo actualizado/m.test(updated)) {
+    const mes = new Date().toLocaleDateString('es-ES', { month: 'long', year: 'numeric' });
+    const notice = `> 📅 **Artículo actualizado en ${mes}**: precio rebajado a ${nuevoPrecio}${fuente ? ` en ${fuente}` : ''} — oferta detectada automáticamente por el monitor de FitzDesk.`;
+    const bomLen = updated.charCodeAt(0) === 0xFEFF ? 1 : 0;
+    const fmMatch = updated.slice(bomLen).match(/^-{3}\r?\n[\s\S]*?\r?\n-{3}\r?\n/);
+    if (fmMatch) {
+      const insertPos = bomLen + fmMatch[0].length;
+      updated = updated.slice(0, insertPos) + notice + '\n' + updated.slice(insertPos);
+    }
+  }
+
+  return updated;
 }
 
 /** Detecta qué marca de KEYWORDS_MARCA aparece en un texto */
@@ -246,20 +342,31 @@ async function checkLaunchReminders() {
 // Ciclo principal
 // ─────────────────────────────────────────────
 
-async function runCheck() {
+async function runCheck({ pcdaysMode = false } = {}) {
   // Sincronizar caché desde GitHub (Railway tiene disco efímero)
   if (githubAvailable()) {
     const downloaded = await downloadCache(CACHE_FILE);
     if (downloaded) reloadFromDisk();
   }
+  await syncOfertasFromRemote();
+
+  // Modo PCDays (TAREA 6, CLAUDE.md): umbral de publicación automática más
+  // bajo y más publicaciones permitidas al día, para reaccionar rápido
+  // durante el evento. Activado con `node monitor.js --pcdays`.
+  const AUTO_PUBLISH_THRESHOLD = pcdaysMode ? 15 : 20;
+  const MAX_OFERTAS_PER_DAY    = pcdaysMode ? 8  : 5;
 
   logInfo('━━━ Iniciando comprobación de novedades ━━━');
+  if (pcdaysMode) logInfo(`🔥 MODO PCDAYS — umbral ${AUTO_PUBLISH_THRESHOLD}%, límite ${MAX_OFERTAS_PER_DAY}/día`);
   logInfo(`Tokens Groq hoy: ${getTokensUsed()}/${DAILY_LIMIT} usados`);
   logInfo(`Fuentes: ${SOURCES.filter(s => s.enabled).length} | Caché: ${getCacheStats().total} entradas`);
 
   let totalScanned    = 0;
   let totalRelevant   = 0;
   let totalDrafts     = 0;
+  let totalOfertas    = 0;
+  let ofertasPublicadas  = 0;
+  let ofertasEnRevision  = 0;
   let totalDiscard    = 0;
   let totalCached     = 0;
   let discardLayer1   = 0;
@@ -268,6 +375,7 @@ async function runCheck() {
   let tokenLimitReached = false;
   let pendingSkipped  = 0;
   const errors      = [];
+  const ofertaCandidates = []; // recolectadas durante el escaneo, procesadas al final por orden de descuento (TAREA 2)
   const productos   = []; // [{brand, title, categoria}]
   const dudosos     = []; // [{title, reason, hint}]
   const draftTitles = []; // titulares de borradores generados en este ciclo
@@ -368,6 +476,25 @@ async function runCheck() {
         continue; // NO markProcessed — se reintentará en el próximo ciclo
       }
 
+      // ── Capa de detección de ofertas (independiente del análisis normal) ──
+      // Solo se recolecta el candidato aquí — el contenido se genera DESPUÉS
+      // de escanear todas las fuentes, ordenado por descuento descendente
+      // (TAREA 2), para que si hay varias ofertas a la vez se gaste el
+      // presupuesto de Groq/el hueco del límite diario en las mejores primero.
+      const oferta = detectOferta(item);
+      if (oferta.isOferta) {
+        logInfo(`  🔥 Oferta candidata: ${oferta.motivo}`);
+        ofertaCandidates.push({
+          itemTitle,
+          producto:    review.producto ?? itemTitle,
+          categoria:   review.categoria ?? 'general',
+          oferta,
+          informacion: item.contentSnippet ?? item.content ?? '',
+        });
+        markProcessed(id, { url: itemUrl, titleHash });
+        continue;
+      }
+
       // ── Buscar imagen del producto ──
       const imageUrl = await findProductImage(item);
 
@@ -460,18 +587,260 @@ async function runCheck() {
     }
   }
 
+  // ── Procesar las ofertas recolectadas, de mayor a menor descuento (TAREA 2) ──
+  // El contenido (llamada a Groq) se genera aquí, no durante el escaneo, para
+  // que el orden de prioridad sea efectivo de verdad si hay varias a la vez.
+  ofertaCandidates.sort((a, b) => (b.oferta.descuentoEstimado ?? -1) - (a.oferta.descuentoEstimado ?? -1));
+
+  for (const cand of ofertaCandidates) {
+    // Decisión del usuario (2026-06-25): si la oferta es de un producto que
+    // YA tiene un análisis publicado en FitzDesk, NO se crea un artículo de
+    // oferta aparte (evitaba contenido duplicado/zombi: el análisis real ya
+    // cubre el producto, y el artículo de oferta se quedaría vivo para
+    // siempre tras terminar la rebaja). En su lugar, solo se actualiza el
+    // campo `precio` del análisis existente — sin generar contenido nuevo
+    // con Groq, así que no consume presupuesto de tokens ni necesita
+    // checkOfertaCompleteness. Mismas reglas de umbral de descuento y
+    // límite diario que el resto del sistema PCDays, para no crear un
+    // segundo camino con reglas distintas.
+    const relatedExisting = findRelatedAnalysis(cand.producto);
+    if (relatedExisting) {
+      const precioOfertaStr = `${cand.oferta.precio}€`;
+      const descuentoPct = cand.oferta.descuentoEstimado;
+      const descuentoStr = descuentoPct != null ? `${descuentoPct}%` : undefined;
+      const puedeAutoAplicar = descuentoPct != null && descuentoPct >= AUTO_PUBLISH_THRESHOLD;
+
+      if (!puedeAutoAplicar) {
+        totalOfertas++;
+        ofertasEnRevision++;
+        draftTitles.push(`🔥 ${cand.itemTitle} (ya analizado — revisión manual)`);
+        await notifyOfertaPendienteRevision({
+          titulo: cand.producto, slug: relatedExisting.slug,
+          precio_oferta: precioOfertaStr, descuento: descuentoStr,
+          motivo: descuentoPct == null
+            ? `producto ya analizado en FitzDesk ("${relatedExisting.title}"); descuento no verificado en el texto original — actualízalo a mano con articleUpdater.js si procede`
+            : `producto ya analizado en FitzDesk ("${relatedExisting.title}"); descuento del ${descuentoPct}% por debajo del umbral de auto-actualización (${AUTO_PUBLISH_THRESHOLD}%) — actualízalo a mano con articleUpdater.js si procede`,
+          filePath: `src/content/articulos/${relatedExisting.slug}.md (ya publicado)`,
+        });
+        continue;
+      }
+
+      if (ofertaLimitReached(MAX_OFERTAS_PER_DAY)) {
+        totalOfertas++;
+        ofertasEnRevision++;
+        draftTitles.push(`🔥 ${cand.itemTitle} (ya analizado — límite diario alcanzado)`);
+        await notifyOfertaPendienteRevision({
+          titulo: cand.producto, slug: relatedExisting.slug,
+          precio_oferta: precioOfertaStr, descuento: descuentoStr,
+          motivo: `producto ya analizado en FitzDesk ("${relatedExisting.title}"); límite diario de ${MAX_OFERTAS_PER_DAY} actualizaciones automáticas alcanzado`,
+          filePath: `src/content/articulos/${relatedExisting.slug}.md (ya publicado)`,
+        });
+        continue;
+      }
+
+      try {
+        const existingContent = readFileSync(join(CONTENT_PATH, `${relatedExisting.slug}.md`), 'utf-8');
+        const updatedContent  = applyPrecioToExistingAnalysis(existingContent, precioOfertaStr, cand.oferta.fuente);
+        const url = await publishDirectly(relatedExisting.slug, updatedContent);
+        await recordOfertaPublished(relatedExisting.slug);
+        totalOfertas++;
+        ofertasPublicadas++;
+        draftTitles.push(`💰 ${cand.itemTitle} (precio actualizado en análisis existente)`);
+        await notifyOfertaPublicada({
+          titulo: cand.producto, slug: relatedExisting.slug, url,
+          precio_oferta: precioOfertaStr, descuento: descuentoStr,
+        });
+        try {
+          await dispatchWorkflowAndWait('deploy.yml', {});
+          // Deliberadamente NO se dispara publicar-en-redes.yml aquí (a
+          // diferencia de la rama de oferta nueva, más abajo): el análisis
+          // ya se publicó y compartió en su momento — republicar en redes
+          // solo por un cambio de precio sería ruido. Confirmado como
+          // decisión explícita en la revisión de código del 2026-06-25.
+        } catch (deployErr) {
+          logWarn(`  ⚠️ Precio actualizado pero el deploy falló: ${deployErr.message}`);
+        }
+      } catch (err) {
+        logWarn(`  ✗ Error actualizando el precio del análisis existente (${relatedExisting.slug}): ${err.message}`);
+        totalOfertas++;
+        ofertasEnRevision++;
+        await notifyOfertaPendienteRevision({
+          titulo: cand.producto, slug: relatedExisting.slug,
+          precio_oferta: precioOfertaStr, descuento: descuentoStr,
+          motivo: `fallo al actualizar automáticamente el precio: ${err.message}`,
+          filePath: `src/content/articulos/${relatedExisting.slug}.md (ya publicado)`,
+        });
+      }
+      continue;
+    }
+
+    if (!process.env.GROQ_API_KEY || tokenLimitReached || isTokenLimitReached()) {
+      tokenLimitReached = true;
+      pendingSkipped++;
+      continue; // ya estaba marcada como procesada al detectarla — no se reintentará
+    }
+
+    let draft;
+    try {
+      draft = await buildOfertaDraft({
+        producto:        cand.producto,
+        categoria:       cand.categoria,
+        precio_oferta:   `${cand.oferta.precio}€`,
+        descuento:       cand.oferta.descuentoEstimado != null ? `${cand.oferta.descuentoEstimado}%` : undefined,
+        fuente:          cand.oferta.fuente,
+        // Bug crítico detectado y corregido el 2026-06-25 (revisión de
+        // seguridad PCDays): aquí siempre se pasaba '', y
+        // checkOfertaCompleteness() exige que enlace_afiliado empiece por
+        // pccomponentes.com — el resultado era que NINGUNA oferta detectada
+        // por el monitor podía completarse nunca, así que el sistema de
+        // publicación automática no publicaba nada en absoluto. Mismo
+        // formato de "enlace de producto" (búsqueda, sin tracking real) que
+        // usa el resto del proyecto (ver CLAUDE.md).
+        enlace_afiliado: `https://www.pccomponentes.com/buscar/?query=${encodeURIComponent(cand.producto)}`,
+        informacion:     cand.informacion,
+      });
+      addTokens(draft.tokensUsed);
+    } catch (e) {
+      logWarn(`  ✗ Error generando contenido de oferta ("${cand.itemTitle}"): ${e.message}`);
+      continue;
+    }
+
+    const descuentoPct = cand.oferta.descuentoEstimado;
+    const precioOfertaStr = `${cand.oferta.precio}€`;
+    const descuentoStr = descuentoPct != null ? `${descuentoPct}%` : undefined;
+
+    // Bug de seguridad encontrado y corregido el 2026-06-25 (revisión PCDays):
+    // todo este bloque (completitud, umbral, límite diario, publicación)
+    // corría sin ningún try/catch alrededor. Una excepción aquí (por ejemplo
+    // checkOfertaCompleteness fallando al parsear un YAML roto, o un error
+    // de red al notificar a Discord) abortaba TODO runCheck() de golpe
+    // —sin notificar nada—, dejando sin procesar el resto de la cola de
+    // ofertas (incluidas las de mayor descuento si el fallo ocurría pronto)
+    // y sin sincronizar ofertaLimiter/cache al final. Ahora un fallo en una
+    // sola oferta candidata no debe poder tirar abajo las demás.
+    try {
+      // TAREA 1 — comprobación mecánica de completitud (sustituye al agente,
+      // que no se puede invocar desde un script sin supervisión, ver CLAUDE.md)
+      const check = checkOfertaCompleteness({ content: draft.content, slug: draft.slug });
+
+      if (!check.complete) {
+        const filePath = await saveDraftPersisted(draft.slug, draft.filename, draft.content);
+        totalOfertas++;
+        ofertasEnRevision++;
+        draftTitles.push(`🔥 ${cand.itemTitle} (incompleta)`);
+        await notifyOferta({
+          titulo: cand.producto, slug: draft.slug,
+          precio_oferta: precioOfertaStr, descuento: descuentoStr, fuente: cand.oferta.fuente,
+          analisis_relacionado: draft.related?.slug, filePath,
+        });
+        logWarn(`  ⚠️ Oferta incompleta — borrador guardado para revisión: ${check.missing.join('; ')}`);
+        continue;
+      }
+
+      // TAREA 2 — umbral de descuento para publicación automática
+      const puedeAutoPublicar = descuentoPct != null && descuentoPct >= AUTO_PUBLISH_THRESHOLD;
+      if (!puedeAutoPublicar) {
+        const filePath = await saveDraftPersisted(draft.slug, draft.filename, draft.content);
+        totalOfertas++;
+        ofertasEnRevision++;
+        draftTitles.push(`🔥 ${cand.itemTitle} (revisión manual)`);
+        const motivo = descuentoPct == null
+          ? 'descuento no verificado en el texto original de la noticia — no se puede confirmar automáticamente'
+          : `descuento del ${descuentoPct}% por debajo del umbral de publicación automática (${AUTO_PUBLISH_THRESHOLD}%)`;
+        await notifyOfertaPendienteRevision({
+          titulo: cand.producto, slug: draft.slug,
+          precio_oferta: precioOfertaStr, descuento: descuentoStr, motivo, filePath,
+        });
+        continue;
+      }
+
+      // TAREA 3 — límite diario de publicaciones automáticas
+      if (ofertaLimitReached(MAX_OFERTAS_PER_DAY)) {
+        const filePath = await saveDraftPersisted(draft.slug, draft.filename, draft.content);
+        totalOfertas++;
+        ofertasEnRevision++;
+        draftTitles.push(`🔥 ${cand.itemTitle} (límite diario alcanzado)`);
+        await notifyOfertaPendienteRevision({
+          titulo: cand.producto, slug: draft.slug,
+          precio_oferta: precioOfertaStr, descuento: descuentoStr,
+          motivo: `límite diario de ${MAX_OFERTAS_PER_DAY} ofertas publicadas alcanzado — esta queda en cola para revisión manual`,
+          filePath,
+        });
+        continue;
+      }
+
+      // ── Todo OK: publicar inmediatamente, sin pasar por el calendario ──
+      try {
+        const url = await publishDirectly(draft.slug, draft.content);
+        await recordOfertaPublished(draft.slug);
+        totalOfertas++;
+        ofertasPublicadas++;
+        draftTitles.push(`🚀 ${cand.itemTitle} (publicada)`);
+
+        await notifyOfertaPublicada({
+          titulo: cand.producto, slug: draft.slug, url,
+          precio_oferta: precioOfertaStr, descuento: descuentoStr,
+        });
+
+        try {
+          await dispatchWorkflowAndWait('deploy.yml', {});
+          await dispatchWorkflow('publicar-en-redes.yml', { slug: draft.slug });
+        } catch (postPublishErr) {
+          logWarn(`  ⚠️ Oferta publicada pero el deploy o el disparo de redes falló: ${postPublishErr.message}`);
+        }
+      } catch (pubErr) {
+        logWarn(`  ✗ Error publicando oferta directamente, se guarda como borrador: ${pubErr.message}`);
+        const filePath = await saveDraftPersisted(draft.slug, draft.filename, draft.content);
+        totalOfertas++;
+        ofertasEnRevision++;
+        await notifyOfertaPendienteRevision({
+          titulo: cand.producto, slug: draft.slug,
+          precio_oferta: precioOfertaStr, descuento: descuentoStr,
+          motivo: `fallo al publicar automáticamente: ${pubErr.message}`,
+          filePath,
+        });
+      }
+    } catch (candidateErr) {
+      logError(`  ✗ Error inesperado procesando oferta "${cand.itemTitle}": ${candidateErr.message}`);
+      try {
+        await notifyOfertaPendienteRevision({
+          // draft?.slug en vez de cand.itemTitle (un título de noticia no es
+          // un slug) — corregido en la revisión de código del 2026-06-25;
+          // sin efecto visible porque notifyOfertaPendienteRevision no usa
+          // este parámetro en el embed, pero es semánticamente correcto.
+          titulo: cand.producto, slug: draft?.slug ?? null,
+          precio_oferta: precioOfertaStr, descuento: descuentoStr,
+          motivo: `error inesperado al procesar la oferta, revisar manualmente: ${candidateErr.message}`,
+          filePath: 'no se generó (falló antes de guardar el borrador)',
+        });
+      } catch (notifyErr) {
+        logError(`  ✗ Además falló la notificación a Discord: ${notifyErr.message}`);
+      }
+    }
+  }
+
+  await syncOfertasToRemote();
+
+  if (pcdaysMode) {
+    await notifyPcdaysModeStatus(true, {
+      ofertasDetectadas: ofertaCandidates.length,
+      ofertasPublicadas,
+      ofertasEnRevision,
+    });
+  }
+
   if (pendingSkipped > 0) {
     logWarn(`Límite diario de tokens alcanzado (70.000). Quedan ${pendingSkipped} noticias sin procesar para mañana.`);
   }
 
-  const summary = `━━━ Resumen: ${totalScanned} escaneados, ${totalRelevant} relevantes, ${totalDrafts} borradores, ${totalDiscard} descartados${errors.length ? ` (${errors.length} fuentes con error)` : ''} ━━━`;
+  const summary = `━━━ Resumen: ${totalScanned} escaneados, ${totalRelevant} relevantes, ${totalDrafts} borradores, ${totalOfertas} ofertas, ${totalDiscard} descartados${errors.length ? ` (${errors.length} fuentes con error)` : ''} ━━━`;
   logSuccess(summary);
 
   // Persistir caché en GitHub para que sobreviva reinicios de Railway
   if (githubAvailable()) await uploadCache(CACHE_FILE);
 
-  await notifyDailySummary({ totalScanned, totalRelevant, totalDrafts, totalDiscard, totalCached, discardLayer1, discardLayer2, discardLayer3, dudosos, draftTitles, errors, productos });
-  return { totalScanned, totalRelevant, totalDrafts, totalDiscard, totalCached, discardLayer1, discardLayer2, discardLayer3, dudosos, draftTitles, errors, productos };
+  await notifyDailySummary({ totalScanned, totalRelevant, totalDrafts, totalOfertas, totalDiscard, totalCached, discardLayer1, discardLayer2, discardLayer3, dudosos, draftTitles, errors, productos });
+  return { totalScanned, totalRelevant, totalDrafts, totalOfertas, ofertasPublicadas, ofertasEnRevision, totalDiscard, totalCached, discardLayer1, discardLayer2, discardLayer3, dudosos, draftTitles, errors, productos };
 }
 
 // ─────────────────────────────────────────────
@@ -479,9 +848,10 @@ async function runCheck() {
 // ─────────────────────────────────────────────
 
 const args = process.argv.slice(2);
-const isDaemon = args.includes('--daemon');
-const isTest   = args.includes('--test');
-const isOnce   = args.includes('--once') || (!isDaemon && !isTest);
+const isDaemon   = args.includes('--daemon');
+const isTest     = args.includes('--test');
+const isPcdays   = args.includes('--pcdays');
+const isOnce     = args.includes('--once') || (!isDaemon && !isTest);
 
 if (isTest) {
   logInfo(`Tokens Groq hoy: ${getTokensUsed()}/${DAILY_LIMIT} usados`);
@@ -610,7 +980,8 @@ logInfo(`FitzDesk Monitor iniciado — modo: ${isDaemon ? 'daemon' : 'una vez'}`
 logInfo(`Ruta de contenido: ${CONTENT_PATH}`);
 
 if (isOnce) {
-  runCheck()
+  if (isPcdays) logInfo('🔥 Modo PCDays activado para esta comprobación (node monitor.js --pcdays)');
+  runCheck({ pcdaysMode: isPcdays })
     .then(() => process.exit(0))
     .catch(err => {
       logError(`Error crítico: ${err.message}`);

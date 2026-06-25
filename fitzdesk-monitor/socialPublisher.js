@@ -30,7 +30,7 @@ import 'dotenv/config';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { generateInstagramCarousel } from './instagramImageGenerator.js';
+import { generateInstagramCarousel, generateOfertaCarousel, isOfertaArticle } from './instagramImageGenerator.js';
 import {
   SITE_URL, logInfo, logOk, logWarn, logError,
   loadArticle, imageUrlFor, buildPinterestDescription,
@@ -41,14 +41,19 @@ import { reviewBeforePublish } from './socialReviewer.js';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REDES_DIR  = path.join(__dirname, '..', 'public', 'images', 'redes');
 
-const INSTAGRAM_SLIDE_COUNT = 4;
+// Las ofertas usan un carrusel de 3 slides (gancho de oferta, razones,
+// veredicto con urgencia) en vez de los 4 slides del carrusel normal
+// (gancho, lo mejor, lo mejorable, veredicto) — TAREA 4, modo PCDays.
+function slideCountFor(slug) {
+  return isOfertaArticle(slug) ? 3 : 4;
+}
 
 // Pinterest preparado pero desactivado — activar cuando se apruebe el scope
 // pins:write en la API de Pinterest
 const PINTEREST_ENABLED = false;
 
-// Carrusel de Instagram (Puppeteer/PNG 1080x1350 x4 slides) — mismo criterio
-// de generación bajo demanda que la imagen de Facebook.
+// Carrusel de Instagram (Puppeteer/PNG 1080x1350) — mismo criterio de
+// generación bajo demanda que la imagen de Facebook.
 function instagramSlidePath(slug, n) {
   return path.join(REDES_DIR, `${slug}-instagram-${n}.png`);
 }
@@ -58,11 +63,13 @@ function instagramSlideUrlFor(slug, n) {
 }
 
 async function ensureInstagramCarousel(slug) {
-  const allExist = Array.from({ length: INSTAGRAM_SLIDE_COUNT }, (_, i) => i + 1)
+  const slideCount = slideCountFor(slug);
+  const allExist = Array.from({ length: slideCount }, (_, i) => i + 1)
     .every(n => fs.existsSync(instagramSlidePath(slug, n)));
   if (allExist) return;
-  logInfo('Carrusel de Instagram no encontrado — generando los 4 slides...');
-  await generateInstagramCarousel(slug);
+  logInfo(`Carrusel de Instagram no encontrado — generando los ${slideCount} slides...`);
+  if (slideCount === 3) await generateOfertaCarousel(slug);
+  else await generateInstagramCarousel(slug);
 }
 
 // ─── Instagram ────────────────────────────────────────────────────────────────
@@ -113,7 +120,7 @@ async function publishInstagram(slug, caption) {
   // Paso 1 — crear un contenedor por cada slide del carrusel y esperar a
   // que cada uno esté listo antes de seguir
   const itemIds = [];
-  for (let n = 1; n <= INSTAGRAM_SLIDE_COUNT; n++) {
+  for (let n = 1; n <= slideCountFor(slug); n++) {
     const itemId = await createCarouselItem(igAccountId, accessToken, instagramSlideUrlFor(slug, n));
     await waitForContainerReady(itemId, accessToken);
     itemIds.push(itemId);
@@ -225,7 +232,7 @@ async function runTest(article, slug, runInstagram, runFacebook) {
   }
 
   console.log('\n📸 Imágenes de Instagram (se generan bajo demanda si no existen; deben quedar publicadas en producción antes de llamar a la API de Meta):');
-  for (let n = 1; n <= INSTAGRAM_SLIDE_COUNT; n++) {
+  for (let n = 1; n <= slideCountFor(slug); n++) {
     const exists = fs.existsSync(instagramSlidePath(slug, n));
     console.log(`   ${exists ? '✅ ya existe' : '⏳ se generaría'} — Instagram slide ${n}: ${instagramSlideUrlFor(slug, n)}`);
   }
@@ -395,7 +402,13 @@ async function main() {
   console.log(`Pinterest : ${PINTEREST_ENABLED ? (results.pinterest ? '✅' : '❌') : '⏭️  desactivado'}`);
 }
 
-main().catch(e => {
-  console.error('Error crítico:', e.message);
-  process.exit(1);
-});
+// Solo ejecutar main() al lanzar el script directamente — sin esta guarda,
+// importar cualquier función de este módulo desde otro script dispara el
+// CLI sin querer (mismo bug encontrado y corregido en offerGenerator.js el
+// 2026-06-25).
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  main().catch(e => {
+    console.error('Error crítico:', e.message);
+    process.exit(1);
+  });
+}

@@ -24,7 +24,10 @@ export const SOURCES = [
     url: 'https://elchapuzasinformatico.com/feed/',
     enabled: true,
   },
-  // PcComponentes bloquea scraping externo (403) — desactivado
+  // PcComponentes bloquea scraping externo (403, reto de Cloudflare) —
+  // confirmado de nuevo el 2026-06-25 al intentar añadir esta fuente para
+  // PCDays (TAREA 5). Sin RSS directo viable, se usa un Google Alert como
+  // alternativa (igual que el resto de fuentes de esta lista) — ver más abajo.
   // { name: 'PcComponentes', url: 'https://www.pccomponentes.com/rss', enabled: false },
 
   // Google Alerts
@@ -37,6 +40,15 @@ export const SOURCES = [
   { name: 'Alert: periféricos productividad',          url: 'https://www.google.com/alerts/feeds/07327459440318242948/92159700337893097',    enabled: true },
   { name: 'Alert: Dell nuevo monitor 2026',            url: 'https://www.google.es/alerts/feeds/07327459440318242948/12175609179661096621',  enabled: true },
   { name: 'Alert: LG nuevo monitor portátil 2026',     url: 'https://www.google.es/alerts/feeds/07327459440318242948/12175609179661097176',  enabled: true },
+
+  // PENDIENTE DE CONFIGURAR (TAREA 5, modo PCDays): no se puede crear una
+  // Google Alert por API — requiere iniciar sesión con una cuenta de Google
+  // en https://www.google.com/alerts. Pasos: 1) crear la alerta con la
+  // búsqueda "oferta site:pccomponentes.com" (o términos similares como
+  // "descuento site:pccomponentes.com" / "chollo PcComponentes"), 2) elegir
+  // "Feed RSS" como tipo de fuente, 3) copiar la URL del feed que genera
+  // Google y pegarla abajo, 4) cambiar enabled a true.
+  { name: 'Alert: ofertas PcComponentes (PCDays)',     url: '', enabled: false },
 ];
 
 // ─────────────────────────────────────────────
@@ -176,4 +188,108 @@ export function diagnoseFilter(item) {
   }
 
   return { pass: true, layer: 0, reason: `Producto: "${matchedProducto}" · Marca: "${matchedMarca}"` };
+}
+
+// ─────────────────────────────────────────────
+// DETECTOR DE OFERTAS (capa adicional, independiente del filtro de relevancia)
+// ─────────────────────────────────────────────
+
+/**
+ * Palabras clave que indican que la noticia trata sobre una oferta/rebaja,
+ * no sobre un análisis o lanzamiento normal.
+ */
+export const KEYWORDS_OFERTA = [
+  'oferta', 'descuento', 'rebaja', 'precio mínimo', 'precio minimo',
+  'histórico', 'historico', 'chollo', 'barato', 'precio bajo',
+  'sale', 'deal', '% de descuento', '€ menos',
+];
+
+/**
+ * Tiendas consideradas fuente fiable para una oferta — si el item no
+ * menciona ninguna, no se puede verificar el precio y se descarta.
+ */
+export const FUENTES_OFERTA_FIABLES = [
+  'pccomponentes', 'amazon', 'mediamarkt', 'media markt',
+  'el corte inglés', 'el corte ingles', 'corte inglés', 'corte ingles',
+];
+
+const DESCUENTO_MINIMO = 15;
+
+function hasWordOferta(text, kw) {
+  if (kw.length <= 4) {
+    return new RegExp('\\b' + kw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b', 'i').test(text);
+  }
+  return text.includes(kw);
+}
+
+/**
+ * Detecta si un item de RSS describe una oferta válida.
+ *
+ * Condiciones, todas obligatorias:
+ *   1. Al menos una palabra clave de KEYWORDS_OFERTA
+ *   2. Al menos un producto físico de KEYWORDS_PRODUCTO (reutilizado del
+ *      filtro de relevancia — mismo criterio de "producto físico")
+ *   3. Un precio concreto en € (ej. "49,99€", "129 €")
+ *   4. Al menos una tienda de FUENTES_OFERTA_FIABLES
+ *   5. Si se menciona un % de descuento explícito, debe ser ≥ 15. Si no se
+ *      menciona ningún %, no se puede verificar desde el texto — se deja
+ *      pasar como "descuento no verificado" para que un humano lo confirme
+ *      (criterio "nunca inventar un dato", igual que en articleUpdater.js),
+ *      en vez de descartarlo o asumir que cumple el mínimo.
+ *
+ * Retorna { isOferta, motivo, precio, fuente, descuentoEstimado } —
+ * descuentoEstimado es null si no se pudo determinar desde el texto.
+ */
+export function detectOferta(item) {
+  const text = `${item.title ?? ''} ${item.contentSnippet ?? ''} ${item.content ?? ''}`.toLowerCase();
+
+  const matchedKeyword = KEYWORDS_OFERTA.find(kw => text.includes(kw));
+  if (!matchedKeyword) {
+    return { isOferta: false, motivo: 'Sin palabra clave de oferta' };
+  }
+
+  const matchedProducto = KEYWORDS_PRODUCTO.find(kw => hasWordOferta(text, kw));
+  if (!matchedProducto) {
+    return { isOferta: false, motivo: 'Sin producto físico reconocido' };
+  }
+
+  const precioMatch = text.match(/(\d{1,4}(?:[.,]\d{1,2})?)\s*€/);
+  if (!precioMatch) {
+    return { isOferta: false, motivo: 'Sin precio concreto en €' };
+  }
+  const precio = parseFloat(precioMatch[1].replace(',', '.'));
+
+  const fuente = FUENTES_OFERTA_FIABLES.find(f => text.includes(f));
+  if (!fuente) {
+    return { isOferta: false, motivo: 'Fuente no reconocida como fiable (PcComponentes/Amazon/MediaMarkt/El Corte Inglés)' };
+  }
+
+  // Bug detectado en la revisión de seguridad PCDays (2026-06-25): la regex
+  // anterior (/(\d{1,2})\s*%/) coincidía con el PRIMER porcentaje de todo el
+  // texto, sin importar de qué hablara (autonomía de batería, IVA, cualquier
+  // estadística de la noticia) — ese número, sin relación con el descuento
+  // real, podía superar el umbral de auto-publicación. Ahora solo se acepta
+  // un % que vaya precedido de "-" (convención típica "-20%") o seguido de
+  // una palabra de descuento ("20% de descuento/dto/rebaja") — si no
+  // aparece en ese contexto, se trata como no verificado (igual de
+  // conservador que si no hubiera ningún % en el texto).
+  const descuentoMatch =
+    text.match(/-\s*(\d{1,2})\s*%/) ||
+    text.match(/(\d{1,2})\s*%\s*(?:de\s+)?(?:descuento|dto\.?|rebaja)/);
+  const descuentoEstimado = descuentoMatch ? parseInt(descuentoMatch[1], 10) : null;
+  if (descuentoEstimado !== null && descuentoEstimado < DESCUENTO_MINIMO) {
+    return {
+      isOferta: false,
+      motivo: `Descuento estimado (${descuentoEstimado}%) por debajo del mínimo (${DESCUENTO_MINIMO}%)`,
+    };
+  }
+
+  return {
+    isOferta: true,
+    motivo: `Oferta detectada: "${matchedKeyword}" · producto "${matchedProducto}" · ${precio}€ · fuente "${fuente}"` +
+      (descuentoEstimado !== null ? ` · ${descuentoEstimado}% descuento` : ' · descuento no verificado en el texto'),
+    precio,
+    fuente,
+    descuentoEstimado,
+  };
 }

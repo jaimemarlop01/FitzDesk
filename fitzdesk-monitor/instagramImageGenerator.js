@@ -499,6 +499,226 @@ ${baseHead()}
   `;
 }
 
+// ─── Plantillas para ofertas (carrusel de 3 slides, TAREA 4 PCDays) ────────────
+
+// Slide 1 — gancho de oferta: imagen + badge rojo "🔥 OFERTA" + precio
+// tachado/precio de oferta + % de descuento, en vez del badge de categoría
+// y la puntuación que usa el slide 1 normal (las ofertas no llevan nota).
+function buildOfertaSlide1Html({ title, imagePath, precioOferta, precioNormal, descuento }) {
+  const backgroundUri = imageToDataUri(imagePath);
+  return `
+<!DOCTYPE html>
+<html lang="es">
+<head>
+${baseHead()}
+<style>
+  .canvas {
+    position: relative;
+    width: ${WIDTH}px;
+    height: ${HEIGHT}px;
+    background-image: url('${backgroundUri}');
+    background-size: cover;
+    background-position: center;
+  }
+  .gradient {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 62%;
+    background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.55) 45%, rgba(0,0,0,0.92) 100%);
+  }
+  .gradient-top {
+    position: absolute;
+    left: 0; right: 0; top: 0;
+    height: 560px;
+    background: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 75%, rgba(0,0,0,0) 100%);
+  }
+  .logo {
+    position: absolute;
+    top: 48px; left: 48px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(0,0,0,0.35);
+    padding: 12px 22px;
+    border-radius: 999px;
+  }
+  .logo-emoji { font-size: 30px; }
+  .logo-text { color: #FFFFFF; font-size: 28px; font-weight: 700; }
+  .badge-oferta {
+    position: absolute;
+    top: 48px; right: 48px;
+    background: #DC2626;
+    color: #FFFFFF;
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    padding: 14px 28px;
+    border-radius: 999px;
+    text-transform: uppercase;
+  }
+  .bottom { position: absolute; left: 0; right: 0; bottom: 0; padding: 0 56px 64px; }
+  .title {
+    color: #FFFFFF;
+    font-size: 50px;
+    font-weight: 700;
+    line-height: 1.18;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.4);
+    margin-bottom: 28px;
+  }
+  .price-row { display: flex; align-items: baseline; gap: 24px; flex-wrap: wrap; }
+  .price-old { color: #D1D5DB; font-size: 34px; font-weight: 600; text-decoration: line-through; }
+  .price-new { color: #FFFFFF; font-size: 72px; font-weight: 800; }
+  .descuento {
+    color: #FFFFFF;
+    background: #DC2626;
+    font-size: 34px;
+    font-weight: 800;
+    padding: 6px 20px;
+    border-radius: 12px;
+  }
+</style>
+</head>
+<body>
+  <div class="canvas">
+    <div class="gradient-top"></div>
+    <div class="gradient"></div>
+    <div class="logo">
+      <span class="logo-emoji">🐿️</span>
+      <span class="logo-text">FitzDesk</span>
+    </div>
+    <div class="badge-oferta">🔥 OFERTA</div>
+    <div class="bottom">
+      <div class="title">${escapeHtml(title)}</div>
+      <div class="price-row">
+        ${precioNormal ? `<span class="price-old">${escapeHtml(precioNormal)}</span>` : ''}
+        <span class="price-new">${escapeHtml(precioOferta)}</span>
+        ${descuento ? `<span class="descuento">-${escapeHtml(String(descuento).replace(/^-/, ''))}</span>` : ''}
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+  `;
+}
+
+// Slide 2 — por qué comprarlo ahora: fondo oscuro, hasta 3 razones, y una
+// cuenta atrás visual solo si se conoce una fecha de fin real (nunca se
+// inventa una fecha — si no se conoce, el slide se queda sin ese bloque).
+function buildOfertaSlide2Html({ razones, fechaFin }) {
+  const itemsHtml = razones.map((r, i) => `
+    <div class="razon-item">
+      <span class="razon-num">${i + 1}</span>
+      <span class="razon-text">${escapeHtml(r)}</span>
+    </div>`).join('');
+
+  const countdownHtml = fechaFin ? `<div class="countdown">⏳ Termina el ${escapeHtml(fechaFin)}</div>` : '';
+
+  return `
+<!DOCTYPE html>
+<html lang="es">
+<head>
+${baseHead()}
+<style>
+  .canvas {
+    position: relative;
+    width: ${WIDTH}px;
+    height: ${HEIGHT}px;
+    background: #1F2937;
+    padding: 64px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .slide-number { position: absolute; top: 48px; right: 48px; color: #9CA3AF; font-size: 24px; font-weight: 600; }
+  .heading { color: #DC2626; font-size: 52px; font-weight: 800; margin-bottom: 64px; }
+  .razon-item { display: flex; align-items: flex-start; gap: 22px; margin-bottom: 48px; }
+  .razon-num {
+    background: #F97316; color: #FFFFFF; font-size: 30px; font-weight: 800;
+    width: 52px; height: 52px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .razon-text { color: #FFFFFF; font-size: 36px; font-weight: 600; line-height: 1.3; padding-top: 4px; }
+  .countdown {
+    margin-top: 24px; color: #FBBF24; font-size: 30px; font-weight: 700;
+    background: rgba(251,191,36,0.12); padding: 16px 24px; border-radius: 12px; text-align: center;
+  }
+  .logo-small { position: absolute; bottom: 48px; right: 48px; display: flex; align-items: center; gap: 8px; opacity: 0.8; }
+  .logo-small-emoji { font-size: 22px; }
+  .logo-small-text { color: #FFFFFF; font-size: 20px; font-weight: 700; }
+</style>
+</head>
+<body>
+  <div class="canvas">
+    <div class="slide-number">2/3</div>
+    <div class="heading">🔥 Por qué comprarlo ahora</div>
+    ${itemsHtml}
+    ${countdownHtml}
+    <div class="logo-small">
+      <span class="logo-small-emoji">🐿️</span>
+      <span class="logo-small-text">FitzDesk</span>
+    </div>
+  </div>
+</body>
+</html>
+  `;
+}
+
+// Slide 3 — veredicto de Fitz con urgencia, fondo naranja, CTA a fitzdesk.com
+function buildOfertaSlide3Html({ veredicto }) {
+  return `
+<!DOCTYPE html>
+<html lang="es">
+<head>
+${baseHead()}
+<style>
+  .canvas {
+    position: relative;
+    width: ${WIDTH}px;
+    height: ${HEIGHT}px;
+    background: #F97316;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 80px;
+  }
+  .slide-number { position: absolute; top: 48px; right: 48px; color: rgba(255,255,255,0.7); font-size: 24px; font-weight: 600; }
+  .icon { font-size: 140px; margin-bottom: 24px; }
+  .subtitle {
+    color: #FFFFFF; font-size: 32px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.08em; margin-bottom: 40px; opacity: 0.9;
+  }
+  .verdict {
+    color: #FFFFFF; font-size: 48px; font-weight: 700; line-height: 1.3;
+    display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2;
+    overflow: hidden; margin-bottom: 56px;
+  }
+  .cta {
+    color: #F97316; background: #FFFFFF; font-size: 34px; font-weight: 800;
+    padding: 18px 40px; border-radius: 999px; margin-bottom: 24px;
+  }
+  .site { color: #FFFFFF; font-size: 26px; font-weight: 600; opacity: 0.9; }
+</style>
+</head>
+<body>
+  <div class="canvas">
+    <div class="slide-number">3/3</div>
+    <div class="icon">🐿️</div>
+    <div class="subtitle">Veredicto de Fitz</div>
+    <div class="verdict">${escapeHtml(veredicto)}</div>
+    <div class="cta">No la dejes escapar 🔥</div>
+    <div class="site">fitzdesk.com</div>
+  </div>
+</body>
+</html>
+  `;
+}
+
 // ─── Captura con Puppeteer ──────────────────────────────────────────────────────
 
 // Reduce el font-size de selector progresivamente mientras el texto
@@ -626,6 +846,82 @@ export async function generateInstagramCarousel(slug) {
   return outputPaths;
 }
 
+const OFERTA_TOTAL_SLIDES = 3;
+
+/**
+ * Carrusel de 3 slides para artículos `tipo: "oferta"` (TAREA 4, modo
+ * PCDays) — gancho de oferta, razones para comprar ahora, veredicto con
+ * urgencia. Reutiliza el mismo método de captura y autofit que el carrusel
+ * de 4 slides normal, pero con plantillas y contenido propios de oferta.
+ */
+export async function generateOfertaCarousel(slug) {
+  const articleData = loadArticleData(slug);
+  const { data, content } = articleData;
+
+  const razones = parseBulletList(extractSection(content, /^##\s*¿Por qué es buena oferta\?/i), 3);
+  const razonesFinal = razones.length ? razones : ['Precio rebajado por tiempo limitado'];
+
+  let veredictoSrc = extractSection(content, /^##.*Fitz dice/i);
+  let veredicto;
+  try {
+    veredicto = await condenseVerdictWithGroq(veredictoSrc || content);
+  } catch (e) {
+    logWarn(`Groq falló condensando el veredicto de oferta (${e.message}) — usando primera frase disponible`);
+    const raw = (veredictoSrc || content).replace(/\n+/g, ' ').trim();
+    veredicto = raw.split(/(?<=[.?!])\s/)[0]?.slice(0, 140) || 'Oferta limitada — no la dejes escapar.';
+  }
+
+  const slides = [
+    {
+      html: buildOfertaSlide1Html({
+        title:        articleData.title,
+        imagePath:    articleData.imagePath,
+        precioOferta: data.precio_oferta ?? data.precio ?? 'Ver precio',
+        precioNormal: data.precio_normal ?? null,
+        descuento:    data.descuento ?? null,
+      }),
+      afterRender: page => autofitLineClamp(page, '.title', {
+        startSize: 50, minSize: 32, normalLines: 2, maxLines: 3, step: 2,
+      }),
+    },
+    {
+      // Sin fecha de fin conocida en el frontmatter de oferta (no se inventa)
+      html: buildOfertaSlide2Html({ razones: razonesFinal, fechaFin: null }),
+    },
+    {
+      html: buildOfertaSlide3Html({ veredicto }),
+      afterRender: page => autofitVerdict(page, '.verdict', veredicto, {
+        startSize: 48, minSize: 28, normalLines: 2, maxLines: 3, step: 2,
+      }),
+    },
+  ];
+
+  fs.mkdirSync(OUTPUT_DIR, { recursive: true });
+  const outputPaths = slides.map((_, i) => path.join(OUTPUT_DIR, `${slug}-instagram-${i + 1}.png`));
+
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: ['--no-sandbox', '--disable-setuid-sandbox'],
+  });
+  try {
+    for (let i = 0; i < slides.length; i++) {
+      await captureHtml(browser, slides[i].html, outputPaths[i], slides[i].afterRender);
+    }
+  } finally {
+    await browser.close();
+  }
+
+  return outputPaths;
+}
+
+/** true si el artículo es de tipo "oferta" — decide qué carrusel generar. */
+export function isOfertaArticle(slug) {
+  const filePath = path.join(ARTICLES_DIR, `${slug}.md`);
+  if (!fs.existsSync(filePath)) return false;
+  const { data } = matter(fs.readFileSync(filePath, 'utf8'));
+  return data.tipo === 'oferta';
+}
+
 // ─── CLI ────────────────────────────────────────────────────────────────────────
 
 async function main() {
@@ -638,9 +934,10 @@ async function main() {
     process.exit(1);
   }
 
-  logInfo(`Generando carrusel de Instagram (4 slides) para ${slug}...`);
+  const esOferta = isOfertaArticle(slug);
+  logInfo(`Generando carrusel de Instagram (${esOferta ? '3' : '4'} slides${esOferta ? ', oferta' : ''}) para ${slug}...`);
   try {
-    const outputPaths = await generateInstagramCarousel(slug);
+    const outputPaths = esOferta ? await generateOfertaCarousel(slug) : await generateInstagramCarousel(slug);
     outputPaths.forEach((p, i) => logOk(`Slide ${i + 1}: ${p}`));
   } catch (e) {
     logError(e.message);

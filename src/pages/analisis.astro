@@ -60,6 +60,7 @@ const collectionSchema = {
       <div class="toolbar">
         <div class="filter-pills" role="group" aria-label="Filtrar por categoría">
           <button class="pill active" data-filter="all">Todos</button>
+          <button class="pill" data-filter="ofertas">🔥 Ofertas</button>
           {categories.map(cat => (
             <button class="pill" data-filter={cat}>
               {CATEGORY_LABELS[cat] ?? cat}
@@ -101,6 +102,7 @@ const collectionSchema = {
           <div
             class={`grid-item${i >= INITIAL_SHOW ? ' item-hidden' : ''}`}
             data-cat={art.data.categoria}
+            data-tipo={art.data.tipo ?? ''}
             data-fecha={art.data.fecha}
             data-puntuacion={String(art.data.puntuacion)}
             data-precio={parsePriceAttr(art.data.precio)}
@@ -115,6 +117,10 @@ const collectionSchema = {
               puntuacion={art.data.puntuacion}
               precio={art.data.precio}
               tipo={art.data.tipo}
+              precio_oferta={art.data.precio_oferta}
+              precio_normal={art.data.precio_normal}
+              descuento={art.data.descuento}
+              oferta_activa={art.data.oferta_activa}
             />
           </div>
         ))}
@@ -158,12 +164,18 @@ const collectionSchema = {
     return isNaN(n) ? 99999 : n;
   }
 
+  // "ofertas" no es una categoría real (data-cat), es el tipo de artículo —
+  // se filtra por data-tipo en vez de data-cat.
+  function matchesFilter(el: HTMLElement): boolean {
+    if (currentFilter === 'all') return true;
+    if (currentFilter === 'ofertas') return el.dataset.tipo === 'oferta';
+    return el.dataset.cat === currentFilter;
+  }
+
   function applyAll() {
     const allItems = getItems();
 
-    const filtered = allItems.filter(el =>
-      currentFilter === 'all' || el.dataset.cat === currentFilter
-    );
+    const filtered = allItems.filter(matchesFilter);
 
     // Sort
     filtered.sort((a, b) => {
@@ -179,9 +191,7 @@ const collectionSchema = {
       }
     });
 
-    const notFiltered = allItems.filter(el =>
-      currentFilter !== 'all' && el.dataset.cat !== currentFilter
-    );
+    const notFiltered = allItems.filter(el => !matchesFilter(el));
 
     // Reorder DOM: filtered (sorted) first, then others
     const grid = document.getElementById('articles-grid')!;

@@ -1,0 +1,340 @@
+/**
+ * FitzDesk Offer Generator
+ * Genera un borrador de artículo de tipo "oferta" a partir de una oferta
+ * detectada (ver detectOferta() en sources.js), usando Groq para el
+ * contenido y notificando a Discord al terminar.
+ *
+ * Uso:
+ *   node offerGenerator.js --config oferta.json
+ *
+ * Formato del JSON de configuración:
+ *   {
+ *     "producto": "Logitech MX Master 3S",
+ *     "categoria": "ratones",
+ *     "precio_oferta": "79,99€",
+ *     "precio_normal": "99,99€",
+ *     "descuento": "20%",
+ *     "fuente": "PcComponentes",
+ *     "enlace_afiliado": "https://www.pccomponentes.com/...",
+ *     "informacion": "texto/contexto adicional de la noticia detectada"
+ *   }
+ */
+
+import 'dotenv/config';
+import Groq from 'groq-sdk';
+import matter from 'gray-matter';
+import { readFileSync, writeFileSync, readdirSync, existsSync, mkdirSync } from 'fs';
+import { join, resolve, dirname } from 'path';
+import { fileURLToPath } from 'url';
+import { notifyOferta } from './notifier.js';
+
+const __dirname   = dirname(fileURLToPath(import.meta.url));
+const CONTENT_DIR = resolve(__dirname, '../src/content/articulos');
+
+if (!process.env.GROQ_API_KEY) {
+  console.error('ERROR: GROQ_API_KEY no definida');
+  process.exit(1);
+}
+const client = new Groq({ apiKey: process.env.GROQ_API_KEY });
+
+function today() { return new Date().toISOString().slice(0, 10); }
+
+// Mismo algoritmo de slugify ya usado en analyzer.js, compareGenerator.js,
+// guideGenerator.js y launchGenerator.js (duplicado conocido, ver CLAUDE.md).
+function slugify(text) {
+  return text
+    .toLowerCase()
+    .normalize('NFD').replace(/[̀-ͯ]/g, '')
+    .replace(/[^a-z0-9\s-]/g, '')
+    .trim()
+    .replace(/\s+/g, '-')
+    .slice(0, 60);
+}
+
+// ─── Buscar si ya existe un análisis del producto en FitzDesk ────────────────
+
+export function findRelatedAnalysis(productoNombre) {
+  const files = readdirSync(CONTENT_DIR).filter(f => f.endsWith('.md'));
+  const needle = productoNombre.toLowerCase().trim();
+
+  for (const file of files) {
+    const raw = readFileSync(join(CONTENT_DIR, file), 'utf-8');
+    const { data } = matter(raw);
+    if (data.borrador === true) continue;
+    if (data.tipo && data.tipo !== 'analisis') continue;
+    const title = (data.title ?? '').toLowerCase();
+    // Coincidencia exacta del nombre de producto contra el prefijo del
+    // título (antes de los dos puntos), no por subcadena — un .includes()
+    // hacía que "ASUS Vivobook 15" coincidiera con "ASUS Vivobook 15 OLED
+    // (2025): ...", un modelo con pantalla y CPU distintos, y Groq acabó
+    // mezclando specs de un producto con el otro (bug detectado el
+    // 2026-06-25 sobre un caso real). Mejor no enlazar que enlazar mal.
+    const prefix = title.split(':')[0]?.trim() ?? '';
+    if (prefix === needle || title === needle) {
+      return { slug: data.slug ?? file.replace(/^borrador-/, '').replace('.md', ''), title: data.title };
+    }
+  }
+  return null;
+}
+
+// ─── Generar el contenido con Groq ────────────────────────────────────────────
+
+async function generateOfertaContent(config, related) {
+  const { producto, categoria, precio_oferta, precio_normal, descuento, fuente, informacion } = config;
+
+  const prompt = `Eres el redactor principal de FitzDesk, una web española de análisis de periféricos y setups para teletrabajo y productividad. Tono: cercano, honesto, nunca agresivo ni de urgencia artificial ("¡última oportunidad!", "¡corre!"). Audiencia: trabajadores en remoto. Idioma: español de España.
+
+Escribe el CUERPO (sin frontmatter, eso se añade aparte) de un artículo corto sobre esta oferta:
+
+PRODUCTO: ${producto}
+CATEGORÍA: ${categoria}
+PRECIO DE OFERTA: ${precio_oferta}
+PRECIO NORMAL: ${precio_normal ?? 'no disponible'}
+DESCUENTO: ${descuento ?? 'no especificado, no inventes un porcentaje'}
+TIENDA: ${fuente ?? 'no especificada'}
+${related ? `YA EXISTE UN ANÁLISIS EN FITZDESK: "${related.title}" (slug: ${related.slug}) — enlaza a él con [texto](/articulo/${related.slug})` : 'NO existe análisis de este producto en FitzDesk todavía — escribe una breve descripción propia del producto en vez de enlazar a nada'}
+${informacion ? `INFORMACIÓN ADICIONAL DE LA NOTICIA ORIGINAL:\n${informacion}` : ''}
+
+ESTRUCTURA OBLIGATORIA (usa estos encabezados exactos):
+
+## Introducción
+2-3 líneas. Por qué esta oferta merece atención. Cuánto se ahorra respecto al precio habitual (usa los precios dados, no inventes cifras). Transmite urgencia real sin ser agresivo ni usar frases de presión típicas de afiliados.
+
+## ¿Por qué es buena oferta?
+3-4 puntos en formato lista, cada uno explicando un aspecto de valor real del producto. ${related ? 'Enlaza al análisis existente de forma natural en el primer punto.' : 'Como no hay análisis propio, incluye una breve descripción honesta del producto basada en lo que es conocido de él.'}
+
+## ¿Para quién es ideal?
+1 párrafo describiendo el perfil de usuario que más se beneficia de esta oferta concreta.
+
+## 🐿️ Fitz dice
+2-3 frases en primera persona, con la personalidad de Fitz (ardilla mascota de FitzDesk: cercana, pícara, honesta). Veredicto corto sobre si merece la pena aprovechar la oferta. SIN puntuación numérica (las ofertas no llevan nota, solo análisis).
+
+No incluyas el aviso de oferta ni el aviso de afiliado, se añaden automáticamente después.
+
+PARÁMETROS: 250-400 palabras en total. Nunca inventes un precio, descuento o dato que no se te haya dado. Si el descuento no se especifica, no menciones ningún porcentaje concreto.`;
+
+  const completion = await client.chat.completions.create({
+    model: 'llama-3.3-70b-versatile',
+    max_tokens: 1200,
+    messages: [{ role: 'user', content: prompt }],
+  });
+
+  return {
+    text:       completion.choices[0]?.message?.content?.trim() ?? '',
+    tokensUsed: completion.usage?.total_tokens ?? 0,
+  };
+}
+
+// ─── Construir el artículo completo (frontmatter + cuerpo) ───────────────────
+
+// Bug de seguridad encontrado y corregido el 2026-06-25 (revisión PCDays):
+// los valores interpolados en el frontmatter venían sin sanear (producto y
+// fuente, en particular, llegan del título/snippet del RSS sin ningún
+// control). Una comilla doble suelta en el texto original de una noticia
+// rompía el YAML generado y hacía que gray-matter lanzara una excepción al
+// parsearlo más adelante (en checkOfertaCompleteness) — y esa llamada no
+// estaba protegida con try/catch, así que tiraba abajo todo el ciclo de
+// procesado de ofertas sin notificar nada a Discord. Escapar aquí cierra el
+// problema en origen, además del try/catch añadido en monitor.js.
+function yamlEscape(value) {
+  return String(value ?? '').replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+}
+
+function buildFrontmatter(config, slug, related) {
+  const { producto, categoria, precio_oferta, precio_normal, descuento, enlace_afiliado, fuente } = config;
+  const analisisSlug = related?.slug ?? '';
+  // Si ya existe un análisis, reutilizamos su imagen (misma convención que
+  // el resto del sitio: /images/articulos/[slug].webp); si no existe,
+  // queda pendiente de imagen igual que cualquier borrador sin foto.
+  const imagen = related ? `/images/articulos/${related.slug}.webp` : `/images/articulos/${slug}.webp`;
+
+  const productoSafe      = yamlEscape(producto);
+  const categoriaSafe     = yamlEscape(categoria);
+  const precioOfertaSafe  = yamlEscape(precio_oferta);
+  const precioNormalSafe  = yamlEscape(precio_normal);
+  const descuentoSafe     = yamlEscape(descuento);
+  const fuenteSafe        = yamlEscape(fuente);
+  const enlaceSafe        = yamlEscape(enlace_afiliado);
+
+  const lines = [
+    '---',
+    `title: "${productoSafe}: precio mínimo histórico a ${precioOfertaSafe}"`,
+    `slug: "${slug}"`,
+    `categoria: "${categoriaSafe}"`,
+    `fecha: "${today()}"`,
+    `descripcion: "El ${productoSafe} está en oferta a ${precioOfertaSafe}${fuente ? ` en ${fuenteSafe}` : ''}, su precio más bajo hasta la fecha."`,
+    `imagen: "${imagen}"`,
+    `precio_oferta: "${precioOfertaSafe}"`,
+  ];
+  if (precio_normal) lines.push(`precio_normal: "${precioNormalSafe}"`);
+  if (descuento)      lines.push(`descuento: "${descuentoSafe}"`);
+  lines.push(
+    `enlace_afiliado: "${enlaceSafe}"`,
+    `tiempo_lectura: "2 min"`,
+    `tipo: "oferta"`,
+    `oferta_activa: true`,
+  );
+  if (analisisSlug) lines.push(`analisis_relacionado: "${analisisSlug}"`);
+  lines.push('borrador: true', '---', '');
+
+  return lines.join('\n');
+}
+
+function buildAviso() {
+  return [
+    '> ⚠️ Las ofertas son limitadas y pueden cambiar.',
+    '> Comprueba el precio actual antes de comprar.',
+    '',
+    '> **Aviso de afiliado**: Este artículo contiene enlaces de afiliado. Si compras a través de ellos, FitzDesk puede recibir una comisión sin coste adicional para ti.',
+  ].join('\n');
+}
+
+// ─── Comprobación de completitud (sustituto mecánico del agente "revisar-borradores") ─
+
+// Un agente de Claude Code solo se puede invocar desde una sesión interactiva
+// conmigo, nunca desde un script Node corriendo sin supervisión en GitHub
+// Actions — no existe ninguna API para eso. Esta función reproduce el mismo
+// tipo de comprobaciones (campos completos, sin placeholders, imagen real)
+// que haría una revisión humana o un agente, pero de forma determinista y
+// sin LLM, igual que el patrón ya usado en socialReviewer.js para las
+// comprobaciones mecánicas de redes sociales.
+const REQUIRED_SECTIONS = ['## Introducción', '## ¿Por qué es buena oferta?', '## ¿Para quién es ideal?', '## 🐿️ Fitz dice'];
+// Bug real encontrado el 2026-06-25 (al verificar la reescritura de
+// articleUpdater.js para ofertas finalizadas): /\[.*?\]/ confundía un
+// enlace Markdown normal "[texto](url)" — como el que añade
+// findRelatedAnalysis() al enlazar el análisis ya existente del producto —
+// con un placeholder sin rellenar tipo "[COMPLETAR]". Resultado: cualquier
+// oferta con enlace a un análisis relacionado quedaba SIEMPRE marcada como
+// incompleta, bloqueando la publicación automática (TAREA 1) aun después de
+// corregir el bug del enlace_afiliado vacío. El lookahead negativo "(?!\()"
+// evita que la regex coincida cuando el corchete va seguido de "(" (es
+// decir, cuando es la parte de texto de un enlace Markdown real).
+const PLACEHOLDER_PATTERNS = [/\[[^\]]*\](?!\()/, /\bTODO\b/i, /\bpendiente de (completar|revisar)\b/i, /\bVer precio\b/i];
+
+export function checkOfertaCompleteness({ content, slug }) {
+  const missing = [];
+  const { data, content: body } = matter(content);
+
+  if (!data.title || data.title.length > 100) missing.push('title ausente o demasiado largo (>100 car.)');
+  if (!data.descripcion || data.descripcion.length > 160) missing.push('descripcion ausente o demasiado larga (>160 car.)');
+  if (!data.precio_oferta || !/\d/.test(data.precio_oferta)) missing.push('precio_oferta ausente o sin un número');
+  if (!data.enlace_afiliado || !data.enlace_afiliado.startsWith('https://www.pccomponentes.com')) {
+    missing.push('enlace_afiliado ausente o no apunta a PcComponentes');
+  }
+  if (!data.imagen) {
+    missing.push('imagen ausente en el frontmatter');
+  } else {
+    const imgPath = resolve(__dirname, '..', 'public', data.imagen.replace(/^\//, ''));
+    if (!existsSync(imgPath)) missing.push(`la imagen "${data.imagen}" no existe en disco`);
+  }
+
+  for (const section of REQUIRED_SECTIONS) {
+    if (!body.includes(section)) missing.push(`falta la sección "${section}"`);
+  }
+
+  for (const pattern of PLACEHOLDER_PATTERNS) {
+    if (pattern.test(body)) missing.push(`texto con placeholder sin rellenar (patrón: ${pattern})`);
+  }
+
+  const wordCount = body.trim().split(/\s+/).filter(Boolean).length;
+  if (wordCount < 120 || wordCount > 500) missing.push(`longitud fuera de rango (${wordCount} palabras, esperado 120-500)`);
+
+  return { complete: missing.length === 0, missing, slug };
+}
+
+/**
+ * Construye el borrador completo de oferta (frontmatter + cuerpo + avisos)
+ * sin escribir nada a disco ni notificar — reutilizable tanto por el CLI
+ * de este script como por monitor.js cuando detecta una oferta en vivo.
+ * config: { producto, categoria, precio_oferta, precio_normal?, descuento?, fuente?, enlace_afiliado?, informacion? }
+ * Devuelve { slug, filename, content, related, tokensUsed }.
+ */
+export async function buildOfertaDraft(config) {
+  if (!config.producto || !config.categoria || !config.precio_oferta) {
+    throw new Error('buildOfertaDraft necesita al menos: producto, categoria, precio_oferta');
+  }
+
+  const slug     = `${slugify(config.producto)}-oferta`;
+  const related  = findRelatedAnalysis(config.producto);
+  const { text: body, tokensUsed } = await generateOfertaContent(config, related);
+  if (!body) throw new Error('Groq no devolvió contenido para el borrador de oferta');
+
+  const frontmatter = buildFrontmatter(config, slug, related);
+  const aviso        = buildAviso();
+  const content       = `${frontmatter}\n${body}\n\n${aviso}\n`;
+  const filename      = `borrador-${slug}.md`;
+
+  return { slug, filename, content, related, tokensUsed };
+}
+
+// ─── Main ─────────────────────────────────────────────────────────────────────
+
+async function main() {
+  const configArg = process.argv[process.argv.indexOf('--config') + 1];
+  if (!configArg) {
+    console.error('Uso: node offerGenerator.js --config oferta.json');
+    process.exit(1);
+  }
+  if (!existsSync(configArg)) {
+    console.error(`Archivo no encontrado: ${configArg}`);
+    process.exit(1);
+  }
+
+  const config = JSON.parse(readFileSync(configArg, 'utf-8'));
+  if (!config.producto || !config.categoria || !config.precio_oferta) {
+    console.error('El JSON de configuración necesita al menos: producto, categoria, precio_oferta');
+    process.exit(1);
+  }
+
+  console.log('\nFitzDesk Offer Generator');
+  console.log('━'.repeat(48));
+  console.log(`Producto       : ${config.producto}`);
+  console.log(`Categoría      : ${config.categoria}`);
+  console.log(`Precio oferta  : ${config.precio_oferta}`);
+  if (config.precio_normal) console.log(`Precio normal  : ${config.precio_normal}`);
+  if (config.descuento)      console.log(`Descuento      : ${config.descuento}`);
+  if (config.fuente)         console.log(`Fuente         : ${config.fuente}`);
+  console.log('━'.repeat(48));
+  console.log('\nGenerando contenido con Groq...');
+
+  const { slug, filename, content, related } = await buildOfertaDraft(config);
+  console.log(related
+    ? `🔗 Análisis relacionado encontrado: ${related.slug}`
+    : 'ℹ️  Sin análisis relacionado — se incluirá descripción propia del producto');
+
+  if (!existsSync(CONTENT_DIR)) mkdirSync(CONTENT_DIR, { recursive: true });
+  const filepath = join(CONTENT_DIR, filename);
+  writeFileSync(filepath, content, 'utf-8');
+
+  console.log(`\n✅ Borrador de oferta guardado: src/content/articulos/${filename}`);
+  console.log('\n💡 Pendiente antes de publicar:');
+  console.log(`   1. Verificar que el precio de oferta sigue activo`);
+  console.log(`   2. Revisar el contenido generado`);
+  if (!related) console.log(`   3. Añadir imagen: public/images/articulos/${slug}.webp`);
+  console.log(`   ${related ? 3 : 4}. Quitar borrador: true y publicar`);
+
+  await notifyOferta({
+    titulo: config.producto,
+    slug,
+    precio_oferta: config.precio_oferta,
+    precio_normal: config.precio_normal,
+    descuento: config.descuento,
+    fuente: config.fuente,
+    analisis_relacionado: related?.slug,
+    filePath: `src/content/articulos/${filename}`,
+  });
+}
+
+// Solo ejecutar main() cuando el script se lanza directamente. Sin esta
+// guarda, main() se ejecutaba también al importar buildOfertaDraft() o
+// checkOfertaCompleteness() desde otro módulo (p. ej. monitor.js) — leía
+// process.argv[0] (la ruta del binario de node) como si fuera el JSON de
+// configuración y fallaba con un error de parseo confuso (bug detectado el
+// 2026-06-25 al integrar este módulo con monitor.js). Mismo patrón ya usado
+// en imageCollector.js.
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  main().catch(e => {
+    console.error('Error:', e.message);
+    process.exit(1);
+  });
+}
