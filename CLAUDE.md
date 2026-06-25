@@ -653,6 +653,8 @@ Quinto tipo de artículo (junto a `analisis`, `comparativa`, `guia`, `lanzamient
 
 **PARTE 7 del encargo — revisión de borradores existentes (2026-06-25)**: el agente "Revisor de borradores" revisó los 17 borradores existentes con `borrador: true` buscando candidatos a reclasificar a `tipo: "oferta"`. **Ninguno cumple los criterios** — todos son análisis en profundidad (con `puntuacion`/`criterios` completos), lanzamientos informativos o guías, ninguno centrado en una rebaja puntual como tema principal. El tipo "oferta" no tiene candidatos retroactivos; aplicará solo a contenido nuevo. De paso, el agente detectó (sin tocarlo) un bloque duplicado de "Preguntas frecuentes" y "🐿️ Fitz recomienda" en `borrador-cherry-kc-6000-slim-analisis.md` (líneas 75-109) no documentado hasta ahora — pendiente de limpieza en una próxima pasada. Tampoco existe ningún archivo persistente de "casos dudosos" en `fitzdesk-monitor/data/` que revisar (son notificaciones efímeras solo a Discord, ya confirmado en sesiones anteriores).
 
+**Decisión de alcance del usuario (2026-06-25)**: el flujo de ofertas se activa primero solo para ofertas que detecte el monitor vía RSS (`detectOferta()` en `sources.js` → `offerGenerator.js`), sobre productos que pueden o no tener ya un análisis publicado en FitzDesk. **Queda pendiente de decidir más adelante** si también se generan artículos de oferta de forma proactiva para productos que YA tienen un análisis publicado en la web (es decir, vigilar bajadas de precio sobre el catálogo existente, no solo sobre lo que aparezca en el RSS) — no implementar esto todavía, es una fase 2 a decidir.
+
 ---
 
 ## Páginas de la web
