@@ -551,7 +551,19 @@ La publicación automática del 25/06 (`logitech-k380-analisis`) llegó a Discor
 
 **No se pudo ver el log real del job** para diagnosticar esto directamente: la API de GitHub exige permisos de administrador del repo para descargar logs de Actions, y no había `gh` CLI ni token configurado en el entorno de trabajo. Diagnosticado en su lugar a partir del texto exacto del aviso de Discord que pegó el usuario, y confirmado leyendo el bloque `env:` de ambos workflows.
 
-**Corregido**: añadida la línea `GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}` al bloque `env:` del step "Publicar en redes sociales" en ambos workflows (`publicar-automatico.yml` y `publicar-en-redes.yml`). Pendiente de verificación real: re-ejecutar `publicar-en-redes.yml` manualmente con `slug: logitech-k380-analisis` para confirmar que ya publica en ambas redes — no se pudo lanzar desde aquí (workflow_dispatch requiere la interfaz de GitHub o un token, ninguno disponible en este entorno).
+**Corregido**: añadida la línea `GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}` al bloque `env:` del step "Publicar en redes sociales" en ambos workflows (`publicar-automatico.yml` y `publicar-en-redes.yml`).
+
+### Segundo bug encontrado el mismo día, tras corregir el primero: Groq sin reintentos ante fallos de red transitorios
+
+Con `GROQ_API_KEY` ya bien configurada, el usuario relanzó `publicar-en-redes.yml` para `logitech-k380-analisis` y volvió a bloquearse — esta vez con `Invalid response body while trying to fetch https://api.groq.com/openai/v1/chat/completions: Premature close`. El log completo (pegado por el usuario) mostró que **todas** las llamadas a Groq de esa ejecución fallaron con el mismo error (caption de Instagram, caption de Facebook, veredicto del carrusel, explicaciones de pros y de contras, dos veces cada una) — la firma clásica de un socket keep-alive que el servidor ya cerró pero el cliente intenta reutilizar, un problema conocido del `fetch` de Node en entornos de corta vida como los runners de GitHub Actions. Sin ningún reintento, un solo parpadeo de red bloqueaba la publicación entera.
+
+**De paso, se encontró que había 3 clientes Groq duplicados** en el monitor (`socialContent.js`, `instagramImageGenerator.js`, `socialReviewer.js`), cada uno con su propia copia casi idéntica de la llamada a `groqClient.chat.completions.create(...)`. Aprovechando la corrección, se centralizó todo en `callGroq()` de `socialContent.js` — `instagramImageGenerator.js` y `socialReviewer.js` ya no instancian su propio cliente Groq, solo importan y usan `callGroq()`.
+
+**Corregido**: `callGroq()` ahora reintenta hasta 3 veces (backoff 500ms/1000ms) solo ante errores de red transitorios reconocidos (`premature close`, `econnreset`, `fetch failed`, `socket hang up`) — errores no transitorios (como `GROQ_API_KEY no configurada`) siguen fallando inmediatamente sin reintentar, ya que reintentar no solucionaría nada. Verificado con 3 casos simulados (se recupera tras fallos transitorios, agota intentos y lanza el error si persiste, no reintenta errores no transitorios) — no se pudo probar contra la API real de Groq sin gastar cuota.
+
+**No se pudo ver el log real del job** para diagnosticar el primer bug directamente: la API de GitHub exige permisos de administrador del repo para descargar logs de Actions, y no había `gh` CLI ni token configurado en el entorno de trabajo. Diagnosticado en su lugar a partir del texto exacto del aviso de Discord que pegó el usuario, y confirmado leyendo el bloque `env:` de ambos workflows. El segundo bug se diagnosticó igual, a partir del log completo que pegó el usuario.
+
+**Pendiente de verificación real**: volver a re-ejecutar `publicar-en-redes.yml` manualmente con `slug: logitech-k380-analisis` para confirmar que ya publica en ambas redes — no se pudo lanzar desde aquí (workflow_dispatch requiere la interfaz de GitHub o un token, ninguno disponible en este entorno).
 
 **Limpieza pendiente**: el `console.log` temporal de depuración en `publishFacebook()` (longitud + últimos 4 caracteres del token) sigue en el código — quitarlo ahora que el problema está resuelto.
 

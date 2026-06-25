@@ -26,10 +26,9 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import sharp from 'sharp';
-import Groq from 'groq-sdk';
 import {
   SITE_URL, logInfo, logOk, logWarn, logError,
-  loadArticle, getInstagramCaption, getFacebookCaption,
+  loadArticle, getInstagramCaption, getFacebookCaption, callGroq,
 } from './socialContent.js';
 import {
   loadArticleData, getCarouselContent, generateInstagramCarousel,
@@ -45,8 +44,6 @@ const EXPECTED_HEIGHT = 1350;
 const MAX_IMAGE_BYTES = 2 * 1024 * 1024;
 const MIN_IMAGE_BYTES = 50 * 1024;
 const PNG_MAGIC = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
-
-const groqClient = process.env.GROQ_API_KEY ? new Groq({ apiKey: process.env.GROQ_API_KEY }) : null;
 
 function instagramSlidePath(slug, n) {
   return path.join(REDES_DIR, `${slug}-instagram-${n}.png`);
@@ -154,31 +151,19 @@ function jaccardSimilarity(a, b) {
 // ─── Groq: juicio cualitativo + autocorrección ─────────────────────────────────
 
 async function judgeToneWithGroq(text, network) {
-  if (!groqClient) return { ok: true, note: 'Groq no disponible — comprobación de tono omitida' };
   try {
     const prompt = `Eres un editor exigente de FitzDesk (web de periféricos y setups para teletrabajo; la marca tiene un tono cercano, honesto, con la mascota Fitz, nunca corporativo ni robótico). Lee este texto pensado para ${network} y responde EXACTAMENTE "SI" si el tono es cercano y natural, o "NO: [motivo en pocas palabras]" si suena genérico, robótico o corporativo.\n\nTEXTO:\n${text}`;
-    const completion = await groqClient.chat.completions.create({
-      model: 'llama-3.3-70b-versatile', max_tokens: 60,
-      messages: [{ role: 'user', content: prompt }],
-    });
-    const reply = completion.choices[0]?.message?.content?.trim() || '';
+    const reply = await callGroq(prompt, 60);
     if (/^s[ií]/i.test(reply)) return { ok: true };
     return { ok: false, note: reply.replace(/^no:?\s*/i, '') || 'tono no coherente con FitzDesk' };
   } catch (e) {
-    return { ok: true, note: `Groq falló al juzgar el tono (${e.message}) — comprobación omitida` };
+    return { ok: true, note: `Groq no disponible para juzgar el tono (${e.message}) — comprobación omitida` };
   }
 }
 
 async function fixCaptionWithGroq(caption, instructions) {
-  if (!groqClient) throw new Error('GROQ_API_KEY no configurada — no se puede corregir automáticamente');
   const prompt = `Corrige este texto para que cumpla las reglas indicadas, manteniendo el resto del contenido y el tono lo más intacto posible. Responde solo con el texto corregido, sin explicaciones ni comillas envolventes.\n\nREGLAS A CUMPLIR:\n${instructions}\n\nTEXTO ORIGINAL:\n${caption}`;
-  const completion = await groqClient.chat.completions.create({
-    model: 'llama-3.3-70b-versatile', max_tokens: 700,
-    messages: [{ role: 'user', content: prompt }],
-  });
-  const text = completion.choices[0]?.message?.content?.trim();
-  if (!text) throw new Error('Groq no devolvió contenido al corregir');
-  return text;
+  return await callGroq(prompt, 700);
 }
 
 // ─── Revisión de texto: Instagram ───────────────────────────────────────────────
