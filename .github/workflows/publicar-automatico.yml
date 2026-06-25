@@ -19,6 +19,7 @@ on:
 
 permissions:
   contents: write
+  actions: write
 
 jobs:
   publicar:
@@ -174,7 +175,77 @@ jobs:
         working-directory: fitzdesk-monitor
         run: npm ci --omit=dev
 
-      # ── 6d. Publicar en redes sociales (Instagram + Facebook) ────────────────
+      # ── 6d. Generar el carrusel de Instagram y publicarlo en producción ANTES
+      #    de llamar a la API de Meta — necesita una URL pública real, y el
+      #    deploy que dispara el push del paso 6 (workflow_run) no estará
+      #    listo hasta que ESTE job entero termine. Por eso se dispara un
+      #    segundo deploy explícito aquí y se espera a que acabe (mismo bug y
+      #    mismo fix que en publicar-en-redes.yml, detectado el 2026-06-25).
+      - name: Generar carrusel de Instagram
+        if: steps.check.outputs.status == 'ready' && steps.process.outcome == 'success' && success()
+        run: node fitzdesk-monitor/instagramImageGenerator.js --slug ${{ steps.check.outputs.published_slug }}
+
+      - name: Subir carrusel generado a main
+        id: subir_imagenes
+        if: steps.check.outputs.status == 'ready' && steps.process.outcome == 'success' && success()
+        run: |
+          git config user.name  "FitzDesk Bot"
+          git config user.email "bot@fitzdesk.com"
+          git add public/images/redes/
+          if git diff --cached --quiet; then
+            echo "Sin imágenes nuevas que subir (ya existían)"
+            echo "subidas=false" >> "$GITHUB_OUTPUT"
+          else
+            git commit -m "chore: generar carrusel de Instagram para ${{ steps.check.outputs.published_slug }}"
+            git push origin main
+            echo "subidas=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Disparar deploy y esperar a que termine
+        if: steps.check.outputs.status == 'ready' && steps.process.outcome == 'success' && success() && steps.subir_imagenes.outputs.subidas == 'true'
+        timeout-minutes: 5
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          ANTES=$(gh run list --workflow=deploy.yml --limit 1 --json databaseId --jq '.[0].databaseId')
+          gh workflow run deploy.yml --ref main
+          echo "Esperando a que empiece el nuevo run de deploy.yml..."
+          for i in $(seq 1 30); do
+            NUEVO=$(gh run list --workflow=deploy.yml --limit 1 --json databaseId --jq '.[0].databaseId')
+            if [ "$NUEVO" != "$ANTES" ]; then break; fi
+            sleep 5
+          done
+          echo "Esperando a que termine el run $NUEVO..."
+          gh run watch "$NUEVO" --exit-status
+
+      - name: Esperar a que las imágenes estén servidas en vivo
+        if: steps.check.outputs.status == 'ready' && steps.process.outcome == 'success' && success()
+        timeout-minutes: 3
+        run: |
+          SLUG="${{ steps.check.outputs.published_slug }}"
+          ELAPSED=0
+          MAX_WAIT=150
+          while true; do
+            ALL_OK=true
+            for n in 1 2 3 4; do
+              URL="https://fitzdesk.com/images/redes/${SLUG}-instagram-${n}.png"
+              STATUS=$(curl -s -o /dev/null -w "%{http_code}" "$URL")
+              if [ "$STATUS" != "200" ]; then ALL_OK=false; fi
+            done
+            if [ "$ALL_OK" = "true" ]; then
+              echo "✅ Las 4 imágenes del carrusel ya están disponibles en producción"
+              break
+            fi
+            if [ "$ELAPSED" -ge "$MAX_WAIT" ]; then
+              echo "❌ Las imágenes no estuvieron disponibles en $MAX_WAIT s tras el deploy"
+              exit 1
+            fi
+            echo "⏳ Aún no disponibles, esperando... ($ELAPSED/$MAX_WAIT s)"
+            sleep 10
+            ELAPSED=$((ELAPSED + 10))
+          done
+
+      # ── 6e. Publicar en redes sociales (Instagram + Facebook) ────────────────
       # Pinterest está preparado en socialPublisher.js pero desactivado
       # (PINTEREST_ENABLED = false) hasta que se den de alta esos secrets.
       - name: Publicar en redes sociales
