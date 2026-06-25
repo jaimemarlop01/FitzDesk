@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 /**
  * FitzDesk Social Publisher
- * Publica el artículo recién publicado en Instagram (carrusel de 4 slides)
- * y Facebook, usando imágenes optimizadas por red en vez de la imagen
+ * Publica el artículo recién publicado en Instagram (carrusel de 4 slides
+ * para análisis normales, 3 para ofertas — ver slideCountFor()) y Facebook,
+ * usando imágenes optimizadas por red en vez de la imagen
  * original del artículo (se generan bajo demanda si no existen) y captions
  * generados con Groq adaptados al formato de cada red (con fallback a
  * plantilla fija si la IA falla). Antes de publicar, socialReviewer.js
@@ -12,9 +13,10 @@
  * desactivado (PINTEREST_ENABLED = false) hasta conseguir la aprobación
  * del scope pins:write en la API de Pinterest.
  *
- * Instagram: instagramImageGenerator.js genera 4 slides (Puppeteer, PNG
- * 1080x1350) — gancho visual, lo mejor, lo mejorable, veredicto de Fitz —
- * publicados como carrusel vía Graph API.
+ * Instagram: instagramImageGenerator.js genera 4 slides para análisis (o 3
+ * para ofertas) (Puppeteer, PNG 1080x1350) — gancho visual, lo mejor, lo
+ * mejorable, veredicto de Fitz (o gancho de oferta, por qué comprarlo
+ * ahora, veredicto urgente) — publicados como carrusel vía Graph API.
  * Facebook: socialImageGenerator.js (Sharp, WEBP 1200x630) — su función
  * generateInstagramImage() (Sharp, imagen única) quedó sustituida por el
  * carrusel y ya no se usa aquí, aunque sigue disponible en el archivo.
@@ -126,7 +128,7 @@ async function publishInstagram(slug, caption) {
     itemIds.push(itemId);
   }
 
-  // Paso 2 — crear el contenedor de carrusel con los 4 IDs y el caption
+  // Paso 2 — crear el contenedor de carrusel con los IDs (4 o 3 según slideCountFor) y el caption
   const carouselRes  = await fetch(`https://graph.facebook.com/v25.0/${igAccountId}/media`, {
     method:  'POST',
     headers: { 'Content-Type': 'application/json' },

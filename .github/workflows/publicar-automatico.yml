@@ -223,17 +223,30 @@ jobs:
         timeout-minutes: 3
         run: |
           SLUG="${{ steps.check.outputs.published_slug }}"
+          # Bug crítico corregido el 2026-06-25: este bucle asumía siempre 4
+          # slides (1 2 3 4), pero el carrusel de una oferta solo genera 3
+          # (instagramImageGenerator.js, generateOfertaCarousel). Con 4
+          # hardcodeado, el slide 4 (inexistente) nunca llegaba a 200 y el
+          # paso fallaba siempre por timeout para CUALQUIER oferta — el
+          # caso de uso central del modo PCDays. Se cuenta el número real
+          # de slides ya generados y comiteados en el paso anterior.
+          SLIDE_COUNT=$(ls "public/images/redes/${SLUG}-instagram-"*.png 2>/dev/null | wc -l)
+          if [ "$SLIDE_COUNT" -eq 0 ]; then
+            echo "❌ No se encontró ningún slide generado para $SLUG"
+            exit 1
+          fi
+          echo "Carrusel de $SLIDE_COUNT slide(s) detectado para $SLUG"
           ELAPSED=0
           MAX_WAIT=150
           while true; do
             ALL_OK=true
-            for n in 1 2 3 4; do
+            for n in $(seq 1 "$SLIDE_COUNT"); do
               URL="https://fitzdesk.com/images/redes/${SLUG}-instagram-${n}.png"
               STATUS=$(curl -s -o /dev/null -w "%{http_code}" "$URL")
               if [ "$STATUS" != "200" ]; then ALL_OK=false; fi
             done
             if [ "$ALL_OK" = "true" ]; then
-              echo "✅ Las 4 imágenes del carrusel ya están disponibles en producción"
+              echo "✅ Las $SLIDE_COUNT imágenes del carrusel ya están disponibles en producción"
               break
             fi
             if [ "$ELAPSED" -ge "$MAX_WAIT" ]; then
