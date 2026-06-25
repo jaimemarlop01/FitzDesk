@@ -185,12 +185,81 @@ function parsePrecioNum(str) {
 }
 
 /**
+ * Separa frontmatter y cuerpo, tolerando BOM y CRLF (mismo patrón que
+ * insertAfterFrontmatter). Devuelve null si no se encuentra el bloque.
+ */
+function splitFrontmatterBody(content) {
+  const bomLen = content.charCodeAt(0) === 0xFEFF ? 1 : 0;
+  const match = content.slice(bomLen).match(/^-{3}\r?\n[\s\S]*?\r?\n-{3}\r?\n/);
+  if (!match) return null;
+  const splitAt = bomLen + match[0].length;
+  return { frontmatterBlock: content.slice(0, splitAt), body: content.slice(splitAt) };
+}
+
+/**
+ * Pide a Groq que reescriba el cuerpo de una oferta ya terminada para que
+ * deje de sonar a oferta activa (sin urgencia, sin "precio mínimo
+ * histórico", sin "¿por qué es buena oferta ahora?"). Solo toca el cuerpo,
+ * nunca el frontmatter (se pasa y se devuelve por separado).
+ */
+async function rewriteOfertaBodyAsNormal(body, { producto, nuevoPrecio }) {
+  const prompt = `Eres el editor de FitzDesk. Este texto se escribió como una OFERTA puntual de "${producto}", pero la oferta ya ha terminado (el precio ha vuelto a ${nuevoPrecio}). Reescribe el texto para que ya NO suene a oferta activa, manteniendo toda la información real del producto:
+
+- Elimina cualquier lenguaje de urgencia ("no la dejes escapar", "🔥", cuentas atrás, "ahora o nunca", preguntas tipo "¿lo tienes en el carrito?")
+- Elimina menciones a "precio mínimo histórico", "su precio más bajo hasta la fecha" o equivalentes
+- La sección "¿Por qué es buena oferta?" pasa a explicar simplemente por qué el producto merece la pena, sin mencionar que estuvo en oferta
+- La sección "¿Para quién es ideal?" se mantiene con el mismo contenido, solo ajusta el tono si hace falta
+- La parte de Fitz debe sonar a recomendación neutra y atemporal, no a "corre que se acaba"
+- NO inventes ningún dato nuevo sobre el producto que no estuviera ya en el texto original
+- Mantén el aviso de afiliado y cualquier aviso legal exactamente igual
+- Devuelve SOLO el texto reescrito en Markdown, sin explicaciones tuyas, sin frontmatter, sin bloques de código
+
+TEXTO ORIGINAL:
+${body}`;
+
+  const completion = await client.chat.completions.create({
+    model: 'llama-3.3-70b-versatile',
+    max_tokens: 1600,
+    messages: [{ role: 'user', content: prompt }],
+  });
+
+  return completion.choices[0]?.message?.content?.trim() ?? '';
+}
+
+/**
+ * Comprobación mecánica antes de aplicar la reescritura — mismo principio
+ * que checkOfertaCompleteness() en offerGenerator.js: nunca confiar a ciegas
+ * en lo que devuelve Groq. Si algo no cuaja, se descarta la reescritura
+ * entera y se cae al aviso simple (ver applyOfertaPrecioUpdate).
+ */
+function validateRewrittenBody(rewritten, originalBody) {
+  const problems = [];
+  if (!rewritten || rewritten.length < 150) problems.push('texto reescrito vacío o demasiado corto');
+  // Lookahead negativo para no confundir un enlace Markdown real
+  // "[texto](url)" con un placeholder sin rellenar tipo "[COMPLETAR]" — bug
+  // real encontrado al probar esta función en vivo (ver mismo fix en
+  // PLACEHOLDER_PATTERNS de offerGenerator.js).
+  if (/\[[^\]]*\](?!\()/.test(rewritten)) problems.push('placeholder sin rellenar');
+
+  const restosDeOferta = [
+    /no la dejes escapar/i, /🔥/, /precio mínimo histórico/i, /precio minimo historico/i,
+    /su precio más bajo/i, /su precio mas bajo/i, /\bchollo\b/i, /lo tienes en el carrito/i,
+  ];
+  if (restosDeOferta.some(p => p.test(rewritten))) problems.push('queda lenguaje de oferta/urgencia residual');
+
+  const ratio = rewritten.length / Math.max(originalBody.length, 1);
+  if (ratio < 0.4 || ratio > 2.5) problems.push(`longitud sospechosa (${Math.round(ratio * 100)}% del original)`);
+
+  return { ok: problems.length === 0, problems };
+}
+
+/**
  * Cuando se actualiza el precio de un artículo "oferta", comprueba si el
  * precio ha vuelto a su valor normal (la oferta ya terminó) en vez de
  * limitarse a sustituir el número. Margen del 3% para no marcar como
  * "terminada" una oferta por una diferencia de céntimos de redondeo.
  */
-function applyOfertaPrecioUpdate(content, nuevoPrecio) {
+async function applyOfertaPrecioUpdate(content, nuevoPrecio) {
   let updated = content;
   const changes = [];
 
@@ -211,21 +280,54 @@ function applyOfertaPrecioUpdate(content, nuevoPrecio) {
   }
 
   // La oferta ya no está activa: precio_oferta queda como histórico, se
-  // desactiva, se corrige el título y se avisa en el cuerpo — sin tocar la
-  // introducción original con una reescritura por IA, mismo patrón ya usado
-  // en applyDescatalogado() (aviso añadido, no reescritura del cuerpo).
+  // desactiva y se corrige el título — igual que antes.
   updated = updated.replace(/^oferta_activa:.*$/m, 'oferta_activa: false');
   changes.push('oferta_activa: false');
 
   const tituloMatch = updated.match(/^title:\s*"([^"]+)"/m);
+  const producto = tituloMatch ? tituloMatch[1].split(':')[0].trim() : null;
   if (tituloMatch) {
-    const producto = tituloMatch[1].split(':')[0].trim();
     const nuevoTitulo = `${producto}: análisis y mejor precio`;
     updated = updated.replace(/^title:.*$/m, `title: "${nuevoTitulo}"`);
     changes.push(`título → "${nuevoTitulo}"`);
   }
 
-  if (!/^> ℹ️ \*\*Esta oferta ya no está activa/m.test(updated)) {
+  // Reescritura del cuerpo (a petición del usuario, 2026-06-25): el aviso de
+  // una línea no bastaba — el resto del cuerpo seguía sonando a oferta
+  // activa ("¿por qué es buena oferta ahora?", lenguaje de urgencia,
+  // "precio mínimo histórico") para siempre, contradiciendo el aviso. Se
+  // intenta reescribir con Groq y se valida mecánicamente antes de aplicar;
+  // si falla cualquier cosa (sin GROQ_API_KEY, error de red, validación no
+  // superada), se cae al aviso simple de toda la vida — nunca se bloquea la
+  // actualización del precio por esto.
+  let bodyRewritten = false;
+  try {
+    const split = splitFrontmatterBody(updated);
+    if (split && producto) {
+      const rewritten = await rewriteOfertaBodyAsNormal(split.body, { producto, nuevoPrecio });
+      const validation = validateRewrittenBody(rewritten, split.body);
+      if (validation.ok) {
+        updated = split.frontmatterBlock + rewritten + '\n';
+        changes.push('cuerpo reescrito (ya no suena a oferta activa)');
+        bodyRewritten = true;
+      } else {
+        console.warn(`   ⚠️ Reescritura del cuerpo descartada (${validation.problems.join('; ')}) — se mantiene el aviso simple`);
+      }
+    }
+  } catch (e) {
+    console.warn(`   ⚠️ Error al reescribir el cuerpo con Groq: ${e.message} — se mantiene el aviso simple`);
+  }
+
+  if (bodyRewritten) {
+    // El cuerpo ya no afirma estar en oferta — basta con el aviso estándar
+    // de "actualizado en [mes]", igual que cualquier otra actualización de
+    // precio normal, sin la explicación específica de "esta oferta terminó".
+    if (!new RegExp(`Artículo actualizado en ${monthYear()}`, 'm').test(updated)) {
+      const notice = `> 📅 **Artículo actualizado en ${monthYear()}**: precio actualizado a ${nuevoPrecio} tras finalizar la oferta.`;
+      updated = insertAfterFrontmatter(updated, notice);
+      changes.push('aviso de actualización');
+    }
+  } else if (!/^> ℹ️ \*\*Esta oferta ya no está activa/m.test(updated)) {
     const aviso = `> ℹ️ **Esta oferta ya no está activa** — el precio ha vuelto a su valor habitual (${nuevoPrecio}). Aun así, el producto sigue siendo una buena opción a tener en cuenta.`;
     updated = insertAfterFrontmatter(updated, aviso);
     changes.push('aviso de oferta finalizada');
@@ -324,7 +426,7 @@ async function updateArticle(filename, options) {
 
   if (options.precio) {
     if (isOfertaArticle(content)) {
-      const { updated, changes, ofertaTerminada } = applyOfertaPrecioUpdate(content, options.precio);
+      const { updated, changes, ofertaTerminada } = await applyOfertaPrecioUpdate(content, options.precio);
       writeFileSync(filepath, updated, 'utf-8');
       console.log(`   ✅ ${slug} — ${ofertaTerminada ? '🏁 oferta finalizada — ' : ''}${changes.join(', ')}`);
       return true;

@@ -8,7 +8,7 @@ import cron from 'node-cron';
 import { SOURCES, KEYWORDS_MARCA, passesStrictFilter, diagnoseFilter, detectOferta } from './sources.js';
 import { isProcessed, isProcessedByUrl, isProcessedByTitleHash, markProcessed, getCacheStats, normalizeUrl, hashTitle, reloadFromDisk } from './cache.js';
 import { generateDraft, searchPcComponentes } from './analyzer.js';
-import { buildOfertaDraft, checkOfertaCompleteness } from './offerGenerator.js';
+import { buildOfertaDraft, checkOfertaCompleteness, findRelatedAnalysis } from './offerGenerator.js';
 import {
   createDraft as githubCreateDraft, isAvailable as githubAvailable, downloadCache, uploadCache,
   publishDirectly, dispatchWorkflow, dispatchWorkflowAndWait,
@@ -83,6 +83,49 @@ async function saveDraftPersisted(slug, filename, content) {
     }
   }
   return saveDraft(filename, content);
+}
+
+/**
+ * Actualiza solo el precio de un análisis YA PUBLICADO cuando el monitor
+ * detecta una oferta sobre un producto que ya tiene análisis en FitzDesk
+ * (decisión del usuario, 2026-06-25 — ver el bloque que llama a esta
+ * función). Misma lógica que applyPrecioUpdate() en articleUpdater.js, pero
+ * definida aquí en vez de importada: importar articleUpdater.js como módulo
+ * ejecutaría su guard de nivel superior (process.exit(1) si falta
+ * GROQ_API_KEY) como efecto secundario del propio import, tirando todo el
+ * monitor abajo aunque este camino nunca necesite Groq.
+ */
+function applyPrecioToExistingAnalysis(content, nuevoPrecio, fuente) {
+  let updated = content.replace(/^precio:.*$/m, `precio: "${nuevoPrecio}"`);
+
+  const fechaHoy = new Date().toISOString().slice(0, 10);
+  if (/^fecha_actualizacion:/m.test(updated)) {
+    updated = updated.replace(/^fecha_actualizacion:.*$/m, `fecha_actualizacion: "${fechaHoy}"`);
+  } else {
+    const bomLen0 = updated.charCodeAt(0) === 0xFEFF ? 1 : 0;
+    const closeIdx = updated.indexOf('\n---', bomLen0 + 4);
+    if (closeIdx !== -1) updated = updated.slice(0, closeIdx) + `\nfecha_actualizacion: "${fechaHoy}"` + updated.slice(closeIdx);
+  }
+  if (/^actualizado:/m.test(updated)) {
+    updated = updated.replace(/^actualizado:.*$/m, 'actualizado: true');
+  } else {
+    const bomLen1 = updated.charCodeAt(0) === 0xFEFF ? 1 : 0;
+    const closeIdx = updated.indexOf('\n---', bomLen1 + 4);
+    if (closeIdx !== -1) updated = updated.slice(0, closeIdx) + '\nactualizado: true' + updated.slice(closeIdx);
+  }
+
+  if (!/^> 📅 \*\*Artículo actualizado/m.test(updated)) {
+    const mes = new Date().toLocaleDateString('es-ES', { month: 'long', year: 'numeric' });
+    const notice = `> 📅 **Artículo actualizado en ${mes}**: precio rebajado a ${nuevoPrecio}${fuente ? ` en ${fuente}` : ''} — oferta detectada automáticamente por el monitor de FitzDesk.`;
+    const bomLen2 = updated.charCodeAt(0) === 0xFEFF ? 1 : 0;
+    const fmMatch = updated.slice(bomLen2).match(/^-{3}\r?\n[\s\S]*?\r?\n-{3}\r?\n/);
+    if (fmMatch) {
+      const insertPos = bomLen2 + fmMatch[0].length;
+      updated = updated.slice(0, insertPos) + notice + '\n' + updated.slice(insertPos);
+    }
+  }
+
+  return updated;
 }
 
 /** Detecta qué marca de KEYWORDS_MARCA aparece en un texto */
@@ -525,6 +568,82 @@ async function runCheck({ pcdaysMode = false } = {}) {
   ofertaCandidates.sort((a, b) => (b.oferta.descuentoEstimado ?? -1) - (a.oferta.descuentoEstimado ?? -1));
 
   for (const cand of ofertaCandidates) {
+    // Decisión del usuario (2026-06-25): si la oferta es de un producto que
+    // YA tiene un análisis publicado en FitzDesk, NO se crea un artículo de
+    // oferta aparte (evitaba contenido duplicado/zombi: el análisis real ya
+    // cubre el producto, y el artículo de oferta se quedaría vivo para
+    // siempre tras terminar la rebaja). En su lugar, solo se actualiza el
+    // campo `precio` del análisis existente — sin generar contenido nuevo
+    // con Groq, así que no consume presupuesto de tokens ni necesita
+    // checkOfertaCompleteness. Mismas reglas de umbral de descuento y
+    // límite diario que el resto del sistema PCDays, para no crear un
+    // segundo camino con reglas distintas.
+    const relatedExisting = findRelatedAnalysis(cand.producto);
+    if (relatedExisting) {
+      const precioOfertaStr = `${cand.oferta.precio}€`;
+      const descuentoPct = cand.oferta.descuentoEstimado;
+      const descuentoStr = descuentoPct != null ? `${descuentoPct}%` : undefined;
+      const puedeAutoAplicar = descuentoPct != null && descuentoPct >= AUTO_PUBLISH_THRESHOLD;
+
+      if (!puedeAutoAplicar) {
+        totalOfertas++;
+        ofertasEnRevision++;
+        draftTitles.push(`🔥 ${cand.itemTitle} (ya analizado — revisión manual)`);
+        await notifyOfertaPendienteRevision({
+          titulo: cand.producto, slug: relatedExisting.slug,
+          precio_oferta: precioOfertaStr, descuento: descuentoStr,
+          motivo: descuentoPct == null
+            ? `producto ya analizado en FitzDesk ("${relatedExisting.title}"); descuento no verificado en el texto original — actualízalo a mano con articleUpdater.js si procede`
+            : `producto ya analizado en FitzDesk ("${relatedExisting.title}"); descuento del ${descuentoPct}% por debajo del umbral de auto-actualización (${AUTO_PUBLISH_THRESHOLD}%) — actualízalo a mano con articleUpdater.js si procede`,
+          filePath: `src/content/articulos/${relatedExisting.slug}.md (ya publicado)`,
+        });
+        continue;
+      }
+
+      if (ofertaLimitReached(MAX_OFERTAS_PER_DAY)) {
+        totalOfertas++;
+        ofertasEnRevision++;
+        draftTitles.push(`🔥 ${cand.itemTitle} (ya analizado — límite diario alcanzado)`);
+        await notifyOfertaPendienteRevision({
+          titulo: cand.producto, slug: relatedExisting.slug,
+          precio_oferta: precioOfertaStr, descuento: descuentoStr,
+          motivo: `producto ya analizado en FitzDesk ("${relatedExisting.title}"); límite diario de ${MAX_OFERTAS_PER_DAY} actualizaciones automáticas alcanzado`,
+          filePath: `src/content/articulos/${relatedExisting.slug}.md (ya publicado)`,
+        });
+        continue;
+      }
+
+      try {
+        const existingContent = readFileSync(join(CONTENT_PATH, `${relatedExisting.slug}.md`), 'utf-8');
+        const updatedContent  = applyPrecioToExistingAnalysis(existingContent, precioOfertaStr, cand.oferta.fuente);
+        const url = await publishDirectly(relatedExisting.slug, updatedContent);
+        await recordOfertaPublished(relatedExisting.slug);
+        totalOfertas++;
+        ofertasPublicadas++;
+        draftTitles.push(`💰 ${cand.itemTitle} (precio actualizado en análisis existente)`);
+        await notifyOfertaPublicada({
+          titulo: cand.producto, slug: relatedExisting.slug, url,
+          precio_oferta: precioOfertaStr, descuento: descuentoStr,
+        });
+        try {
+          await dispatchWorkflowAndWait('deploy.yml', {});
+        } catch (deployErr) {
+          logWarn(`  ⚠️ Precio actualizado pero el deploy falló: ${deployErr.message}`);
+        }
+      } catch (err) {
+        logWarn(`  ✗ Error actualizando el precio del análisis existente (${relatedExisting.slug}): ${err.message}`);
+        totalOfertas++;
+        ofertasEnRevision++;
+        await notifyOfertaPendienteRevision({
+          titulo: cand.producto, slug: relatedExisting.slug,
+          precio_oferta: precioOfertaStr, descuento: descuentoStr,
+          motivo: `fallo al actualizar automáticamente el precio: ${err.message}`,
+          filePath: `src/content/articulos/${relatedExisting.slug}.md (ya publicado)`,
+        });
+      }
+      continue;
+    }
+
     if (!process.env.GROQ_API_KEY || tokenLimitReached || isTokenLimitReached()) {
       tokenLimitReached = true;
       pendingSkipped++;

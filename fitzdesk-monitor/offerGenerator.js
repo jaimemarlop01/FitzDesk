@@ -199,7 +199,17 @@ function buildAviso() {
 // sin LLM, igual que el patrón ya usado en socialReviewer.js para las
 // comprobaciones mecánicas de redes sociales.
 const REQUIRED_SECTIONS = ['## Introducción', '## ¿Por qué es buena oferta?', '## ¿Para quién es ideal?', '## 🐿️ Fitz dice'];
-const PLACEHOLDER_PATTERNS = [/\[.*?\]/, /\bTODO\b/i, /\bpendiente de (completar|revisar)\b/i, /\bVer precio\b/i];
+// Bug real encontrado el 2026-06-25 (al verificar la reescritura de
+// articleUpdater.js para ofertas finalizadas): /\[.*?\]/ confundía un
+// enlace Markdown normal "[texto](url)" — como el que añade
+// findRelatedAnalysis() al enlazar el análisis ya existente del producto —
+// con un placeholder sin rellenar tipo "[COMPLETAR]". Resultado: cualquier
+// oferta con enlace a un análisis relacionado quedaba SIEMPRE marcada como
+// incompleta, bloqueando la publicación automática (TAREA 1) aun después de
+// corregir el bug del enlace_afiliado vacío. El lookahead negativo "(?!\()"
+// evita que la regex coincida cuando el corchete va seguido de "(" (es
+// decir, cuando es la parte de texto de un enlace Markdown real).
+const PLACEHOLDER_PATTERNS = [/\[[^\]]*\](?!\()/, /\bTODO\b/i, /\bpendiente de (completar|revisar)\b/i, /\bVer precio\b/i];
 
 export function checkOfertaCompleteness({ content, slug }) {
   const missing = [];
