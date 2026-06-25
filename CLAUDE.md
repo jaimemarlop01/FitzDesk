@@ -114,6 +114,8 @@ SEARCH_CONSOLE_SITE_URL (opcional, default "sc-domain:fitzdesk.com")
 
 **NOTA: El campo `enlace_afiliado`** en el frontmatter de los artículos contiene actualmente URLs directas a PcComponentes **SIN tracking de afiliado real**. Esto cambiará cuando Awin apruebe el programa de PcComponentes (previsto julio 2026 con 30+ artículos). Hasta entonces, tratar este campo como **"enlace de producto"**, no como **"enlace de afiliado"**, en cuanto a prioridad de corrección: un enlace roto o incompleto es un problema de severidad baja / UX, no bloqueante, y no implica pérdida de ingresos (no hay ingresos de afiliados posibles todavía).
 
+**IMPORTANTE — alcance real (corregido 2026-06-25): FitzDesk no tiene actualmente ninguna relación de afiliados activa con nadie**, ni con PcComponentes ni con ninguna otra tienda — no es solo que falte la aprobación de Awin, es que no existe ningún acuerdo comercial en absoluto. Se descubrió que `src/pages/privacidad.astro` y `src/pages/about.astro` afirmaban con detalle (nombrando incluso una plataforma de afiliados concreta, Tradedoubler, y describiendo cookies de seguimiento que nunca se instalan) una relación activa que era falsa — eliminado de ambas páginas. El aviso genérico "podemos recibir una comisión" que insertan los generadores de contenido en cada artículo (`analyzer.js`, `compareGenerator.js`, `guideGenerator.js`, `generateSetups.js`, `offerGenerator.js`) se dejó sin tocar en esa pasada, a petición explícita del usuario (alcance limitado a esas 2 páginas). No asumir ni escribir nunca contenido nuevo que dé por hecha una relación de afiliados activa, salvo que el usuario confirme explícitamente que ha cambiado.
+
 ---
 
 ## Bugs pendientes de resolver
