@@ -8,13 +8,21 @@ import cron from 'node-cron';
 import { SOURCES, KEYWORDS_MARCA, passesStrictFilter, diagnoseFilter, detectOferta } from './sources.js';
 import { isProcessed, isProcessedByUrl, isProcessedByTitleHash, markProcessed, getCacheStats, normalizeUrl, hashTitle, reloadFromDisk } from './cache.js';
 import { generateDraft, searchPcComponentes } from './analyzer.js';
-import { buildOfertaDraft } from './offerGenerator.js';
-import { createDraft as githubCreateDraft, isAvailable as githubAvailable, downloadCache, uploadCache } from './githubPublisher.js';
-import { logInfo, logSuccess, logWarn, logError, notifyDraft, notifySummary, notifyDailySummary, notifyPublicationReminder, notifyLaunchReminder, notifyOferta } from './notifier.js';
+import { buildOfertaDraft, checkOfertaCompleteness } from './offerGenerator.js';
+import {
+  createDraft as githubCreateDraft, isAvailable as githubAvailable, downloadCache, uploadCache,
+  publishDirectly, dispatchWorkflow, dispatchWorkflowAndWait,
+} from './githubPublisher.js';
+import {
+  logInfo, logSuccess, logWarn, logError, notifyDraft, notifySummary, notifyDailySummary,
+  notifyPublicationReminder, notifyLaunchReminder, notifyOferta, notifyOfertaPendienteRevision,
+  notifyOfertaPublicada, notifyPcdaysModeStatus,
+} from './notifier.js';
 import { findProductImage, downloadProductImage } from './imageSearch.js';
 import { findAndDownloadImage } from './imageCollector.js';
 import { verifyWithGemini } from './reviewer.js';
 import { getTokensUsed, isTokenLimitReached, addTokens, DAILY_LIMIT } from './tokenTracker.js';
+import { syncFromRemote as syncOfertasFromRemote, syncToRemote as syncOfertasToRemote, isLimitReached as ofertaLimitReached, recordPublished as recordOfertaPublished } from './ofertaLimiter.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const parser = new Parser({
@@ -56,6 +64,25 @@ function saveDraft(filename, content) {
   const filePath = join(CONTENT_PATH, filename);
   writeFileSync(filePath, content, 'utf-8');
   return filePath;
+}
+
+/**
+ * Guarda un borrador (de oferta o no) usando el mismo patrón ya establecido
+ * para los análisis normales: en producción (CI), vía la API de GitHub a la
+ * rama `borradores` (que sí persiste entre ejecuciones); en local, en disco.
+ * Sin esto, un `saveDraft()` directo en CI se pierde al terminar el job —
+ * bug real detectado el 2026-06-25 al integrar el guardado de ofertas.
+ */
+async function saveDraftPersisted(slug, filename, content) {
+  if (githubAvailable()) {
+    try {
+      return await githubCreateDraft(slug, content);
+    } catch (ghErr) {
+      logWarn(`⚠️ Error al crear borrador en GitHub: ${ghErr.message} — guardando localmente`);
+      return saveDraft(filename, content);
+    }
+  }
+  return saveDraft(filename, content);
 }
 
 /** Detecta qué marca de KEYWORDS_MARCA aparece en un texto */
@@ -247,14 +274,22 @@ async function checkLaunchReminders() {
 // Ciclo principal
 // ─────────────────────────────────────────────
 
-async function runCheck() {
+async function runCheck({ pcdaysMode = false } = {}) {
   // Sincronizar caché desde GitHub (Railway tiene disco efímero)
   if (githubAvailable()) {
     const downloaded = await downloadCache(CACHE_FILE);
     if (downloaded) reloadFromDisk();
   }
+  await syncOfertasFromRemote();
+
+  // Modo PCDays (TAREA 6, CLAUDE.md): umbral de publicación automática más
+  // bajo y más publicaciones permitidas al día, para reaccionar rápido
+  // durante el evento. Activado con `node monitor.js --pcdays`.
+  const AUTO_PUBLISH_THRESHOLD = pcdaysMode ? 15 : 20;
+  const MAX_OFERTAS_PER_DAY    = pcdaysMode ? 8  : 5;
 
   logInfo('━━━ Iniciando comprobación de novedades ━━━');
+  if (pcdaysMode) logInfo(`🔥 MODO PCDAYS — umbral ${AUTO_PUBLISH_THRESHOLD}%, límite ${MAX_OFERTAS_PER_DAY}/día`);
   logInfo(`Tokens Groq hoy: ${getTokensUsed()}/${DAILY_LIMIT} usados`);
   logInfo(`Fuentes: ${SOURCES.filter(s => s.enabled).length} | Caché: ${getCacheStats().total} entradas`);
 
@@ -262,6 +297,8 @@ async function runCheck() {
   let totalRelevant   = 0;
   let totalDrafts     = 0;
   let totalOfertas    = 0;
+  let ofertasPublicadas  = 0;
+  let ofertasEnRevision  = 0;
   let totalDiscard    = 0;
   let totalCached     = 0;
   let discardLayer1   = 0;
@@ -270,6 +307,7 @@ async function runCheck() {
   let tokenLimitReached = false;
   let pendingSkipped  = 0;
   const errors      = [];
+  const ofertaCandidates = []; // recolectadas durante el escaneo, procesadas al final por orden de descuento (TAREA 2)
   const productos   = []; // [{brand, title, categoria}]
   const dudosos     = []; // [{title, reason, hint}]
   const draftTitles = []; // titulares de borradores generados en este ciclo
@@ -371,43 +409,21 @@ async function runCheck() {
       }
 
       // ── Capa de detección de ofertas (independiente del análisis normal) ──
-      // Reutiliza el producto/categoría ya extraídos por Gemini en vez de
-      // duplicar esa extracción — si el item es una oferta, se genera un
-      // borrador corto de tipo "oferta" en vez del análisis completo.
+      // Solo se recolecta el candidato aquí — el contenido se genera DESPUÉS
+      // de escanear todas las fuentes, ordenado por descuento descendente
+      // (TAREA 2), para que si hay varias ofertas a la vez se gaste el
+      // presupuesto de Groq/el hueco del límite diario en las mejores primero.
       const oferta = detectOferta(item);
       if (oferta.isOferta) {
-        logInfo(`  🔥 Oferta detectada: ${oferta.motivo}`);
-        try {
-          const draft = await buildOfertaDraft({
-            producto:        review.producto ?? itemTitle,
-            categoria:       review.categoria ?? 'general',
-            precio_oferta:   `${oferta.precio}€`,
-            descuento:       oferta.descuentoEstimado != null ? `${oferta.descuentoEstimado}%` : undefined,
-            fuente:          oferta.fuente,
-            enlace_afiliado: '',
-            informacion:     item.contentSnippet ?? item.content ?? '',
-          });
-
-          const filePath = saveDraft(draft.filename, draft.content);
-          addTokens(draft.tokensUsed);
-
-          markProcessed(id, { url: itemUrl, titleHash });
-          totalOfertas++;
-          draftTitles.push(`🔥 ${itemTitle}`);
-
-          await notifyOferta({
-            titulo:               review.producto ?? itemTitle,
-            slug:                 draft.slug,
-            precio_oferta:        `${oferta.precio}€`,
-            descuento:            oferta.descuentoEstimado != null ? `${oferta.descuentoEstimado}%` : undefined,
-            fuente:               oferta.fuente,
-            analisis_relacionado: draft.related?.slug,
-            filePath,
-          });
-        } catch (ofertaErr) {
-          logWarn(`  ✗ Error generando borrador de oferta: ${ofertaErr.message}`);
-          markProcessed(id, { url: itemUrl, titleHash });
-        }
+        logInfo(`  🔥 Oferta candidata: ${oferta.motivo}`);
+        ofertaCandidates.push({
+          itemTitle,
+          producto:    review.producto ?? itemTitle,
+          categoria:   review.categoria ?? 'general',
+          oferta,
+          informacion: item.contentSnippet ?? item.content ?? '',
+        });
+        markProcessed(id, { url: itemUrl, titleHash });
         continue;
       }
 
@@ -503,6 +519,132 @@ async function runCheck() {
     }
   }
 
+  // ── Procesar las ofertas recolectadas, de mayor a menor descuento (TAREA 2) ──
+  // El contenido (llamada a Groq) se genera aquí, no durante el escaneo, para
+  // que el orden de prioridad sea efectivo de verdad si hay varias a la vez.
+  ofertaCandidates.sort((a, b) => (b.oferta.descuentoEstimado ?? -1) - (a.oferta.descuentoEstimado ?? -1));
+
+  for (const cand of ofertaCandidates) {
+    if (!process.env.GROQ_API_KEY || tokenLimitReached || isTokenLimitReached()) {
+      tokenLimitReached = true;
+      pendingSkipped++;
+      continue; // ya estaba marcada como procesada al detectarla — no se reintentará
+    }
+
+    let draft;
+    try {
+      draft = await buildOfertaDraft({
+        producto:        cand.producto,
+        categoria:       cand.categoria,
+        precio_oferta:   `${cand.oferta.precio}€`,
+        descuento:       cand.oferta.descuentoEstimado != null ? `${cand.oferta.descuentoEstimado}%` : undefined,
+        fuente:          cand.oferta.fuente,
+        enlace_afiliado: '',
+        informacion:     cand.informacion,
+      });
+      addTokens(draft.tokensUsed);
+    } catch (e) {
+      logWarn(`  ✗ Error generando contenido de oferta ("${cand.itemTitle}"): ${e.message}`);
+      continue;
+    }
+
+    const descuentoPct = cand.oferta.descuentoEstimado;
+    const precioOfertaStr = `${cand.oferta.precio}€`;
+    const descuentoStr = descuentoPct != null ? `${descuentoPct}%` : undefined;
+
+    // TAREA 1 — comprobación mecánica de completitud (sustituye al agente,
+    // que no se puede invocar desde un script sin supervisión, ver CLAUDE.md)
+    const check = checkOfertaCompleteness({ content: draft.content, slug: draft.slug });
+
+    if (!check.complete) {
+      const filePath = await saveDraftPersisted(draft.slug, draft.filename, draft.content);
+      totalOfertas++;
+      ofertasEnRevision++;
+      draftTitles.push(`🔥 ${cand.itemTitle} (incompleta)`);
+      await notifyOferta({
+        titulo: cand.producto, slug: draft.slug,
+        precio_oferta: precioOfertaStr, descuento: descuentoStr, fuente: cand.oferta.fuente,
+        analisis_relacionado: draft.related?.slug, filePath,
+      });
+      logWarn(`  ⚠️ Oferta incompleta — borrador guardado para revisión: ${check.missing.join('; ')}`);
+      continue;
+    }
+
+    // TAREA 2 — umbral de descuento para publicación automática
+    const puedeAutoPublicar = descuentoPct != null && descuentoPct >= AUTO_PUBLISH_THRESHOLD;
+    if (!puedeAutoPublicar) {
+      const filePath = await saveDraftPersisted(draft.slug, draft.filename, draft.content);
+      totalOfertas++;
+      ofertasEnRevision++;
+      draftTitles.push(`🔥 ${cand.itemTitle} (revisión manual)`);
+      const motivo = descuentoPct == null
+        ? 'descuento no verificado en el texto original de la noticia — no se puede confirmar automáticamente'
+        : `descuento del ${descuentoPct}% por debajo del umbral de publicación automática (${AUTO_PUBLISH_THRESHOLD}%)`;
+      await notifyOfertaPendienteRevision({
+        titulo: cand.producto, slug: draft.slug,
+        precio_oferta: precioOfertaStr, descuento: descuentoStr, motivo, filePath,
+      });
+      continue;
+    }
+
+    // TAREA 3 — límite diario de publicaciones automáticas
+    if (ofertaLimitReached(MAX_OFERTAS_PER_DAY)) {
+      const filePath = await saveDraftPersisted(draft.slug, draft.filename, draft.content);
+      totalOfertas++;
+      ofertasEnRevision++;
+      draftTitles.push(`🔥 ${cand.itemTitle} (límite diario alcanzado)`);
+      await notifyOfertaPendienteRevision({
+        titulo: cand.producto, slug: draft.slug,
+        precio_oferta: precioOfertaStr, descuento: descuentoStr,
+        motivo: `límite diario de ${MAX_OFERTAS_PER_DAY} ofertas publicadas alcanzado — esta queda en cola para revisión manual`,
+        filePath,
+      });
+      continue;
+    }
+
+    // ── Todo OK: publicar inmediatamente, sin pasar por el calendario ──
+    try {
+      const url = await publishDirectly(draft.slug, draft.content);
+      recordOfertaPublished(draft.slug);
+      totalOfertas++;
+      ofertasPublicadas++;
+      draftTitles.push(`🚀 ${cand.itemTitle} (publicada)`);
+
+      await notifyOfertaPublicada({
+        titulo: cand.producto, slug: draft.slug, url,
+        precio_oferta: precioOfertaStr, descuento: descuentoStr,
+      });
+
+      try {
+        await dispatchWorkflowAndWait('deploy.yml', {});
+        await dispatchWorkflow('publicar-en-redes.yml', { slug: draft.slug });
+      } catch (postPublishErr) {
+        logWarn(`  ⚠️ Oferta publicada pero el deploy o el disparo de redes falló: ${postPublishErr.message}`);
+      }
+    } catch (pubErr) {
+      logWarn(`  ✗ Error publicando oferta directamente, se guarda como borrador: ${pubErr.message}`);
+      const filePath = await saveDraftPersisted(draft.slug, draft.filename, draft.content);
+      totalOfertas++;
+      ofertasEnRevision++;
+      await notifyOfertaPendienteRevision({
+        titulo: cand.producto, slug: draft.slug,
+        precio_oferta: precioOfertaStr, descuento: descuentoStr,
+        motivo: `fallo al publicar automáticamente: ${pubErr.message}`,
+        filePath,
+      });
+    }
+  }
+
+  await syncOfertasToRemote();
+
+  if (pcdaysMode) {
+    await notifyPcdaysModeStatus(true, {
+      ofertasDetectadas: ofertaCandidates.length,
+      ofertasPublicadas,
+      ofertasEnRevision,
+    });
+  }
+
   if (pendingSkipped > 0) {
     logWarn(`Límite diario de tokens alcanzado (70.000). Quedan ${pendingSkipped} noticias sin procesar para mañana.`);
   }
@@ -514,7 +656,7 @@ async function runCheck() {
   if (githubAvailable()) await uploadCache(CACHE_FILE);
 
   await notifyDailySummary({ totalScanned, totalRelevant, totalDrafts, totalOfertas, totalDiscard, totalCached, discardLayer1, discardLayer2, discardLayer3, dudosos, draftTitles, errors, productos });
-  return { totalScanned, totalRelevant, totalDrafts, totalOfertas, totalDiscard, totalCached, discardLayer1, discardLayer2, discardLayer3, dudosos, draftTitles, errors, productos };
+  return { totalScanned, totalRelevant, totalDrafts, totalOfertas, ofertasPublicadas, ofertasEnRevision, totalDiscard, totalCached, discardLayer1, discardLayer2, discardLayer3, dudosos, draftTitles, errors, productos };
 }
 
 // ─────────────────────────────────────────────
@@ -522,9 +664,10 @@ async function runCheck() {
 // ─────────────────────────────────────────────
 
 const args = process.argv.slice(2);
-const isDaemon = args.includes('--daemon');
-const isTest   = args.includes('--test');
-const isOnce   = args.includes('--once') || (!isDaemon && !isTest);
+const isDaemon   = args.includes('--daemon');
+const isTest     = args.includes('--test');
+const isPcdays   = args.includes('--pcdays');
+const isOnce     = args.includes('--once') || (!isDaemon && !isTest);
 
 if (isTest) {
   logInfo(`Tokens Groq hoy: ${getTokensUsed()}/${DAILY_LIMIT} usados`);
@@ -653,7 +796,8 @@ logInfo(`FitzDesk Monitor iniciado — modo: ${isDaemon ? 'daemon' : 'una vez'}`
 logInfo(`Ruta de contenido: ${CONTENT_PATH}`);
 
 if (isOnce) {
-  runCheck()
+  if (isPcdays) logInfo('🔥 Modo PCDays activado para esta comprobación (node monitor.js --pcdays)');
+  runCheck({ pcdaysMode: isPcdays })
     .then(() => process.exit(0))
     .catch(err => {
       logError(`Error crítico: ${err.message}`);

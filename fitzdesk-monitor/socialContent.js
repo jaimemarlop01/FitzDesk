@@ -35,13 +35,23 @@ export function loadArticle(slug) {
   }
   const { data, content } = matter(fs.readFileSync(filePath, 'utf8'));
   return {
-    title:       data.title ?? slug,
-    descripcion: data.descripcion ?? '',
-    categoria:   data.categoria ?? 'setups',
-    puntuacion:  typeof data.puntuacion === 'number' ? data.puntuacion : null,
-    precio:      data.precio ?? null,
-    content:     content?.trim() ?? '',
+    title:         data.title ?? slug,
+    descripcion:   data.descripcion ?? '',
+    categoria:     data.categoria ?? 'setups',
+    puntuacion:    typeof data.puntuacion === 'number' ? data.puntuacion : null,
+    precio:        data.precio ?? null,
+    tipo:          data.tipo ?? null,
+    precio_oferta: data.precio_oferta ?? null,
+    precio_normal: data.precio_normal ?? null,
+    descuento:     data.descuento ?? null,
+    content:       content?.trim() ?? '',
   };
+}
+
+/** Nombre de producto a partir del título — para captions de oferta donde
+ *  no se quiere el título de marketing completo ("X: precio mínimo a Y€"). */
+function productoFromTitle(title) {
+  return title.split(':')[0].trim();
 }
 
 export function imageUrlFor(slug) {
@@ -68,6 +78,40 @@ export function buildFacebookCaption({ title, descripcion }, slug) {
     descripcion,
     '',
     '🔗 Lee el análisis completo:',
+    `${SITE_URL}/articulo/${slug}`,
+  ].join('\n');
+}
+
+// ─── Plantillas fijas para ofertas (TAREA 4, modo PCDays) ──────────────────────
+
+export function buildOfertaInstagramCaption({ title, precio_oferta, precio_normal, descuento }) {
+  const producto = productoFromTitle(title);
+  const ahorro = (() => {
+    if (!precio_normal || !precio_oferta) return null;
+    const normal = parseFloat(String(precio_normal).replace(/[^\d,.]/g, '').replace(',', '.'));
+    const oferta = parseFloat(String(precio_oferta).replace(/[^\d,.]/g, '').replace(',', '.'));
+    if (isNaN(normal) || isNaN(oferta)) return null;
+    return (normal - oferta).toFixed(2).replace(/\.00$/, '');
+  })();
+
+  const lines = [
+    `🔥 ${producto} a ${precio_oferta}${descuento ? ` (-${String(descuento).replace(/^-/, '')})` : ''}`,
+  ];
+  if (ahorro) lines.push(`Ahorras ${ahorro}€ respecto al precio normal${precio_normal ? ` (${precio_normal})` : ''}.`);
+  lines.push('', 'Enlace en bio 🐿️', '', '#oferta #pccomponentes #teletrabajo');
+  return lines.join('\n').slice(0, 2200);
+}
+
+export function buildOfertaFacebookCaption({ title, precio_oferta, precio_normal, descuento }, slug) {
+  const producto = productoFromTitle(title);
+  return [
+    `🔥 OFERTA: ${producto} ${descuento ? `con un ${String(descuento).replace(/^-/, '')} de descuento` : 'a precio rebajado'}.`,
+    '',
+    precio_normal ? `Antes ${precio_normal} — ahora ${precio_oferta}.` : `Ahora a ${precio_oferta}.`,
+    'Las ofertas son limitadas y pueden cambiar en cualquier momento.',
+    '',
+    '¿Lo tienes en el carrito? 🛒',
+    '',
     `${SITE_URL}/articulo/${slug}`,
   ].join('\n');
 }
@@ -131,6 +175,55 @@ Escribe el texto final siguiendo EXACTAMENTE esta estructura (sin etiquetas como
 No incluyas ningún enlace ni URL en tu respuesta (el enlace al artículo se añade automáticamente después y genera su propia vista previa). No inventes datos que no estén en el contenido del análisis. Español de España.`;
 }
 
+// ─── Prompts de oferta (TAREA 4, modo PCDays) — tono de urgencia real,
+// estructura distinta a la de un análisis normal ──────────────────────────────
+
+function buildOfertaInstagramPrompt({ title, precio_oferta, precio_normal, descuento, content }) {
+  const producto = productoFromTitle(title);
+  return `Eres Fitz, la ardilla mascota de FitzDesk. Escribe el caption de Instagram para esta OFERTA (no es un análisis normal — es una rebaja de precio puntual, el tono debe transmitir urgencia real sin ser agresivo ni usar frases de presión típicas de afiliados baratas).
+
+OFERTA
+Producto: ${producto}
+Precio de oferta: ${precio_oferta}
+${precio_normal ? `Precio normal: ${precio_normal}` : ''}
+${descuento ? `Descuento: ${descuento}` : ''}
+
+CONTEXTO DEL ARTÍCULO
+${content}
+
+Escribe el caption final siguiendo EXACTAMENTE esta estructura (sin etiquetas como "1." ni explicaciones):
+
+1. Primera línea EXACTA (rellena los corchetes, sin ellos en el resultado): "🔥 ${producto} a ${precio_oferta}${descuento ? ` (-${String(descuento).replace(/^-/, '')})` : ''}"
+2. Segunda línea: el ahorro en € respecto al precio normal, en una frase corta.
+3. CTA EXACTA: "Enlace en bio 🐿️"
+4. Máximo 3 hashtags, exactamente: #oferta #pccomponentes #teletrabajo
+
+Español de España. No inventes ningún precio, descuento o dato que no se te haya dado arriba.`;
+}
+
+function buildOfertaFacebookPrompt({ title, precio_oferta, precio_normal, descuento, content }) {
+  const producto = productoFromTitle(title);
+  return `Eres Fitz, la ardilla mascota de FitzDesk. Escribe el texto de Facebook para esta OFERTA (no es un análisis normal — es una rebaja de precio puntual). Tono más urgente que en un análisis normal, pero sin presión agresiva. No incluyas ningún enlace ni URL — se añade automáticamente después.
+
+OFERTA
+Producto: ${producto}
+Precio de oferta: ${precio_oferta}
+${precio_normal ? `Precio normal: ${precio_normal}` : ''}
+${descuento ? `Descuento: ${descuento}` : ''}
+
+CONTEXTO DEL ARTÍCULO
+${content}
+
+Escribe el texto final siguiendo EXACTAMENTE esta estructura:
+
+1. Párrafo gancho (1-2 líneas) con urgencia real sobre esta oferta concreta.
+2. El precio normal tachado (escríbelo como "antes ~~${precio_normal ?? 'X€'}~~" si se conoce) y el precio de oferta destacado.
+3. Pregunta EXACTA dirigida a la audiencia: "¿Lo tienes en el carrito?"
+4. Máximo 2 hashtags al final, solo si aportan algo real.
+
+No incluyas ningún enlace ni URL en tu respuesta. No inventes ningún precio o dato que no se te haya dado arriba. Español de España.`;
+}
+
 // Groq (llama-3.3-70b-versatile) mezcla ocasionalmente algún carácter CJK
 // suelto en medio de palabras en español (bug conocido del modelo) — se
 // eliminan como red de seguridad antes de publicar nada en redes sociales.
@@ -178,22 +271,24 @@ export async function callGroq(prompt, maxTokens = 600, intentos = 3) {
 }
 
 export async function getInstagramCaption(article) {
+  const esOferta = article.tipo === 'oferta';
   try {
-    const text = await callGroq(buildInstagramPrompt(article));
+    const text = await callGroq(esOferta ? buildOfertaInstagramPrompt(article) : buildInstagramPrompt(article));
     return text.slice(0, 2200);
   } catch (e) {
     logWarn(`Groq falló generando el caption de Instagram (${e.message}) — usando plantilla de respaldo`);
-    return buildInstagramCaption(article);
+    return esOferta ? buildOfertaInstagramCaption(article) : buildInstagramCaption(article);
   }
 }
 
 export async function getFacebookCaption(article, slug) {
+  const esOferta = article.tipo === 'oferta';
   try {
-    const text = await callGroq(buildFacebookPrompt(article));
+    const text = await callGroq(esOferta ? buildOfertaFacebookPrompt(article) : buildFacebookPrompt(article));
     return `${text}\n\n${SITE_URL}/articulo/${slug}`;
   } catch (e) {
     logWarn(`Groq falló generando el texto de Facebook (${e.message}) — usando plantilla de respaldo`);
-    return buildFacebookCaption(article, slug);
+    return esOferta ? buildOfertaFacebookCaption(article, slug) : buildFacebookCaption(article, slug);
   }
 }
 

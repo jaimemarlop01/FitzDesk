@@ -438,7 +438,12 @@ async function main() {
   }
 }
 
-main().catch(e => {
-  console.error('Error:', e.message);
-  process.exit(1);
-});
+// Solo ejecutar main() al lanzar el script directamente — mismo bug y mismo
+// fix que en offerGenerator.js (2026-06-25): sin esta guarda, importar
+// cualquier función de este módulo desde otro script dispara el CLI sin querer.
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  main().catch(e => {
+    console.error('Error:', e.message);
+    process.exit(1);
+  });
+}

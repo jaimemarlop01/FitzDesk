@@ -449,3 +449,112 @@ export async function notifyOferta({ titulo, slug, precio_oferta, precio_normal,
   });
   logSuccess(`🔥 Oferta detectada y notificada: "${titulo}"`);
 }
+
+// ─────────────────────────────────────────────
+// Modo PCDays — ofertas que necesitan revisión manual antes de publicar
+// ─────────────────────────────────────────────
+
+export async function notifyOfertaPendienteRevision({ titulo, slug, precio_oferta, descuento, motivo, filePath }) {
+  await discordPost({
+    embeds: [{
+      title: '⏳ Oferta pendiente de revisión manual',
+      color: 15105570, // ámbar
+      fields: [
+        { name: '📦 Producto',    value: titulo, inline: false },
+        { name: '🔥 Precio oferta', value: precio_oferta ?? 'por confirmar', inline: true },
+        ...(descuento ? [{ name: '📉 Descuento', value: descuento, inline: true }] : []),
+        { name: '❓ Motivo de la revisión manual', value: motivo, inline: false },
+        { name: '📝 Borrador', value: `\`${filePath}\``, inline: false },
+        {
+          name: '✅ Para publicarla',
+          value: 'Revisa el borrador, completa lo que falte y quita `borrador: true` — o usa el agente "Publicador de borrador" con el slug.',
+          inline: false,
+        },
+      ],
+      footer: { text: `FitzDesk Monitor — Modo PCDays • ${timestamp()}` },
+    }],
+  });
+  logSuccess(`⏳ Oferta en cola de revisión manual: "${titulo}" (${motivo})`);
+}
+
+/** Publicación automática de una oferta (sin pasar por el calendario). */
+export async function notifyOfertaPublicada({ titulo, slug, url, precio_oferta, precio_normal, descuento }) {
+  const fields = [
+    { name: '📦 Producto',     value: titulo, inline: false },
+    { name: '🔥 Precio oferta', value: precio_oferta, inline: true },
+  ];
+  if (precio_normal) fields.push({ name: '💰 Precio normal', value: precio_normal, inline: true });
+  if (descuento)      fields.push({ name: '📉 Descuento',    value: descuento,     inline: true });
+  fields.push({ name: '🔗 Artículo en vivo', value: url, inline: false });
+  fields.push({ name: '📣 Redes sociales', value: 'Publicación disparada — recibirás otra notificación cuando termine.', inline: false });
+
+  await discordPost({
+    embeds: [{
+      title:       '🚀 Oferta publicada automáticamente',
+      description: 'Sin pasar por el calendario — modo PCDays.',
+      color:       5763719, // verde
+      fields,
+      footer: { text: `FitzDesk Monitor — Modo PCDays • ${timestamp()}` },
+    }],
+  });
+  logSuccess(`🚀 Oferta publicada automáticamente: "${titulo}" → ${url}`);
+}
+
+/**
+ * Activación/desactivación del modo PCDays. "Activado" se envía en cada
+ * ejecución de `node monitor.js --pcdays` (no hay un proceso persistente
+ * que "esté encendido" entre ejecuciones — cada llamada es una comprobación
+ * puntual, pensada para lanzarse cada 2h vía GitHub Actions). "Desactivado"
+ * lo envía pcdays-cleanup.js al cerrar el evento.
+ */
+export async function notifyPcdaysModeStatus(active, { ofertasDetectadas, ofertasPublicadas, ofertasEnRevision } = {}) {
+  if (active) {
+    await discordPost({
+      embeds: [{
+        title:       '🔥 Modo PCDays — comprobación ejecutada',
+        color:       0xF97316,
+        description: 'Umbral de publicación automática: 15% · Límite diario: 8 ofertas',
+        fields: [
+          { name: '🔍 Ofertas detectadas',  value: String(ofertasDetectadas  ?? 0), inline: true },
+          { name: '🚀 Publicadas',          value: String(ofertasPublicadas  ?? 0), inline: true },
+          { name: '⏳ En revisión manual',  value: String(ofertasEnRevision  ?? 0), inline: true },
+        ],
+        footer: { text: `FitzDesk Monitor — Modo PCDays • ${timestamp()}` },
+      }],
+    });
+  } else {
+    await discordPost({
+      embeds: [{
+        title: '🔴 Modo PCDays desactivado',
+        color: 9807270,
+        description: 'Vuelta a la comprobación diaria normal (umbral 20%, límite 5/día).',
+        footer: { text: `FitzDesk Monitor • ${timestamp()}` },
+      }],
+    });
+  }
+}
+
+/**
+ * Informe final de pcdays-cleanup.js (TAREA 7) — al cerrar el evento PCDays.
+ * terminadas/siguenActivas/noVerificadas: [{ slug, titulo, precioAnterior, precioActual? }]
+ */
+export async function notifyPcdaysCleanupReport({ terminadas, siguenActivas, noVerificadas, totalGeneradas }) {
+  const fmtList = (items, withPrecio) => items.length
+    ? items.map(o => `• ${o.titulo}${withPrecio && o.precioActual ? ` — ahora ${o.precioActual}` : ''}`).join('\n').slice(0, 1000)
+    : '_Ninguna_';
+
+  await discordPost({
+    embeds: [{
+      title:       '🏁 PCDays — cierre del evento',
+      description: `Total de artículos de oferta generados durante el evento: **${totalGeneradas}**`,
+      color:       9807270,
+      fields: [
+        { name: `🔴 Ofertas terminadas (${terminadas.length})`,      value: fmtList(terminadas, true),  inline: false },
+        { name: `🟢 Ofertas que siguen activas (${siguenActivas.length})`, value: fmtList(siguenActivas, false), inline: false },
+        { name: `❓ No se pudo verificar el precio (${noVerificadas.length})`, value: fmtList(noVerificadas, false), inline: false },
+      ],
+      footer: { text: `FitzDesk Monitor — pcdays-cleanup.js • ${timestamp()}` },
+    }],
+  });
+  logSuccess(`🏁 Informe de cierre de PCDays enviado: ${terminadas.length} terminadas, ${siguenActivas.length} activas, ${noVerificadas.length} sin verificar`);
+}

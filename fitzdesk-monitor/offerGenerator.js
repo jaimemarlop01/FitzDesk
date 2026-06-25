@@ -168,6 +168,49 @@ function buildAviso() {
   ].join('\n');
 }
 
+// ─── Comprobación de completitud (sustituto mecánico del agente "revisar-borradores") ─
+
+// Un agente de Claude Code solo se puede invocar desde una sesión interactiva
+// conmigo, nunca desde un script Node corriendo sin supervisión en GitHub
+// Actions — no existe ninguna API para eso. Esta función reproduce el mismo
+// tipo de comprobaciones (campos completos, sin placeholders, imagen real)
+// que haría una revisión humana o un agente, pero de forma determinista y
+// sin LLM, igual que el patrón ya usado en socialReviewer.js para las
+// comprobaciones mecánicas de redes sociales.
+const REQUIRED_SECTIONS = ['## Introducción', '## ¿Por qué es buena oferta?', '## ¿Para quién es ideal?', '## 🐿️ Fitz dice'];
+const PLACEHOLDER_PATTERNS = [/\[.*?\]/, /\bTODO\b/i, /\bpendiente de (completar|revisar)\b/i, /\bVer precio\b/i];
+
+export function checkOfertaCompleteness({ content, slug }) {
+  const missing = [];
+  const { data, content: body } = matter(content);
+
+  if (!data.title || data.title.length > 100) missing.push('title ausente o demasiado largo (>100 car.)');
+  if (!data.descripcion || data.descripcion.length > 160) missing.push('descripcion ausente o demasiado larga (>160 car.)');
+  if (!data.precio_oferta || !/\d/.test(data.precio_oferta)) missing.push('precio_oferta ausente o sin un número');
+  if (!data.enlace_afiliado || !data.enlace_afiliado.startsWith('https://www.pccomponentes.com')) {
+    missing.push('enlace_afiliado ausente o no apunta a PcComponentes');
+  }
+  if (!data.imagen) {
+    missing.push('imagen ausente en el frontmatter');
+  } else {
+    const imgPath = resolve(__dirname, '..', 'public', data.imagen.replace(/^\//, ''));
+    if (!existsSync(imgPath)) missing.push(`la imagen "${data.imagen}" no existe en disco`);
+  }
+
+  for (const section of REQUIRED_SECTIONS) {
+    if (!body.includes(section)) missing.push(`falta la sección "${section}"`);
+  }
+
+  for (const pattern of PLACEHOLDER_PATTERNS) {
+    if (pattern.test(body)) missing.push(`texto con placeholder sin rellenar (patrón: ${pattern})`);
+  }
+
+  const wordCount = body.trim().split(/\s+/).filter(Boolean).length;
+  if (wordCount < 120 || wordCount > 500) missing.push(`longitud fuera de rango (${wordCount} palabras, esperado 120-500)`);
+
+  return { complete: missing.length === 0, missing, slug };
+}
+
 /**
  * Construye el borrador completo de oferta (frontmatter + cuerpo + avisos)
  * sin escribir nada a disco ni notificar — reutilizable tanto por el CLI
@@ -251,7 +294,16 @@ async function main() {
   });
 }
 
-main().catch(e => {
-  console.error('Error:', e.message);
-  process.exit(1);
-});
+// Solo ejecutar main() cuando el script se lanza directamente. Sin esta
+// guarda, main() se ejecutaba también al importar buildOfertaDraft() o
+// checkOfertaCompleteness() desde otro módulo (p. ej. monitor.js) — leía
+// process.argv[0] (la ruta del binario de node) como si fuera el JSON de
+// configuración y fallaba con un error de parseo confuso (bug detectado el
+// 2026-06-25 al integrar este módulo con monitor.js). Mismo patrón ya usado
+// en imageCollector.js.
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  main().catch(e => {
+    console.error('Error:', e.message);
+    process.exit(1);
+  });
+}

@@ -24,7 +24,10 @@ export const SOURCES = [
     url: 'https://elchapuzasinformatico.com/feed/',
     enabled: true,
   },
-  // PcComponentes bloquea scraping externo (403) — desactivado
+  // PcComponentes bloquea scraping externo (403, reto de Cloudflare) —
+  // confirmado de nuevo el 2026-06-25 al intentar añadir esta fuente para
+  // PCDays (TAREA 5). Sin RSS directo viable, se usa un Google Alert como
+  // alternativa (igual que el resto de fuentes de esta lista) — ver más abajo.
   // { name: 'PcComponentes', url: 'https://www.pccomponentes.com/rss', enabled: false },
 
   // Google Alerts
@@ -37,6 +40,15 @@ export const SOURCES = [
   { name: 'Alert: periféricos productividad',          url: 'https://www.google.com/alerts/feeds/07327459440318242948/92159700337893097',    enabled: true },
   { name: 'Alert: Dell nuevo monitor 2026',            url: 'https://www.google.es/alerts/feeds/07327459440318242948/12175609179661096621',  enabled: true },
   { name: 'Alert: LG nuevo monitor portátil 2026',     url: 'https://www.google.es/alerts/feeds/07327459440318242948/12175609179661097176',  enabled: true },
+
+  // PENDIENTE DE CONFIGURAR (TAREA 5, modo PCDays): no se puede crear una
+  // Google Alert por API — requiere iniciar sesión con una cuenta de Google
+  // en https://www.google.com/alerts. Pasos: 1) crear la alerta con la
+  // búsqueda "oferta site:pccomponentes.com" (o términos similares como
+  // "descuento site:pccomponentes.com" / "chollo PcComponentes"), 2) elegir
+  // "Feed RSS" como tipo de fuente, 3) copiar la URL del feed que genera
+  // Google y pegarla abajo, 4) cambiar enabled a true.
+  { name: 'Alert: ofertas PcComponentes (PCDays)',     url: '', enabled: false },
 ];
 
 // ─────────────────────────────────────────────

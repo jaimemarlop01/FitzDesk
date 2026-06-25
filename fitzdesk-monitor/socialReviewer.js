@@ -32,13 +32,17 @@ import {
 } from './socialContent.js';
 import {
   loadArticleData, getCarouselContent, generateInstagramCarousel,
+  generateOfertaCarousel, isOfertaArticle,
   GENERIC_PRO_EXPLANATIONS, GENERIC_CON_EXPLANATIONS,
 } from './instagramImageGenerator.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REDES_DIR  = path.join(__dirname, '..', 'public', 'images', 'redes');
 
-const INSTAGRAM_SLIDE_COUNT = 4;
+// Las ofertas usan un carrusel de 3 slides en vez de 4 (TAREA 4, modo PCDays).
+function slideCountFor(slug) {
+  return isOfertaArticle(slug) ? 3 : 4;
+}
 const EXPECTED_WIDTH  = 1080;
 const EXPECTED_HEIGHT = 1350;
 const MAX_IMAGE_BYTES = 2 * 1024 * 1024;
@@ -83,9 +87,11 @@ async function checkOneImage(filePath) {
 }
 
 export async function reviewInstagramImages(slug) {
+  const slideCount = slideCountFor(slug);
+
   async function checkAll() {
     const results = [];
-    for (let n = 1; n <= INSTAGRAM_SLIDE_COUNT; n++) {
+    for (let n = 1; n <= slideCount; n++) {
       const filePath = instagramSlidePath(slug, n);
       results.push({ slide: n, path: filePath, ...(await checkOneImage(filePath)) });
     }
@@ -96,9 +102,10 @@ export async function reviewInstagramImages(slug) {
   let regenerated  = false;
 
   if (results.some(r => !r.ok)) {
-    logWarn('Una o más imágenes de Instagram no pasan la revisión — regenerando el carrusel...');
+    logWarn(`Una o más imágenes de Instagram no pasan la revisión — regenerando el carrusel (${slideCount} slides)...`);
     try {
-      await generateInstagramCarousel(slug);
+      if (slideCount === 3) await generateOfertaCarousel(slug);
+      else await generateInstagramCarousel(slug);
       regenerated = true;
       results = await checkAll();
     } catch (e) {
@@ -168,27 +175,32 @@ async function fixCaptionWithGroq(caption, instructions) {
 
 // ─── Revisión de texto: Instagram ───────────────────────────────────────────────
 
-function instagramMechanicalChecks(text) {
+// Las ofertas permiten máximo 3 hashtags fijos (#oferta #pccomponentes
+// #teletrabajo), no los 5 de un análisis normal — TAREA 4, modo PCDays.
+function instagramMechanicalChecks(text, maxHashtags = 5) {
   return [
     { name: 'Gancho en la primera línea', ok: firstLine(text).length > 8 },
     { name: 'Sin URLs',                   ok: !hasUrl(text) },
-    { name: 'Máximo 5 hashtags',          ok: countHashtags(text) <= 5 },
+    { name: `Máximo ${maxHashtags} hashtags`, ok: countHashtags(text) <= maxHashtags },
     { name: 'Sin caracteres CJK/extraños', ok: !hasStrayCjk(text) },
   ];
 }
 
-export async function reviewInstagramText({ caption, prosExplanations = [], contrasExplanations = [], veredicto }) {
+export async function reviewInstagramText({ caption, prosExplanations = [], contrasExplanations = [], veredicto, esOferta = false }) {
   let fixedCaption = caption;
   let fixed = false;
+  const maxHashtags = esOferta ? 3 : 5;
 
-  let mechanical = instagramMechanicalChecks(fixedCaption);
+  let mechanical = instagramMechanicalChecks(fixedCaption, maxHashtags);
   if (mechanical.some(c => !c.ok)) {
     const failed = mechanical.filter(c => !c.ok).map(c => c.name);
     try {
       fixedCaption = await fixCaptionWithGroq(fixedCaption,
         failed.map(n => `- ${n}`).join('\n') +
-        '\n- Mantén la estructura: gancho, beneficios, veredicto de Fitz, CTA "Análisis completo en fitzdesk.com 🐿️", hashtags al final');
-      mechanical = instagramMechanicalChecks(fixedCaption);
+        (esOferta
+          ? '\n- Mantén la estructura de oferta: "🔥 Producto a precio€ (-%)", ahorro en €, CTA "Enlace en bio 🐿️", exactamente estos 3 hashtags: #oferta #pccomponentes #teletrabajo'
+          : '\n- Mantén la estructura: gancho, beneficios, veredicto de Fitz, CTA "Análisis completo en fitzdesk.com 🐿️", hashtags al final'));
+      mechanical = instagramMechanicalChecks(fixedCaption, maxHashtags);
       fixed = mechanical.every(c => c.ok);
     } catch (e) {
       return {
@@ -299,9 +311,15 @@ export async function reviewBeforePublish(slug, { instagramCaption, facebookCapt
     report.images = await reviewInstagramImages(slug);
     if (!report.images.ok) blockers.push(report.images.blocker);
 
-    const { prosExplanations, contrasExplanations, veredicto } = await safeGetCarouselContent(slug);
+    // Las ofertas no tienen pros/contras (carrusel de 3 slides distinto, sin
+    // "Lo mejor"/"Lo mejorable") — pedirle ese contenido a getCarouselContent
+    // gastaría Groq en algo que el carrusel de oferta ni siquiera usa.
+    const esOferta = isOfertaArticle(slug);
+    const { prosExplanations, contrasExplanations, veredicto } = esOferta
+      ? { prosExplanations: [], contrasExplanations: [], veredicto: undefined }
+      : await safeGetCarouselContent(slug);
     report.instagram = await reviewInstagramText({
-      caption: instagramCaption, prosExplanations, contrasExplanations, veredicto,
+      caption: instagramCaption, prosExplanations, contrasExplanations, veredicto, esOferta,
     });
     if (!report.instagram.ok) blockers.push(report.instagram.blocker);
   }
