@@ -5,11 +5,12 @@ import { join, resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import cron from 'node-cron';
 
-import { SOURCES, KEYWORDS_MARCA, passesStrictFilter, diagnoseFilter } from './sources.js';
+import { SOURCES, KEYWORDS_MARCA, passesStrictFilter, diagnoseFilter, detectOferta } from './sources.js';
 import { isProcessed, isProcessedByUrl, isProcessedByTitleHash, markProcessed, getCacheStats, normalizeUrl, hashTitle, reloadFromDisk } from './cache.js';
 import { generateDraft, searchPcComponentes } from './analyzer.js';
+import { buildOfertaDraft } from './offerGenerator.js';
 import { createDraft as githubCreateDraft, isAvailable as githubAvailable, downloadCache, uploadCache } from './githubPublisher.js';
-import { logInfo, logSuccess, logWarn, logError, notifyDraft, notifySummary, notifyDailySummary, notifyPublicationReminder, notifyLaunchReminder } from './notifier.js';
+import { logInfo, logSuccess, logWarn, logError, notifyDraft, notifySummary, notifyDailySummary, notifyPublicationReminder, notifyLaunchReminder, notifyOferta } from './notifier.js';
 import { findProductImage, downloadProductImage } from './imageSearch.js';
 import { findAndDownloadImage } from './imageCollector.js';
 import { verifyWithGemini } from './reviewer.js';
@@ -260,6 +261,7 @@ async function runCheck() {
   let totalScanned    = 0;
   let totalRelevant   = 0;
   let totalDrafts     = 0;
+  let totalOfertas    = 0;
   let totalDiscard    = 0;
   let totalCached     = 0;
   let discardLayer1   = 0;
@@ -368,6 +370,47 @@ async function runCheck() {
         continue; // NO markProcessed — se reintentará en el próximo ciclo
       }
 
+      // ── Capa de detección de ofertas (independiente del análisis normal) ──
+      // Reutiliza el producto/categoría ya extraídos por Gemini en vez de
+      // duplicar esa extracción — si el item es una oferta, se genera un
+      // borrador corto de tipo "oferta" en vez del análisis completo.
+      const oferta = detectOferta(item);
+      if (oferta.isOferta) {
+        logInfo(`  🔥 Oferta detectada: ${oferta.motivo}`);
+        try {
+          const draft = await buildOfertaDraft({
+            producto:        review.producto ?? itemTitle,
+            categoria:       review.categoria ?? 'general',
+            precio_oferta:   `${oferta.precio}€`,
+            descuento:       oferta.descuentoEstimado != null ? `${oferta.descuentoEstimado}%` : undefined,
+            fuente:          oferta.fuente,
+            enlace_afiliado: '',
+            informacion:     item.contentSnippet ?? item.content ?? '',
+          });
+
+          const filePath = saveDraft(draft.filename, draft.content);
+          addTokens(draft.tokensUsed);
+
+          markProcessed(id, { url: itemUrl, titleHash });
+          totalOfertas++;
+          draftTitles.push(`🔥 ${itemTitle}`);
+
+          await notifyOferta({
+            titulo:               review.producto ?? itemTitle,
+            slug:                 draft.slug,
+            precio_oferta:        `${oferta.precio}€`,
+            descuento:            oferta.descuentoEstimado != null ? `${oferta.descuentoEstimado}%` : undefined,
+            fuente:               oferta.fuente,
+            analisis_relacionado: draft.related?.slug,
+            filePath,
+          });
+        } catch (ofertaErr) {
+          logWarn(`  ✗ Error generando borrador de oferta: ${ofertaErr.message}`);
+          markProcessed(id, { url: itemUrl, titleHash });
+        }
+        continue;
+      }
+
       // ── Buscar imagen del producto ──
       const imageUrl = await findProductImage(item);
 
@@ -464,14 +507,14 @@ async function runCheck() {
     logWarn(`Límite diario de tokens alcanzado (70.000). Quedan ${pendingSkipped} noticias sin procesar para mañana.`);
   }
 
-  const summary = `━━━ Resumen: ${totalScanned} escaneados, ${totalRelevant} relevantes, ${totalDrafts} borradores, ${totalDiscard} descartados${errors.length ? ` (${errors.length} fuentes con error)` : ''} ━━━`;
+  const summary = `━━━ Resumen: ${totalScanned} escaneados, ${totalRelevant} relevantes, ${totalDrafts} borradores, ${totalOfertas} ofertas, ${totalDiscard} descartados${errors.length ? ` (${errors.length} fuentes con error)` : ''} ━━━`;
   logSuccess(summary);
 
   // Persistir caché en GitHub para que sobreviva reinicios de Railway
   if (githubAvailable()) await uploadCache(CACHE_FILE);
 
-  await notifyDailySummary({ totalScanned, totalRelevant, totalDrafts, totalDiscard, totalCached, discardLayer1, discardLayer2, discardLayer3, dudosos, draftTitles, errors, productos });
-  return { totalScanned, totalRelevant, totalDrafts, totalDiscard, totalCached, discardLayer1, discardLayer2, discardLayer3, dudosos, draftTitles, errors, productos };
+  await notifyDailySummary({ totalScanned, totalRelevant, totalDrafts, totalOfertas, totalDiscard, totalCached, discardLayer1, discardLayer2, discardLayer3, dudosos, draftTitles, errors, productos });
+  return { totalScanned, totalRelevant, totalDrafts, totalOfertas, totalDiscard, totalCached, discardLayer1, discardLayer2, discardLayer3, dudosos, draftTitles, errors, productos };
 }
 
 // ─────────────────────────────────────────────

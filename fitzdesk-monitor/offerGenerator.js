@@ -53,7 +53,7 @@ function slugify(text) {
 
 // ─── Buscar si ya existe un análisis del producto en FitzDesk ────────────────
 
-function findRelatedAnalysis(productoNombre) {
+export function findRelatedAnalysis(productoNombre) {
   const files = readdirSync(CONTENT_DIR).filter(f => f.endsWith('.md'));
   const needle = productoNombre.toLowerCase();
 
@@ -112,7 +112,10 @@ PARÁMETROS: 250-400 palabras en total. Nunca inventes un precio, descuento o da
     messages: [{ role: 'user', content: prompt }],
   });
 
-  return completion.choices[0]?.message?.content?.trim() ?? '';
+  return {
+    text:       completion.choices[0]?.message?.content?.trim() ?? '',
+    tokensUsed: completion.usage?.total_tokens ?? 0,
+  };
 }
 
 // ─── Construir el artículo completo (frontmatter + cuerpo) ───────────────────
@@ -158,6 +161,31 @@ function buildAviso() {
   ].join('\n');
 }
 
+/**
+ * Construye el borrador completo de oferta (frontmatter + cuerpo + avisos)
+ * sin escribir nada a disco ni notificar — reutilizable tanto por el CLI
+ * de este script como por monitor.js cuando detecta una oferta en vivo.
+ * config: { producto, categoria, precio_oferta, precio_normal?, descuento?, fuente?, enlace_afiliado?, informacion? }
+ * Devuelve { slug, filename, content, related, tokensUsed }.
+ */
+export async function buildOfertaDraft(config) {
+  if (!config.producto || !config.categoria || !config.precio_oferta) {
+    throw new Error('buildOfertaDraft necesita al menos: producto, categoria, precio_oferta');
+  }
+
+  const slug     = `${slugify(config.producto)}-oferta`;
+  const related  = findRelatedAnalysis(config.producto);
+  const { text: body, tokensUsed } = await generateOfertaContent(config, related);
+  if (!body) throw new Error('Groq no devolvió contenido para el borrador de oferta');
+
+  const frontmatter = buildFrontmatter(config, slug, related);
+  const aviso        = buildAviso();
+  const content       = `${frontmatter}\n${body}\n\n${aviso}\n`;
+  const filename      = `borrador-${slug}.md`;
+
+  return { slug, filename, content, related, tokensUsed };
+}
+
 // ─── Main ─────────────────────────────────────────────────────────────────────
 
 async function main() {
@@ -186,30 +214,16 @@ async function main() {
   if (config.descuento)      console.log(`Descuento      : ${config.descuento}`);
   if (config.fuente)         console.log(`Fuente         : ${config.fuente}`);
   console.log('━'.repeat(48));
+  console.log('\nGenerando contenido con Groq...');
 
-  const slug = `${slugify(config.producto)}-oferta`;
-
-  const related = findRelatedAnalysis(config.producto);
+  const { slug, filename, content, related } = await buildOfertaDraft(config);
   console.log(related
     ? `🔗 Análisis relacionado encontrado: ${related.slug}`
     : 'ℹ️  Sin análisis relacionado — se incluirá descripción propia del producto');
 
-  console.log('\nGenerando contenido con Groq...');
-  const body = await generateOfertaContent(config, related);
-  if (!body) {
-    console.error('Groq no devolvió contenido.');
-    process.exit(1);
-  }
-
-  const frontmatter = buildFrontmatter(config, slug, related);
-  const aviso = buildAviso();
-  const fullContent = `${frontmatter}\n${body}\n\n${aviso}\n`;
-
   if (!existsSync(CONTENT_DIR)) mkdirSync(CONTENT_DIR, { recursive: true });
-
-  const filename = `borrador-${slug}.md`;
   const filepath = join(CONTENT_DIR, filename);
-  writeFileSync(filepath, fullContent, 'utf-8');
+  writeFileSync(filepath, content, 'utf-8');
 
   console.log(`\n✅ Borrador de oferta guardado: src/content/articulos/${filename}`);
   console.log('\n💡 Pendiente antes de publicar:');

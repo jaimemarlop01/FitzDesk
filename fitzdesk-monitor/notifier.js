@@ -205,7 +205,7 @@ export async function notifySummary({ totalNew, totalDrafts, errors, totalDiscar
 // Resumen diario (se envía siempre a las 9 AM)
 // ─────────────────────────────────────────────
 
-export async function notifyDailySummary({ totalScanned, totalRelevant, totalDrafts, totalDiscard, totalCached, discardLayer1, discardLayer2, discardLayer3, dudosos, draftTitles, errors, productos }) {
+export async function notifyDailySummary({ totalScanned, totalRelevant, totalDrafts, totalOfertas, totalDiscard, totalCached, discardLayer1, discardLayer2, discardLayer3, dudosos, draftTitles, errors, productos }) {
   if (!process.env.DISCORD_WEBHOOK_URL) return;
 
   const l1 = discardLayer1 ?? 0;
@@ -227,6 +227,11 @@ export async function notifyDailySummary({ totalScanned, totalRelevant, totalDra
     {
       name:   '💾 Ya en caché',
       value:  `${cached} artículos ya procesados anteriormente`,
+      inline: true,
+    },
+    {
+      name:   '🔥 Ofertas detectadas',
+      value:  `${totalOfertas ?? 0} borradores de oferta generados`,
       inline: true,
     },
     {
