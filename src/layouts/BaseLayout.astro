@@ -21,7 +21,16 @@ const {
   schema,
 } = Astro.props;
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://fitzdesk.com');
+// Normaliza la barra final: el sitio enlaza internamente sin barra (ver
+// src/lib/url.ts), pero la build estática de Astro también responde con
+// 200 en la versión con barra — sin esto, el canonical se autorreferenciaba
+// a la URL exacta que pidiera cada visitante/bot (con o sin barra), así que
+// nunca apuntaba a una única URL y Google indexaba ambas variantes como
+// páginas distintas (detectado el 2026-06-25 vía Search Console).
+const normalizedPath = Astro.url.pathname === '/'
+  ? '/'
+  : Astro.url.pathname.replace(/\/+$/, '');
+const canonicalURL = new URL(normalizedPath, Astro.site ?? 'https://fitzdesk.com');
 const ogImage = new URL(image, Astro.site ?? 'https://fitzdesk.com');
 ---
 
