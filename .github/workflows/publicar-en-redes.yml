@@ -52,6 +52,7 @@ jobs:
           PINTEREST_ACCESS_TOKEN:     ${{ secrets.PINTEREST_ACCESS_TOKEN }}
           PINTEREST_BOARD_ID:         ${{ secrets.PINTEREST_BOARD_ID }}
           DISCORD_WEBHOOK_URL:        ${{ secrets.DISCORD_WEBHOOK_URL }}
+          GROQ_API_KEY:               ${{ secrets.GROQ_API_KEY }}
         run: |
           ARGS="--slug ${{ inputs.slug }}"
           if [ -n "${{ inputs.only }}" ]; then

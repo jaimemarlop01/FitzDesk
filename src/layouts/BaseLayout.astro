@@ -21,7 +21,19 @@ const {
   schema,
 } = Astro.props;
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://fitzdesk.com');
+// Normaliza la barra final a la forma que realmente devuelve 200 en
+// producción. Corregido el 2026-06-25 (segunda vez): la primera versión de
+// este fix normalizaba SIN barra, asumiendo que era la forma canónica —
+// resultó ser al revés. Confirmado en vivo contra GitHub Pages (curl -I)
+// contra varias páginas reales: la versión SIN barra siempre devuelve 301
+// hacia la versión CON barra, que es la que de verdad responde 200. Sin
+// esto, el canonical se autorreferenciaba a la URL exacta que pidiera cada
+// visitante/bot, así que nunca apuntaba a una única URL y Google indexaba
+// ambas variantes como páginas distintas.
+const normalizedPath = Astro.url.pathname === '/'
+  ? '/'
+  : Astro.url.pathname.replace(/\/+$/, '') + '/';
+const canonicalURL = new URL(normalizedPath, Astro.site ?? 'https://fitzdesk.com');
 const ogImage = new URL(image, Astro.site ?? 'https://fitzdesk.com');
 ---
 
