@@ -30,7 +30,6 @@ import 'dotenv/config';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { generateFacebookImage } from './socialImageGenerator.js';
 import { generateInstagramCarousel } from './instagramImageGenerator.js';
 import {
   SITE_URL, logInfo, logOk, logWarn, logError,
@@ -47,23 +46,6 @@ const INSTAGRAM_SLIDE_COUNT = 4;
 // Pinterest preparado pero desactivado — activar cuando se apruebe el scope
 // pins:write en la API de Pinterest
 const PINTEREST_ENABLED = false;
-
-// Imagen de Facebook (Sharp/WEBP 1200x630) — generada una sola vez por
-// artículo y reutilizada en reintentos. Si no existe en disco, se genera
-// bajo demanda antes de publicar.
-function facebookImagePath(slug) {
-  return path.join(REDES_DIR, `${slug}-facebook.webp`);
-}
-
-function facebookImageUrlFor(slug) {
-  return `${SITE_URL}/images/redes/${slug}-facebook.webp`;
-}
-
-async function ensureFacebookImage(slug) {
-  if (fs.existsSync(facebookImagePath(slug))) return;
-  logInfo('Imagen de Facebook no encontrada — generándola...');
-  await generateFacebookImage(slug);
-}
 
 // Carrusel de Instagram (Puppeteer/PNG 1080x1350 x4 slides) — mismo criterio
 // de generación bajo demanda que la imagen de Facebook.
@@ -170,15 +152,18 @@ async function publishFacebook(slug, caption) {
   const pageId       = process.env.FACEBOOK_PAGE_ID;
   if (!accessToken || !pageId) throw new Error('FACEBOOK_PAGE_ACCESS_TOKEN o FACEBOOK_PAGE_ID no configurados');
 
-  await ensureFacebookImage(slug);
-
+  // Sin parámetro "picture": Meta rechaza sobreescribir picture/name/
+  // description en /feed salvo que el dominio esté verificado como propio
+  // en Business Manager (error #100 "Only owners of the URL...", detectado
+  // el 2026-06-25). FitzDesk ya tiene og:image/og:title/og:description
+  // correctos en cada artículo (BaseLayout.astro), así que Facebook genera
+  // la vista previa solo a partir del "link" sin necesitar el override.
   const res  = await fetch(`https://graph.facebook.com/v25.0/${pageId}/feed`, {
     method:  'POST',
     headers: { 'Content-Type': 'application/json' },
     body:    JSON.stringify({
       message:      caption,
       link:         `${SITE_URL}/articulo/${slug}`,
-      picture:      facebookImageUrlFor(slug),
       access_token: accessToken,
     }),
   });
@@ -239,13 +224,12 @@ async function runTest(article, slug, runInstagram, runFacebook) {
     console.log(`   ${value ? '✅' : '❌'} ${name}`);
   }
 
-  console.log('\n📸 Imágenes que se usarían (se generan bajo demanda si no existen):');
+  console.log('\n📸 Imágenes de Instagram (se generan bajo demanda si no existen; deben quedar publicadas en producción antes de llamar a la API de Meta):');
   for (let n = 1; n <= INSTAGRAM_SLIDE_COUNT; n++) {
     const exists = fs.existsSync(instagramSlidePath(slug, n));
     console.log(`   ${exists ? '✅ ya existe' : '⏳ se generaría'} — Instagram slide ${n}: ${instagramSlideUrlFor(slug, n)}`);
   }
-  const fbExists = fs.existsSync(facebookImagePath(slug));
-  console.log(`   ${fbExists ? '✅ ya existe' : '⏳ se generaría'} — Facebook: ${facebookImageUrlFor(slug)}`);
+  console.log('   Facebook ya no usa una imagen propia — Meta genera la vista previa a partir del og:image del artículo.');
 
   if (runInstagram) {
     const caption = await getInstagramCaption(article);
@@ -315,7 +299,6 @@ async function main() {
   let instagramCaption = runInstagram ? await getInstagramCaption(article) : null;
   let facebookCaption  = runFacebook  ? await getFacebookCaption(article, slug) : null;
   if (runInstagram) await ensureInstagramCarousel(slug);
-  if (runFacebook)  await ensureFacebookImage(slug);
 
   logInfo('Revisando imágenes y textos antes de publicar...');
   const review = await reviewBeforePublish(slug, {

@@ -563,9 +563,22 @@ Con `GROQ_API_KEY` ya bien configurada, el usuario relanzó `publicar-en-redes.y
 
 **No se pudo ver el log real del job** para diagnosticar el primer bug directamente: la API de GitHub exige permisos de administrador del repo para descargar logs de Actions, y no había `gh` CLI ni token configurado en el entorno de trabajo. Diagnosticado en su lugar a partir del texto exacto del aviso de Discord que pegó el usuario, y confirmado leyendo el bloque `env:` de ambos workflows. El segundo bug se diagnosticó igual, a partir del log completo que pegó el usuario.
 
-**Pendiente de verificación real**: volver a re-ejecutar `publicar-en-redes.yml` manualmente con `slug: logitech-k380-analisis` para confirmar que ya publica en ambas redes — no se pudo lanzar desde aquí (workflow_dispatch requiere la interfaz de GitHub o un token, ninguno disponible en este entorno).
+### Tercer y cuarto bug del mismo día, tras corregir los dos anteriores: ambas redes fallaron por motivos distintos, ninguno de Groq
 
-**Limpieza pendiente**: el `console.log` temporal de depuración en `publishFacebook()` (longitud + últimos 4 caracteres del token) sigue en el código — quitarlo ahora que el problema está resuelto.
+Con los dos bugs anteriores corregidos, el usuario relanzó otra vez y llegaron dos errores nuevos, esta vez reales de la API de Meta:
+
+1. **Instagram — error 9004/2207052, "Only photo or video can be accepted as media type"**: Meta no pudo descargar `https://fitzdesk.com/images/redes/logitech-k380-analisis-instagram-1.png`. Confirmado con `curl -I` que esa URL daba **404** en producción. Causa raíz: el carrusel de Instagram se genera bajo demanda en el propio runner de GitHub Actions (`instagramImageGenerator.js`, dentro de `ensureInstagramCarousel()` en `socialPublisher.js`), pero **ningún workflow comiteaba ni desplegaba esas imágenes** — vivían solo en el filesystem efímero del runner y desaparecían al terminar el job. Meta intentaba descargar una URL que nunca llegó a existir en el sitio real.
+2. **Facebook — error `(#100)` "Only owners of the URL have the ability to specify the picture, name, thumbnail or description params"**: `publishFacebook()` enviaba un parámetro `picture` propio al `POST /feed`. Meta solo permite sobreescribir ese campo si el dominio está verificado como propio en Meta Business Manager (verificación de dominio, distinta de la verificación de Search Console) — algo que FitzDesk no tiene configurado.
+
+**Corregido (Facebook, simple)**: eliminado el parámetro `picture` (y la generación de la imagen de Facebook que ya no se usaba para nada) de `publishFacebook()` en `socialPublisher.js`. FitzDesk ya tiene `og:image`/`og:title`/`og:description` correctos en cada artículo (`BaseLayout.astro`), así que Facebook genera la vista previa solo a partir del `link`, sin necesitar ningún override ni verificación de dominio.
+
+**Corregido (Instagram, más complejo)**: tanto `publicar-en-redes.yml` como `publicar-automatico.yml` ahora, antes de llamar a `socialPublisher.js`: generan el carrusel (`instagramImageGenerator.js --slug ...`), lo comitean y empujan a `main`, **disparan `deploy.yml` explícitamente con `gh workflow run`** (el push hecho con el `GITHUB_TOKEN` automático no dispara el `workflow_run` de otro workflow por sí solo) y esperan con `gh run watch` a que el deploy termine, y por último comprueban con `curl` que las 4 URLs del carrusel devuelven `200` antes de seguir. Si algo de esto falla o tarda más de los tiempos de espera fijados (∼5 min para el deploy, ∼2.5 min para la propagación), el job falla con un mensaje claro en vez de llamar a Meta con URLs rotas. Requiere permiso `actions: write` añadido a ambos workflows (antes solo tenían `contents`).
+
+**No se pudo probar el flujo completo de extremo a extremo** (generar → comitear → desplegar → publicar) desde este entorno de trabajo, al no poder lanzar `workflow_dispatch` sin `gh` CLI/token local — verificado en su lugar: sintaxis YAML válida de ambos workflows, sintaxis JS válida de `socialPublisher.js`, build de Astro sin errores, y `node socialPublisher.js --test --slug logitech-k380-analisis` en local confirma que el caption de Facebook ya no menciona ninguna imagen propia y que Groq sigue funcionando bien tras el fix de reintentos.
+
+**Pendiente de verificación real**: volver a re-ejecutar `publicar-en-redes.yml` manualmente con `slug: logitech-k380-analisis` para confirmar que ya publica en ambas redes.
+
+**Nota de limpieza anterior ya resuelta**: el `console.log` de depuración del token de Facebook que se mencionaba aquí ya no está en el código (comprobado el 2026-06-25) — esta nota quedaba desactualizada.
 
 ### Bug crítico encontrado y corregido 2026-06-23: "Publicar en redes sociales" nunca había funcionado de verdad
 
