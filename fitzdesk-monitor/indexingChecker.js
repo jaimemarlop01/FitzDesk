@@ -136,10 +136,16 @@ async function inspectUrl(searchconsole, inspectionUrl) {
     const res = await searchconsole.urlInspection.index.inspect({
       requestBody: { inspectionUrl, siteUrl: SC_SITE_URL },
     });
-    return classify(res.data.inspectionResult?.indexStatusResult);
+    const estado = classify(res.data.inspectionResult?.indexStatusResult);
+    // El enlace real de inspección lo genera la propia API (con un id opaco
+    // que Google asigna en cada inspección) — no se puede construir a mano
+    // con la URL del artículo como parámetro. Bug detectado el 2026-06-25:
+    // una versión anterior intentaba construirlo así y siempre daba 404.
+    estado.inspectionResultLink = res.data.inspectionResult?.inspectionResultLink ?? null;
+    return estado;
   } catch (e) {
     const detail = e.response?.data?.error?.message ?? e.message;
-    return { ...ESTADOS.ERROR, coverageState: `Error de API: ${detail}` };
+    return { ...ESTADOS.ERROR, coverageState: `Error de API: ${detail}`, inspectionResultLink: null };
   }
 }
 
@@ -157,8 +163,15 @@ async function resubmitSitemap(searchconsole) {
   }
 }
 
-function manualInspectionLink(url) {
-  return `https://search.google.com/search-console/inspect?resource_id=${encodeURIComponent(SC_SITE_URL)}&id=${encodeURIComponent(url)}`;
+// No existe forma de construir a mano un enlace que abra directamente la
+// inspección de una URL concreta — el id de esa vista lo genera Google en
+// cada inspección real (ver inspectUrl). Si la API no lo devolvió, la única
+// vía fiable es entrar a la herramienta y pegar la URL manualmente.
+const MANUAL_TOOL_URL = 'https://search.google.com/search-console/inspect';
+
+function manualActionFor(estado, url) {
+  if (estado.inspectionResultLink) return estado.inspectionResultLink;
+  return `${MANUAL_TOOL_URL} (selecciona la propiedad y pega esta URL: ${url})`;
 }
 
 // ─── Main ─────────────────────────────────────────────────────────────────────
@@ -205,7 +218,7 @@ async function main() {
       console.log(`     URL: ${r.url}`);
       console.log(`     Estado Google: ${r.estado.coverageState}`);
       console.log(`     Última inspección: ${r.estado.lastCrawlTime ?? 'sin datos de rastreo todavía'}`);
-      console.log(`     Solicitar indexación manual: ${manualInspectionLink(r.url)}`);
+      console.log(`     Solicitar indexación manual: ${manualActionFor(r.estado, r.url)}`);
       console.log('');
     }
   }
