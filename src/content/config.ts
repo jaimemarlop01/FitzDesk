@@ -26,6 +26,11 @@ const articulosCollection = defineCollection({
     fecha_actualizacion: z.string().optional(),
     actualizado: z.boolean().optional(),
     criterios: z.record(z.number()).optional(),
+    precio_oferta: z.string().optional(),
+    precio_normal: z.string().optional(),
+    descuento: z.string().optional(),
+    oferta_activa: z.boolean().optional(),
+    analisis_relacionado: z.string().optional(),
   }),
 });
 

@@ -401,3 +401,46 @@ export async function notifyLaunchReminder({ slug, titulo, fecha_lanzamiento, ti
   });
   logSuccess(`🚀 Recordatorio de lanzamiento enviado: "${titulo}"`);
 }
+
+// ─────────────────────────────────────────────
+// Borrador de oferta generado
+// ─────────────────────────────────────────────
+
+export async function notifyOferta({ titulo, slug, precio_oferta, precio_normal, descuento, fuente, analisis_relacionado, filePath }) {
+  const fields = [
+    { name: '📦 Producto',     value: titulo,                                inline: false },
+    { name: '🔥 Precio oferta', value: precio_oferta ?? 'por confirmar',     inline: true  },
+  ];
+  if (precio_normal) fields.push({ name: '💰 Precio normal', value: precio_normal, inline: true });
+  if (descuento)      fields.push({ name: '📉 Descuento estimado', value: descuento, inline: true });
+  if (fuente)          fields.push({ name: '🏬 Fuente', value: fuente, inline: true });
+
+  fields.push({
+    name:  '🔗 Análisis relacionado en FitzDesk',
+    value: analisis_relacionado ? `Sí — \`${analisis_relacionado}\`` : 'No existe todavía — el borrador incluye una breve descripción del producto',
+    inline: false,
+  });
+
+  fields.push({ name: '📝 Borrador', value: `\`${filePath}\``, inline: false });
+
+  fields.push({
+    name: '✅ Siguientes pasos',
+    value: [
+      '1. Verificar que el precio de oferta sigue activo',
+      '2. Revisar y completar el contenido generado',
+      '3. Añadir imagen si falta',
+      '4. Quitar `borrador: true` y publicar',
+    ].join('\n'),
+    inline: false,
+  });
+
+  await discordPost({
+    embeds: [{
+      title: '🐿️ Fitz ha detectado una oferta',
+      color: 0xF97316,
+      fields,
+      footer: { text: `FitzDesk Monitor • ${timestamp()}` },
+    }],
+  });
+  logSuccess(`🔥 Oferta detectada y notificada: "${titulo}"`);
+}

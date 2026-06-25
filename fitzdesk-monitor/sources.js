@@ -177,3 +177,96 @@ export function diagnoseFilter(item) {
 
   return { pass: true, layer: 0, reason: `Producto: "${matchedProducto}" · Marca: "${matchedMarca}"` };
 }
+
+// ─────────────────────────────────────────────
+// DETECTOR DE OFERTAS (capa adicional, independiente del filtro de relevancia)
+// ─────────────────────────────────────────────
+
+/**
+ * Palabras clave que indican que la noticia trata sobre una oferta/rebaja,
+ * no sobre un análisis o lanzamiento normal.
+ */
+export const KEYWORDS_OFERTA = [
+  'oferta', 'descuento', 'rebaja', 'precio mínimo', 'precio minimo',
+  'histórico', 'historico', 'chollo', 'barato', 'precio bajo',
+  'sale', 'deal', '% de descuento', '€ menos',
+];
+
+/**
+ * Tiendas consideradas fuente fiable para una oferta — si el item no
+ * menciona ninguna, no se puede verificar el precio y se descarta.
+ */
+export const FUENTES_OFERTA_FIABLES = [
+  'pccomponentes', 'amazon', 'mediamarkt', 'media markt',
+  'el corte inglés', 'el corte ingles', 'corte inglés', 'corte ingles',
+];
+
+const DESCUENTO_MINIMO = 15;
+
+function hasWordOferta(text, kw) {
+  if (kw.length <= 4) {
+    return new RegExp('\\b' + kw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b', 'i').test(text);
+  }
+  return text.includes(kw);
+}
+
+/**
+ * Detecta si un item de RSS describe una oferta válida.
+ *
+ * Condiciones, todas obligatorias:
+ *   1. Al menos una palabra clave de KEYWORDS_OFERTA
+ *   2. Al menos un producto físico de KEYWORDS_PRODUCTO (reutilizado del
+ *      filtro de relevancia — mismo criterio de "producto físico")
+ *   3. Un precio concreto en € (ej. "49,99€", "129 €")
+ *   4. Al menos una tienda de FUENTES_OFERTA_FIABLES
+ *   5. Si se menciona un % de descuento explícito, debe ser ≥ 15. Si no se
+ *      menciona ningún %, no se puede verificar desde el texto — se deja
+ *      pasar como "descuento no verificado" para que un humano lo confirme
+ *      (criterio "nunca inventar un dato", igual que en articleUpdater.js),
+ *      en vez de descartarlo o asumir que cumple el mínimo.
+ *
+ * Retorna { isOferta, motivo, precio, fuente, descuentoEstimado } —
+ * descuentoEstimado es null si no se pudo determinar desde el texto.
+ */
+export function detectOferta(item) {
+  const text = `${item.title ?? ''} ${item.contentSnippet ?? ''} ${item.content ?? ''}`.toLowerCase();
+
+  const matchedKeyword = KEYWORDS_OFERTA.find(kw => text.includes(kw));
+  if (!matchedKeyword) {
+    return { isOferta: false, motivo: 'Sin palabra clave de oferta' };
+  }
+
+  const matchedProducto = KEYWORDS_PRODUCTO.find(kw => hasWordOferta(text, kw));
+  if (!matchedProducto) {
+    return { isOferta: false, motivo: 'Sin producto físico reconocido' };
+  }
+
+  const precioMatch = text.match(/(\d{1,4}(?:[.,]\d{1,2})?)\s*€/);
+  if (!precioMatch) {
+    return { isOferta: false, motivo: 'Sin precio concreto en €' };
+  }
+  const precio = parseFloat(precioMatch[1].replace(',', '.'));
+
+  const fuente = FUENTES_OFERTA_FIABLES.find(f => text.includes(f));
+  if (!fuente) {
+    return { isOferta: false, motivo: 'Fuente no reconocida como fiable (PcComponentes/Amazon/MediaMarkt/El Corte Inglés)' };
+  }
+
+  const descuentoMatch = text.match(/(\d{1,2})\s*%/);
+  const descuentoEstimado = descuentoMatch ? parseInt(descuentoMatch[1], 10) : null;
+  if (descuentoEstimado !== null && descuentoEstimado < DESCUENTO_MINIMO) {
+    return {
+      isOferta: false,
+      motivo: `Descuento estimado (${descuentoEstimado}%) por debajo del mínimo (${DESCUENTO_MINIMO}%)`,
+    };
+  }
+
+  return {
+    isOferta: true,
+    motivo: `Oferta detectada: "${matchedKeyword}" · producto "${matchedProducto}" · ${precio}€ · fuente "${fuente}"` +
+      (descuentoEstimado !== null ? ` · ${descuentoEstimado}% descuento` : ' · descuento no verificado en el texto'),
+    precio,
+    fuente,
+    descuentoEstimado,
+  };
+}

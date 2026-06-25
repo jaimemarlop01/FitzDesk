@@ -172,6 +172,71 @@ function applyPrecioUpdate(content, nuevoPrecio) {
   return { updated, changes };
 }
 
+// ─── Modo 2b: Precio de un artículo de tipo "oferta" ─────────────────────────
+
+function isOfertaArticle(content) {
+  return /^tipo:\s*"?oferta"?/m.test(content);
+}
+
+function parsePrecioNum(str) {
+  if (!str) return null;
+  const n = parseFloat(String(str).replace(/[^\d,.]/g, '').replace(',', '.'));
+  return isNaN(n) ? null : n;
+}
+
+/**
+ * Cuando se actualiza el precio de un artículo "oferta", comprueba si el
+ * precio ha vuelto a su valor normal (la oferta ya terminó) en vez de
+ * limitarse a sustituir el número. Margen del 3% para no marcar como
+ * "terminada" una oferta por una diferencia de céntimos de redondeo.
+ */
+function applyOfertaPrecioUpdate(content, nuevoPrecio) {
+  let updated = content;
+  const changes = [];
+
+  const precioNormalMatch = content.match(/^precio_normal:\s*"?([^"\n]+)"?/m);
+  const precioNormal = precioNormalMatch ? parsePrecioNum(precioNormalMatch[1]) : null;
+  const nuevoNum = parsePrecioNum(nuevoPrecio);
+  const ofertaTerminada = precioNormal !== null && nuevoNum !== null && nuevoNum >= precioNormal * 0.97;
+
+  const oldMatch = updated.match(/^precio_oferta:\s*"?([^"\n]+)"?/m);
+  const oldPrecio = oldMatch ? oldMatch[1].trim() : '?';
+  updated = updated.replace(/^precio_oferta:.*$/m, `precio_oferta: "${nuevoPrecio}"`);
+  changes.push(`precio_oferta "${oldPrecio}" → "${nuevoPrecio}"`);
+
+  if (!ofertaTerminada) {
+    updated = setFrontmatterField(updated, 'fecha_actualizacion', `"${today()}"`);
+    changes.push('fecha_actualizacion');
+    return { updated, changes, ofertaTerminada: false };
+  }
+
+  // La oferta ya no está activa: precio_oferta queda como histórico, se
+  // desactiva, se corrige el título y se avisa en el cuerpo — sin tocar la
+  // introducción original con una reescritura por IA, mismo patrón ya usado
+  // en applyDescatalogado() (aviso añadido, no reescritura del cuerpo).
+  updated = updated.replace(/^oferta_activa:.*$/m, 'oferta_activa: false');
+  changes.push('oferta_activa: false');
+
+  const tituloMatch = updated.match(/^title:\s*"([^"]+)"/m);
+  if (tituloMatch) {
+    const producto = tituloMatch[1].split(':')[0].trim();
+    const nuevoTitulo = `${producto}: análisis y mejor precio`;
+    updated = updated.replace(/^title:.*$/m, `title: "${nuevoTitulo}"`);
+    changes.push(`título → "${nuevoTitulo}"`);
+  }
+
+  if (!/^> ℹ️ \*\*Esta oferta ya no está activa/m.test(updated)) {
+    const aviso = `> ℹ️ **Esta oferta ya no está activa** — el precio ha vuelto a su valor habitual (${nuevoPrecio}). Aun así, el producto sigue siendo una buena opción a tener en cuenta.`;
+    updated = insertAfterFrontmatter(updated, aviso);
+    changes.push('aviso de oferta finalizada');
+  }
+
+  updated = setFrontmatterField(updated, 'fecha_actualizacion', `"${today()}"`);
+  changes.push('fecha_actualizacion');
+
+  return { updated, changes, ofertaTerminada: true };
+}
+
 // ─── Modo 3: Producto descatalogado ──────────────────────────────────────────
 
 function applyDescatalogado(content, sustitutoSlug) {
@@ -258,6 +323,12 @@ async function updateArticle(filename, options) {
   }
 
   if (options.precio) {
+    if (isOfertaArticle(content)) {
+      const { updated, changes, ofertaTerminada } = applyOfertaPrecioUpdate(content, options.precio);
+      writeFileSync(filepath, updated, 'utf-8');
+      console.log(`   ✅ ${slug} — ${ofertaTerminada ? '🏁 oferta finalizada — ' : ''}${changes.join(', ')}`);
+      return true;
+    }
     const { updated, changes } = applyPrecioUpdate(content, options.precio);
     writeFileSync(filepath, updated, 'utf-8');
     console.log(`   ✅ ${slug} — ${changes.join(', ')}`);

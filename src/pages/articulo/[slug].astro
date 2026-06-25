@@ -24,7 +24,9 @@ interface Props {
 
 const { article } = Astro.props;
 const { Content } = await article.render();
-const { title, fecha, categoria, descripcion, imagen, puntuacion, precio, enlace_afiliado, tiempo_lectura, fitzQuote, especificaciones } = article.data;
+const { title, fecha, categoria, descripcion, imagen, puntuacion, precio, enlace_afiliado, tiempo_lectura, fitzQuote, especificaciones, tipo, precio_oferta, precio_normal, descuento, oferta_activa } = article.data;
+const esOferta = tipo === 'oferta';
+const precioMostrado = esOferta && precio_oferta ? precio_oferta : precio;
 
 const fechaFormateada = new Date(fecha).toLocaleDateString('es-ES', {
   year: 'numeric', month: 'long', day: 'numeric',
@@ -124,10 +126,23 @@ const reviewSchema = puntuacion ? {
             </div>
           )}
 
-          {precio && (
+          {precioMostrado && (
             <div class="sidebar-card">
               <h3>Precio</h3>
-              <p class="sidebar-price">{precio}</p>
+              <div class="sidebar-price-row">
+                {esOferta && precio_normal && (
+                  <span class="sidebar-price-tachado">{precio_normal}</span>
+                )}
+                <p class="sidebar-price">{precioMostrado}</p>
+                {esOferta && (
+                  <span class={`sidebar-oferta-badge ${oferta_activa === false ? 'finalizada' : 'activa'}`}>
+                    {oferta_activa === false ? 'Oferta finalizada' : '🔥 En oferta'}
+                  </span>
+                )}
+              </div>
+              {esOferta && descuento && oferta_activa !== false && (
+                <p class="sidebar-descuento">Ahorras un {descuento.replace(/^-/, '')}</p>
+              )}
               <a href={pcSearchUrl} target="_blank" rel="noopener noreferrer" class="sidebar-btn">
                 Ver precio actual →
               </a>
@@ -165,6 +180,10 @@ const reviewSchema = puntuacion ? {
                 puntuacion={rel.data.puntuacion}
                 precio={rel.data.precio}
                 tipo={rel.data.tipo}
+                precio_oferta={rel.data.precio_oferta}
+                precio_normal={rel.data.precio_normal}
+                descuento={rel.data.descuento}
+                oferta_activa={rel.data.oferta_activa}
               />
             ))}
           </div>
@@ -292,7 +311,48 @@ const reviewSchema = puntuacion ? {
     font-size: 1.5rem;
     font-weight: 700;
     color: var(--color-text);
-    margin-bottom: 0.75rem;
+    margin: 0;
+  }
+
+  .sidebar-price-row {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .sidebar-price-tachado {
+    font-size: 1rem;
+    color: var(--color-text-muted);
+    text-decoration: line-through;
+  }
+
+  .sidebar-oferta-badge {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 0.7rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: var(--radius);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .sidebar-oferta-badge.activa {
+    background: var(--color-brand);
+    color: white;
+  }
+
+  .sidebar-oferta-badge.finalizada {
+    background: var(--color-border);
+    color: var(--color-text-muted);
+  }
+
+  .sidebar-descuento {
+    font-size: 0.85rem;
+    color: var(--color-success);
+    font-weight: 600;
+    margin: 0 0 0.75rem;
   }
 
   .sidebar-btn {
