@@ -85,6 +85,24 @@ async function saveDraftPersisted(slug, filename, content) {
   return saveDraft(filename, content);
 }
 
+// Inserta una línea de frontmatter justo antes del cierre `---`, tolerando
+// BOM y CRLF (mismo patrón que insertAfterFrontmatter()/splitFrontmatterBody()
+// en articleUpdater.js). Bug corregido el 2026-06-25 (revisión de código):
+// dos de los tres puntos de inserción de applyPrecioToExistingAnalysis()
+// usaban antes `indexOf('\n---', ...)`, que sigue encontrando el cierre en
+// un archivo CRLF (porque '\n---' es subcadena de '\r\n---') pero inserta
+// una línea con LF en un archivo que usa CRLF en todo lo demás — saltos de
+// línea mixtos en el mismo archivo. Unificado a un único helper con regex.
+function insertFrontmatterLine(content, line) {
+  const bomLen = content.charCodeAt(0) === 0xFEFF ? 1 : 0;
+  const fmMatch = content.slice(bomLen).match(/^-{3}\r?\n[\s\S]*?\r?\n-{3}\r?\n/);
+  if (!fmMatch) return content;
+  // Inserta justo antes del delimitador de cierre, no después.
+  const closingDelim = fmMatch[0].match(/\r?\n(-{3}\r?\n)$/)[1];
+  const beforeClosing = bomLen + fmMatch[0].length - closingDelim.length;
+  return content.slice(0, beforeClosing) + line + '\n' + content.slice(beforeClosing);
+}
+
 /**
  * Actualiza solo el precio de un análisis YA PUBLICADO cuando el monitor
  * detecta una oferta sobre un producto que ya tiene análisis en FitzDesk
@@ -96,31 +114,38 @@ async function saveDraftPersisted(slug, filename, content) {
  * monitor abajo aunque este camino nunca necesite Groq.
  */
 function applyPrecioToExistingAnalysis(content, nuevoPrecio, fuente) {
-  let updated = content.replace(/^precio:.*$/m, `precio: "${nuevoPrecio}"`);
+  let updated = content;
+
+  // precio: — bug corregido el 2026-06-25: antes se sustituía sin comprobar
+  // si el campo existía, a diferencia de fecha_actualizacion/actualizado
+  // (caso de borde no observado en el repo actual, pero sin garantía de
+  // código de que siempre exista).
+  if (/^precio:/m.test(updated)) {
+    updated = updated.replace(/^precio:.*$/m, `precio: "${nuevoPrecio}"`);
+  } else {
+    updated = insertFrontmatterLine(updated, `precio: "${nuevoPrecio}"`);
+  }
 
   const fechaHoy = new Date().toISOString().slice(0, 10);
   if (/^fecha_actualizacion:/m.test(updated)) {
     updated = updated.replace(/^fecha_actualizacion:.*$/m, `fecha_actualizacion: "${fechaHoy}"`);
   } else {
-    const bomLen0 = updated.charCodeAt(0) === 0xFEFF ? 1 : 0;
-    const closeIdx = updated.indexOf('\n---', bomLen0 + 4);
-    if (closeIdx !== -1) updated = updated.slice(0, closeIdx) + `\nfecha_actualizacion: "${fechaHoy}"` + updated.slice(closeIdx);
+    updated = insertFrontmatterLine(updated, `fecha_actualizacion: "${fechaHoy}"`);
   }
+
   if (/^actualizado:/m.test(updated)) {
     updated = updated.replace(/^actualizado:.*$/m, 'actualizado: true');
   } else {
-    const bomLen1 = updated.charCodeAt(0) === 0xFEFF ? 1 : 0;
-    const closeIdx = updated.indexOf('\n---', bomLen1 + 4);
-    if (closeIdx !== -1) updated = updated.slice(0, closeIdx) + '\nactualizado: true' + updated.slice(closeIdx);
+    updated = insertFrontmatterLine(updated, 'actualizado: true');
   }
 
   if (!/^> 📅 \*\*Artículo actualizado/m.test(updated)) {
     const mes = new Date().toLocaleDateString('es-ES', { month: 'long', year: 'numeric' });
     const notice = `> 📅 **Artículo actualizado en ${mes}**: precio rebajado a ${nuevoPrecio}${fuente ? ` en ${fuente}` : ''} — oferta detectada automáticamente por el monitor de FitzDesk.`;
-    const bomLen2 = updated.charCodeAt(0) === 0xFEFF ? 1 : 0;
-    const fmMatch = updated.slice(bomLen2).match(/^-{3}\r?\n[\s\S]*?\r?\n-{3}\r?\n/);
+    const bomLen = updated.charCodeAt(0) === 0xFEFF ? 1 : 0;
+    const fmMatch = updated.slice(bomLen).match(/^-{3}\r?\n[\s\S]*?\r?\n-{3}\r?\n/);
     if (fmMatch) {
-      const insertPos = bomLen2 + fmMatch[0].length;
+      const insertPos = bomLen + fmMatch[0].length;
       updated = updated.slice(0, insertPos) + notice + '\n' + updated.slice(insertPos);
     }
   }
@@ -627,6 +652,11 @@ async function runCheck({ pcdaysMode = false } = {}) {
         });
         try {
           await dispatchWorkflowAndWait('deploy.yml', {});
+          // Deliberadamente NO se dispara publicar-en-redes.yml aquí (a
+          // diferencia de la rama de oferta nueva, más abajo): el análisis
+          // ya se publicó y compartió en su momento — republicar en redes
+          // solo por un cambio de precio sería ruido. Confirmado como
+          // decisión explícita en la revisión de código del 2026-06-25.
         } catch (deployErr) {
           logWarn(`  ⚠️ Precio actualizado pero el deploy falló: ${deployErr.message}`);
         }
@@ -774,7 +804,11 @@ async function runCheck({ pcdaysMode = false } = {}) {
       logError(`  ✗ Error inesperado procesando oferta "${cand.itemTitle}": ${candidateErr.message}`);
       try {
         await notifyOfertaPendienteRevision({
-          titulo: cand.producto, slug: cand.itemTitle,
+          // draft?.slug en vez de cand.itemTitle (un título de noticia no es
+          // un slug) — corregido en la revisión de código del 2026-06-25;
+          // sin efecto visible porque notifyOfertaPendienteRevision no usa
+          // este parámetro en el embed, pero es semánticamente correcto.
+          titulo: cand.producto, slug: draft?.slug ?? null,
           precio_oferta: precioOfertaStr, descuento: descuentoStr,
           motivo: `error inesperado al procesar la oferta, revisar manualmente: ${candidateErr.message}`,
           filePath: 'no se generó (falló antes de guardar el borrador)',
