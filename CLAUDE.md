@@ -92,6 +92,8 @@ GROQ_API_KEY
 DISCORD_WEBHOOK_URL
 ASTRO_CONTENT_PATH=C:\xampp\htdocs\FitzDesk\src\content\articulos
 GEMINI_API_KEY (opcional)
+GOOGLE_SERVICE_ACCOUNT_KEY (opcional, para indexingChecker.js — JSON de cuenta de servicio en base64)
+SEARCH_CONSOLE_SITE_URL (opcional, default "sc-domain:fitzdesk.com")
 ```
 
 ---
@@ -557,6 +559,20 @@ Tras activar el publisher (22/06) y corregir los bugs de código (23/06 — `INS
 
 **Solución aplicada — workflow nuevo en vez de tocar `auto-publisher.js`**: `.github/workflows/publicar-en-redes.yml`, disparable manualmente (`workflow_dispatch`, input `slug`), que solo ejecuta `socialPublisher.js --slug [slug]` sobre el artículo ya publicado en `main` — sin pasar por el calendario ni por `auto-publisher.js`. Sirve para republicar en redes sociales (o publicar la primera vez si el pipeline automático falló en ese paso) sin arriesgar el resto del pipeline de contenido. Uso: GitHub → Actions → "Publicar en redes sociales (manual)" → Run workflow → introducir el slug ya publicado (sin prefijo `borrador-`).
 
+## Comprobación de indexación en Google — indexingChecker.js (2026-06-25)
+
+`fitzdesk-monitor/indexingChecker.js` — comprueba qué artículos publicados (sin `borrador: true`) están indexados en Google, usando la **URL Inspection API** de Search Console (`urlInspection.index.inspect`, de solo lectura).
+
+- **Uso**: `node indexingChecker.js` (solo informe) / `node indexingChecker.js --fix` (informe + reenvía el sitemap si hay pendientes)
+- **Clasificación por URL**: ✅ Indexada (`verdict: PASS`) · ⏳ Rastreada pero no indexada (`coverageState` contiene "crawled" + "not indexed") · ❌ Descubierta pero no indexada (`coverageState` contiene "discovered") · 🔴 Error (bloqueada por robots.txt/meta noindex, o fallo de API)
+- **Por qué no hay "solicitar indexación" real vía API (decisión consultada con el usuario antes de implementar)**: la API de Indexación de Google (`indexing.googleapis.com`) está restringida por los términos de servicio de Google a contenido tipo JobPosting o BroadcastEvent — usarla para artículos de blog normales incumpliría esos términos y podría acabar en revocación de acceso a la API. La URL Inspection API es de solo lectura, no tiene ningún método para forzar indexación. La única vía oficial para forzar la indexación de una página normal es el botón "Solicitar indexación" de la interfaz de Search Console, manual, sin API
+- **El antiguo endpoint de ping de sitemaps está muerto**: `google.com/ping?sitemap=` fue deprecado por Google en 2023 y devuelve 404 desde entonces — confirmado con búsqueda antes de implementar nada con él, para no construir un `--fix` que en realidad no hiciera nada
+- **Qué hace `--fix` en su lugar**: reenvía el sitemap vía `sitemaps.submit`, un método real y soportado de la propia Search Console API (no la API de Indexación restringida) — es la señal más fuerte que se puede dar a Google por API sin incumplir sus normas. Además imprime, para cada URL no indexada, un enlace directo a la herramienta de inspección de Search Console (`search.google.com/search-console/inspect?resource_id=...&id=...`) para que la solicitud manual — la única que realmente fuerza el rastreo — sea de un clic
+- **Autenticación**: cuenta de servicio de Google, vía `GOOGLE_SERVICE_ACCOUNT_KEY` (JSON en base64) o `fitzdesk-monitor/google-credentials.json` (en `.gitignore`, nunca se commitea). **Paso manual obligatorio que no se puede hacer por API**: añadir el email de la cuenta de servicio como usuario en Search Console → Configuración → Usuarios y permisos para la propiedad `sc-domain:fitzdesk.com` (propiedad de dominio, no de prefijo de URL, porque la verificación fue por DNS) — sin ese paso la API devuelve error de permisos aunque las credenciales sean correctas
+- **Dependencia nueva**: `googleapis` añadida a `fitzdesk-monitor/package.json`. Al instalarla, `npm audit` reportó 1 vulnerabilidad alta (form-data, CRLF injection) resuelta con `npm audit fix` sin cambios incompatibles; quedan 2 moderadas (js-yaml vía gray-matter, uuid vía node-cron) que solo se resuelven con `--force` y un downgrade/breaking change de esas dependencias — no aplicado, fuera de alcance de esta tarea
+- **Probado sin credenciales reales** (no existe todavía cuenta de servicio configurada): verificado que falla con un mensaje claro explicando qué falta y el paso manual de permisos necesario, en vez de un error críptico de la librería. La lógica de carga de artículos (23 publicados encontrados, URLs construidas correctamente) y de clasificación (5 casos representativos de respuesta de la API, incluyendo bloqueo por robots.txt) se probaron de forma aislada con datos simulados, ya que la llamada real a la API no se puede probar hasta que exista una cuenta de servicio con acceso a la propiedad
+- **Integración semanal con `monitor.js` (sugerida como opcional en el encargo) — NO implementada todavía**: pendiente a propósito, porque tocar el bucle `--daemon` de `monitor.js` para añadir una rama "lunes" con su propia notificación a Discord es un cambio más invasivo al orquestador principal, y no se puede probar de extremo a extremo sin que la cuenta de servicio exista y tenga permisos reales en Search Console. Cuando haya credenciales configuradas y verificadas con `node indexingChecker.js` en local, retomar esta integración
+
 ## Archivos clave del monitor
 
 | Archivo | Función |
@@ -574,6 +590,7 @@ Tras activar el publisher (22/06) y corregir los bugs de código (23/06 — `INS
 | `socialReviewer.js` | Revisa imágenes y textos antes de publicar — regenera imágenes rotas, corrige texto con Groq, bloquea si no puede |
 | `socialImageGenerator.js` | Genera la imagen de Facebook (Sharp + SVG) a partir de la imagen del artículo |
 | `instagramImageGenerator.js` | Genera el carrusel de 4 slides de Instagram (Puppeteer: gancho, lo mejor, lo mejorable, veredicto) |
+| `indexingChecker.js` | Comprueba el estado de indexación en Google de los artículos publicados vía Search Console API (añadido 2026-06-25) |
 
 ---
 
