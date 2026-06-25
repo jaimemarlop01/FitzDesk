@@ -55,7 +55,7 @@ function slugify(text) {
 
 export function findRelatedAnalysis(productoNombre) {
   const files = readdirSync(CONTENT_DIR).filter(f => f.endsWith('.md'));
-  const needle = productoNombre.toLowerCase();
+  const needle = productoNombre.toLowerCase().trim();
 
   for (const file of files) {
     const raw = readFileSync(join(CONTENT_DIR, file), 'utf-8');
@@ -63,7 +63,14 @@ export function findRelatedAnalysis(productoNombre) {
     if (data.borrador === true) continue;
     if (data.tipo && data.tipo !== 'analisis') continue;
     const title = (data.title ?? '').toLowerCase();
-    if (title.includes(needle) || needle.includes(title.split(':')[0]?.trim() ?? '')) {
+    // Coincidencia exacta del nombre de producto contra el prefijo del
+    // título (antes de los dos puntos), no por subcadena — un .includes()
+    // hacía que "ASUS Vivobook 15" coincidiera con "ASUS Vivobook 15 OLED
+    // (2025): ...", un modelo con pantalla y CPU distintos, y Groq acabó
+    // mezclando specs de un producto con el otro (bug detectado el
+    // 2026-06-25 sobre un caso real). Mejor no enlazar que enlazar mal.
+    const prefix = title.split(':')[0]?.trim() ?? '';
+    if (prefix === needle || title === needle) {
       return { slug: data.slug ?? file.replace(/^borrador-/, '').replace('.md', ''), title: data.title };
     }
   }
