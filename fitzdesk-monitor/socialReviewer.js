@@ -143,7 +143,11 @@ export async function reviewInstagramImages(slug) {
 
 function countHashtags(text)  { return (text.match(/#\w+/g) || []).length; }
 function hasUrl(text)         { return /https?:\/\/|www\./i.test(text); }
-function hasStrayCjk(text)    { return /[一-鿿㐀-䶿豈-﫿]/.test(text); }
+function hasStrayCjk(text) {
+  const m = text.match(/[一-鿿㐀-䶿豈-﫿]/);
+  if (m) logWarn(`[DEBUG CJK] carácter detectado: U+${m[0].codePointAt(0).toString(16).toUpperCase()} "${m[0]}" en posición ${text.indexOf(m[0])}`);
+  return !!m;
+}
 function endsInPunctuation(t) { return /[.!?]\s*$/.test((t || '').trim()); }
 function firstLine(text)      { return text.split('\n').map(l => l.trim()).find(Boolean) || ''; }
 
