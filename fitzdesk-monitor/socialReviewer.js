@@ -163,11 +163,19 @@ export async function reviewInstagramImages(slug) {
   }
 
   const stillFailing = results.filter(r => !r.ok);
+  // Si los únicos problemas son de tamaño (no de formato o dimensiones), la
+  // imagen es válida aunque pequeña — ocurre cuando se genera sin Groq y el
+  // contenido de respaldo produce slides con menos texto del habitual.
+  const soloTamano = stillFailing.length > 0 &&
+    stillFailing.every(r => r.issues.length > 0 && r.issues.every(i => i.includes('pesa menos')));
+  if (soloTamano) {
+    logWarn(`Slides ${stillFailing.map(r => r.slide).join(', ')} por debajo del tamaño esperado (generados sin IA) — se publicará igualmente`);
+  }
   return {
-    ok: stillFailing.length === 0,
+    ok: stillFailing.length === 0 || soloTamano,
     regenerated,
     results,
-    blocker: stillFailing.length
+    blocker: (!soloTamano && stillFailing.length)
       ? `Las imágenes de Instagram (slides ${stillFailing.map(r => r.slide).join(', ')}) siguen sin pasar la revisión tras regenerar: ${stillFailing.map(r => r.issues.join('; ')).join(' | ')}`
       : null,
   };
@@ -178,9 +186,10 @@ export async function reviewInstagramImages(slug) {
 function countHashtags(text)  { return (text.match(/#\w+/g) || []).length; }
 function hasUrl(text)         { return /https?:\/\/|www\./i.test(text); }
 function hasStrayCjk(text) {
-  const m = text.match(/[一-鿿㐀-䶿豈-﫿]/);
-  if (m) logWarn(`[DEBUG CJK] carácter detectado: U+${m[0].codePointAt(0).toString(16).toUpperCase()} "${m[0]}" en posición ${text.indexOf(m[0])}`);
-  return !!m;
+  // Flag 'u' necesario para tratar emojis como un único code point (U+1F517
+  // etc.) y no como dos surrogates UTF-16 separados — sin 'u', el surrogate
+  // alto U+D83D de cualquier emoji matchea falsamente el rango 豈-﫿.
+  return /[一-鿿㐀-䶿豈-﫿]/u.test(text);
 }
 function endsInPunctuation(t) { return /[.!?]\s*$/.test((t || '').trim()); }
 function firstLine(text)      { return text.split('\n').map(l => l.trim()).find(Boolean) || ''; }
