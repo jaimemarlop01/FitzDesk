@@ -368,11 +368,12 @@ export async function reviewBeforePublish(slug, { instagramCaption, facebookCapt
     report.images = await reviewInstagramImages(slug);
     if (!report.images.ok) blockers.push(report.images.blocker);
 
-    // Las ofertas no tienen pros/contras (carrusel de 3 slides distinto, sin
-    // "Lo mejor"/"Lo mejorable") — pedirle ese contenido a getCarouselContent
-    // gastaría Groq en algo que el carrusel de oferta ni siquiera usa.
+    // Las ofertas y las guías usan slides 2/3 con contenido distinto al de
+    // los análisis ("Lo mejor"/"Lo mejorable" no existen en esos tipos) —
+    // pedirle ese contenido a getCarouselContent gastaría Groq en vano.
     const esOferta = isOfertaArticle(slug);
-    const { prosExplanations, contrasExplanations, veredicto } = esOferta
+    const esGuia   = loadArticleData(slug).data?.tipo === 'guia';
+    const { prosExplanations, contrasExplanations, veredicto } = (esOferta || esGuia)
       ? { prosExplanations: [], contrasExplanations: [], veredicto: undefined }
       : await safeGetCarouselContent(slug);
     report.instagram = await reviewInstagramText({
