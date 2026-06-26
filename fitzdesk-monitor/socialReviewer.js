@@ -97,6 +97,31 @@ async function checkOneImage(filePath, minBytes) {
   return { ok: issues.length === 0, issues };
 }
 
+// Comprobación estructural mínima (sin umbral de tamaño): PNG válido + dimensiones.
+// Se usa como fallback cuando la regeneración falla — si las imágenes son
+// estructuralmente válidas, la publicación puede continuar aunque sean pequeñas
+// (ocurre cuando se generaron sin Groq y tienen contenido de respaldo mínimo).
+async function checkStructural(filePath) {
+  if (!fs.existsSync(filePath)) return { ok: false, issues: ['el archivo no existe'] };
+  const buffer = fs.readFileSync(filePath);
+  const issues = [];
+  if (buffer.length < 8 || !buffer.subarray(0, 8).equals(PNG_MAGIC)) {
+    issues.push('no es un PNG válido (magic bytes incorrectos)');
+  }
+  if (buffer.length > MAX_IMAGE_BYTES) {
+    issues.push(`pesa más de 2MB (${(buffer.length / 1024 / 1024).toFixed(2)}MB)`);
+  }
+  try {
+    const meta = await sharp(buffer).metadata();
+    if (meta.width !== EXPECTED_WIDTH || meta.height !== EXPECTED_HEIGHT) {
+      issues.push(`dimensiones ${meta.width}x${meta.height} (se esperaba ${EXPECTED_WIDTH}x${EXPECTED_HEIGHT})`);
+    }
+  } catch (e) {
+    issues.push(`Sharp no pudo leer la imagen (${e.message})`);
+  }
+  return { ok: issues.length === 0, issues };
+}
+
 export async function reviewInstagramImages(slug) {
   const slideCount = slideCountFor(slug);
   const minBytes = slideCount === 3 ? MIN_IMAGE_BYTES_OFERTA : MIN_IMAGE_BYTES_NORMAL;
@@ -121,6 +146,15 @@ export async function reviewInstagramImages(slug) {
       regenerated = true;
       results = await checkAll();
     } catch (e) {
+      logWarn(`No se pudo regenerar el carrusel (${e.message}) — verificando si las imágenes existentes son estructuralmente válidas`);
+      const structural = [];
+      for (let n = 1; n <= slideCount; n++) {
+        structural.push({ slide: n, path: instagramSlidePath(slug, n), ...(await checkStructural(instagramSlidePath(slug, n))) });
+      }
+      if (structural.every(r => r.ok)) {
+        logWarn('Imágenes válidas pero generadas sin IA (contenido de respaldo) — se publicará igualmente');
+        return { ok: true, regenerated: false, results: structural, blocker: null };
+      }
       return {
         ok: false, regenerated: false, results,
         blocker: `No se pudo regenerar el carrusel de Instagram: ${e.message}`,
