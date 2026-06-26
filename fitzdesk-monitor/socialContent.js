@@ -77,7 +77,8 @@ export function buildFacebookCaption({ title, descripcion }, slug) {
     '',
     descripcion,
     '',
-    '🔗 Lee el análisis completo:',
+    '¿Lo tienes en tu setup o lo estás considerando? Cuéntanos 👇',
+    '',
     `${SITE_URL}/articulo/${slug}`,
   ].join('\n');
 }
