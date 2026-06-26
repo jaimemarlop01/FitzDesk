@@ -56,6 +56,8 @@ jobs:
       #    de llamar a la API de Meta (necesita la URL pública real) ────────
       - name: Generar carrusel de Instagram
         if: inputs.only != 'facebook'
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
         run: node fitzdesk-monitor/instagramImageGenerator.js --slug ${{ inputs.slug }}
 
       - name: Subir carrusel generado a main
