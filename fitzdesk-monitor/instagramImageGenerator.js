@@ -301,29 +301,38 @@ ${content.slice(0, 3000)}`;
     logWarn(`Groq falló generando slides de guía (${e.message}) — usando secciones del artículo`);
     const siSection  = extractSection(content, /^##\s*Cu[aá]ndo\s+S[IÍ]/i);
     const noSection  = extractSection(content, /^##\s*Cu[aá]ndo\s+NO/i);
+    const siBullets  = siSection ? parseBulletList(siSection, 4) : [];
+    const noBullets  = noSection ? parseBulletList(noSection, 3) : [];
     slide2 = {
       heading: 'Cuándo merece la pena',
       icon: '✅',
-      items: siSection ? parseBulletList(siSection, 4) : ['Ver guía completa en fitzdesk.com'],
+      items: siBullets.length ? siBullets : ['Ver guía completa en fitzdesk.com'],
     };
     slide3 = {
       heading: 'Cuándo no es necesario',
       icon: '💡',
-      items: noSection ? parseBulletList(noSection, 3) : ['Ver guía completa en fitzdesk.com'],
+      items: noBullets.length ? noBullets : ['Ver guía completa en fitzdesk.com'],
     };
   }
 
+  // Aplicar límites ANTES de getItemExplanations para que la llamada a Groq
+  // pida exactamente las N explicaciones que se van a renderizar (#2).
+  slide2.items = slide2.items.slice(0, 4);
+  slide3.items = slide3.items.slice(0, 3);
+
+  // kind: 'pro' para ambos slides — en una guía el slide3 representa un
+  // concepto/opción válido, no un "contra", así el fallback genérico es neutro (#7).
   const slide2Explanations = await getItemExplanations(slide2.items, content, 'pro');
-  const slide3Explanations = await getItemExplanations(slide3.items, content, 'con');
+  const slide3Explanations = await getItemExplanations(slide3.items, content, 'pro');
 
   return {
     slide2: {
       heading: slide2.heading, headingColor: '#F97316',
-      icon: slide2.icon || '✅', items: slide2.items.slice(0, 4), explanations: slide2Explanations,
+      icon: slide2.icon || '✅', items: slide2.items, explanations: slide2Explanations,
     },
     slide3: {
       heading: slide3.heading, headingColor: '#FFFFFF',
-      icon: slide3.icon || '💡', items: slide3.items.slice(0, 3), explanations: slide3Explanations,
+      icon: slide3.icon || '💡', items: slide3.items, explanations: slide3Explanations,
     },
     veredicto,
   };
