@@ -204,6 +204,7 @@ export async function reviewInstagramText({ caption, prosExplanations = [], cont
   const maxHashtags = esOferta ? 3 : 5;
 
   let mechanical = instagramMechanicalChecks(fixedCaption, maxHashtags);
+  let groqInstagramNote = null;
   if (mechanical.some(c => !c.ok)) {
     const failed = mechanical.filter(c => !c.ok).map(c => c.name);
     try {
@@ -215,10 +216,7 @@ export async function reviewInstagramText({ caption, prosExplanations = [], cont
       mechanical = instagramMechanicalChecks(fixedCaption, maxHashtags);
       fixed = mechanical.every(c => c.ok);
     } catch (e) {
-      return {
-        ok: false, caption: fixedCaption, checks: mechanical, fixed: false,
-        blocker: `No se pudo corregir el caption de Instagram: ${e.message}`,
-      };
+      groqInstagramNote = `Groq no disponible para corregir el caption de Instagram (${e.message}) — revisión manual recomendada`;
     }
   }
 
@@ -246,6 +244,7 @@ export async function reviewInstagramText({ caption, prosExplanations = [], cont
     blocker: blockingFails.length
       ? `El caption de Instagram sigue sin cumplir tras intentar corregirlo: ${blockingFails.map(c => c.name).join(', ')}`
       : null,
+    note:    groqInstagramNote ?? undefined,
   };
 }
 
@@ -269,6 +268,7 @@ export async function reviewFacebookText({ caption, instagramCaption, slug }) {
   const expectedLink = `${SITE_URL}/articulo/${slug}`;
 
   let mechanical = facebookMechanicalChecks(fixedCaption, expectedLink);
+  let groqFacebookNote = null;
   if (mechanical.some(c => !c.ok)) {
     const failed = mechanical.filter(c => !c.ok).map(c => c.name);
     try {
@@ -278,10 +278,7 @@ export async function reviewFacebookText({ caption, instagramCaption, slug }) {
       mechanical = facebookMechanicalChecks(fixedCaption, expectedLink);
       fixed = mechanical.every(c => c.ok);
     } catch (e) {
-      return {
-        ok: false, caption: fixedCaption, checks: mechanical, fixed: false,
-        blocker: `No se pudo corregir el texto de Facebook: ${e.message}`,
-      };
+      groqFacebookNote = `Groq no disponible para corregir el texto de Facebook (${e.message}) — revisión manual recomendada`;
     }
   }
 
@@ -300,6 +297,7 @@ export async function reviewFacebookText({ caption, instagramCaption, slug }) {
     blocker: blockingFails.length
       ? `El texto de Facebook sigue sin cumplir tras intentar corregirlo: ${blockingFails.map(c => c.name).join(', ')}`
       : null,
+    note:    groqFacebookNote ?? undefined,
   };
 }
 
@@ -399,11 +397,13 @@ async function main() {
   console.log('\n📷 TEXTO DE INSTAGRAM');
   printChecks(result.report.instagram?.checks ?? []);
   if (result.report.instagram?.fixed) logOk('El caption se corrigió automáticamente con Groq.');
+  if (result.report.instagram?.note) logWarn(result.report.instagram.note);
   printBlockIfPresent('Caption final:', result.instagramCaption);
 
   console.log('\n📘 TEXTO DE FACEBOOK');
   printChecks(result.report.facebook?.checks ?? []);
   if (result.report.facebook?.fixed) logOk('El texto se corrigió automáticamente con Groq.');
+  if (result.report.facebook?.note) logWarn(result.report.facebook.note);
   printBlockIfPresent('Texto final:', result.facebookCaption);
 
   console.log(`\n${result.ok ? '✅ TODO CORRECTO — listo para publicar' : '🚫 BLOQUEADO — no se debe publicar'}`);
