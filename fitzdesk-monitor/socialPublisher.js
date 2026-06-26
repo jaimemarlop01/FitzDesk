@@ -173,6 +173,7 @@ async function publishFacebook(slug, caption) {
     body:    JSON.stringify({
       message:      caption,
       link:         `${SITE_URL}/articulo/${slug}`,
+      published:    true,
       access_token: accessToken,
     }),
   });
