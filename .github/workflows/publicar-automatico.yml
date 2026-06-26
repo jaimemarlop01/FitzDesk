@@ -183,6 +183,8 @@ jobs:
       #    mismo fix que en publicar-en-redes.yml, detectado el 2026-06-25).
       - name: Generar carrusel de Instagram
         if: steps.check.outputs.status == 'ready' && steps.process.outcome == 'success' && success()
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
         run: node fitzdesk-monitor/instagramImageGenerator.js --slug ${{ steps.check.outputs.published_slug }}
 
       - name: Subir carrusel generado a main
