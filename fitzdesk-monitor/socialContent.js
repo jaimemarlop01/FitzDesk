@@ -245,10 +245,18 @@ function esErrorDeRedTransitorio(mensaje) {
   return ERRORES_RED_TRANSITORIOS.some(p => m.includes(p));
 }
 
+// Circuit breaker: si todos los reintentos de una llamada fallan por red,
+// las llamadas siguientes de la misma ejecución fallan inmediatamente sin
+// esperar — evita el timeout de 2 min en GitHub Actions cuando el endpoint
+// de Groq no es accesible desde el runner.
+let _groqCircuitOpen = false;
+
 export async function callGroq(prompt, maxTokens = 600, intentos = 3) {
   if (!groqClient) throw new Error('GROQ_API_KEY no configurada');
+  if (_groqCircuitOpen) throw new Error('Groq no disponible (circuit breaker activo — todos los reintentos previos fallaron por red)');
 
   let ultimoError;
+  let fallosDeRed = 0;
   for (let intento = 1; intento <= intentos; intento++) {
     try {
       const completion = await groqClient.chat.completions.create({
@@ -261,12 +269,17 @@ export async function callGroq(prompt, maxTokens = 600, intentos = 3) {
       return stripStrayCjk(text);
     } catch (e) {
       ultimoError = e;
+      if (esErrorDeRedTransitorio(e.message ?? '')) fallosDeRed++;
       const reintentar = intento < intentos && esErrorDeRedTransitorio(e.message ?? '');
-      if (!reintentar) throw e;
+      if (!reintentar) {
+        if (fallosDeRed >= intentos) _groqCircuitOpen = true;
+        throw e;
+      }
       logWarn(`Groq: error de red transitorio (intento ${intento}/${intentos}, reintentando): ${e.message}`);
       await new Promise(r => setTimeout(r, 500 * intento));
     }
   }
+  _groqCircuitOpen = true;
   throw ultimoError;
 }
 
