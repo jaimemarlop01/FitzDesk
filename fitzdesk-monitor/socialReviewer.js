@@ -372,7 +372,11 @@ export async function reviewBeforePublish(slug, { instagramCaption, facebookCapt
     // los análisis ("Lo mejor"/"Lo mejorable" no existen en esos tipos) —
     // pedirle ese contenido a getCarouselContent gastaría Groq en vano.
     const esOferta = isOfertaArticle(slug);
-    const esGuia   = loadArticleData(slug).data?.tipo === 'guia';
+    // loadArticleData lanza si la imagen no existe en disco — imagen que puede
+    // no estar aún en el momento de la revisión. Si falla, tratamos como no-guía
+    // y dejamos que el blocker de imágenes de arriba ya lo haya detectado (#4).
+    let esGuia = false;
+    try { esGuia = loadArticleData(slug).data.tipo === 'guia'; } catch (_) {}
     const { prosExplanations, contrasExplanations, veredicto } = (esOferta || esGuia)
       ? { prosExplanations: [], contrasExplanations: [], veredicto: undefined }
       : await safeGetCarouselContent(slug);
