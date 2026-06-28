@@ -8,7 +8,6 @@ imagen: "/images/articulos/monitor-4k-vs-full-hd-teletrabajo-2026.webp"
 tiempo_lectura: "8 min"
 tipo: "guia"
 presupuesto: "149€ - 399€"
-borrador: true
 imagen_thumb: "/images/articulos/monitor-4k-vs-full-hd-teletrabajo-2026-thumb.webp"
 ---
 
