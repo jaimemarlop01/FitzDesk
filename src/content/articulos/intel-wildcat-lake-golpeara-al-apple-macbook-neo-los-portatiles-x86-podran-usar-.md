@@ -8,7 +8,6 @@ imagen: "/images/articulos/intel-wildcat-lake-golpeara-al-apple-macbook-neo-los-
 precio: "Ver precio"
 tiempo_lectura: "5 min"
 tipo: "lanzamiento"
-borrador: true
 imagen_thumb: "/images/articulos/intel-wildcat-lake-golpeara-al-apple-macbook-neo-los-portatiles-x86-podran-usar--thumb.webp"
 ---
 
