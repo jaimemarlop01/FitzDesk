@@ -8,7 +8,6 @@ imagen: "/images/articulos/corsair-presenta-en-computex-b2026b-el-teclado-clippe
 precio: "Ver precio"
 tiempo_lectura: "5 min"
 tipo: "lanzamiento"
-borrador: true
 imagen_thumb: "/images/articulos/corsair-presenta-en-computex-b2026b-el-teclado-clipper-pro-mini-60-el-raton---ge-thumb.webp"
 ---
 
