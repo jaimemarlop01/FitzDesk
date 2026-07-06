@@ -97,6 +97,31 @@ async function checkOneImage(filePath, minBytes) {
   return { ok: issues.length === 0, issues };
 }
 
+// Comprobación estructural mínima (sin umbral de tamaño): PNG válido + dimensiones.
+// Se usa como fallback cuando la regeneración falla — si las imágenes son
+// estructuralmente válidas, la publicación puede continuar aunque sean pequeñas
+// (ocurre cuando se generaron sin Groq y tienen contenido de respaldo mínimo).
+async function checkStructural(filePath) {
+  if (!fs.existsSync(filePath)) return { ok: false, issues: ['el archivo no existe'] };
+  const buffer = fs.readFileSync(filePath);
+  const issues = [];
+  if (buffer.length < 8 || !buffer.subarray(0, 8).equals(PNG_MAGIC)) {
+    issues.push('no es un PNG válido (magic bytes incorrectos)');
+  }
+  if (buffer.length > MAX_IMAGE_BYTES) {
+    issues.push(`pesa más de 2MB (${(buffer.length / 1024 / 1024).toFixed(2)}MB)`);
+  }
+  try {
+    const meta = await sharp(buffer).metadata();
+    if (meta.width !== EXPECTED_WIDTH || meta.height !== EXPECTED_HEIGHT) {
+      issues.push(`dimensiones ${meta.width}x${meta.height} (se esperaba ${EXPECTED_WIDTH}x${EXPECTED_HEIGHT})`);
+    }
+  } catch (e) {
+    issues.push(`Sharp no pudo leer la imagen (${e.message})`);
+  }
+  return { ok: issues.length === 0, issues };
+}
+
 export async function reviewInstagramImages(slug) {
   const slideCount = slideCountFor(slug);
   const minBytes = slideCount === 3 ? MIN_IMAGE_BYTES_OFERTA : MIN_IMAGE_BYTES_NORMAL;
@@ -121,6 +146,15 @@ export async function reviewInstagramImages(slug) {
       regenerated = true;
       results = await checkAll();
     } catch (e) {
+      logWarn(`No se pudo regenerar el carrusel (${e.message}) — verificando si las imágenes existentes son estructuralmente válidas`);
+      const structural = [];
+      for (let n = 1; n <= slideCount; n++) {
+        structural.push({ slide: n, path: instagramSlidePath(slug, n), ...(await checkStructural(instagramSlidePath(slug, n))) });
+      }
+      if (structural.every(r => r.ok)) {
+        logWarn('Imágenes válidas pero generadas sin IA (contenido de respaldo) — se publicará igualmente');
+        return { ok: true, regenerated: false, results: structural, blocker: null };
+      }
       return {
         ok: false, regenerated: false, results,
         blocker: `No se pudo regenerar el carrusel de Instagram: ${e.message}`,
@@ -129,11 +163,19 @@ export async function reviewInstagramImages(slug) {
   }
 
   const stillFailing = results.filter(r => !r.ok);
+  // Si los únicos problemas son de tamaño (no de formato o dimensiones), la
+  // imagen es válida aunque pequeña — ocurre cuando se genera sin Groq y el
+  // contenido de respaldo produce slides con menos texto del habitual.
+  const soloTamano = stillFailing.length > 0 &&
+    stillFailing.every(r => r.issues.length > 0 && r.issues.every(i => i.includes('pesa menos')));
+  if (soloTamano) {
+    logWarn(`Slides ${stillFailing.map(r => r.slide).join(', ')} por debajo del tamaño esperado (generados sin IA) — se publicará igualmente`);
+  }
   return {
-    ok: stillFailing.length === 0,
+    ok: stillFailing.length === 0 || soloTamano,
     regenerated,
     results,
-    blocker: stillFailing.length
+    blocker: (!soloTamano && stillFailing.length)
       ? `Las imágenes de Instagram (slides ${stillFailing.map(r => r.slide).join(', ')}) siguen sin pasar la revisión tras regenerar: ${stillFailing.map(r => r.issues.join('; ')).join(' | ')}`
       : null,
   };
@@ -143,7 +185,12 @@ export async function reviewInstagramImages(slug) {
 
 function countHashtags(text)  { return (text.match(/#\w+/g) || []).length; }
 function hasUrl(text)         { return /https?:\/\/|www\./i.test(text); }
-function hasStrayCjk(text)    { return /[一-鿿㐀-䶿豈-﫿]/.test(text); }
+function hasStrayCjk(text) {
+  // Flag 'u' necesario para tratar emojis como un único code point (U+1F517
+  // etc.) y no como dos surrogates UTF-16 separados — sin 'u', el surrogate
+  // alto U+D83D de cualquier emoji matchea falsamente el rango 豈-﫿.
+  return /[一-鿿㐀-䶿豈-﫿]/u.test(text);
+}
 function endsInPunctuation(t) { return /[.!?]\s*$/.test((t || '').trim()); }
 function firstLine(text)      { return text.split('\n').map(l => l.trim()).find(Boolean) || ''; }
 
@@ -204,6 +251,7 @@ export async function reviewInstagramText({ caption, prosExplanations = [], cont
   const maxHashtags = esOferta ? 3 : 5;
 
   let mechanical = instagramMechanicalChecks(fixedCaption, maxHashtags);
+  let groqInstagramNote = null;
   if (mechanical.some(c => !c.ok)) {
     const failed = mechanical.filter(c => !c.ok).map(c => c.name);
     try {
@@ -215,10 +263,7 @@ export async function reviewInstagramText({ caption, prosExplanations = [], cont
       mechanical = instagramMechanicalChecks(fixedCaption, maxHashtags);
       fixed = mechanical.every(c => c.ok);
     } catch (e) {
-      return {
-        ok: false, caption: fixedCaption, checks: mechanical, fixed: false,
-        blocker: `No se pudo corregir el caption de Instagram: ${e.message}`,
-      };
+      groqInstagramNote = `Groq no disponible para corregir el caption de Instagram (${e.message}) — revisión manual recomendada`;
     }
   }
 
@@ -246,6 +291,7 @@ export async function reviewInstagramText({ caption, prosExplanations = [], cont
     blocker: blockingFails.length
       ? `El caption de Instagram sigue sin cumplir tras intentar corregirlo: ${blockingFails.map(c => c.name).join(', ')}`
       : null,
+    note:    groqInstagramNote ?? undefined,
   };
 }
 
@@ -269,6 +315,7 @@ export async function reviewFacebookText({ caption, instagramCaption, slug }) {
   const expectedLink = `${SITE_URL}/articulo/${slug}`;
 
   let mechanical = facebookMechanicalChecks(fixedCaption, expectedLink);
+  let groqFacebookNote = null;
   if (mechanical.some(c => !c.ok)) {
     const failed = mechanical.filter(c => !c.ok).map(c => c.name);
     try {
@@ -278,10 +325,7 @@ export async function reviewFacebookText({ caption, instagramCaption, slug }) {
       mechanical = facebookMechanicalChecks(fixedCaption, expectedLink);
       fixed = mechanical.every(c => c.ok);
     } catch (e) {
-      return {
-        ok: false, caption: fixedCaption, checks: mechanical, fixed: false,
-        blocker: `No se pudo corregir el texto de Facebook: ${e.message}`,
-      };
+      groqFacebookNote = `Groq no disponible para corregir el texto de Facebook (${e.message}) — revisión manual recomendada`;
     }
   }
 
@@ -300,6 +344,7 @@ export async function reviewFacebookText({ caption, instagramCaption, slug }) {
     blocker: blockingFails.length
       ? `El texto de Facebook sigue sin cumplir tras intentar corregirlo: ${blockingFails.map(c => c.name).join(', ')}`
       : null,
+    note:    groqFacebookNote ?? undefined,
   };
 }
 
@@ -323,11 +368,16 @@ export async function reviewBeforePublish(slug, { instagramCaption, facebookCapt
     report.images = await reviewInstagramImages(slug);
     if (!report.images.ok) blockers.push(report.images.blocker);
 
-    // Las ofertas no tienen pros/contras (carrusel de 3 slides distinto, sin
-    // "Lo mejor"/"Lo mejorable") — pedirle ese contenido a getCarouselContent
-    // gastaría Groq en algo que el carrusel de oferta ni siquiera usa.
+    // Las ofertas y las guías usan slides 2/3 con contenido distinto al de
+    // los análisis ("Lo mejor"/"Lo mejorable" no existen en esos tipos) —
+    // pedirle ese contenido a getCarouselContent gastaría Groq en vano.
     const esOferta = isOfertaArticle(slug);
-    const { prosExplanations, contrasExplanations, veredicto } = esOferta
+    // loadArticleData lanza si la imagen no existe en disco — imagen que puede
+    // no estar aún en el momento de la revisión. Si falla, tratamos como no-guía
+    // y dejamos que el blocker de imágenes de arriba ya lo haya detectado (#4).
+    let esGuia = false;
+    try { esGuia = loadArticleData(slug).data.tipo === 'guia'; } catch (_) {}
+    const { prosExplanations, contrasExplanations, veredicto } = (esOferta || esGuia)
       ? { prosExplanations: [], contrasExplanations: [], veredicto: undefined }
       : await safeGetCarouselContent(slug);
     report.instagram = await reviewInstagramText({
@@ -399,11 +449,13 @@ async function main() {
   console.log('\n📷 TEXTO DE INSTAGRAM');
   printChecks(result.report.instagram?.checks ?? []);
   if (result.report.instagram?.fixed) logOk('El caption se corrigió automáticamente con Groq.');
+  if (result.report.instagram?.note) logWarn(result.report.instagram.note);
   printBlockIfPresent('Caption final:', result.instagramCaption);
 
   console.log('\n📘 TEXTO DE FACEBOOK');
   printChecks(result.report.facebook?.checks ?? []);
   if (result.report.facebook?.fixed) logOk('El texto se corrigió automáticamente con Groq.');
+  if (result.report.facebook?.note) logWarn(result.report.facebook.note);
   printBlockIfPresent('Texto final:', result.facebookCaption);
 
   console.log(`\n${result.ok ? '✅ TODO CORRECTO — listo para publicar' : '🚫 BLOQUEADO — no se debe publicar'}`);

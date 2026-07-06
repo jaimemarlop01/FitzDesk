@@ -54,6 +54,12 @@ function slideCountFor(slug) {
 // pins:write en la API de Pinterest
 const PINTEREST_ENABLED = false;
 
+// Facebook desactivado — los posts publicados vía API (token del Usuario del
+// Sistema) no son visibles para usuarios no-administradores. Se publica a mano
+// pegando la URL en Facebook, que genera la preview del artículo a partir de
+// og:image/og:title/og:description. Activar cuando se resuelva el bug del token.
+const FACEBOOK_ENABLED = false;
+
 // Carrusel de Instagram (Puppeteer/PNG 1080x1350) — mismo criterio de
 // generación bajo demanda que la imagen de Facebook.
 function instagramSlidePath(slug, n) {
@@ -173,6 +179,7 @@ async function publishFacebook(slug, caption) {
     body:    JSON.stringify({
       message:      caption,
       link:         `${SITE_URL}/articulo/${slug}`,
+      published:    true,
       access_token: accessToken,
     }),
   });
@@ -251,7 +258,7 @@ async function runTest(article, slug, runInstagram, runFacebook) {
     const caption = await getFacebookCaption(article, slug);
     printBlock('📘 Facebook — texto que se publicaría (IA con fallback a plantilla):', caption);
   } else {
-    console.log('\n📘 Facebook — omitido (--only instagram)');
+    console.log(`\n📘 Facebook — ${FACEBOOK_ENABLED ? 'omitido (--only instagram)' : 'DESACTIVADO (FACEBOOK_ENABLED = false) — se publica a mano'}`);
   }
 
   console.log(`\n📌 Pinterest — ${PINTEREST_ENABLED ? 'ACTIVADO' : 'DESACTIVADO (PINTEREST_ENABLED = false)'}`);
@@ -283,7 +290,7 @@ async function main() {
   }
 
   const runInstagram = !only || only === 'instagram';
-  const runFacebook  = !only || only === 'facebook';
+  const runFacebook  = FACEBOOK_ENABLED && (!only || only === 'facebook');
 
   let article;
   try {
@@ -400,7 +407,7 @@ async function main() {
 
   console.log('\n━━━ Resumen ━━━');
   console.log(`Instagram : ${runInstagram ? (results.instagram ? '✅' : '❌') : '⏭️  omitido'}`);
-  console.log(`Facebook  : ${runFacebook  ? (results.facebook  ? '✅' : '❌') : '⏭️  omitido'}`);
+  console.log(`Facebook  : ${FACEBOOK_ENABLED ? (runFacebook ? (results.facebook ? '✅' : '❌') : '⏭️  omitido') : '⏭️  desactivado (manual)'}`);
   console.log(`Pinterest : ${PINTEREST_ENABLED ? (results.pinterest ? '✅' : '❌') : '⏭️  desactivado'}`);
 }
 

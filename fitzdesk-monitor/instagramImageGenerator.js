@@ -243,6 +243,101 @@ export async function getCarouselContent({ data, content }) {
   return { pros, contras, veredicto, prosExplanations, contrasExplanations };
 }
 
+// Slides 2 y 3 personalizados para artículos tipo "guia": en vez de
+// "Lo mejor / Lo mejorable" (secciones que no existen en guías), Groq extrae
+// dos grupos temáticos propios de la guía (e.g. "cuándo elegir 4K" /
+// "cuándo basta el Full HD"). Fallback a secciones "Cuándo SÍ / NO" si Groq falla.
+async function getGuideCarouselContent({ data, content }) {
+  // Veredicto: igual que en análisis, desde la sección Fitz recomienda
+  const fitzSection = extractSection(content, /^##.*Fitz recomienda/i);
+  let veredicto;
+  try {
+    veredicto = await condenseVerdictWithGroq(fitzSection || content);
+  } catch (e) {
+    logWarn(`Groq falló condensando el veredicto de la guía (${e.message})`);
+    const raw = (fitzSection || content).replace(/\n+/g, ' ').trim();
+    veredicto = raw.split(/(?<=[.?!])\s/)[0]?.slice(0, 140) || 'Guía completa en fitzdesk.com';
+  }
+
+  // Slides 2 y 3: dos grupos temáticos del contenido de la guía
+  const prompt = `Eres el asistente editorial de FitzDesk, web de análisis de periféricos y setups para teletrabajo.
+
+Este artículo es una guía: "${data.title}".
+
+Extrae DOS grupos de puntos clave para dos slides de Instagram.
+Devuelve ÚNICAMENTE un JSON válido, sin markdown ni explicaciones, con esta estructura exacta:
+{
+  "slide2": {
+    "heading": "título corto (máx. 5 palabras, sin emoji)",
+    "icon": "un emoji",
+    "items": ["punto clave (máx. 8 palabras)"]
+  },
+  "slide3": {
+    "heading": "título corto (máx. 5 palabras, sin emoji)",
+    "icon": "un emoji",
+    "items": ["punto clave (máx. 8 palabras)"]
+  }
+}
+
+Slide 2: argumentos/razones principales a favor del PRIMER concepto u opción de la guía.
+Slide 3: argumentos/razones principales a favor del SEGUNDO concepto u opción de la guía.
+Máximo 4 puntos por slide. Concretos y prácticos, no genéricos.
+
+Artículo:
+${content.slice(0, 3000)}`;
+
+  let slide2, slide3;
+  try {
+    const raw = await callGroq(prompt, 400);
+    const jsonMatch = raw.match(/\{[\s\S]*\}/);
+    if (!jsonMatch) throw new Error('No JSON en respuesta');
+    const parsed = JSON.parse(jsonMatch[0]);
+    slide2 = parsed.slide2;
+    slide3 = parsed.slide3;
+    if (!slide2?.heading || !slide2?.items?.length || !slide3?.heading || !slide3?.items?.length) {
+      throw new Error('JSON incompleto');
+    }
+  } catch (e) {
+    logWarn(`Groq falló generando slides de guía (${e.message}) — usando secciones del artículo`);
+    const siSection  = extractSection(content, /^##\s*Cu[aá]ndo\s+S[IÍ]/i);
+    const noSection  = extractSection(content, /^##\s*Cu[aá]ndo\s+NO/i);
+    const siBullets  = siSection ? parseBulletList(siSection, 4) : [];
+    const noBullets  = noSection ? parseBulletList(noSection, 3) : [];
+    slide2 = {
+      heading: 'Cuándo merece la pena',
+      icon: '✅',
+      items: siBullets.length ? siBullets : ['Ver guía completa en fitzdesk.com'],
+    };
+    slide3 = {
+      heading: 'Cuándo no es necesario',
+      icon: '💡',
+      items: noBullets.length ? noBullets : ['Ver guía completa en fitzdesk.com'],
+    };
+  }
+
+  // Aplicar límites ANTES de getItemExplanations para que la llamada a Groq
+  // pida exactamente las N explicaciones que se van a renderizar (#2).
+  slide2.items = slide2.items.slice(0, 4);
+  slide3.items = slide3.items.slice(0, 3);
+
+  // kind: 'pro' para ambos slides — en una guía el slide3 representa un
+  // concepto/opción válido, no un "contra", así el fallback genérico es neutro (#7).
+  const slide2Explanations = await getItemExplanations(slide2.items, content, 'pro');
+  const slide3Explanations = await getItemExplanations(slide3.items, content, 'pro');
+
+  return {
+    slide2: {
+      heading: slide2.heading, headingColor: '#F97316',
+      icon: slide2.icon || '✅', items: slide2.items, explanations: slide2Explanations,
+    },
+    slide3: {
+      heading: slide3.heading, headingColor: '#FFFFFF',
+      icon: slide3.icon || '💡', items: slide3.items, explanations: slide3Explanations,
+    },
+    veredicto,
+  };
+}
+
 // ─── Plantillas HTML ────────────────────────────────────────────────────────────
 
 function baseHead() {
@@ -799,7 +894,21 @@ const TOTAL_SLIDES = 4;
 
 export async function generateInstagramCarousel(slug) {
   const articleData = loadArticleData(slug);
-  const { pros, contras, veredicto, prosExplanations, contrasExplanations } = await getCarouselContent(articleData);
+  const { data } = articleData;
+
+  let slide2Cfg, slide3Cfg, veredicto;
+
+  if (data.tipo === 'guia') {
+    const guideContent = await getGuideCarouselContent(articleData);
+    slide2Cfg = { ...guideContent.slide2, slideNumber: 2, totalSlides: TOTAL_SLIDES, showSwipeHint: true };
+    slide3Cfg = { ...guideContent.slide3, slideNumber: 3, totalSlides: TOTAL_SLIDES, showSwipeHint: true };
+    veredicto = guideContent.veredicto;
+  } else {
+    const { pros, contras, veredicto: v, prosExplanations, contrasExplanations } = await getCarouselContent(articleData);
+    slide2Cfg = { heading: '✅ Lo mejor', headingColor: '#F97316', items: pros, explanations: prosExplanations, icon: '✅', slideNumber: 2, totalSlides: TOTAL_SLIDES, showSwipeHint: true };
+    slide3Cfg = { heading: '⚠️ Lo mejorable', headingColor: '#FFFFFF', items: contras, explanations: contrasExplanations, icon: '⚠️', slideNumber: 3, totalSlides: TOTAL_SLIDES, showSwipeHint: true };
+    veredicto = v;
+  }
 
   const slides = [
     {
@@ -808,18 +917,8 @@ export async function generateInstagramCarousel(slug) {
         startSize: 58, minSize: 36, normalLines: 2, maxLines: 3, step: 2,
       }),
     },
-    {
-      html: buildListSlideHtml({
-        heading: '✅ Lo mejor', headingColor: '#F97316', items: pros, explanations: prosExplanations,
-        icon: '✅', slideNumber: 2, totalSlides: TOTAL_SLIDES, showSwipeHint: true,
-      }),
-    },
-    {
-      html: buildListSlideHtml({
-        heading: '⚠️ Lo mejorable', headingColor: '#FFFFFF', items: contras, explanations: contrasExplanations,
-        icon: '⚠️', slideNumber: 3, totalSlides: TOTAL_SLIDES, showSwipeHint: true,
-      }),
-    },
+    { html: buildListSlideHtml(slide2Cfg) },
+    { html: buildListSlideHtml(slide3Cfg) },
     {
       html: buildVerdictSlideHtml({ veredicto, puntuacion: articleData.puntuacion, slideNumber: 4, totalSlides: TOTAL_SLIDES }),
       afterRender: page => autofitVerdict(page, '.verdict', veredicto, {
