@@ -685,7 +685,20 @@ Quinto tipo de artículo (junto a `analisis`, `comparativa`, `guia`, `lanzamient
 
 **Bug real encontrado durante la reclasificación, corregido en el mismo momento**: `findRelatedAnalysis()` en `offerGenerator.js` usaba `.includes()` para buscar coincidencias de nombre de producto — "ASUS Vivobook 15" coincidía por subcadena con el título existente "ASUS Vivobook 15 OLED (2025): la pantalla de lujo a precio razonable", un modelo con pantalla y CPU distintos (confirmado: la oferta describe pantalla Full HD sin OLED y "Intel Core 7" genérico, frente al Core i5-13500H/i7-13700H + OLED del análisis existente). Groq generó el primer borrador enlazando a ese análisis incorrecto y mezclando specs de ambos productos ("pantalla OLED" mencionada dos veces en una oferta que en realidad no es OLED) — confirmado leyendo el resultado antes de comitearlo, nunca llegó a publicarse. Corregido exigiendo coincidencia exacta del nombre de producto contra el prefijo del título (antes de los dos puntos), no por subcadena — mejor no enlazar que enlazar mal, consistente con el resto de "nunca inventar un dato" del proyecto. Regenerado tras el fix: sin enlace (correcto, son modelos distintos) y sin ninguna mención a OLED.
 
-## Modo PCDays — publicación automática de ofertas sin revisión humana (2026-06-25)
+## Modo PCDays — DESCARTADO (2026-07-06)
+
+El modo PCDays se implementó para los PCDays de PcComponentes de junio-julio 2026 (umbral de auto-publicación al 15%, límite de 8 ofertas/día, workflow cada 2h con interruptor remoto `PCDAYS_MODE`), pero nunca llegó a usarse en producción porque no estuvo listo a tiempo para el evento. El código completo se eliminó en julio 2026:
+
+- `pcdays-monitor.yml` — eliminado
+- `pcdays-cleanup.js` — eliminado
+- `ofertaLimiter.js` — eliminado (contador diario persistido entre ejecuciones de CI via rama `borradores`)
+- `notifyPcdaysModeStatus` y `notifyPcdaysCleanupReport` — eliminados de `notifier.js`
+- Flag `--pcdays` — eliminado de `monitor.js`
+- Entrada desactivada `Alert: ofertas PcComponentes (PCDays)` — eliminada de `sources.js`
+
+El resto de la funcionalidad de ofertas (tipo `"oferta"`, `detectOferta()`, `buildOfertaDraft()`, `offerGenerator.js`, `articleUpdater.js` para actualización de precio, carrusel y captions de oferta en redes sociales) **sigue intacta** — solo se eliminó lo específico del modo PCDays.
+
+## Modo PCDays — publicación automática de ofertas sin revisión humana (2026-06-25) — REFERENCIA HISTÓRICA
 
 Sistema construido para los PCDays de PcComponentes, donde se lanzan muchas ofertas en poco tiempo y el usuario no puede estar disponible para revisar cada una (ausente del 27/06 al 04/07, solo con acceso a GitHub desde el móvil). **Es la primera vez en el proyecto que se publica contenido en la web y en redes sociales sin que ningún humano lo revise antes** — decisión explícita del usuario, no una suposición: dado que no estaría disponible, prefirió que las ofertas de alta confianza (≥20% de descuento normalmente, ≥15% en modo PCDays) se publiquen solas, con un tramo intermedio (15-20% en modo normal) que sí queda en cola para revisión manual.
 

@@ -127,15 +127,9 @@ PARÁMETROS: 250-400 palabras en total. Nunca inventes un precio, descuento o da
 
 // ─── Construir el artículo completo (frontmatter + cuerpo) ───────────────────
 
-// Bug de seguridad encontrado y corregido el 2026-06-25 (revisión PCDays):
-// los valores interpolados en el frontmatter venían sin sanear (producto y
-// fuente, en particular, llegan del título/snippet del RSS sin ningún
-// control). Una comilla doble suelta en el texto original de una noticia
-// rompía el YAML generado y hacía que gray-matter lanzara una excepción al
-// parsearlo más adelante (en checkOfertaCompleteness) — y esa llamada no
-// estaba protegida con try/catch, así que tiraba abajo todo el ciclo de
-// procesado de ofertas sin notificar nada a Discord. Escapar aquí cierra el
-// problema en origen, además del try/catch añadido en monitor.js.
+// Los valores interpolados en el frontmatter se sanean porque vienen del
+// título/snippet del RSS sin ningún control. Una comilla doble suelta rompe
+// el YAML generado (excepción en gray-matter al parsearlo más adelante).
 function yamlEscape(value) {
   return String(value ?? '').replace(/\\/g, '\\\\').replace(/"/g, '\\"');
 }

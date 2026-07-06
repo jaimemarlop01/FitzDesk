@@ -16,13 +16,12 @@ import {
 import {
   logInfo, logSuccess, logWarn, logError, notifyDraft, notifySummary, notifyDailySummary,
   notifyPublicationReminder, notifyLaunchReminder, notifyOferta, notifyOfertaPendienteRevision,
-  notifyOfertaPublicada, notifyPcdaysModeStatus,
+  notifyOfertaPublicada,
 } from './notifier.js';
 import { findProductImage, downloadProductImage } from './imageSearch.js';
 import { findAndDownloadImage } from './imageCollector.js';
 import { verifyWithGemini } from './reviewer.js';
 import { getTokensUsed, isTokenLimitReached, addTokens, DAILY_LIMIT } from './tokenTracker.js';
-import { syncFromRemote as syncOfertasFromRemote, syncToRemote as syncOfertasToRemote, isLimitReached as ofertaLimitReached, recordPublished as recordOfertaPublished } from './ofertaLimiter.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const parser = new Parser({
@@ -342,22 +341,16 @@ async function checkLaunchReminders() {
 // Ciclo principal
 // ─────────────────────────────────────────────
 
-async function runCheck({ pcdaysMode = false } = {}) {
+async function runCheck() {
   // Sincronizar caché desde GitHub (Railway tiene disco efímero)
   if (githubAvailable()) {
     const downloaded = await downloadCache(CACHE_FILE);
     if (downloaded) reloadFromDisk();
   }
-  await syncOfertasFromRemote();
 
-  // Modo PCDays (TAREA 6, CLAUDE.md): umbral de publicación automática más
-  // bajo y más publicaciones permitidas al día, para reaccionar rápido
-  // durante el evento. Activado con `node monitor.js --pcdays`.
-  const AUTO_PUBLISH_THRESHOLD = pcdaysMode ? 15 : 20;
-  const MAX_OFERTAS_PER_DAY    = pcdaysMode ? 8  : 5;
+  const AUTO_PUBLISH_THRESHOLD = 20;
 
   logInfo('━━━ Iniciando comprobación de novedades ━━━');
-  if (pcdaysMode) logInfo(`🔥 MODO PCDAYS — umbral ${AUTO_PUBLISH_THRESHOLD}%, límite ${MAX_OFERTAS_PER_DAY}/día`);
   logInfo(`Tokens Groq hoy: ${getTokensUsed()}/${DAILY_LIMIT} usados`);
   logInfo(`Fuentes: ${SOURCES.filter(s => s.enabled).length} | Caché: ${getCacheStats().total} entradas`);
 
@@ -625,24 +618,10 @@ async function runCheck({ pcdaysMode = false } = {}) {
         continue;
       }
 
-      if (ofertaLimitReached(MAX_OFERTAS_PER_DAY)) {
-        totalOfertas++;
-        ofertasEnRevision++;
-        draftTitles.push(`🔥 ${cand.itemTitle} (ya analizado — límite diario alcanzado)`);
-        await notifyOfertaPendienteRevision({
-          titulo: cand.producto, slug: relatedExisting.slug,
-          precio_oferta: precioOfertaStr, descuento: descuentoStr,
-          motivo: `producto ya analizado en FitzDesk ("${relatedExisting.title}"); límite diario de ${MAX_OFERTAS_PER_DAY} actualizaciones automáticas alcanzado`,
-          filePath: `src/content/articulos/${relatedExisting.slug}.md (ya publicado)`,
-        });
-        continue;
-      }
-
       try {
         const existingContent = readFileSync(join(CONTENT_PATH, `${relatedExisting.slug}.md`), 'utf-8');
         const updatedContent  = applyPrecioToExistingAnalysis(existingContent, precioOfertaStr, cand.oferta.fuente);
         const url = await publishDirectly(relatedExisting.slug, updatedContent);
-        await recordOfertaPublished(relatedExisting.slug);
         totalOfertas++;
         ofertasPublicadas++;
         draftTitles.push(`💰 ${cand.itemTitle} (precio actualizado en análisis existente)`);
@@ -754,25 +733,9 @@ async function runCheck({ pcdaysMode = false } = {}) {
         continue;
       }
 
-      // TAREA 3 — límite diario de publicaciones automáticas
-      if (ofertaLimitReached(MAX_OFERTAS_PER_DAY)) {
-        const filePath = await saveDraftPersisted(draft.slug, draft.filename, draft.content);
-        totalOfertas++;
-        ofertasEnRevision++;
-        draftTitles.push(`🔥 ${cand.itemTitle} (límite diario alcanzado)`);
-        await notifyOfertaPendienteRevision({
-          titulo: cand.producto, slug: draft.slug,
-          precio_oferta: precioOfertaStr, descuento: descuentoStr,
-          motivo: `límite diario de ${MAX_OFERTAS_PER_DAY} ofertas publicadas alcanzado — esta queda en cola para revisión manual`,
-          filePath,
-        });
-        continue;
-      }
-
       // ── Todo OK: publicar inmediatamente, sin pasar por el calendario ──
       try {
         const url = await publishDirectly(draft.slug, draft.content);
-        await recordOfertaPublished(draft.slug);
         totalOfertas++;
         ofertasPublicadas++;
         draftTitles.push(`🚀 ${cand.itemTitle} (publicada)`);
@@ -819,16 +782,6 @@ async function runCheck({ pcdaysMode = false } = {}) {
     }
   }
 
-  await syncOfertasToRemote();
-
-  if (pcdaysMode) {
-    await notifyPcdaysModeStatus(true, {
-      ofertasDetectadas: ofertaCandidates.length,
-      ofertasPublicadas,
-      ofertasEnRevision,
-    });
-  }
-
   if (pendingSkipped > 0) {
     logWarn(`Límite diario de tokens alcanzado (70.000). Quedan ${pendingSkipped} noticias sin procesar para mañana.`);
   }
@@ -850,7 +803,6 @@ async function runCheck({ pcdaysMode = false } = {}) {
 const args = process.argv.slice(2);
 const isDaemon   = args.includes('--daemon');
 const isTest     = args.includes('--test');
-const isPcdays   = args.includes('--pcdays');
 const isOnce     = args.includes('--once') || (!isDaemon && !isTest);
 
 if (isTest) {
@@ -980,8 +932,7 @@ logInfo(`FitzDesk Monitor iniciado — modo: ${isDaemon ? 'daemon' : 'una vez'}`
 logInfo(`Ruta de contenido: ${CONTENT_PATH}`);
 
 if (isOnce) {
-  if (isPcdays) logInfo('🔥 Modo PCDays activado para esta comprobación (node monitor.js --pcdays)');
-  runCheck({ pcdaysMode: isPcdays })
+  runCheck()
     .then(() => process.exit(0))
     .catch(err => {
       logError(`Error crítico: ${err.message}`);
