@@ -56,6 +56,7 @@ export function loadArticleData(slug) {
   return {
     title:      data.title ?? slug,
     categoria:  data.categoria ?? 'setups',
+    tipo:       data.tipo ?? 'analisis',
     puntuacion: typeof data.puntuacion === 'number' ? data.puntuacion : null,
     precio:     data.precio ?? null,
     imagePath,
@@ -355,7 +356,7 @@ function baseHead() {
 }
 
 // Slide 1 — gancho visual (imagen + título + puntuación + precio)
-function buildSlide1Html({ title, categoria, puntuacion, precio, imagePath }) {
+function buildSlide1Html({ title, categoria, puntuacion, precio, imagePath, tipo }) {
   const backgroundUri = imageToDataUri(imagePath);
   const metaRow = puntuacion !== null
     ? `
@@ -363,7 +364,9 @@ function buildSlide1Html({ title, categoria, puntuacion, precio, imagePath }) {
         <span class="score" style="color: ${scoreColor(puntuacion)}">${puntuacion}<span class="score-max">/10</span></span>
         ${precio ? `<span class="price">${escapeHtml(precio)}</span>` : ''}
       </div>`
-    : '';
+    : tipo === 'lanzamiento'
+      ? `<div class="launch-label">🚀 Próximo lanzamiento</div>`
+      : '';
 
   return `
 <!DOCTYPE html>
@@ -431,6 +434,18 @@ ${baseHead()}
   .score { font-size: 64px; font-weight: 800; }
   .score-max { font-size: 32px; font-weight: 600; opacity: 0.85; }
   .price { color: #F97316; font-size: 38px; font-weight: 700; }
+  .launch-label {
+    margin-top: 28px;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(249,115,22,0.85);
+    color: #FFFFFF;
+    font-size: 34px;
+    font-weight: 700;
+    padding: 14px 28px;
+    border-radius: 999px;
+  }
 </style>
 </head>
 <body>
@@ -529,7 +544,7 @@ ${baseHead()}
 }
 
 // Slide 4 — veredicto de Fitz, sobre fondo naranja
-function buildVerdictSlideHtml({ veredicto, puntuacion, slideNumber, totalSlides }) {
+function buildVerdictSlideHtml({ veredicto, puntuacion, tipo, slideNumber, totalSlides }) {
   return `
 <!DOCTYPE html>
 <html lang="es">
@@ -577,6 +592,18 @@ ${baseHead()}
     margin-bottom: 56px;
   }
   .score-final { color: #FFFFFF; font-size: 90px; font-weight: 800; margin-bottom: 32px; }
+  .launch-soon {
+    color: #FFFFFF;
+    font-size: 42px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    opacity: 0.95;
+    margin-bottom: 32px;
+    border: 3px solid rgba(255,255,255,0.6);
+    padding: 16px 40px;
+    border-radius: 999px;
+  }
   .site { color: #FFFFFF; font-size: 30px; font-weight: 600; opacity: 0.9; }
 </style>
 </head>
@@ -586,7 +613,11 @@ ${baseHead()}
     <div class="icon">🐿️</div>
     <div class="subtitle">Veredicto de Fitz</div>
     <div class="verdict">${escapeHtml(veredicto)}</div>
-    ${puntuacion !== null ? `<div class="score-final">${puntuacion}/10</div>` : ''}
+    ${puntuacion !== null
+      ? `<div class="score-final">${puntuacion}/10</div>`
+      : tipo === 'lanzamiento'
+        ? `<div class="launch-soon">🚀 Próximamente</div>`
+        : ''}
     <div class="site">fitzdesk.com</div>
   </div>
 </body>
@@ -920,7 +951,7 @@ export async function generateInstagramCarousel(slug) {
     { html: buildListSlideHtml(slide2Cfg) },
     { html: buildListSlideHtml(slide3Cfg) },
     {
-      html: buildVerdictSlideHtml({ veredicto, puntuacion: articleData.puntuacion, slideNumber: 4, totalSlides: TOTAL_SLIDES }),
+      html: buildVerdictSlideHtml({ veredicto, puntuacion: articleData.puntuacion, tipo: articleData.tipo, slideNumber: 4, totalSlides: TOTAL_SLIDES }),
       afterRender: page => autofitVerdict(page, '.verdict', veredicto, {
         startSize: 50, minSize: 28, normalLines: 2, maxLines: 3, step: 2,
       }),
