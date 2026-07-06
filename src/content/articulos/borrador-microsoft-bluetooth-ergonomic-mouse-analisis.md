@@ -13,7 +13,7 @@ criterios:
   autonomia: 8.5
   conectividad: 7.0
   calidad_precio: 7.5
-precio: "Ver precio"
+precio: "59,99€"
 enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=Microsoft+Ergonomic+Mouse"
 tiempo_lectura: "6 min"
 tipo: "analisis"
@@ -27,7 +27,7 @@ borrador: true
 
 Microsoft lleva décadas fabricando periféricos para uso profesional, y su línea ergonómica para teletrabajo tiene una filosofía clara: comodidad por encima de especificaciones técnicas. El Bluetooth Ergonomic Mouse es la versión inalámbrica más compacta de esa apuesta, pensada para profesionales que buscan un ratón que no les haga pensar en su muñeca al final del día, sin entrar en el territorio de los ratones verticales.
 
-No está en PcComponentes actualmente, pero se encuentra disponible en Amazon.es y MediaMarkt España por alrededor de 50-60€ según color y versión.
+No está en PcComponentes actualmente, pero se encuentra disponible en Amazon.es y MediaMarkt España a unos 59,99€.
 
 ## Diseño ergonómico sin ser un ratón vertical
 
