@@ -224,6 +224,146 @@
       "prioridad": "BAJA",
       "tipo": "analisis",
       "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00. Pendiente de imagen oficial — si sigue sin imagen al regenerar el calendario, desplazar de nuevo al último slot disponible (no descartar)"
+    },
+    {
+      "fecha": "2026-08-13",
+      "diaSemana": "jueves",
+      "slug": "borrador-corsair-k70-core-tkl-analisis",
+      "titulo": "Corsair K70 Core TKL: mecánico sin numpad para el setup que viaja",
+      "categoria": "teclados",
+      "prioridad": "MEDIA",
+      "tipo": "analisis",
+      "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00"
+    },
+    {
+      "fecha": "2026-08-18",
+      "diaSemana": "martes",
+      "slug": "borrador-corsair-xeneon-edge-analisis",
+      "titulo": "Corsair XENEON Edge 14.5\": la segunda pantalla táctil que cabe en cualquier setup",
+      "categoria": "monitores",
+      "prioridad": "MEDIA",
+      "tipo": "analisis",
+      "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00"
+    },
+    {
+      "fecha": "2026-08-20",
+      "diaSemana": "jueves",
+      "slug": "borrador-logitech-mx-vertical-analisis",
+      "titulo": "Logitech MX Vertical: el ratón que pone fin al dolor de muñeca",
+      "categoria": "ratones",
+      "prioridad": "ALTA",
+      "tipo": "analisis",
+      "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00"
+    },
+    {
+      "fecha": "2026-08-23",
+      "diaSemana": "domingo",
+      "slug": "borrador-mejores-webcams-teletrabajo-2026",
+      "titulo": "Las mejores webcams para teletrabajo en 2026: guía de compra",
+      "categoria": "perifericos",
+      "prioridad": "MEDIA",
+      "tipo": "guia",
+      "nota": "Sin restricción de horario — publica cuando estés listo"
+    },
+    {
+      "fecha": "2026-08-25",
+      "diaSemana": "martes",
+      "slug": "borrador-logitech-mx-mechanical-analisis",
+      "titulo": "Logitech MX Mechanical: el teclado mecánico para quienes no son gamers",
+      "categoria": "teclados",
+      "prioridad": "ALTA",
+      "tipo": "analisis",
+      "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00"
+    },
+    {
+      "fecha": "2026-08-27",
+      "diaSemana": "jueves",
+      "slug": "borrador-benq-pd2705q-analisis",
+      "titulo": "BenQ PD2705Q: el monitor QHD para diseño y trabajo creativo",
+      "categoria": "monitores",
+      "prioridad": "ALTA",
+      "tipo": "analisis",
+      "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00"
+    },
+    {
+      "fecha": "2026-09-01",
+      "diaSemana": "martes",
+      "slug": "borrador-logitech-signature-m650-analisis",
+      "titulo": "Logitech Signature M650: silencioso, sencillo y sin complicaciones",
+      "categoria": "ratones",
+      "prioridad": "MEDIA",
+      "tipo": "analisis",
+      "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00"
+    },
+    {
+      "fecha": "2026-09-03",
+      "diaSemana": "jueves",
+      "slug": "borrador-keychron-k2-max-analisis",
+      "titulo": "Keychron K2 Max: el mecánico compacto con QMK para teletrabajo",
+      "categoria": "teclados",
+      "prioridad": "ALTA",
+      "tipo": "analisis",
+      "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00"
+    },
+    {
+      "fecha": "2026-09-06",
+      "diaSemana": "domingo",
+      "slug": "borrador-monitor-ultrawide-teletrabajo-merece-la-pena",
+      "titulo": "Monitor ultrawide para teletrabajo: ¿merece la pena el cambio?",
+      "categoria": "monitores",
+      "prioridad": "MEDIA",
+      "tipo": "guia",
+      "nota": "Sin restricción de horario — publica cuando estés listo"
+    },
+    {
+      "fecha": "2026-09-08",
+      "diaSemana": "martes",
+      "slug": "borrador-asus-proart-pa278cv-analisis",
+      "titulo": "ASUS ProArt PA278CV: precisión de color profesional con USB-C",
+      "categoria": "monitores",
+      "prioridad": "ALTA",
+      "tipo": "analisis",
+      "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00. Imagen pendiente: ejecutar imageCollector antes de publicar"
+    },
+    {
+      "fecha": "2026-09-10",
+      "diaSemana": "jueves",
+      "slug": "borrador-logitech-pop-keys-analisis",
+      "titulo": "Logitech POP Keys: el teclado mecánico con personalidad propia",
+      "categoria": "teclados",
+      "prioridad": "MEDIA",
+      "tipo": "analisis",
+      "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00"
+    },
+    {
+      "fecha": "2026-09-15",
+      "diaSemana": "martes",
+      "slug": "borrador-logitech-brio-505-analisis",
+      "titulo": "Logitech Brio 505: la webcam Full HD que no necesitas configurar",
+      "categoria": "perifericos",
+      "prioridad": "ALTA",
+      "tipo": "analisis",
+      "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00"
+    },
+    {
+      "fecha": "2026-09-17",
+      "diaSemana": "jueves",
+      "slug": "borrador-msi-pro-mp341cq-analisis",
+      "titulo": "MSI Pro MP341CQ: ultrawide 34\" WQHD para teletrabajo intensivo",
+      "categoria": "monitores",
+      "prioridad": "MEDIA",
+      "tipo": "analisis",
+      "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00"
+    },
+    {
+      "fecha": "2026-09-22",
+      "diaSemana": "martes",
+      "slug": "borrador-microsoft-bluetooth-ergonomic-mouse-analisis",
+      "titulo": "Microsoft Bluetooth Ergonomic Mouse: ergonomía sin complicaciones",
+      "categoria": "ratones",
+      "prioridad": "MEDIA",
+      "tipo": "analisis",
+      "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00"
     }
   ]
 }
