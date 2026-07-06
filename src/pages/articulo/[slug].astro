@@ -46,6 +46,10 @@ const reviewSchema = puntuacion ? {
   '@type': 'Review',
   name: title,
   reviewBody: descripcion,
+  itemReviewed: {
+    '@type': 'Product',
+    name: title.includes(':') ? title.split(':')[0].trim() : title,
+  },
   reviewRating: {
     '@type': 'Rating',
     ratingValue: puntuacion,
