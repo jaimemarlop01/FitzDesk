@@ -50,7 +50,7 @@ const dataJson = JSON.stringify({ byCategory, validCats, catLabels: CAT_LABELS }
   description="Compara ratones, teclados, monitores y portátiles para teletrabajo lado a lado. Gráfico de radar y tabla comparativa instantánea."
 >
   <Fragment slot="head">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js" integrity="sha384-jb8JQMbMoBUzgWatfe6COACi2ljcDdZQ2OxczGA3bGNeWe+6DChMTBJemed7ZnvJ" crossorigin="anonymous"></script>
     <script type="application/json" id="comparar-data" set:html={dataJson}></script>
   </Fragment>
 

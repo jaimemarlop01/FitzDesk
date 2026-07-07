@@ -322,6 +322,7 @@ export async function notifyDiscordError(message, title = 'FitzDesk — Social P
         content: '⚠️ Publicación en redes sociales fallida',
         embeds: [{ title, description: message.slice(0, 4000), color: 15548997 }],
       }),
+      signal: AbortSignal.timeout(10000),
     });
   } catch (e) {
     logError(`No se pudo notificar el fallo a Discord: ${e.message}`);
@@ -349,6 +350,7 @@ export async function notifyDiscordSuccess({ title, slug, statusLines }) {
           fields:      statusLines.map(({ name, value }) => ({ name, value, inline: true })),
         }],
       }),
+      signal: AbortSignal.timeout(10000),
     });
   } catch (e) {
     logError(`No se pudo notificar el éxito a Discord: ${e.message}`);

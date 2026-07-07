@@ -39,17 +39,8 @@ const client = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 function today() { return new Date().toISOString().slice(0, 10); }
 
-// Mismo algoritmo de slugify ya usado en analyzer.js, compareGenerator.js,
-// guideGenerator.js y launchGenerator.js (duplicado conocido, ver CLAUDE.md).
-function slugify(text) {
-  return text
-    .toLowerCase()
-    .normalize('NFD').replace(/[̀-ͯ]/g, '')
-    .replace(/[^a-z0-9\s-]/g, '')
-    .trim()
-    .replace(/\s+/g, '-')
-    .slice(0, 60);
-}
+import { slugify as _slugify } from './utils/slugify.js';
+const slugify = (t) => _slugify(t, 60);
 
 // ─── Buscar si ya existe un análisis del producto en FitzDesk ────────────────
 

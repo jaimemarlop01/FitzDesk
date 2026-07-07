@@ -39,6 +39,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: fitzdesk-monitor/package-lock.json
 
       # ── 2b. Sincronizar el calendario desde develop ──────────────────────────
       # develop es la fuente real de verdad del calendario (ahí se edita siempre).

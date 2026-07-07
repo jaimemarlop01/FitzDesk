@@ -22,15 +22,8 @@ const client = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 function today() { return new Date().toISOString().slice(0, 10); }
 
-function slugify(text) {
-  return text
-    .toLowerCase()
-    .normalize('NFD').replace(/[̀-ͯ]/g, '')
-    .replace(/[^a-z0-9\s-]/g, '')
-    .trim()
-    .replace(/\s+/g, '-')
-    .slice(0, 60);
-}
+import { slugify as _slugify } from './utils/slugify.js';
+const slugify = (t) => _slugify(t, 60);
 
 async function generateComparativa(config) {
   const { producto_a, producto_b, dilema, categoria } = config;
