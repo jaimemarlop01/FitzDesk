@@ -12,7 +12,8 @@ criterios:
   compatibilidad: 8.0
   sonido_imagen: 8.5
   calidad_precio: 8.5
-precio: "Ver precio"
+precio: "46,98€"
+fecha_actualizacion: "2026-07-07"
 enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=logitech+mk470"
 tiempo_lectura: "5 min"
 tipo: "analisis"
@@ -38,11 +39,11 @@ El Logitech MK470 cuenta con varias características que lo hacen destacar. Su t
 
 El ratón es ligero y silencioso gracias a un mecanismo de clic amortiguado, lo que lo hace adecuado para entornos compartidos o para quien necesita concentrarse sin el repiqueteo habitual de los clics. La batería de ambos dispositivos dura alrededor de dos años con un uso normal según el fabricante, lo que evita estar pendiente de cargarlos o cambiar pilas con frecuencia. El alcance del receptor inalámbrico cubre distancias de hasta 10 metros, suficiente para la mayoría de espacios de trabajo domésticos.
 
-## Experiencia de uso esperada
+## Escritura y uso cotidiano
 
-Cabe esperar que la experiencia de uso del Logitech MK470 sea cómoda y sin sobresaltos. Por sus características, el teclado debería resultar suave y silencioso, reduciendo la fatiga en manos y dedos durante jornadas largas frente al ordenador. El ratón debería ofrecer una navegación fluida y silenciosa, sin el desgaste auditivo de un clic ruidoso repetido cientos de veces al día. En escenarios de teletrabajo como redactar informes, preparar presentaciones o introducir datos en hojas de cálculo, el conjunto debería funcionar como una herramienta sencilla y fiable, sin necesidad de configuración adicional ni software de terceros.
+El teclado de perfil bajo reduce la extensión de las muñecas respecto a los de altura convencional: para sesiones de varias horas al día es un factor ergonómico real aunque difícil de apreciar hasta que se compara. Las teclas no tienen la respuesta táctil de un mecánico ni el recorrido largo de los teclados de membrana estándar, pero para redactar correos, preparar presentaciones o trabajar con hojas de cálculo la sensación de escritura es fluida y sin fatiga.
 
-Para quien comparte espacio de trabajo con otras personas —en casa o en una oficina compartida—, el perfil silencioso de ambos dispositivos puede notarse especialmente en videollamadas, donde el micrófono no capta el ruido de las teclas o los clics con la misma intensidad que en combos más convencionales.
+El ratón silencioso funciona bien en espacios compartidos: el clic amortiguado no se capta en videollamadas con micrófono abierto, a diferencia del clic estándar de un ratón convencional que los micrófonos de portátil recogen claramente. La conexión USB Unifying es plug-and-play sin emparejamiento ni configuración adicional.
 
 ## Lo mejor
 

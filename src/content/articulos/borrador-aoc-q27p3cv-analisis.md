@@ -37,11 +37,11 @@ El punto diferencial está en la conectividad. El puerto USB-C soporta DisplayPo
 
 La base ofrece regulación completa: altura (hasta 150mm), inclinación, giro e incluso pivote a 90° para modo retrato. Para programadores o quienes trabajan con documentos largos, el modo retrato es una ventaja real que pocos monitores de este precio incluyen.
 
-## Experiencia de uso esperada
+## Calidad de imagen y conectividad
 
-Por sus características, cabe esperar un panel con buena reproducción de colores (sRGB 99%) y uniformidad adecuada para trabajo de diseño básico y edición de imágenes. Cabe esperar que la cobertura sRGB sea suficiente para trabajo gráfico no profesional, aunque para trabajo de color exigente —fotografía profesional, preprensa— hay monitores más especializados.
+El panel IPS cubre el 99% del espacio sRGB, lo que se traduce en colores bien saturados y sin desviaciones visibles para trabajo de diseño básico y edición de imágenes. Para trabajo de color profesional con ajuste de perfil ICC, un monitor de calibración dedicado es la herramienta adecuada; para el teletrabajador que retoca fotos o trabaja con material visual sin requisitos de preprensa, la cobertura del Q27P3CV es más que suficiente.
 
-La carga de 65W es suficiente para portátiles ligeros y de gama media. Para portátiles de alto rendimiento bajo carga intensiva de CPU y GPU, la carga puede ser más lenta de lo esperado.
+Los 65W de carga por USB-C cubren sin problema ultrabooks, MacBook Air y la mayoría de portátiles de trabajo con Ryzen o Intel de gama media. Un MacBook Pro 16" bajo carga intensiva cargará más despacio de lo habitual, pero no se descargará mientras trabaja — simplemente no cargará tan rápido como con su cargador propio.
 
 ## Lo mejor
 

@@ -37,11 +37,11 @@ El teclado es de formato completo con teclado numérico, lo que lo diferencia de
 
 El perfil ultra-bajo (~16mm de altura máxima) favorece una posición de muñecas más natural en mesas sin reposamuñecas. La inclinación es fija, sin ajuste de ángulo.
 
-## Experiencia de uso esperada
+## Escritura de larga duración
 
-Por sus características, cabe esperar una experiencia de escritura cómoda para uso durante jornadas completas. El bajo perfil reduce la extensión de las muñecas, un factor relevante para quienes escriben muchas horas al día. Las teclas scissor de Cherry, según sus especificaciones, ofrecen mayor consistencia de tacto que las membranas baratas, aunque no alcanzan la respuesta táctil de un mecánico.
+El recorrido corto del mecanismo scissor reduce el esfuerzo de pulsación frente a los teclados de membrana convencionales y mantiene las muñecas en una posición más baja que los teclados de perfil alto. En jornadas de varias horas, ese milímetro de diferencia en la posición de la muñeca se acumula. No tiene la respuesta táctil de un mecánico de calidad — el scissor no emite el clic del switch —, pero el rebote es consistente en todas las teclas, algo que los de membrana baratos no siempre logran.
 
-Al ser cableado no hay latencia ni gestión de baterías. Para escritorios fijos donde el cable no es un inconveniente, este factor simplifica el setup.
+Al ser cableado y sin drivers, el setup se reduce a enchufar y empezar a escribir. La inclinación fija es el único compromiso ergonómico del diseño: quien necesite ajustar el ángulo necesitará un reposamuñecas o una solución de elevación.
 
 ## Lo mejor
 
@@ -90,23 +90,6 @@ Cherry lleva décadas fabricando los switches que otros ponen en sus teclados, a
 Si teletrabajas en silencio, en un piso compartido o simplemente odias el ruido de las teclas en las videollamadas, este teclado resuelve el problema a 50€. No pide más.
 
 Mi nota: 8.0/10
-
-
-
-## Preguntas frecuentes
-
-**¿Merece la pena comprarlo?**
-El Cherry KC 6000 Slim es una excelente opción para aquellos que buscan un teclado silencioso y cómodo para el trabajo diario.
-
-**¿Cuál es su principal ventaja respecto a la competencia?**
-Su mecanismo scissor silencioso y su bajo perfil son ventajas clave respecto a otros teclados del mercado.
-
-**¿Qué alternativa existe en el mismo rango de precio?**
-Una alternativa es el Trust TK-350 Silent Wireless, que ofrece conectividad inalámbrica a un precio similar.
-
-## 🐿️ Fitz recomienda
-
-Me gusta el Cherry KC 6000 Slim por su silencio y comodidad, aunque echo en falta la opción de conectividad inalámbrica. En general, es un teclado sólido para el trabajo diario. Mi nota: 8.0/10
 
 ## Conclusión
 

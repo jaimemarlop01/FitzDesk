@@ -40,15 +40,11 @@ El Razer Seiren V3 Pro cuenta con varias características técnicas destacadas q
 * **Eliminador de ruido con IA**: esta función utiliza inteligencia artificial para identificar y eliminar ruidos de fondo, lo que resulta en un audio más limpio y profesional.
 * **Conectividad doble USB Tipo-C y XLR**: ofrece flexibilidad para conectar el micrófono a una variedad de dispositivos, desde portátiles hasta interfaces de audio y mezcladores, lo que lo hace adecuado para diferentes escenarios de uso.
 
-## Experiencia de uso esperada
+## Audio y configuración
 
-Según sus especificaciones, cabe esperar que el Razer Seiren V3 Pro ofrezca una experiencia de uso muy satisfactoria:
+El grabador en coma flotante de 32 bits no satura aunque la voz sea muy fuerte o cambie de volumen bruscamente: captura con el headroom necesario para ajustar en posproducción sin artefactos. Para videollamadas de trabajo, el cancelador de ruido por IA filtra el fondo antes de transmitir, con el mismo efecto que en un auricular con cancelación activa pero en formato de sobremesa.
 
-* La grabación de voz debería ser clara y detallada, incluso en entornos con algún ruido de fondo.
-* La configuración debería ser sencilla, gracias a la conectividad plug-and-play y la ausencia de ajustes complejos.
-* La calidad del audio debería mantenerse constante, incluso durante videollamadas largas o grabaciones extensas.
-
-En escenarios reales de teletrabajo, el Razer Seiren V3 Pro puede ser especialmente útil en videollamadas donde una voz clara marca la diferencia en la comunicación efectiva, en grabaciones de voz para podcasts o vídeos formativos, y en sesiones de creación de contenido en directo donde la calidad del audio y la facilidad de uso son cruciales para un flujo de trabajo sin interrupciones.
+La doble salida USB-C y XLR permite empezar conectado directamente al portátil y escalar a una interfaz de audio profesional más adelante sin cambiar el micrófono. El modo USB es plug-and-play sin drivers; el modo XLR requiere una interfaz de audio aparte.
 
 ## Lo mejor
 
