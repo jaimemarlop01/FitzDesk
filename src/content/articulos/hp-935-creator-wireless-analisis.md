@@ -21,7 +21,6 @@ keywords_secundarias:
   - "ratón láser para 4K"
   - "ratón para teletrabajo"
   - "ratón inalámbrico para múltiples dispositivos"
-borrador: true
 imagen_thumb: "/images/articulos/hp-935-creator-wireless-analisis-thumb.webp"
 ---
 
