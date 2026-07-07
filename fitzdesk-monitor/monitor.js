@@ -217,6 +217,7 @@ async function findExistingArticle(slug) {
           'Accept':               'application/vnd.github+json',
           'X-GitHub-Api-Version': '2022-11-28',
         },
+        signal: AbortSignal.timeout(15000),
       });
       if (res.ok) {
         const data = await res.json();
@@ -238,11 +239,10 @@ async function findExistingArticle(slug) {
 /** Añade aviso de posible duplicado al inicio del cuerpo del borrador */
 function addDuplicateWarning(content, existingFile) {
   const warning = `\n> ⚠️ **POSIBLE DUPLICADO**: Ya existe un artículo sobre este producto. Revisa antes de publicar: \`${existingFile}\`\n`;
-  // Insertar después del bloque frontmatter (después del segundo ---)
-  const openEnd   = content.indexOf('\n', 3);
-  const closeIdx  = content.indexOf('\n---\n', openEnd);
-  if (closeIdx === -1) return warning + content;
-  const insertPos = closeIdx + 5;
+  const bomLen = content.startsWith('﻿') ? 1 : 0;
+  const fmMatch = content.slice(bomLen).match(/^-{3}\r?\n[\s\S]*?\r?\n-{3}\r?\n/);
+  if (!fmMatch) return warning + content;
+  const insertPos = bomLen + fmMatch[0].length;
   return content.slice(0, insertPos) + warning + content.slice(insertPos);
 }
 

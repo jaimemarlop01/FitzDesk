@@ -28,7 +28,7 @@ jobs:
       - name: Instalar dependencias
         run: |
           cd fitzdesk-monitor
-          npm install
+          npm ci --omit=dev
 
       - name: Ejecutar monitor
         env:

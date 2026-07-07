@@ -22,15 +22,7 @@ const client = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 function today() { return new Date().toISOString().slice(0, 10); }
 
-function slugify(text) {
-  return text
-    .toLowerCase()
-    .normalize('NFD').replace(/[̀-ͯ]/g, '')
-    .replace(/[^a-z0-9\s-]/g, '')
-    .trim()
-    .replace(/\s+/g, '-')
-    .slice(0, 80);
-}
+import { slugify } from './utils/slugify.js';
 
 async function generateGuia(config) {
   const { titulo, presupuesto, perfil, productos } = config;

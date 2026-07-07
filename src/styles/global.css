@@ -2,7 +2,7 @@
 
 :root {
   --color-brand: #F97316;
-  --color-brand-dark: #EA6A00;
+  --color-brand-dark: #EA580C;
   --color-brand-light: #FED7AA;
   --color-brand-bg: #FFF7ED;
   --color-success: #16a34a;
@@ -20,6 +20,12 @@
   --color-bg-secondary: #F9FAFB;
   --color-bg-tertiary: #F3F4F6;
   --color-border: #E5E7EB;
+  /* Texto sobre fondos oscuros (footer, why-section) */
+  --color-text-on-dark: #D1D5DB;
+  --color-text-on-dark-muted: #9CA3AF;
+  /* Badge de tipo de artículo (Comparativa, Guía…) */
+  --color-badge-comparativa-bg: #FEF3C7;
+  --color-badge-comparativa-text: #92400E;
   --font-display: 'Poppins', system-ui, sans-serif;
   --font-body: 'Inter', system-ui, sans-serif;
   --container-max: 1200px;
