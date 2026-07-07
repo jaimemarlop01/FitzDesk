@@ -221,8 +221,10 @@ jobs:
           gh run watch "$NUEVO" --exit-status
 
       - name: Esperar a que las imágenes estén servidas en vivo
+        id: esperar_imagenes
         if: steps.check.outputs.status == 'ready' && steps.process.outcome == 'success' && success()
-        timeout-minutes: 3
+        timeout-minutes: 6
+        continue-on-error: true
         run: |
           SLUG="${{ steps.check.outputs.published_slug }}"
           # Bug crítico corregido el 2026-06-25: este bucle asumía siempre 4
@@ -238,8 +240,12 @@ jobs:
             exit 1
           fi
           echo "Carrusel de $SLIDE_COUNT slide(s) detectado para $SLUG"
-          ELAPSED=0
-          MAX_WAIT=150
+          # Espera inicial de 30 s antes de empezar a sondear: el deploy puede
+          # tardar en propagar al CDN aunque el workflow de deploy.yml ya haya
+          # terminado. Sin este sleep, los primeros intentos fallan garantizados.
+          sleep 30
+          ELAPSED=30
+          MAX_WAIT=300
           while true; do
             ALL_OK=true
             for n in $(seq 1 "$SLIDE_COUNT"); do
@@ -260,11 +266,34 @@ jobs:
             ELAPSED=$((ELAPSED + 10))
           done
 
+      # ── 6e-alt. Discord cuando las imágenes no se propagan a tiempo ──────────
+      # El paso anterior usa continue-on-error para que el workflow no muera,
+      # pero hay que avisar al usuario para que ejecute publicar-en-redes.yml
+      # manualmente después de que el CDN haya terminado de propagar.
+      - name: Discord — imágenes no disponibles (publicar redes manualmente)
+        if: steps.esperar_imagenes.outcome == 'failure'
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          jq -n \
+            --arg slug "${{ steps.check.outputs.published_slug }}" \
+            '{
+              embeds: [{
+                title: "⚠️ Carrusel no disponible — publicar redes manualmente",
+                description: "El artículo se publicó correctamente en la web pero las imágenes del carrusel no estuvieron disponibles en 5 min tras el deploy (CDN lento). Ejecuta **Publicar en redes sociales (manual)** con el slug para publicar en Instagram cuando las imágenes estén servidas.",
+                color: 16776960,
+                fields: [{ name: "Slug", value: $slug }]
+              }]
+            }' \
+          | curl -s -X POST "$DISCORD_WEBHOOK_URL" \
+              -H "Content-Type: application/json" \
+              --data-binary @-
+
       # ── 6e. Publicar en redes sociales (Instagram + Facebook) ────────────────
       # Pinterest está preparado en socialPublisher.js pero desactivado
       # (PINTEREST_ENABLED = false) hasta que se den de alta esos secrets.
       - name: Publicar en redes sociales
-        if: steps.check.outputs.status == 'ready' && steps.process.outcome == 'success' && success()
+        if: steps.check.outputs.status == 'ready' && steps.process.outcome == 'success' && steps.esperar_imagenes.outcome == 'success'
         timeout-minutes: 2
         env:
           INSTAGRAM_ACCESS_TOKEN:     ${{ secrets.INSTAGRAM_ACCESS_TOKEN }}

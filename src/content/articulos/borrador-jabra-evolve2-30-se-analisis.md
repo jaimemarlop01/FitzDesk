@@ -37,11 +37,11 @@ La conexión es por cable USB-C con adaptador USB-A incluido, lo que garantiza a
 
 Los altavoces de 28mm en cada copa ofrecen audio estéreo para escuchar tanto llamadas como música o audio de presentaciones con calidad adecuada para el uso profesional cotidiano.
 
-## Experiencia de uso esperada
+## Cancelación de ruido y uso en el día a día
 
-Por sus características, cabe esperar que la calidad de voz captada por el micrófono mejore notablemente respecto a soluciones integradas en portátiles o webcams de gama baja. La cancelación de ruido activa del micrófono debería reducir el ruido de fondo en llamadas de trabajo, haciendo la comunicación más clara para los interlocutores.
+El sistema de tres micrófonos filtra el ruido de fondo sin que el usuario tenga que cambiar ninguna configuración: el procesamiento ocurre en el propio dispositivo y la voz llega limpia al otro extremo incluso con televisión, niños o tráfico de fondo. En un piso compartido o con familia en casa, la diferencia respecto al micrófono integrado del portátil es evidente desde la primera llamada.
 
-Al ser cableado no hay latencia perceptible ni riesgo de interrupción por batería agotada. Cabe esperar que el cable pueda suponer una ligera limitación de movimiento en el escritorio, aunque la longitud estándar de los cables USB es suficiente para la mayoría de configuraciones de trabajo.
+Al ser cableado, la latencia es nula y no hay gestión de batería. Los 135 g y el arco ajustable permiten llevarlo durante horas sin fatiga. El cable USB-C con adaptador USB-A incluido alcanza cómodamente sin tensar en la gran mayoría de configuraciones de escritorio.
 
 ## Lo mejor
 

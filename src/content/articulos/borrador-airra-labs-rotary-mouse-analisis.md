@@ -40,9 +40,11 @@ El Rotary Mouse está dirigido a quienes pasan gran parte de su día trabajando 
 - **Sensor óptico de alta precisión**: además del mecanismo rotatorio, el sensor de seguimiento del cursor mantiene la precisión habitual de un ratón de gama media-alta, por lo que el cambio de la rueda no afecta a la puntería en el resto de tareas.
 - **Conectividad inalámbrica**: se conecta por Bluetooth o receptor USB según la versión, lo que permite emparejarlo con varios dispositivos sin depender de un único ordenador.
 
-## Experiencia de uso esperada
+## El dial en la práctica
 
-Cabe esperar que el Rotary Mouse ofrezca una experiencia de uso fluida y controlada. Por sus características, cabe asumir que navegar por páginas web extensas o documentos largos será más rápido y preciso que con un ratón tradicional. Además, la capacidad de girar el mecanismo rotatorio como si fuera un dial puede proporcionar una sensación de control más intuitiva, especialmente en aplicaciones que requieren un desplazamiento preciso, como la edición de vídeo o la programación.
+El mecanismo rotatorio no es una rueda más grande: gira de forma continua como un dial, sin los escalonamientos del scroll convencional. En documentos de cientos de páginas o en líneas de tiempo de edición largas, el giro fluido permite recorrer distancias grandes con un solo movimiento de dedo — algo que con la rueda estándar requiere varios giros o las teclas de teclado.
+
+La curva de adaptación es real: los primeros días la mano busca instintivamente el recorrido de la rueda donde ya no está. Una vez interiorizado el gesto rotatorio, el control de velocidad es más gradual que el scroll paginado. Si el trabajo diario incluye documentos largos o desplazamiento frecuente, el cambio se nota; para navegación web ligera y correo, la ventaja es menor.
 
 ## Lo mejor
 

@@ -40,11 +40,13 @@ A continuación, algunas de las características más importantes del UltraGear 
 * **WebOS**: ofrece una plataforma de entretenimiento inteligente que permite acceder a aplicaciones y servicios de streaming sin depender del ordenador conectado, útil para usar el monitor como pantalla de ocio sin encender el equipo de trabajo.
 * **Panel curvo**: la curvatura reduce la distancia visual a los extremos de la pantalla, lo que en un formato de 34" ayuda a que el contenido de los bordes no quede tan alejado del campo de visión central.
 
-## Experiencia de uso esperada
+## OLED en el trabajo diario
 
-Cabe esperar que el UltraGear 34GX90SB-W ofrezca una buena experiencia de uso para trabajadores remotos gracias a su calidad de imagen y sus características técnicas. En edición de vídeo, el panel OLED y la resolución WQHD permitirían apreciar los detalles más finos de la imagen, facilitando el ajuste de color sin depender de un monitor de calibración profesional. En trabajo con múltiples ventanas, el formato ultrapanorámico de 34" da espacio de sobra para tener varias aplicaciones visibles a la vez sin necesidad de un segundo monitor, lo que simplifica el escritorio.
+El panel OLED elimina los negros grises de los IPS: cualquier contenido oscuro —fondo de IDE, vídeo, presentaciones con fondos negros— se ve con una profundidad que los paneles de retroiluminación no alcanzan. Para edición de vídeo o trabajo con material visual, los colores precisos del OLED reducen la brecha con un monitor de calibración profesional, aunque sin sustituirlo para corrección de color exigente o preprensa.
 
-En videollamadas y presentaciones, la combinación de buen contraste y colores precisos del panel OLED debería hacer que el contenido compartido en pantalla se vea con mayor fidelidad que en un panel convencional, algo relevante para quien comparte gráficos o material visual con clientes o equipos de trabajo.
+El formato ultrapanorámico 3440×1440 permite tener tres ventanas completas en paralelo sin solapamientos: código + navegador + terminal en un IDE, o una hoja de cálculo amplia junto a documentación de referencia. Quien ya trabaja con dos monitores separados encuentra aquí el equivalente en una sola pantalla, sin el hueco central entre pantallas.
+
+El riesgo real del OLED a largo plazo: la barra de tareas fija de Windows, un logo corporativo en el fondo de escritorio o cualquier elemento estático repetido durante miles de horas puede dejar una marca permanente en el panel. En uso habitual de oficina con escritorio dinámico, el riesgo es bajo; con elementos estáticos fijos, conviene considerarlo antes de comprar.
 
 ## Lo mejor
 

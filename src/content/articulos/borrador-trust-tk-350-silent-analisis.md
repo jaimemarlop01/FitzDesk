@@ -37,11 +37,11 @@ El formato es completo con teclado numérico y teclas de función multimedia acc
 
 El diseño es sobrio y funcional: bordes rectos, teclas de tamaño estándar y sin iluminación. El perfil es convencional, similar al de cualquier teclado de oficina clásico.
 
-## Experiencia de uso esperada
+## Tacto y uso diario
 
-Por sus características, cabe esperar un teclado adecuado para el uso diario de ofimática, correo electrónico y escritura moderada. El mecanismo silencioso debería reducir notablemente el ruido respecto a teclados de membrana convencionales, aunque la experiencia táctil no igualará la de un mecánico ni la de un scissor switch de calidad premium.
+El mecanismo silencioso reduce el ruido de impacto frente a los de membrana convencionales: en un espacio compartido o en videollamadas con micrófono abierto, la diferencia se nota. No llega al silencio de un scissor switch de Cherry ni a la respuesta táctil de un mecánico con switch silencioso, pero para uso de ofimática diario el resultado es cómodo sin pretensiones.
 
-La conectividad inalámbrica por receptor USB es fiable y de baja latencia para uso de oficina. No hay Bluetooth ni conexión multi-dispositivo, lo que simplifica el uso pero limita la versatilidad para quienes trabajan con varios equipos.
+El receptor USB 2,4 GHz funciona plug-and-play sin drivers. Sin Bluetooth ni multi-dispositivo, para un único equipo fijo es todo lo que se necesita; para quien alterna entre portátil y sobremesa o usa tablet a la vez, el Logitech K380 es la alternativa natural con la conectividad que el TK-350 no ofrece.
 
 ## Lo mejor
 

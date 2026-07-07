@@ -38,11 +38,13 @@ El diseño es simétrico, usable tanto por diestros como por zurdos, con cinco b
 
 El rango de DPI configurable —de 800 a 3.200 en incrementos ajustables desde el software HP Accessories— permite adaptar la velocidad del cursor al monitor usado. En pantallas Full HD, un DPI más bajo mantiene el control; en configuraciones 4K con pantallas grandes, el DPI alto evita recorridos excesivos de muñeca. Esta adaptabilidad es especialmente útil en setups con dos monitores de distinta resolución.
 
-## Experiencia de uso esperada
+## Uso y ergonomía
 
-Por sus características, cabe esperar un comportamiento preciso y consistente en monitores 4K, donde los sensores láser de alta DPI marcan diferencia frente a sensores ópticos de rango medio. Cabe esperar también que el cambio entre tres dispositivos sea ágil una vez memorizada la secuencia de botones.
+El sensor láser de 3.200 DPI responde sin problemas sobre cristal, mármol o metal pulido, donde los sensores ópticos de gama media registran saltos o pierden el seguimiento. En monitores 4K, el DPI alto reduce el recorrido de muñeca para cruzar la pantalla — una diferencia apreciable en sesiones largas.
 
-El diseño simétrico es una ventaja para usuarios zurdos, que tienen opciones limitadas en la gama media del mercado. No es un ratón ergonómico de perfil alto, por lo que para jornadas muy largas puede resultar menos cómodo que el MX Master o el Razer Pro Click.
+El cambio entre dispositivos se gestiona desde un botón en la parte inferior del ratón. Requiere memorizar la secuencia los primeros días, pero una vez interiorizado resulta fluido en el uso habitual.
+
+El diseño simétrico es una ventaja real para usuarios zurdos, que en esta gama de precio tienen pocas opciones de calidad. No es un ratón ergonómico de perfil alto, así que para jornadas de ocho horas seguidas puede resultar menos cómodo que el MX Master o el Razer Pro Click.
 
 ## Lo mejor
 

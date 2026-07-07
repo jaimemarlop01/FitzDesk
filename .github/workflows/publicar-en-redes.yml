@@ -94,8 +94,10 @@ jobs:
           gh run watch "$NUEVO" --exit-status
 
       - name: Esperar a que las imágenes estén servidas en vivo
+        id: esperar_imagenes
         if: inputs.only != 'facebook'
-        timeout-minutes: 3
+        timeout-minutes: 6
+        continue-on-error: true
         run: |
           SLUG="${{ inputs.slug }}"
           # Bug crítico corregido el 2026-06-25: este bucle asumía siempre 4
@@ -111,8 +113,12 @@ jobs:
             exit 1
           fi
           echo "Carrusel de $SLIDE_COUNT slide(s) detectado para $SLUG"
-          ELAPSED=0
-          MAX_WAIT=150
+          # Espera inicial de 30 s antes de empezar a sondear: el deploy puede
+          # tardar en propagar al CDN aunque el workflow de deploy.yml ya haya
+          # terminado. Sin este sleep, los primeros intentos fallan garantizados.
+          sleep 30
+          ELAPSED=30
+          MAX_WAIT=300
           while true; do
             ALL_OK=true
             for n in $(seq 1 "$SLIDE_COUNT"); do
@@ -134,6 +140,7 @@ jobs:
           done
 
       - name: Publicar en redes sociales
+        if: inputs.only == 'facebook' || steps.esperar_imagenes.outcome == 'success'
         timeout-minutes: 2
         env:
           INSTAGRAM_ACCESS_TOKEN:     ${{ secrets.INSTAGRAM_ACCESS_TOKEN }}

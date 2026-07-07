@@ -5,7 +5,7 @@ categoria: "ratones"
 fecha: "2026-07-16"
 descripcion: "Logitech Mobi Fold: ratón Bluetooth compacto y plegable, silencioso, ideal para teletrabajadores en movimiento."
 imagen: "/images/articulos/logitech-mobi-fold-analisis.webp"
-precio: "Ver precio"
+precio: "79,99€"
 enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=logitech+mobi+fold"
 tiempo_lectura: "7 min"
 tipo: "analisis"
@@ -18,7 +18,10 @@ criterios:
   calidad_precio: 8.5
 borrador: true
 imagen_thumb: "/images/articulos/logitech-mobi-fold-analisis-thumb.webp"
+fecha_actualizacion: "2026-07-07"
+actualizado: true
 ---
+> 📅 **Artículo actualizado en julio de 2026**: Precio actualizado a 79,99€ en PcComponentes.
 
 El **Logitech Mobi Fold** es la respuesta de Logitech a una necesidad real: un ratón que cabe en cualquier bolsillo y que no te da excusas para trabajar con el touchpad. Compacto, plegable y silencioso, está diseñado para los que se mueven entre casa, la oficina y la cafetería sin querer cargar con un ratón de escritorio.
 

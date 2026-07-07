@@ -41,13 +41,13 @@ El ASUS ROG Strix SCAR 18 cuenta con algunas características técnicas destacad
 * **Almacenamiento**: un almacenamiento rápido y espacioso que permite guardar archivos y aplicaciones sin que el portátil se vuelva lento, con tiempos de carga reducidos al trabajar con proyectos de vídeo o bases de datos locales pesadas.
 * **Pantalla de alta frecuencia**: la tasa de refresco elevada, pensada originalmente para juegos, también beneficia el desplazamiento por documentos largos y el trabajo con animaciones o vídeo, donde el movimiento se percibe más fluido.
 
-## Experiencia de uso esperada
+## Rendimiento bajo carga
 
-Según sus especificaciones, cabe esperar que la experiencia de uso sea excepcional en tareas exigentes:
+Los portátiles ROG Strix SCAR 18 están diseñados para no limitar la CPU ni la GPU en tareas exigentes: el sistema de ventilación con múltiples ventiladores mantiene el rendimiento máximo durante compilaciones largas, renderizado o edición en 4K sin que la temperatura fuerce al sistema a reducir frecuencias.
 
-* **Edición de vídeo**: con su procesador potente y tarjeta gráfica, el ASUS ROG Strix SCAR 18 puede manejar la edición de vídeo en 4K con facilidad, lo que lo hace ideal para profesionales de la edición.
-* **Programación y desarrollo**: con su procesador potente y memoria RAM generosa, puede manejar la compilación de proyectos y el desarrollo de software con facilidad.
-* **Juegos**: puede manejar juegos exigentes con gráficos complejos, lo que lo hace ideal para quien combina trabajo técnico con sesiones de juego ocasionales.
+Para edición de vídeo, la GPU dedicada acelera el renderizado y la exportación en Premiere Pro, DaVinci Resolve y aplicaciones similares, lo que se traduce en tiempos significativamente menores que en un ultrabook con gráficos integrados. La pantalla de alta frecuencia, pensada para gaming, hace el trabajo visual con animaciones o scrubbing de líneas de tiempo más fluido que en los 60 Hz habituales de los monitores de oficina.
+
+La autonomía es la concesión principal: bajo carga intensiva, la batería dura pocas horas. Este portátil asume en general que está cerca de un enchufe.
 
 ## Lo mejor
 
