@@ -128,6 +128,41 @@ jobs:
           git commit -m "feat: publicar ${{ steps.check.outputs.titulo }}"
           git push origin main
 
+      # ── 6b-0. Notificación Discord — artículo publicado en main ──────────────
+      # Se lanza aquí, justo tras el push a main, para que llegue sin importar
+      # qué ocurra después (redes sociales, deploy lento, timeouts del CDN…).
+      # Valores pasados como variables de entorno para evitar problemas de
+      # escapado cuando el título contiene caracteres especiales de bash.
+      - name: Discord — artículo publicado en main
+        if: steps.check.outputs.status == 'ready' && steps.process.outcome == 'success'
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          TITULO: ${{ steps.check.outputs.titulo }}
+          SLUG:   ${{ steps.check.outputs.published_slug }}
+          FECHA:  ${{ steps.check.outputs.fecha }}
+        run: |
+          jq -n \
+            --arg titulo "$TITULO" \
+            --arg slug   "$SLUG" \
+            --arg fecha  "$FECHA" \
+            --arg url    "https://fitzdesk.com/articulo/$SLUG/" \
+            '{
+              embeds: [{
+                title:       "📰 Publicado automáticamente",
+                description: ("**" + $titulo + "**\n" + $url),
+                color:       5763719,
+                fields: [
+                  { name: "Slug",  value: $slug,  inline: true },
+                  { name: "Fecha", value: $fecha, inline: true }
+                ]
+              }]
+            }' \
+          | curl -s -X POST "$DISCORD_WEBHOOK_URL" \
+              -H "Content-Type: application/json" \
+              --data-binary @- \
+          && echo "Notificación Discord enviada" \
+          || echo "⚠️ No se pudo enviar la notificación Discord"
+
       # ── 6b. Sincronizar develop con la versión ya publicada ──────────────────
       # Sin este paso, develop se queda para siempre con el borrador antiguo
       # (borrador: true, nombre con prefijo borrador-) aunque ya esté publicado
@@ -310,40 +345,17 @@ jobs:
           GROQ_API_KEY:               ${{ secrets.GROQ_API_KEY }}
         run: node fitzdesk-monitor/socialPublisher.js --slug ${{ steps.check.outputs.published_slug }}
 
-      # ── 7. Notificación Discord — éxito ──────────────────────────────────────
-      - name: Discord — publicación exitosa
-        if: steps.check.outputs.status == 'ready' && steps.process.outcome == 'success'
-        env:
-          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
-        run: |
-          jq -n \
-            --arg titulo "${{ steps.check.outputs.titulo }}" \
-            --arg slug   "${{ steps.check.outputs.published_slug }}" \
-            --arg fecha  "${{ steps.check.outputs.fecha }}" \
-            '{
-              embeds: [{
-                title:       "✅ Publicado automáticamente",
-                description: ("**" + $titulo + "**"),
-                color:       5763719,
-                fields: [
-                  { name: "Slug",  value: $slug,  inline: true },
-                  { name: "Fecha", value: $fecha, inline: true }
-                ]
-              }]
-            }' \
-          | curl -s -X POST "$DISCORD_WEBHOOK_URL" \
-              -H "Content-Type: application/json" \
-              --data-binary @-
-
-      # ── 8. Notificación Discord — error (imagen faltante, frontmatter roto…) ──
+      # ── 7. Notificación Discord — error (imagen faltante, frontmatter roto…) ──
       - name: Discord — error de publicación
         if: steps.check.outputs.status == 'ready' && steps.process.outcome == 'failure'
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          DRAFT_SLUG: ${{ steps.check.outputs.draft_slug }}
+          ERROR_MSG:  ${{ steps.process.outputs.error_msg }}
         run: |
           jq -n \
-            --arg slug "${{ steps.check.outputs.draft_slug }}" \
-            --arg msg  "${{ steps.process.outputs.error_msg }}" \
+            --arg slug "$DRAFT_SLUG" \
+            --arg msg  "$ERROR_MSG" \
             '{
               content: "⚠️ Publicación automática fallida",
               embeds: [{
@@ -357,4 +369,6 @@ jobs:
             }' \
           | curl -s -X POST "$DISCORD_WEBHOOK_URL" \
               -H "Content-Type: application/json" \
-              --data-binary @-
+              --data-binary @- \
+          && echo "Notificación Discord enviada" \
+          || echo "⚠️ No se pudo enviar la notificación Discord"
