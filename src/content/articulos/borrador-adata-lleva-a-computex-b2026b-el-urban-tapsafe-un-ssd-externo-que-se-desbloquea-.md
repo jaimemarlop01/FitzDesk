@@ -11,6 +11,8 @@ tipo: "lanzamiento"
 borrador: true
 ---
 
+> 📅 **Precio orientativo**: El precio indicado es una estimación basada en la información disponible antes del lanzamiento oficial. El precio real puede variar cuando el producto llegue a PcComponentes.
+
 El ADATA Urban TapSafe llegó a Computex 2026 con una propuesta que no es habitual en los SSD externos: desbloqueo por NFC. En lugar de introducir un PIN o depender de software de cifrado, el usuario toca el disco con su smartphone para desbloquearlo. Un gesto simple que resuelve uno de los problemas más frustrantes del almacenamiento cifrado portátil.
 
 Con velocidades anunciadas de hasta 1.900 MB/s y un diseño compacto para el bolsillo, el Urban TapSafe apunta al teletrabajador que mueve archivos grandes entre equipos y no quiere comprometer la seguridad de esos datos.

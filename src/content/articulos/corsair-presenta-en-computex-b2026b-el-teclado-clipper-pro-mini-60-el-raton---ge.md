@@ -11,6 +11,8 @@ tipo: "lanzamiento"
 imagen_thumb: "/images/articulos/corsair-presenta-en-computex-b2026b-el-teclado-clipper-pro-mini-60-el-raton---ge-thumb.webp"
 ---
 
+> 📅 **Precio orientativo**: El precio indicado es una estimación basada en la información disponible antes del lanzamiento oficial. El precio real puede variar cuando el producto llegue a PcComponentes.
+
 ## Introducción
 
 Corsair ha presentado en Computex 2026 el Clipper Pro Mini 60, su apuesta por el formato 60% con interruptores magnéticos e iluminación RGB. El formato 60% elimina el teclado numérico, las teclas de función y las flechas independientes, concentrando solo el bloque alfanumérico principal con el resto accesible mediante combinaciones de teclas. El resultado es un teclado que ocupa menos de la mitad del espacio horizontal habitual, pensado para setups minimalistas donde el espacio del escritorio importa.

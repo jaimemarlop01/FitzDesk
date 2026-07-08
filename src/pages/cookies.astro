@@ -1,0 +1,319 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { u, base } from '../lib/url';
+---
+
+<BaseLayout
+  title="Política de cookies — FitzDesk"
+  description="Política de cookies de FitzDesk: qué cookies utilizamos, para qué sirven y cómo puedes gestionarlas."
+>
+  <div class="container legal-page">
+
+    <nav class="breadcrumb" aria-label="Ruta de navegación">
+      <a href={base}>Inicio</a>
+      <span class="breadcrumb-sep" aria-hidden="true">›</span>
+      <span aria-current="page">Política de cookies</span>
+    </nav>
+
+    <header class="legal-header">
+      <h1>Política de cookies</h1>
+      <p class="legal-meta">Última actualización: julio de 2026</p>
+      <p class="legal-intro">
+        Esta política explica qué cookies utiliza FitzDesk, para qué sirven y cómo puedes
+        gestionarlas. Puedes aceptar o rechazar las cookies no esenciales en el banner que
+        aparece cuando visitas el sitio por primera vez.
+      </p>
+    </header>
+
+    <div class="legal-content">
+
+      <section class="legal-section" id="que-son">
+        <h2>1. ¿Qué son las cookies?</h2>
+        <p>
+          Las cookies son pequeños archivos de texto que un sitio web guarda en tu dispositivo
+          cuando lo visitas. Se utilizan para que el sitio recuerde tus preferencias, para
+          medir el tráfico de forma agregada o para ofrecerte contenido personalizado.
+        </p>
+        <p>
+          Las cookies no pueden ejecutar código ni transmitir virus. Tampoco contienen
+          información personal identificable, salvo que el usuario la haya proporcionado
+          expresamente.
+        </p>
+      </section>
+
+      <section class="legal-section" id="que-usamos">
+        <h2>2. ¿Qué cookies utiliza FitzDesk?</h2>
+
+        <h3>Cookies propias (técnicas)</h3>
+        <p>
+          FitzDesk es un sitio estático. No utilizamos cookies de sesión, de inicio de sesión
+          ni de carrito de compra. La única información que guardamos en tu dispositivo es la
+          preferencia de cookies que eliges en el banner (clave <code>fitzdesk_cookies_consent</code>,
+          almacenada en <code>localStorage</code>, no es una cookie HTTP), con una caducidad
+          indefinida hasta que borres los datos del navegador.
+        </p>
+
+        <h3>Cookies de analítica (Google Analytics)</h3>
+        <p>
+          Si aceptas todas las cookies en el banner, activamos <strong>Google Analytics 4</strong>
+          para medir el tráfico y el comportamiento de navegación de forma agregada y anónima.
+          Esta herramienta instala las siguientes cookies:
+        </p>
+        <table class="cookie-table">
+          <thead>
+            <tr>
+              <th scope="col">Cookie</th>
+              <th scope="col">Proveedor</th>
+              <th scope="col">Finalidad</th>
+              <th scope="col">Caducidad</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>_ga</code></td>
+              <td>Google</td>
+              <td>Distingue sesiones únicas de usuario</td>
+              <td>2 años</td>
+            </tr>
+            <tr>
+              <td><code>_ga_*</code></td>
+              <td>Google</td>
+              <td>Mantiene el estado de sesión de Analytics</td>
+              <td>2 años</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          Si eliges «Solo esenciales» en el banner, Google Analytics <strong>no se carga</strong>
+          y estas cookies no se instalan.
+        </p>
+        <p>
+          Más información: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Política de privacidad de Google</a>
+          y <a href="https://support.google.com/analytics/answer/6004245" target="_blank" rel="noopener noreferrer">uso de datos por parte de Google Analytics</a>.
+        </p>
+
+        <h3>Redes sociales</h3>
+        <p>
+          FitzDesk incluye enlaces a nuestros perfiles de Instagram, Facebook y Pinterest, pero
+          no incrusta ningún widget social (botones «Me gusta», reproductores de vídeo, etc.)
+          que instale cookies de terceros. Al hacer clic en los enlaces saldrás al sitio de la
+          red social correspondiente, cuya política de privacidad es independiente de esta.
+        </p>
+      </section>
+
+      <section class="legal-section" id="como-gestionar">
+        <h2>3. ¿Cómo gestionar las cookies?</h2>
+
+        <h3>Desde el banner de FitzDesk</h3>
+        <p>
+          Puedes cambiar tu preferencia en cualquier momento borrando el dato guardado en tu
+          navegador (DevTools → Application → Local Storage → <code>fitzdesk_cookies_consent</code>)
+          y recargando la página; el banner volverá a mostrarse.
+        </p>
+
+        <h3>Desde la configuración de tu navegador</h3>
+        <p>
+          La mayoría de navegadores permiten bloquear o eliminar cookies directamente en su
+          configuración:
+        </p>
+        <ul class="browser-list">
+          <li>
+            <strong>Chrome</strong>: Configuración → Privacidad y seguridad → Cookies y otros
+            datos del sitio
+          </li>
+          <li>
+            <strong>Firefox</strong>: Configuración → Privacidad y seguridad → Cookies y datos
+            del sitio
+          </li>
+          <li>
+            <strong>Safari</strong>: Preferencias → Privacidad → Gestionar datos de sitios web
+          </li>
+          <li>
+            <strong>Edge</strong>: Configuración → Privacidad, búsqueda y servicios → Cookies
+            y datos del sitio
+          </li>
+        </ul>
+        <p>
+          Ten en cuenta que bloquear todas las cookies puede afectar al funcionamiento de
+          otros sitios web que visites.
+        </p>
+      </section>
+
+      <section class="legal-section" id="cambios">
+        <h2>4. Cambios en esta política</h2>
+        <p>
+          Podemos actualizar esta política cuando cambiemos las herramientas que usamos o la
+          normativa así lo exija. La fecha de «Última actualización» indica cuándo se publicó
+          la versión vigente. Si los cambios afectan a cookies que ya tenías aceptadas, volverá
+          a aparecer el banner para que elijas de nuevo.
+        </p>
+        <p>
+          Para cualquier consulta, escríbenos a
+          <a href="mailto:hola@fitzdesk.com">hola@fitzdesk.com</a> o usa el
+          <a href={u('/contacto')}>formulario de contacto</a>. Puedes consultar también nuestra
+          <a href={u('/privacidad')}>política de privacidad</a> completa.
+        </p>
+      </section>
+
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .legal-page {
+    padding-top: 2rem;
+    padding-bottom: 4rem;
+    max-width: 800px;
+  }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 2rem;
+  }
+
+  .breadcrumb a {
+    color: var(--color-text-secondary);
+    text-decoration: none;
+  }
+
+  .breadcrumb a:hover {
+    color: var(--color-primary);
+  }
+
+  .breadcrumb-sep {
+    color: var(--color-border);
+  }
+
+  .legal-header {
+    margin-bottom: 2.5rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .legal-header h1 {
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    margin-bottom: 0.5rem;
+  }
+
+  .legal-meta {
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 1rem;
+  }
+
+  .legal-intro {
+    font-size: 1rem;
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  .legal-section {
+    margin-bottom: 2.5rem;
+    padding-bottom: 2.5rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .legal-section:last-child {
+    border-bottom: none;
+  }
+
+  .legal-section h2 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    color: var(--color-text);
+  }
+
+  .legal-section h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-top: 1.5rem;
+    margin-bottom: 0.6rem;
+    color: var(--color-text);
+  }
+
+  .legal-section p {
+    font-size: 0.9375rem;
+    color: var(--color-text-secondary);
+    line-height: 1.75;
+    margin-bottom: 0.75rem;
+  }
+
+  .legal-section p:last-child {
+    margin-bottom: 0;
+  }
+
+  .legal-section a {
+    color: var(--color-primary);
+    text-decoration: none;
+  }
+
+  .legal-section a:hover {
+    text-decoration: underline;
+  }
+
+  .legal-section code {
+    font-family: monospace;
+    font-size: 0.875em;
+    background: var(--color-border);
+    padding: 0.1em 0.35em;
+    border-radius: 3px;
+    color: var(--color-text);
+  }
+
+  .cookie-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+    margin: 1rem 0;
+    overflow-x: auto;
+    display: block;
+  }
+
+  .cookie-table th,
+  .cookie-table td {
+    padding: 0.55rem 0.75rem;
+    text-align: left;
+    border: 1px solid var(--color-border);
+    vertical-align: top;
+    white-space: nowrap;
+  }
+
+  .cookie-table th {
+    background: var(--color-background);
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .cookie-table td {
+    color: var(--color-text-secondary);
+  }
+
+  .cookie-table td:first-child {
+    white-space: nowrap;
+  }
+
+  .cookie-table td:nth-child(3) {
+    white-space: normal;
+  }
+
+  .browser-list {
+    padding-left: 1.5rem;
+    margin: 0.75rem 0;
+  }
+
+  .browser-list li {
+    font-size: 0.9375rem;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    margin-bottom: 0.4rem;
+  }
+
+  .browser-list strong {
+    color: var(--color-text);
+  }
+</style>
