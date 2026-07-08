@@ -11,6 +11,8 @@ tipo: "lanzamiento"
 imagen_thumb: "/images/articulos/intel-wildcat-lake-golpeara-al-apple-macbook-neo-los-portatiles-x86-podran-usar--thumb.webp"
 ---
 
+> 📅 **Precio orientativo**: El precio indicado es una estimación basada en la información disponible antes del lanzamiento oficial. El precio real puede variar cuando el producto llegue a PcComponentes.
+
 ## Introducción
 
 Intel presenta Wildcat Lake como su apuesta por portátiles x86 ultrafinos y silenciosos. La propuesta central es eliminar los ventiladores mecánicos mediante el sistema de refrigeración por membranas Frore AirJet Mini G2, lo que permite diseños de 11,3 mm de grosor capaces de sostener 15W de consumo sin ruido ni calor excesivo en la zona del teclado. Es la primera vez que una plataforma Intel de consumo incorpora este tipo de refrigeración de estado sólido en un diseño de referencia.
