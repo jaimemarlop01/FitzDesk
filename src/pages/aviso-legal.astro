@@ -1,0 +1,265 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { u, base } from '../lib/url';
+---
+
+<BaseLayout
+  title="Aviso legal — FitzDesk"
+  description="Aviso legal de FitzDesk conforme a la Ley 34/2002 de Servicios de la Sociedad de la Información (LSSI-CE)."
+>
+  <div class="container legal-page">
+
+    <nav class="breadcrumb" aria-label="Ruta de navegación">
+      <a href={base}>Inicio</a>
+      <span class="breadcrumb-sep" aria-hidden="true">›</span>
+      <span aria-current="page">Aviso legal</span>
+    </nav>
+
+    <header class="legal-header">
+      <h1>Aviso legal</h1>
+      <p class="legal-meta">Última actualización: julio de 2026</p>
+      <p class="legal-intro">
+        En cumplimiento del artículo 10 de la Ley 34/2002, de 11 de julio, de Servicios de la
+        Sociedad de la Información y de Comercio Electrónico (LSSI-CE), se facilita a continuación
+        la información legal del titular de este sitio web.
+      </p>
+    </header>
+
+    <div class="legal-content">
+
+      <!-- 1. Datos identificativos -->
+      <section class="legal-section" id="titular">
+        <h2>1. Datos identificativos del titular</h2>
+        <table class="legal-table">
+          <tbody>
+            <tr><th scope="row">Denominación</th><td>FitzDesk</td></tr>
+            <tr><th scope="row">Nombre comercial</th><td>FitzDesk</td></tr>
+            <tr><th scope="row">Dominio</th><td><a href="https://fitzdesk.com">fitzdesk.com</a></td></tr>
+            <tr><th scope="row">Email de contacto</th><td><a href="mailto:hola@fitzdesk.com">hola@fitzdesk.com</a></td></tr>
+            <tr><th scope="row">Actividad</th><td>Análisis y recomendaciones de productos tecnológicos</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- 2. Objeto y actividad -->
+      <section class="legal-section" id="objeto">
+        <h2>2. Objeto y actividad</h2>
+        <p>
+          FitzDesk es una publicación independiente dedicada al análisis y recomendación de
+          periféricos, equipos y setups de trabajo para profesionales que trabajan desde casa.
+          El modelo de negocio previsto incluye la participación en programas de afiliación con
+          tiendas de electrónica, en virtud de los cuales FitzDesk podría percibir una comisión
+          cuando el usuario realiza una compra a través de los enlaces publicados en el sitio,
+          sin coste adicional para el comprador.
+        </p>
+        <p>
+          En la fecha de publicación de este aviso legal, FitzDesk no mantiene ningún acuerdo
+          de afiliación activo. Los enlaces a tiendas presentes en los artículos son enlaces de
+          producto ordinarios, sin código de seguimiento ni comisión asociada. Esta situación
+          se actualizará en cuanto se formalice cualquier relación comercial.
+        </p>
+      </section>
+
+      <!-- 3. Propiedad intelectual -->
+      <section class="legal-section" id="propiedad-intelectual">
+        <h2>3. Propiedad intelectual e industrial</h2>
+        <p>
+          Los contenidos del sitio web fitzdesk.com —incluidos textos, imágenes, gráficos,
+          logotipos, iconos, ilustraciones y código fuente— son propiedad de FitzDesk o de
+          sus respectivos autores, y están protegidos por la legislación española e internacional
+          sobre propiedad intelectual e industrial.
+        </p>
+        <p>
+          Queda expresamente prohibida la reproducción, distribución, comunicación pública o
+          transformación de estos contenidos sin autorización previa y por escrito del titular,
+          salvo en los casos permitidos por la Ley de Propiedad Intelectual (Real Decreto
+          Legislativo 1/1996).
+        </p>
+        <p>
+          Las marcas, nombres comerciales y logotipos de terceros que aparezcan en los análisis
+          son propiedad de sus respectivos titulares y se mencionan únicamente con fines
+          informativos y editoriales.
+        </p>
+      </section>
+
+      <!-- 4. Política de enlaces -->
+      <section class="legal-section" id="enlaces">
+        <h2>4. Política de enlaces</h2>
+        <p>
+          FitzDesk puede incluir enlaces a sitios web de terceros con fines informativos y de
+          referencia. Estos enlaces no implican ninguna aprobación ni relación comercial con los
+          sitios enlazados. FitzDesk no se hace responsable de los contenidos, la disponibilidad,
+          la exactitud ni las prácticas de privacidad de los sitios web de terceros.
+        </p>
+        <p>
+          Si deseas establecer un enlace a fitzdesk.com desde tu sitio, puedes hacerlo
+          libremente siempre que no induzca a confusión sobre la identidad del titular ni
+          reproduzca contenidos del sitio sin autorización.
+        </p>
+      </section>
+
+      <!-- 5. Exención de responsabilidad -->
+      <section class="legal-section" id="responsabilidad">
+        <h2>5. Exención de responsabilidad</h2>
+        <p>
+          FitzDesk pone el máximo cuidado en la exactitud de la información publicada, pero no
+          garantiza que esté libre de errores, desactualizada o que satisfaga expectativas
+          particulares. Los análisis y recomendaciones son opiniones editoriales basadas en la
+          información disponible en el momento de su publicación.
+        </p>
+        <p>
+          Los precios y la disponibilidad de los productos mencionados pueden cambiar sin
+          previo aviso y quedan sujetos a las condiciones de cada tienda. FitzDesk no asume
+          responsabilidad alguna por las decisiones de compra tomadas a partir de los
+          contenidos del sitio.
+        </p>
+      </section>
+
+      <!-- 6. Ley aplicable -->
+      <section class="legal-section" id="ley-aplicable">
+        <h2>6. Ley aplicable y jurisdicción</h2>
+        <p>
+          El presente aviso legal se rige íntegramente por la legislación española. Para
+          cualquier controversia derivada del uso de este sitio web, las partes se someten,
+          con renuncia expresa a cualquier otro fuero, a los juzgados y tribunales españoles
+          competentes.
+        </p>
+      </section>
+
+      <!-- 7. Contacto -->
+      <section class="legal-section" id="contacto">
+        <h2>7. Contacto</h2>
+        <p>
+          Para cualquier consulta relativa a este aviso legal, puedes escribirnos a
+          <a href="mailto:hola@fitzdesk.com">hola@fitzdesk.com</a> o utilizar el
+          <a href={u('/contacto')}>formulario de contacto</a>.
+        </p>
+      </section>
+
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .legal-page {
+    padding-top: 2rem;
+    padding-bottom: 4rem;
+    max-width: 800px;
+  }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 2rem;
+  }
+
+  .breadcrumb a {
+    color: var(--color-text-secondary);
+    text-decoration: none;
+  }
+
+  .breadcrumb a:hover {
+    color: var(--color-primary);
+  }
+
+  .breadcrumb-sep {
+    color: var(--color-border);
+  }
+
+  .legal-header {
+    margin-bottom: 2.5rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .legal-header h1 {
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    margin-bottom: 0.5rem;
+  }
+
+  .legal-meta {
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 1rem;
+  }
+
+  .legal-intro {
+    font-size: 1rem;
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  .legal-section {
+    margin-bottom: 2.5rem;
+    padding-bottom: 2.5rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .legal-section:last-child {
+    border-bottom: none;
+  }
+
+  .legal-section h2 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    color: var(--color-text);
+  }
+
+  .legal-section p {
+    font-size: 0.9375rem;
+    color: var(--color-text-secondary);
+    line-height: 1.75;
+    margin-bottom: 0.75rem;
+  }
+
+  .legal-section p:last-child {
+    margin-bottom: 0;
+  }
+
+  .legal-section a {
+    color: var(--color-primary);
+    text-decoration: none;
+  }
+
+  .legal-section a:hover {
+    text-decoration: underline;
+  }
+
+  .legal-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9375rem;
+  }
+
+  .legal-table th,
+  .legal-table td {
+    padding: 0.6rem 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid var(--color-border);
+    vertical-align: top;
+  }
+
+  .legal-table th {
+    font-weight: 600;
+    color: var(--color-text);
+    width: 40%;
+    background: var(--color-background);
+  }
+
+  .legal-table td {
+    color: var(--color-text-secondary);
+  }
+
+  .legal-table a {
+    color: var(--color-primary);
+    text-decoration: none;
+  }
+
+  .legal-table a:hover {
+    text-decoration: underline;
+  }
+</style>
