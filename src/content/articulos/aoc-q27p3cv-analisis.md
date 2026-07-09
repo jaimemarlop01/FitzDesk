@@ -21,7 +21,6 @@ keywords_secundarias:
   - "monitores para teletrabajo"
   - "monitores con USB-C"
   - "monitores QHD"
-borrador: true
 imagen_thumb: "/images/articulos/aoc-q27p3cv-analisis-thumb.webp"
 ---
 
