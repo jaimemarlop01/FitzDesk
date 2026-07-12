@@ -8,7 +8,6 @@ imagen: "/images/articulos/dolor-muneca-teletrabajo-perifericos-ergonomicos.webp
 tiempo_lectura: "8 min"
 tipo: "guia"
 presupuesto: "69€ - 189€"
-borrador: true
 imagen_thumb: "/images/articulos/dolor-muneca-teletrabajo-perifericos-ergonomicos-thumb.webp"
 ---
 
