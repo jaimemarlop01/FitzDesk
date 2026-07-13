@@ -54,13 +54,14 @@ export function loadArticleData(slug) {
   }
 
   return {
-    title:      data.title ?? slug,
-    categoria:  data.categoria ?? 'setups',
-    tipo:       data.tipo ?? 'analisis',
-    puntuacion: typeof data.puntuacion === 'number' ? data.puntuacion : null,
-    precio:     data.precio ?? null,
+    title:       data.title ?? slug,
+    categoria:   data.categoria ?? 'setups',
+    tipo:        data.tipo ?? 'analisis',
+    puntuacion:  typeof data.puntuacion === 'number' ? data.puntuacion : null,
+    precio:      data.precio ?? null,
+    presupuesto: data.presupuesto ?? null,
     imagePath,
-    content:    content?.trim() ?? '',
+    content:     content?.trim() ?? '',
     data,
   };
 }
@@ -275,28 +276,29 @@ async function getGuideCarouselContent({ data, content }) {
   }
 
   // Slides 2 y 3: dos grupos temáticos del contenido de la guía
-  const prompt = `Eres el asistente editorial de FitzDesk, web de análisis de periféricos y setups para teletrabajo.
+  const prompt = `Eres el asistente editorial de FitzDesk, web de periféricos y setups para teletrabajo.
 
-Este artículo es una guía: "${data.title}".
+Guía: "${data.title}"
 
-Extrae DOS grupos de puntos clave para dos slides de Instagram.
-Devuelve ÚNICAMENTE un JSON válido, sin markdown ni explicaciones, con esta estructura exacta:
+Genera DOS grupos de puntos para dos slides de Instagram.
+Devuelve ÚNICAMENTE un JSON válido, sin markdown ni explicaciones:
 {
   "slide2": {
-    "heading": "título corto (máx. 5 palabras, sin emoji)",
-    "icon": "un emoji",
+    "heading": "título (máx. 4 palabras, sin emoji)",
+    "icon": "emoji relevante al tema",
     "items": ["punto clave (máx. 8 palabras)"]
   },
   "slide3": {
-    "heading": "título corto (máx. 5 palabras, sin emoji)",
-    "icon": "un emoji",
+    "heading": "título (máx. 4 palabras, sin emoji)",
+    "icon": "emoji relevante al tema",
     "items": ["punto clave (máx. 8 palabras)"]
   }
 }
 
-Slide 2: argumentos/razones principales a favor del PRIMER concepto u opción de la guía.
-Slide 3: argumentos/razones principales a favor del SEGUNDO concepto u opción de la guía.
-Máximo 4 puntos por slide. Concretos y prácticos, no genéricos.
+Slide 2: los 3-4 puntos o productos más importantes que recomienda la guía (qué cambiar, qué hacer, por qué importa).
+Slide 3: los 3-4 consejos más prácticos y accionables (cómo aplicarlo, cuándo, con qué presupuesto).
+Si la guía compara dos opciones, slide 2 = argumentos de la primera opción, slide 3 = argumentos de la segunda.
+Máximo 4 puntos por slide. Concretos y útiles, sin repetir palabras del título.
 
 Artículo:
 ${content.slice(0, 3000)}`;
@@ -313,20 +315,33 @@ ${content.slice(0, 3000)}`;
       throw new Error('JSON incompleto');
     }
   } catch (e) {
-    logWarn(`Groq falló generando slides de guía (${e.message}) — usando secciones del artículo`);
-    const siSection  = extractSection(content, /^##\s*Cu[aá]ndo\s+S[IÍ]/i);
-    const noSection  = extractSection(content, /^##\s*Cu[aá]ndo\s+NO/i);
-    const siBullets  = siSection ? parseBulletList(siSection, 4) : [];
-    const noBullets  = noSection ? parseBulletList(noSection, 3) : [];
+    logWarn(`Groq falló generando slides de guía (${e.message}) — extrayendo secciones del artículo`);
+    // Fallback: extraer títulos de sección H2 (dan un resumen estructural de la guía)
+    // y distribuirlos en dos slides. Más robusto que buscar secciones "Cuándo SÍ/NO"
+    // que solo existen en guías con estructura binaria explícita.
+    const SKIP_H2 = /^(Conclusi[oó]n|Fitz recomienda|Aviso|Afiliado)/i;
+    const h2s = content
+      .split('\n')
+      .filter(l => /^##\s+[^#]/.test(l))
+      .map(l => l.replace(/^##\s+/, '').replace(/\*\*/g, '').replace(/\[([^\]]+)\]\([^)]+\)/g, '$1').replace(/[^\x00-\x7FáéíóúÁÉÍÓÚüÜñÑ¿¡«»\s:,.()\-–]/gu, '').trim())
+      .filter(l => l && !SKIP_H2.test(l));
+    const mid = Math.ceil(h2s.length / 2);
+    const s2items = h2s.slice(0, Math.max(mid, 1)).slice(0, 4);
+    const s3items = h2s.slice(mid).slice(0, 3);
+    // Secciones "Cuándo SÍ/NO" explícitas tienen prioridad si existen
+    const siSection = extractSection(content, /^##\s*Cu[aá]ndo\s+S[IÍ]/i);
+    const noSection = extractSection(content, /^##\s*Cu[aá]ndo\s+NO/i);
+    const siBullets = siSection ? parseBulletList(siSection, 4) : [];
+    const noBullets = noSection ? parseBulletList(noSection, 3) : [];
     slide2 = {
-      heading: 'Cuándo merece la pena',
-      icon: '✅',
-      items: siBullets.length ? siBullets : ['Ver guía completa en fitzdesk.com'],
+      heading: siBullets.length ? 'Cuándo merece la pena' : 'Lo más importante',
+      icon: siBullets.length ? '✅' : '📌',
+      items: siBullets.length ? siBullets : (s2items.length ? s2items : ['Ver guía completa en fitzdesk.com']),
     };
     slide3 = {
-      heading: 'Cuándo no es necesario',
-      icon: '💡',
-      items: noBullets.length ? noBullets : ['Ver guía completa en fitzdesk.com'],
+      heading: noBullets.length ? 'Cuándo no es necesario' : 'Cómo aplicarlo',
+      icon: noBullets.length ? '💡' : '🎯',
+      items: noBullets.length ? noBullets : (s3items.length ? s3items : ['fitzdesk.com']),
     };
   }
 
@@ -558,7 +573,7 @@ ${baseHead()}
 }
 
 // Slide 4 — veredicto de Fitz, sobre fondo naranja
-function buildVerdictSlideHtml({ veredicto, puntuacion, tipo, slideNumber, totalSlides }) {
+function buildVerdictSlideHtml({ veredicto, puntuacion, tipo, presupuesto, slideNumber, totalSlides }) {
   return `
 <!DOCTYPE html>
 <html lang="es">
@@ -606,6 +621,14 @@ ${baseHead()}
     margin-bottom: 56px;
   }
   .score-final { color: #FFFFFF; font-size: 90px; font-weight: 800; margin-bottom: 32px; }
+  .presupuesto-label {
+    color: #FFFFFF;
+    font-size: 72px;
+    font-weight: 800;
+    opacity: 0.95;
+    margin-bottom: 32px;
+    letter-spacing: -0.01em;
+  }
   .launch-soon {
     color: #FFFFFF;
     font-size: 42px;
@@ -631,7 +654,9 @@ ${baseHead()}
       ? `<div class="score-final">${puntuacion}/10</div>`
       : tipo === 'lanzamiento'
         ? `<div class="launch-soon">🚀 Próximamente</div>`
-        : ''}
+        : presupuesto
+          ? `<div class="presupuesto-label">${escapeHtml(presupuesto)}</div>`
+          : ''}
     <div class="site">fitzdesk.com</div>
   </div>
 </body>
@@ -965,7 +990,7 @@ export async function generateInstagramCarousel(slug) {
     { html: buildListSlideHtml(slide2Cfg) },
     { html: buildListSlideHtml(slide3Cfg) },
     {
-      html: buildVerdictSlideHtml({ veredicto, puntuacion: articleData.puntuacion, tipo: articleData.tipo, slideNumber: 4, totalSlides: TOTAL_SLIDES }),
+      html: buildVerdictSlideHtml({ veredicto, puntuacion: articleData.puntuacion, tipo: articleData.tipo, presupuesto: articleData.presupuesto, slideNumber: 4, totalSlides: TOTAL_SLIDES }),
       afterRender: page => autofitVerdict(page, '.verdict', veredicto, {
         startSize: 50, minSize: 28, normalLines: 2, maxLines: 3, step: 2,
       }),
