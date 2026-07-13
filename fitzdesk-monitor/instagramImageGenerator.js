@@ -249,15 +249,29 @@ export async function getCarouselContent({ data, content }) {
 // dos grupos temáticos propios de la guía (e.g. "cuándo elegir 4K" /
 // "cuándo basta el Full HD"). Fallback a secciones "Cuándo SÍ / NO" si Groq falla.
 async function getGuideCarouselContent({ data, content }) {
-  // Veredicto: igual que en análisis, desde la sección Fitz recomienda
+  // Veredicto: para guías, condensar SIN mencionar marcas ni modelos concretos
+  // (las guías cubren varias opciones; nombrar una sola en el slide parece
+  // favoritismo y quita generalidad al consejo editorial de Fitz).
   const fitzSection = extractSection(content, /^##.*Fitz recomienda/i);
+  // Quitar los enlaces Markdown antes de pasarlo a Groq para que no incluya
+  // marcas que van embebidas en el texto del enlace ([Logitech Lift](…)).
+  const fitzClean = (fitzSection || content).replace(/\[([^\]]+)\]\([^)]+\)/g, '$1');
   let veredicto;
-  try {
-    veredicto = await condenseVerdictWithGroq(fitzSection || content);
-  } catch (e) {
-    logWarn(`Groq falló condensando el veredicto de la guía (${e.message})`);
-    const raw = (fitzSection || content).replace(/\n+/g, ' ').trim();
-    veredicto = raw.split(/(?<=[.?!])\s/)[0]?.slice(0, 140) || 'Guía completa en fitzdesk.com';
+  // Veredicto override para este slug — evita Groq cuando el resultado manual es mejor
+  const VEREDICTO_OVERRIDE = {
+    'dolor-muneca-teletrabajo-perifericos-ergonomicos': 'El dolor de muñeca en el teletrabajo tiene solución. Empieza por el ratón.',
+  };
+  if (VEREDICTO_OVERRIDE[data.slug]) {
+    veredicto = VEREDICTO_OVERRIDE[data.slug];
+  } else {
+    try {
+      const prompt = `Eres Fitz, la ardilla mascota de FitzDesk. A partir de este texto, escribe tu consejo final en una frase corta y con personalidad, máximo 2 líneas (unas 16-18 palabras), sin emojis ni comillas. NO menciones marcas ni modelos específicos — el consejo debe ser general y aplicable a cualquier producto de ese tipo. Responde solo con la frase final.\n\nTEXTO:\n${fitzClean}`;
+      veredicto = await callGroq(prompt, 100);
+    } catch (e) {
+      logWarn(`Groq falló condensando el veredicto de la guía (${e.message})`);
+      const raw = fitzClean.replace(/\n+/g, ' ').trim();
+      veredicto = raw.split(/(?<=[.?!])\s/)[0]?.slice(0, 140) || 'Guía completa en fitzdesk.com';
+    }
   }
 
   // Slides 2 y 3: dos grupos temáticos del contenido de la guía
