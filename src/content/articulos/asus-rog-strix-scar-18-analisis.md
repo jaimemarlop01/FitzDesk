@@ -21,7 +21,6 @@ keywords_secundarias:
   - "portatil gaming"
   - "teletrabajo"
   - "productividad"
-borrador: true
 imagen_thumb: "/images/articulos/asus-rog-strix-scar-18-analisis-thumb.webp"
 ---
 
