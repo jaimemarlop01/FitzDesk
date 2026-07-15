@@ -1,8 +1,8 @@
----
+﻿---
 title: "Logitech Brio 505: la webcam Full HD que no necesitas configurar"
 slug: "logitech-brio-505-analisis"
-categoria: "perifericos"
-fecha: "2026-07-07"
+categoria: "setups"
+fecha: "2026-09-15"
 descripcion: "Análisis del Logitech Brio 505: cámara Full HD 1080p con encuadre automático, USB-C y privacidad física para videollamadas profesionales."
 imagen: "/images/articulos/logitech-brio-505-analisis.webp"
 imagen_thumb: "/images/articulos/logitech-brio-505-analisis-thumb.webp"
@@ -90,4 +90,3 @@ El Brio 505 es la webcam que recomendaría al 90% de los teletrabajadores que me
 
 El Logitech Brio 505 es la respuesta correcta a la pregunta "¿qué webcam compro para teletrabajo?" para la mayoría de usuarios. Funciona sin configuración, mejora la imagen de forma visible frente a la cámara integrada, y el encuadre automático elimina la fricción habitual de ajustar la posición antes de cada reunión. A 70,95€ actuales, el precio ya no es el obstáculo que era cuando se vendía a 100€.
 
-> ⚠️ **Aviso**: FitzDesk puede recibir una comisión si compras a través de los enlaces de este artículo, sin coste adicional para ti.
