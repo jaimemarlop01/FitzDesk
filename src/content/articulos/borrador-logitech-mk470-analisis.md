@@ -5,7 +5,6 @@ categoria: "setups"
 fecha: "2026-08-04"
 descripcion: "Análisis del Logitech MK470, combo de teclado y ratón inalámbrico compacto, silencioso y pensado para teletrabajo y estudio."
 imagen: "/images/articulos/logitech-mk470-analisis.webp"
-imagen_placeholder: true
 puntuacion: 8.0
 criterios:
   calidad_construccion: 7.5
