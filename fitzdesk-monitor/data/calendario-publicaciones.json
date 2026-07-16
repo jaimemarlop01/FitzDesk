@@ -239,7 +239,7 @@
       "fecha": "2026-08-18",
       "diaSemana": "martes",
       "slug": "borrador-corsair-xeneon-edge-analisis",
-      "titulo": "Corsair XENEON Edge 14.5\": la segunda pantalla táctil que cabe en cualquier setup",
+      "titulo": "Corsair XENEON Edge 14.5: pantalla táctil secundaria para teletrabajo",
       "categoria": "monitores",
       "prioridad": "MEDIA",
       "tipo": "analisis",
@@ -340,7 +340,7 @@
       "diaSemana": "martes",
       "slug": "borrador-logitech-brio-505-analisis",
       "titulo": "Logitech Brio 505: la webcam Full HD que no necesitas configurar",
-      "categoria": "perifericos",
+      "categoria": "setups",
       "prioridad": "ALTA",
       "tipo": "analisis",
       "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00"
@@ -354,6 +354,16 @@
       "prioridad": "MEDIA",
       "tipo": "analisis",
       "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00"
+    },
+    {
+      "fecha": "2026-09-20",
+      "diaSemana": "domingo",
+      "slug": "borrador-mejor-teclado-mecanico-teletrabajo-2026",
+      "titulo": "Mejor teclado mecánico para teletrabajo en 2026: guía de compra",
+      "categoria": "guias",
+      "prioridad": "MEDIA",
+      "tipo": "guia",
+      "nota": "Sin restricción de horario — publica cuando estés listo. Borrador PENDIENTE DE CREAR (slot reservado)"
     },
     {
       "fecha": "2026-09-22",
