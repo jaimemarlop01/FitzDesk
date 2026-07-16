@@ -5,6 +5,7 @@ categoria: "setups"
 fecha: "2026-09-15"
 descripcion: "Análisis del Logitech Brio 505: cámara Full HD 1080p con encuadre automático, USB-C y privacidad física para videollamadas profesionales."
 imagen: "/images/articulos/logitech-brio-505-analisis.webp"
+imagen_placeholder: true
 imagen_thumb: "/images/articulos/logitech-brio-505-analisis-thumb.webp"
 puntuacion: 8.5
 criterios:

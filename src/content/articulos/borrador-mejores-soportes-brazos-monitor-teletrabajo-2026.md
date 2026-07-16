@@ -5,6 +5,7 @@ categoria: "setups"
 fecha: "2026-08-23"
 descripcion: "Cómo elegir soporte o brazo de monitor para liberar el escritorio y cuidar el cuello en el teletrabajo. Opciones de 28€ a 198€ con disponibilidad real en PcComponentes."
 imagen: "/images/articulos/mejores-soportes-brazos-monitor-teletrabajo-2026.webp"
+imagen_placeholder: true
 imagen_thumb: "/images/articulos/mejores-soportes-brazos-monitor-teletrabajo-2026-thumb.webp"
 presupuesto: "28€ - 198€"
 tiempo_lectura: "7 min"
