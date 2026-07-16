@@ -16,7 +16,6 @@ criterios:
   autonomia: 8.5
   conectividad: 8.5
   calidad_precio: 8.5
-borrador: true
 imagen_thumb: "/images/articulos/logitech-mobi-fold-analisis-thumb.webp"
 fecha_actualizacion: "2026-07-07"
 actualizado: true
