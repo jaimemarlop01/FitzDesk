@@ -152,6 +152,20 @@ declare module 'astro:content' {
 
 	type ContentEntryMap = {
 		"articulos": {
+"aoc-q27p3cv-analisis.md": {
+	id: "aoc-q27p3cv-analisis.md";
+  slug: "aoc-q27p3cv-analisis";
+  body: string;
+  collection: "articulos";
+  data: InferEntrySchema<"articulos">
+} & { render(): Render[".md"] };
+"asus-rog-strix-scar-18-analisis.md": {
+	id: "asus-rog-strix-scar-18-analisis.md";
+  slug: "asus-rog-strix-scar-18-analisis";
+  body: string;
+  collection: "articulos";
+  data: InferEntrySchema<"articulos">
+} & { render(): Render[".md"] };
 "asus-vivobook-15-oled-analisis.md": {
 	id: "asus-vivobook-15-oled-analisis.md";
   slug: "asus-vivobook-15-oled-analisis";
@@ -168,70 +182,182 @@ declare module 'astro:content' {
 } & { render(): Render[".md"] };
 "borrador-adata-lleva-a-computex-b2026b-el-urban-tapsafe-un-ssd-externo-que-se-desbloquea-.md": {
 	id: "borrador-adata-lleva-a-computex-b2026b-el-urban-tapsafe-un-ssd-externo-que-se-desbloquea-.md";
-  slug: "borrador-adata-lleva-a-computex-b2026b-el-urban-tapsafe-un-ssd-externo-que-se-desbloquea-";
+  slug: "adata-urban-tapsafe";
   body: string;
   collection: "articulos";
   data: InferEntrySchema<"articulos">
 } & { render(): Render[".md"] };
-"borrador-asus-rog-strix-scar-18-una-bestia-capaz-de-todo---muycomputer.md": {
-	id: "borrador-asus-rog-strix-scar-18-una-bestia-capaz-de-todo---muycomputer.md";
-  slug: "borrador-asus-rog-strix-scar-18-una-bestia-capaz-de-todo---muycomputer";
+"borrador-airra-labs-rotary-mouse-analisis.md": {
+	id: "borrador-airra-labs-rotary-mouse-analisis.md";
+  slug: "airra-labs-rotary-mouse-analisis";
   body: string;
   collection: "articulos";
   data: InferEntrySchema<"articulos">
 } & { render(): Render[".md"] };
-"borrador-computex-b2026b-antec-presenta-novedades-en-refrigeracion-minipcs-torres-y-perif.md": {
-	id: "borrador-computex-b2026b-antec-presenta-novedades-en-refrigeracion-minipcs-torres-y-perif.md";
-  slug: "borrador-computex-b2026b-antec-presenta-novedades-en-refrigeracion-minipcs-torres-y-perif";
+"borrador-asus-portatiles-trabajo-exigente-2026.md": {
+	id: "borrador-asus-portatiles-trabajo-exigente-2026.md";
+  slug: "asus-portatiles-trabajo-exigente-2026";
   body: string;
   collection: "articulos";
   data: InferEntrySchema<"articulos">
 } & { render(): Render[".md"] };
-"borrador-corsair-anade-una-pantalla-ips-de-5-a-la-icue-link-titan-ii-ultra-360-lx-lcd.md": {
-	id: "borrador-corsair-anade-una-pantalla-ips-de-5-a-la-icue-link-titan-ii-ultra-360-lx-lcd.md";
-  slug: "borrador-corsair-anade-una-pantalla-ips-de-5-a-la-icue-link-titan-ii-ultra-360-lx-lcd";
+"borrador-asus-proart-pa278cv-analisis.md": {
+	id: "borrador-asus-proart-pa278cv-analisis.md";
+  slug: "asus-proart-pa278cv-analisis";
   body: string;
   collection: "articulos";
   data: InferEntrySchema<"articulos">
 } & { render(): Render[".md"] };
-"borrador-corsair-presenta-en-computex-b2026b-el-teclado-clipper-pro-mini-60-el-raton---ge.md": {
-	id: "borrador-corsair-presenta-en-computex-b2026b-el-teclado-clipper-pro-mini-60-el-raton---ge.md";
-  slug: "borrador-corsair-presenta-en-computex-b2026b-el-teclado-clipper-pro-mini-60-el-raton---ge";
+"borrador-asus-vivobook-15-oferta.md": {
+	id: "borrador-asus-vivobook-15-oferta.md";
+  slug: "asus-vivobook-15-oferta";
   body: string;
   collection: "articulos";
   data: InferEntrySchema<"articulos">
 } & { render(): Render[".md"] };
-"borrador-corsair-renueva-su-catalogo-de-perifericos-en-computex-b2026b-con-bnuevos-teclad.md": {
-	id: "borrador-corsair-renueva-su-catalogo-de-perifericos-en-computex-b2026b-con-bnuevos-teclad.md";
-  slug: "borrador-corsair-renueva-su-catalogo-de-perifericos-en-computex-b2026b-con-bnuevos-teclad";
+"borrador-benq-pd2705q-analisis.md": {
+	id: "borrador-benq-pd2705q-analisis.md";
+  slug: "benq-pd2705q-analisis";
   body: string;
   collection: "articulos";
   data: InferEntrySchema<"articulos">
 } & { render(): Render[".md"] };
-"borrador-despliegue-de-portatiles-y-prototipos-con-nvidia-rtx-spark-asi-son-todos-los-mod.md": {
-	id: "borrador-despliegue-de-portatiles-y-prototipos-con-nvidia-rtx-spark-asi-son-todos-los-mod.md";
-  slug: "borrador-despliegue-de-portatiles-y-prototipos-con-nvidia-rtx-spark-asi-son-todos-los-mod";
+"borrador-cherry-kc-6000-slim-analisis.md": {
+	id: "borrador-cherry-kc-6000-slim-analisis.md";
+  slug: "cherry-kc-6000-slim-analisis";
   body: string;
   collection: "articulos";
   data: InferEntrySchema<"articulos">
 } & { render(): Render[".md"] };
-"borrador-equipos-para-jugar-para-nomadas-digitales-o-para-las-tareas-mas-exigentes-cinco-.md": {
-	id: "borrador-equipos-para-jugar-para-nomadas-digitales-o-para-las-tareas-mas-exigentes-cinco-.md";
-  slug: "borrador-equipos-para-jugar-para-nomadas-digitales-o-para-las-tareas-mas-exigentes-cinco-";
+"borrador-corsair-k70-core-tkl-analisis.md": {
+	id: "borrador-corsair-k70-core-tkl-analisis.md";
+  slug: "corsair-k70-core-tkl-analisis";
   body: string;
   collection: "articulos";
   data: InferEntrySchema<"articulos">
 } & { render(): Render[".md"] };
-"borrador-lg-display-muestra-el-futuro-de-los-monitores-oled-gaming-con-2000-nits-5k-27-22.md": {
-	id: "borrador-lg-display-muestra-el-futuro-de-los-monitores-oled-gaming-con-2000-nits-5k-27-22.md";
-  slug: "borrador-lg-display-muestra-el-futuro-de-los-monitores-oled-gaming-con-2000-nits-5k-27-22";
+"borrador-corsair-xeneon-edge-analisis.md": {
+	id: "borrador-corsair-xeneon-edge-analisis.md";
+  slug: "corsair-xeneon-edge-analisis";
   body: string;
   collection: "articulos";
   data: InferEntrySchema<"articulos">
 } & { render(): Render[".md"] };
-"borrador-xbox-ally-x20-la-primera-consola-de-la-xbox-de-asha-sharma-es-una-portatil.md": {
-	id: "borrador-xbox-ally-x20-la-primera-consola-de-la-xbox-de-asha-sharma-es-una-portatil.md";
-  slug: "borrador-xbox-ally-x20-la-primera-consola-de-la-xbox-de-asha-sharma-es-una-portatil";
+"borrador-doble-monitor-teletrabajo-merece-la-pena.md": {
+	id: "borrador-doble-monitor-teletrabajo-merece-la-pena.md";
+  slug: "doble-monitor-teletrabajo-merece-la-pena";
+  body: string;
+  collection: "articulos";
+  data: InferEntrySchema<"articulos">
+} & { render(): Render[".md"] };
+"borrador-jabra-evolve2-30-se-analisis.md": {
+	id: "borrador-jabra-evolve2-30-se-analisis.md";
+  slug: "jabra-evolve2-30-se-analisis";
+  body: string;
+  collection: "articulos";
+  data: InferEntrySchema<"articulos">
+} & { render(): Render[".md"] };
+"borrador-keychron-k2-max-analisis.md": {
+	id: "borrador-keychron-k2-max-analisis.md";
+  slug: "keychron-k2-max-analisis";
+  body: string;
+  collection: "articulos";
+  data: InferEntrySchema<"articulos">
+} & { render(): Render[".md"] };
+"borrador-lg-ultragear-34gx90sb-w-analisis.md": {
+	id: "borrador-lg-ultragear-34gx90sb-w-analisis.md";
+  slug: "lg-ultragear-34gx90sb-w-analisis";
+  body: string;
+  collection: "articulos";
+  data: InferEntrySchema<"articulos">
+} & { render(): Render[".md"] };
+"borrador-logitech-brio-505-analisis.md": {
+	id: "borrador-logitech-brio-505-analisis.md";
+  slug: "logitech-brio-505-analisis";
+  body: string;
+  collection: "articulos";
+  data: InferEntrySchema<"articulos">
+} & { render(): Render[".md"] };
+"borrador-logitech-mk470-analisis.md": {
+	id: "borrador-logitech-mk470-analisis.md";
+  slug: "logitech-mk470-analisis";
+  body: string;
+  collection: "articulos";
+  data: InferEntrySchema<"articulos">
+} & { render(): Render[".md"] };
+"borrador-logitech-mx-mechanical-analisis.md": {
+	id: "borrador-logitech-mx-mechanical-analisis.md";
+  slug: "logitech-mx-mechanical-analisis";
+  body: string;
+  collection: "articulos";
+  data: InferEntrySchema<"articulos">
+} & { render(): Render[".md"] };
+"borrador-logitech-mx-vertical-analisis.md": {
+	id: "borrador-logitech-mx-vertical-analisis.md";
+  slug: "logitech-mx-vertical-analisis";
+  body: string;
+  collection: "articulos";
+  data: InferEntrySchema<"articulos">
+} & { render(): Render[".md"] };
+"borrador-logitech-pop-keys-analisis.md": {
+	id: "borrador-logitech-pop-keys-analisis.md";
+  slug: "logitech-pop-keys-analisis";
+  body: string;
+  collection: "articulos";
+  data: InferEntrySchema<"articulos">
+} & { render(): Render[".md"] };
+"borrador-logitech-signature-m650-analisis.md": {
+	id: "borrador-logitech-signature-m650-analisis.md";
+  slug: "logitech-signature-m650-analisis";
+  body: string;
+  collection: "articulos";
+  data: InferEntrySchema<"articulos">
+} & { render(): Render[".md"] };
+"borrador-mejores-soportes-brazos-monitor-teletrabajo-2026.md": {
+	id: "borrador-mejores-soportes-brazos-monitor-teletrabajo-2026.md";
+  slug: "mejores-soportes-brazos-monitor-teletrabajo-2026";
+  body: string;
+  collection: "articulos";
+  data: InferEntrySchema<"articulos">
+} & { render(): Render[".md"] };
+"borrador-microsoft-bluetooth-ergonomic-mouse-analisis.md": {
+	id: "borrador-microsoft-bluetooth-ergonomic-mouse-analisis.md";
+  slug: "microsoft-bluetooth-ergonomic-mouse-analisis";
+  body: string;
+  collection: "articulos";
+  data: InferEntrySchema<"articulos">
+} & { render(): Render[".md"] };
+"borrador-monitor-ultrawide-teletrabajo-merece-la-pena.md": {
+	id: "borrador-monitor-ultrawide-teletrabajo-merece-la-pena.md";
+  slug: "monitor-ultrawide-teletrabajo-merece-la-pena";
+  body: string;
+  collection: "articulos";
+  data: InferEntrySchema<"articulos">
+} & { render(): Render[".md"] };
+"borrador-msi-pro-mp341cq-analisis.md": {
+	id: "borrador-msi-pro-mp341cq-analisis.md";
+  slug: "msi-pro-mp341cq-analisis";
+  body: string;
+  collection: "articulos";
+  data: InferEntrySchema<"articulos">
+} & { render(): Render[".md"] };
+"borrador-razer-seiren-v3-pro-analisis.md": {
+	id: "borrador-razer-seiren-v3-pro-analisis.md";
+  slug: "razer-seiren-v3-pro-analisis";
+  body: string;
+  collection: "articulos";
+  data: InferEntrySchema<"articulos">
+} & { render(): Render[".md"] };
+"borrador-trust-tk-350-silent-analisis.md": {
+	id: "borrador-trust-tk-350-silent-analisis.md";
+  slug: "trust-tk-350-silent-analisis";
+  body: string;
+  collection: "articulos";
+  data: InferEntrySchema<"articulos">
+} & { render(): Render[".md"] };
+"corsair-presenta-en-computex-b2026b-el-teclado-clipper-pro-mini-60-el-raton---ge.md": {
+	id: "corsair-presenta-en-computex-b2026b-el-teclado-clipper-pro-mini-60-el-raton---ge.md";
+  slug: "corsair-presenta-en-computex-b2026b-el-teclado-clipper-pro-mini-60-el-raton---ge";
   body: string;
   collection: "articulos";
   data: InferEntrySchema<"articulos">
@@ -239,6 +365,41 @@ declare module 'astro:content' {
 "dell-s2722qc-analisis.md": {
 	id: "dell-s2722qc-analisis.md";
   slug: "dell-s2722qc-analisis";
+  body: string;
+  collection: "articulos";
+  data: InferEntrySchema<"articulos">
+} & { render(): Render[".md"] };
+"dolor-muneca-teletrabajo-perifericos-ergonomicos.md": {
+	id: "dolor-muneca-teletrabajo-perifericos-ergonomicos.md";
+  slug: "dolor-muneca-teletrabajo-perifericos-ergonomicos";
+  body: string;
+  collection: "articulos";
+  data: InferEntrySchema<"articulos">
+} & { render(): Render[".md"] };
+"el-nuevo-surface-ultra-con-el-rtx-spark-de-nvidia-cuenta-con-un-misterioso-puert.md": {
+	id: "el-nuevo-surface-ultra-con-el-rtx-spark-de-nvidia-cuenta-con-un-misterioso-puert.md";
+  slug: "el-nuevo-surface-ultra-con-el-rtx-spark-de-nvidia-cuenta-con-un-misterioso-puert";
+  body: string;
+  collection: "articulos";
+  data: InferEntrySchema<"articulos">
+} & { render(): Render[".md"] };
+"hp-935-creator-wireless-analisis.md": {
+	id: "hp-935-creator-wireless-analisis.md";
+  slug: "hp-935-creator-wireless-analisis";
+  body: string;
+  collection: "articulos";
+  data: InferEntrySchema<"articulos">
+} & { render(): Render[".md"] };
+"hp-probook-455-g10-analisis.md": {
+	id: "hp-probook-455-g10-analisis.md";
+  slug: "hp-probook-455-g10-analisis";
+  body: string;
+  collection: "articulos";
+  data: InferEntrySchema<"articulos">
+} & { render(): Render[".md"] };
+"intel-wildcat-lake-golpeara-al-apple-macbook-neo-los-portatiles-x86-podran-usar-.md": {
+	id: "intel-wildcat-lake-golpeara-al-apple-macbook-neo-los-portatiles-x86-podran-usar-.md";
+  slug: "intel-wildcat-lake-golpeara-al-apple-macbook-neo-los-portatiles-x86-podran-usar-";
   body: string;
   collection: "articulos";
   data: InferEntrySchema<"articulos">
@@ -285,6 +446,13 @@ declare module 'astro:content' {
   collection: "articulos";
   data: InferEntrySchema<"articulos">
 } & { render(): Render[".md"] };
+"lg-display-muestra-el-futuro-de-los-monitores-oled-gaming-con-2000-nits-5k-27-22.md": {
+	id: "lg-display-muestra-el-futuro-de-los-monitores-oled-gaming-con-2000-nits-5k-27-22.md";
+  slug: "lg-display-muestra-el-futuro-de-los-monitores-oled-gaming-con-2000-nits-5k-27-22";
+  body: string;
+  collection: "articulos";
+  data: InferEntrySchema<"articulos">
+} & { render(): Render[".md"] };
 "lg-gram-14-2025-analisis.md": {
 	id: "lg-gram-14-2025-analisis.md";
   slug: "lg-gram-14-2025-analisis";
@@ -292,9 +460,23 @@ declare module 'astro:content' {
   collection: "articulos";
   data: InferEntrySchema<"articulos">
 } & { render(): Render[".md"] };
+"logitech-k380-analisis.md": {
+	id: "logitech-k380-analisis.md";
+  slug: "logitech-k380-analisis";
+  body: string;
+  collection: "articulos";
+  data: InferEntrySchema<"articulos">
+} & { render(): Render[".md"] };
 "logitech-lift-vertical-analisis.md": {
 	id: "logitech-lift-vertical-analisis.md";
   slug: "logitech-lift-vertical-analisis";
+  body: string;
+  collection: "articulos";
+  data: InferEntrySchema<"articulos">
+} & { render(): Render[".md"] };
+"logitech-mobi-fold-analisis.md": {
+	id: "logitech-mobi-fold-analisis.md";
+  slug: "logitech-mobi-fold-analisis";
   body: string;
   collection: "articulos";
   data: InferEntrySchema<"articulos">
@@ -320,6 +502,20 @@ declare module 'astro:content' {
   collection: "articulos";
   data: InferEntrySchema<"articulos">
 } & { render(): Render[".md"] };
+"mejor-monitor-teletrabajo-2026-guia.md": {
+	id: "mejor-monitor-teletrabajo-2026-guia.md";
+  slug: "mejor-monitor-teletrabajo-2026-guia";
+  body: string;
+  collection: "articulos";
+  data: InferEntrySchema<"articulos">
+} & { render(): Render[".md"] };
+"mejor-raton-teletrabajo-presupuesto-2026.md": {
+	id: "mejor-raton-teletrabajo-presupuesto-2026.md";
+  slug: "mejor-raton-teletrabajo-presupuesto-2026";
+  body: string;
+  collection: "articulos";
+  data: InferEntrySchema<"articulos">
+} & { render(): Render[".md"] };
 "mejor-setup-teletrabajo-500-euros-2026.md": {
 	id: "mejor-setup-teletrabajo-500-euros-2026.md";
   slug: "mejor-setup-teletrabajo-500-euros-2026";
@@ -327,9 +523,30 @@ declare module 'astro:content' {
   collection: "articulos";
   data: InferEntrySchema<"articulos">
 } & { render(): Render[".md"] };
-"raton-ergonomico-vs-estandar-teletrabajo.md": {
-	id: "raton-ergonomico-vs-estandar-teletrabajo.md";
-  slug: "raton-ergonomico-vs-estandar-teletrabajo";
+"monitor-4k-vs-full-hd-teletrabajo-2026.md": {
+	id: "monitor-4k-vs-full-hd-teletrabajo-2026.md";
+  slug: "monitor-4k-vs-full-hd-teletrabajo-2026";
+  body: string;
+  collection: "articulos";
+  data: InferEntrySchema<"articulos">
+} & { render(): Render[".md"] };
+"portatil-vs-sobremesa-teletrabajo-2026.md": {
+	id: "portatil-vs-sobremesa-teletrabajo-2026.md";
+  slug: "portatil-vs-sobremesa-teletrabajo-2026";
+  body: string;
+  collection: "articulos";
+  data: InferEntrySchema<"articulos">
+} & { render(): Render[".md"] };
+"razer-pro-click-analisis.md": {
+	id: "razer-pro-click-analisis.md";
+  slug: "razer-pro-click-analisis";
+  body: string;
+  collection: "articulos";
+  data: InferEntrySchema<"articulos">
+} & { render(): Render[".md"] };
+"samsung-s27a600-analisis.md": {
+	id: "samsung-s27a600-analisis.md";
+  slug: "samsung-s27a600-analisis";
   body: string;
   collection: "articulos";
   data: InferEntrySchema<"articulos">
@@ -337,6 +554,13 @@ declare module 'astro:content' {
 "setup-teletrabajo-profesional-2026.md": {
 	id: "setup-teletrabajo-profesional-2026.md";
   slug: "setup-teletrabajo-profesional-2026";
+  body: string;
+  collection: "articulos";
+  data: InferEntrySchema<"articulos">
+} & { render(): Render[".md"] };
+"teclado-mecanico-vs-membrana-teletrabajo-2026.md": {
+	id: "teclado-mecanico-vs-membrana-teletrabajo-2026.md";
+  slug: "teclado-mecanico-vs-membrana-teletrabajo-2026";
   body: string;
   collection: "articulos";
   data: InferEntrySchema<"articulos">

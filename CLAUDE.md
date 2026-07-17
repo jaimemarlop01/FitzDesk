@@ -269,9 +269,13 @@ Objetivos:
 - [ ] Solicitar alta en Awin en Julio 2026 cuando haya 30+ artículos publicados
 - [x] Configurar Google Search Console — propiedad fitzdesk.com verificada por DNS (TXT record, 2026-06-12); sitemap enviado, pendiente confirmación de indexación por parte de Google (hasta 24h)
 - [ ] Registrar @fitzdesk en redes sociales
+- [ ] Añadir secret `GOOGLE_SERVICE_ACCOUNT_KEY` en GitHub → repo → Settings → Secrets and variables → Actions (valor: JSON de `fitzdesk-monitor/google-credentials.json` en base64 — `[Convert]::ToBase64String([IO.File]::ReadAllBytes('google-credentials.json'))` en PowerShell) para que el step "Reenviar sitemap a Google Search Console" en `publicar-automatico.yml` funcione
+- [ ] Obtener foto real de producto para 5 borradores con `imagen_placeholder: true`: `logitech-mx-vertical-analisis` (20/08), `mejores-soportes-brazos-monitor-teletrabajo-2026` (23/08), `asus-proart-pa278cv-analisis` (08/09), `logitech-brio-505-analisis` (15/09), `microsoft-bluetooth-ergonomic-mouse-analisis` (22/09) — el sistema de publicación automática bloquea estos artículos hasta que `imagen_placeholder: true` se elimine del frontmatter
 
 ## Estado de borradores
-- Última revisión: 2026-07-07
+- Última revisión: 2026-07-14
+- Borradores pendientes: 20
+- Listos para publicar: 7
 - Última ejecución de completar-borradores: 2026-06-24
 - Borradores descartados: 0 en esta pasada
 - **Pasada 2026-07-07 — revisión completa sobre los 28 borradores activos**:
@@ -342,8 +346,22 @@ De esos 14, **4 se conservaron y completaron** (traídos a `develop` con frontma
 **Bug corregido en `analyzer.js`**: el segundo borrador descartado tenía `borrador: false` en el frontmatter pese a estar recién generado sin revisar. Causa: `generateDraft()` deja que la IA genere el frontmatter completo como texto libre (incluyendo el campo `borrador:`), y el código nunca lo validaba después — al contrario que `precio:` y `enlace_afiliado:`, que sí se sobrescriben siempre en `injectPcData()`. Corregido añadiendo una normalización forzada antes de `injectPcData()`: si el campo existe con cualquier valor (`true` o `false`), se fuerza a `true`; si no existe, se inserta antes del cierre del frontmatter. Mismo patrón defensivo que ya usaban `precio`/`enlace_afiliado`.
 
 ## Estado del código
-- Última revisión: 2026-07-07 (12ª pasada — 9 correcciones del revisor de código: SRI Chart.js, timeouts fetch, CSS vars, slugify compartido, npm ci + caché workflows, CRLF addDuplicateWarning)
-- Errores críticos pendientes: 0 | Estado: ✅ Sin errores críticos
+- Última revisión: 2026-07-14 (14ª pasada — 1 error crítico nuevo: cookies ficticias en privacidad.astro; 3 advertencias nuevas: Google Fonts doble carga, fetch sin timeout en socialPublisher.js, rgba hardcodeados en contacto.astro)
+- Errores críticos pendientes: 1 | Estado: 🔴 Hay errores
+- **Error crítico pendiente tras la 14ª pasada**:
+  - `privacidad.astro:112-123` — declara `fitzdesk_session` y `fitzdesk_prefs` como cookies propias; estas cookies no existen en el código. La clave real es `fitzdesk_cookies_consent` (localStorage). La página `/cookies` está correcta pero `/privacidad` no fue actualizada — información falsa en política legal requerida por RGPD
+- **Advertencias pendientes tras la 14ª pasada**:
+  - `publicar-automatico.yml:148` — URL del artículo en notificación Discord enviada antes de que el deploy complete; puede dar 404 durante ~5-15 min
+  - `index.astro:300`, `buscar.astro:394,603`, `AffiliateButton.astro:51,57`, `contacto.astro:185,205` — 7 instancias de `rgba(249,115,22,...)` hardcodeadas para box-shadows/highlight (2 nuevas en contacto.astro)
+  - `deploy.yml:46` — `npm install` en vez de `npm ci` (inconsistente con la corrección de monitor.yml en la 12ª pasada)
+  - `global.css:1` + `BaseLayout.astro:71-76` — Google Fonts cargado dos veces (via @import en CSS y via <link> en HTML); doble request a Google por cada carga de página
+  - `socialPublisher.js:91,106,138,150,176,198` — 6 fetch() a la API de Meta/Pinterest sin AbortSignal.timeout()
+- **Correcciones 2026-07-17 (15ª pasada — imagen_placeholder, Review schema, sitemap automation)**:
+  - `fitzdesk-monitor/auto-publisher.js` — nuevo bloque de validación que bloquea la publicación si el frontmatter contiene `imagen_placeholder: true`. Reemplaza la heurística de tamaño de archivo (40KB) que daba falsos positivos para imágenes reales de fondo blanco pequeñas (p.ej. airra-labs: 12.9KB). Si el campo está presente, el workflow notifica a Discord con el motivo y termina sin publicar
+  - `src/content/config.ts` — añadido `imagen_placeholder: z.boolean().optional()` al schema Zod
+  - 5 borradores con `imagen_placeholder: true` en el frontmatter (pendientes de foto real, ver "Próximas acciones"): `logitech-mx-vertical-analisis`, `mejores-soportes-brazos-monitor-teletrabajo-2026`, `asus-proart-pa278cv-analisis`, `logitech-brio-505-analisis`, `microsoft-bluetooth-ergonomic-mouse-analisis`. `logitech-mk470-analisis` ya tiene foto real y se eliminó el campo
+  - `src/pages/articulo/[slug].astro` — schema markup `Review` corregido para Google Search Console (error "Debe especificarse offers, review o aggregateRating" y "Falta el campo 'image'"): `itemReviewed.Product` ahora incluye `image` (URL absoluta `https://fitzdesk.com${imagen}`), `description` y `offers` con `Offer` completo (price, priceCurrency, availability). Los artículos que no son `tipo: "analisis"` con puntuación numérica usan schema `Article` en vez de `Review` — evita errores de Google en comparativas, guías y lanzamientos
+  - `.github/workflows/publicar-automatico.yml` — nuevo step "Reenviar sitemap a Google Search Console" (`continue-on-error: true`) que ejecuta `node indexingChecker.js --fix` tras cada publicación exitosa, usando el secret `GOOGLE_SERVICE_ACCOUNT_KEY`. Requiere que el secret esté creado en GitHub (ver "Próximas acciones")
 - **Correcciones 2026-07-07 (12ª pasada)**:
   - `comparar.astro` — Chart.js cargado con `defer` y SRI (`integrity="sha384-jb8JQMbMoBUzgWatfe6COACi2ljcDdZQ2OxczGA3bGNeWe+6DChMTBJemed7ZnvJ"`, versión pinned a `@4.5.1`); elimina la carga sin integridad de un CDN externo
   - `monitor.js` — `findExistingArticle()`: fetch envuelto con `signal: AbortSignal.timeout(15000)` para no colgar en llamada a GitHub API
