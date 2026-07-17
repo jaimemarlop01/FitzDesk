@@ -212,6 +212,19 @@ jobs:
         working-directory: fitzdesk-monitor
         run: npm ci --omit=dev
 
+      # ── 6c-idx. Reenviar sitemap a Google Search Console ─────────────────────
+      # Usa sitemaps.submit (permitido para cualquier contenido) — distinto de
+      # la API de Indexación, que Google restringe a JobPosting/BroadcastEvent.
+      # Le dice a Google que el sitemap se actualizó; lo indexará en su próximo
+      # rastreo. continue-on-error para no bloquear la publicación si falla.
+      - name: Reenviar sitemap a Google Search Console
+        if: steps.check.outputs.status == 'ready' && steps.process.outcome == 'success' && success()
+        continue-on-error: true
+        working-directory: fitzdesk-monitor
+        env:
+          GOOGLE_SERVICE_ACCOUNT_KEY: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY }}
+        run: node indexingChecker.js --fix
+
       # ── 6d. Generar el carrusel de Instagram y publicarlo en producción ANTES
       #    de llamar a la API de Meta — necesita una URL pública real, y el
       #    deploy que dispara el push del paso 6 (workflow_run) no estará
