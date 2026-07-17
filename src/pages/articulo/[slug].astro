@@ -41,25 +41,47 @@ const related = allArticles
   .filter(a => a.data.categoria === categoria && a.slug !== article.slug)
   .slice(0, 3);
 
-const reviewSchema = puntuacion ? {
+// Review schema solo para análisis con puntuación numérica.
+// Google exige offers en itemReviewed para enriquecer resultados.
+const precioLimpio = precio ? precio.replace(/[€\s]/g, '').replace(',', '.') : null;
+const esAnalisisConPuntuacion = tipo === 'analisis' && typeof puntuacion === 'number';
+
+const reviewSchema = esAnalisisConPuntuacion ? {
   '@context': 'https://schema.org',
   '@type': 'Review',
   name: title,
   reviewBody: descripcion,
   itemReviewed: {
     '@type': 'Product',
-    name: title.includes(':') ? title.split(':')[0].trim() : title,
+    name: productName,
+    ...(precioLimpio && {
+      offers: {
+        '@type': 'Offer',
+        price: precioLimpio,
+        priceCurrency: 'EUR',
+        availability: 'https://schema.org/InStock',
+      },
+    }),
   },
   reviewRating: {
     '@type': 'Rating',
     ratingValue: puntuacion,
-    bestRating: 10,
-    worstRating: 0,
+    bestRating: '10',
+    worstRating: '0',
   },
   author: { '@type': 'Organization', name: 'FitzDesk' },
   datePublished: fecha,
   url: Astro.url.href,
-} : undefined;
+} : {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  name: title,
+  headline: title,
+  description: descripcion,
+  author: { '@type': 'Organization', name: 'FitzDesk' },
+  datePublished: fecha,
+  url: Astro.url.href,
+};
 ---
 
 <BaseLayout

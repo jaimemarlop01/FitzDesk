@@ -88,7 +88,7 @@ async function ensureInstagramCarousel(slug) {
 // status_code pase a FINISHED, con un máximo de ~20s.
 async function waitForContainerReady(containerId, accessToken, { retries = 10, delayMs = 2000 } = {}) {
   for (let i = 0; i < retries; i++) {
-    const res  = await fetch(`https://graph.facebook.com/v25.0/${containerId}?fields=status_code&access_token=${accessToken}`);
+    const res  = await fetch(`https://graph.facebook.com/v25.0/${containerId}?fields=status_code&access_token=${accessToken}`, { signal: AbortSignal.timeout(15000) });
     const data = await res.json();
     if (data.status_code === 'FINISHED') return;
     if (data.status_code === 'ERROR') {
@@ -107,6 +107,7 @@ async function createCarouselItem(igAccountId, accessToken, imageUrl) {
     method:  'POST',
     headers: { 'Content-Type': 'application/json' },
     body:    JSON.stringify({ image_url: imageUrl, is_carousel_item: true, access_token: accessToken }),
+    signal:  AbortSignal.timeout(15000),
   });
   const data = await res.json();
   if (!res.ok || !data.id) {
@@ -139,6 +140,7 @@ async function publishInstagram(slug, caption) {
     method:  'POST',
     headers: { 'Content-Type': 'application/json' },
     body:    JSON.stringify({ media_type: 'CAROUSEL', children: itemIds, caption, access_token: accessToken }),
+    signal:  AbortSignal.timeout(15000),
   });
   const carouselData = await carouselRes.json();
   if (!carouselRes.ok || !carouselData.id) {
@@ -151,6 +153,7 @@ async function publishInstagram(slug, caption) {
     method:  'POST',
     headers: { 'Content-Type': 'application/json' },
     body:    JSON.stringify({ creation_id: carouselData.id, access_token: accessToken }),
+    signal:  AbortSignal.timeout(15000),
   });
   const publishData = await publishRes.json();
   if (!publishRes.ok || !publishData.id) {
@@ -176,6 +179,7 @@ async function publishFacebook(slug, caption) {
   const res  = await fetch(`https://graph.facebook.com/v25.0/${pageId}/feed`, {
     method:  'POST',
     headers: { 'Content-Type': 'application/json' },
+    signal:  AbortSignal.timeout(15000),
     body:    JSON.stringify({
       message:      caption,
       link:         `${SITE_URL}/articulo/${slug}`,
@@ -198,6 +202,7 @@ async function publishPinterest(article, slug) {
   const res  = await fetch('https://api.pinterest.com/v5/pins', {
     method:  'POST',
     headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${accessToken}` },
+    signal:  AbortSignal.timeout(15000),
     body:    JSON.stringify({
       board_id:     boardId,
       media_source: { source_type: 'image_url', url: imageUrlFor(slug) },

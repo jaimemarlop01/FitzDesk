@@ -1,9 +1,9 @@
----
-title: "Corsair XENEON Edge 14.5\": la segunda pantalla táctil que cabe en cualquier setup"
+﻿---
+title: "Corsair XENEON Edge 14.5: pantalla táctil secundaria para teletrabajo"
 slug: "corsair-xeneon-edge-analisis"
 categoria: "monitores"
-fecha: "2026-07-07"
-descripcion: "Análisis del Corsair XENEON Edge 14.5\": monitor secundario táctil 2K 32:9 con USB-C, soporte magnético y acabado mate. ¿Vale 273€ como segunda pantalla para teletrabajo?"
+fecha: "2026-08-18"
+descripcion: "Análisis del Corsair XENEON Edge 14.5\": segunda pantalla táctil 2K con USB-C para teletrabajo. ¿Vale 273€?"
 imagen: "/images/articulos/corsair-xeneon-edge-analisis.webp"
 imagen_thumb: "/images/articulos/corsair-xeneon-edge-analisis-thumb.webp"
 puntuacion: 7.5
@@ -111,4 +111,3 @@ Sí, vía USB-C con DP Alt Mode o HDMI. El táctil no funciona en macOS (Apple n
 **¿Necesita drivers?**
 No. Se reconoce automáticamente en Windows 10/11 como pantalla y como dispositivo táctil HID. Sin software adicional obligatorio.
 
-> ⚠️ **Aviso**: FitzDesk puede recibir una comisión si compras a través de nuestros enlaces, sin coste adicional para ti.

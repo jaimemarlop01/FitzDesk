@@ -113,7 +113,7 @@ if (mode === '--process') {
     process.exit(1);
   }
 
-  // 3. La imagen debe existir (imageCollector debe haberse ejecutado antes)
+  // 3. La imagen debe existir
   if (!fs.existsSync(imageFile)) {
     const msg = `Imagen no encontrada: ${pubSlug}.webp — ejecuta imageCollector.js --slug ${pubSlug} antes de publicar`;
     console.error(msg);
@@ -122,16 +122,27 @@ if (mode === '--process') {
     process.exit(1);
   }
 
-  // 4. Eliminar borrador: true del frontmatter
+  // 4. Bloquear si el frontmatter tiene imagen_placeholder: true
+  // Los artículos con placeholder honesto (icono genérico) deben tener
+  // este campo para que no se publiquen sin foto real del producto.
+  if (/^imagen_placeholder:\s*true/m.test(content)) {
+    const msg = `Imagen placeholder pendiente de sustitución en ${pubSlug} — añade una foto real del producto y elimina imagen_placeholder: true del frontmatter`;
+    console.error(msg);
+    setOutput('ok',        'false');
+    setOutput('error_msg', msg);
+    process.exit(1);
+  }
+
+  // 5. Eliminar borrador: true del frontmatter
   content = content.replace(/^borrador:\s*true[ \t]*\n?/m, '');
 
-  // 5. Corregir ruta de imagen si apunta al nombre con prefijo borrador-
+  // 6. Corregir ruta de imagen si apunta al nombre con prefijo borrador-
   content = content.replace(
     /^(imagen:\s*["']?\/images\/articulos\/)borrador-/m,
     '$1'
   );
 
-  // 6. Escribir el archivo publicado y eliminar el draft si el nombre cambió
+  // 7. Escribir el archivo publicado y eliminar el draft si el nombre cambió
   fs.writeFileSync(publishedFile, content, 'utf8');
   if (draftFile !== publishedFile) {
     fs.unlinkSync(draftFile);

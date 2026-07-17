@@ -17,6 +17,7 @@ const articulosCollection = defineCollection({
     especificaciones: z.record(z.string()).optional(),
     borrador: z.boolean().optional(),
     imagen_thumb: z.string().optional(),
+    imagen_placeholder: z.boolean().optional(),
     presupuesto: z.string().optional(),
     enlace_a: z.string().optional(),
     enlace_b: z.string().optional(),

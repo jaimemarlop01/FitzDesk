@@ -1,8 +1,8 @@
----
+﻿---
 title: "Keychron K2 Max: el mecánico compacto con QMK para teletrabajo"
 slug: "keychron-k2-max-analisis"
 categoria: "teclados"
-fecha: "2026-07-07"
+fecha: "2026-09-03"
 descripcion: "Análisis del Keychron K2 Max: layout 75% con F-row, QMK/VIA, triple conectividad y switches hot-swappables para el escritorio de trabajo."
 imagen: "/images/articulos/keychron-k2-max-analisis.webp"
 imagen_thumb: "/images/articulos/keychron-k2-max-analisis-thumb.webp"
@@ -90,4 +90,3 @@ El K2 Max es el teclado que más recomendaría a alguien que quiere dar el salto
 
 El Keychron K2 Max es uno de los mejores teclados mecánicos para teletrabajo en 2026. Combina un layout 75% muy práctico, personalización QMK, hot-swap y triple conectividad a un precio que compite directamente con el Logitech MX Mechanical. Para usuarios que priorizan la flexibilidad técnica y la construcción a largo plazo, es difícil encontrar algo más completo en este rango.
 
-> ⚠️ **Aviso**: FitzDesk puede recibir una comisión si compras a través de los enlaces de este artículo, sin coste adicional para ti.

@@ -12,12 +12,15 @@ criterios:
   pantalla: 7.5
   teclado_trackpad: 8.5
   calidad_precio: 8.8
-precio: "549,99€"
+precio: "899€"
 enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=hp+probook+455+g10"
 tiempo_lectura: "6 min"
 tipo: "analisis"
 imagen_thumb: "/images/articulos/hp-probook-455-g10-analisis-thumb.webp"
+fecha_actualizacion: "2026-07-14"
+actualizado: true
 ---
+> 📅 **Artículo actualizado en julio de 2026**: Precio actualizado a 899€ en PcComponentes.
 
 La gama ProBook de HP lleva décadas siendo el portátil del autónomo que necesita fiabilidad empresarial sin pagar el precio de un ThinkPad X1 o un Dell XPS. El ProBook 455 G10 es la versión AMD de esa propuesta: procesadores Ryzen de eficiencia energética, construcción sólida, pantalla decente y las funciones de seguridad que el trabajo profesional exige, todo por debajo de los 600€.
 

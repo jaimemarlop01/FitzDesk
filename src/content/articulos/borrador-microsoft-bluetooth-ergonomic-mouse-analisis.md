@@ -1,10 +1,11 @@
----
+﻿---
 title: "Microsoft Bluetooth Ergonomic Mouse: ergonomía sin complicaciones"
 slug: "microsoft-bluetooth-ergonomic-mouse-analisis"
 categoria: "ratones"
-fecha: "2026-07-07"
+fecha: "2026-09-22"
 descripcion: "Análisis del Microsoft Bluetooth Ergonomic Mouse: diseño ergonómico asimétrico, Bluetooth puro y botones de acceso directo para teletrabajo."
 imagen: "/images/articulos/microsoft-bluetooth-ergonomic-mouse-analisis.webp"
+imagen_placeholder: true
 imagen_thumb: "/images/articulos/microsoft-bluetooth-ergonomic-mouse-analisis-thumb.webp"
 puntuacion: 7.6
 criterios:
@@ -89,4 +90,3 @@ El Microsoft Bluetooth Ergonomic Mouse es la opción más sensata si ya vives en
 
 El Microsoft Bluetooth Ergonomic Mouse no destaca en especificaciones técnicas puras, pero cumple bien su propósito: ofrecer una ergonomía razonable, integración natural con Windows y buena autonomía a un precio moderado. Si tu trabajo gira en torno a Microsoft 365 y buscas un ratón Bluetooth sin grandes pretensiones, es una opción que no decepciona. Para quien necesite más precisión, multidispositivo o receptor USB, hay mejores alternativas en el mismo rango.
 
-> ⚠️ **Aviso**: FitzDesk puede recibir una comisión si compras a través de los enlaces de este artículo, sin coste adicional para ti.

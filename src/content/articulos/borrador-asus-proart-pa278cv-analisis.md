@@ -1,10 +1,11 @@
----
+﻿---
 title: "ASUS ProArt PA278CV: precisión de color profesional con USB-C"
 slug: "asus-proart-pa278cv-analisis"
 categoria: "monitores"
-fecha: "2026-07-07"
+fecha: "2026-09-08"
 descripcion: "Análisis del ASUS ProArt PA278CV: panel IPS QHD 27\", 100% sRGB, USB-C 90W de carga y calibración de fábrica para trabajo profesional."
 imagen: "/images/articulos/asus-proart-pa278cv-analisis.webp"
+imagen_placeholder: true
 imagen_thumb: "/images/articulos/asus-proart-pa278cv-analisis-thumb.webp"
 puntuacion: 9.1
 criterios:
@@ -90,4 +91,3 @@ El PA278CV es el monitor que dejaría en el escritorio de un diseñador o fotóg
 
 El ASUS ProArt PA278CV combina los requisitos esenciales del monitor para trabajo creativo profesional: calibración verificada individualmente, cobertura de color completa, USB-C de alta potencia y soporte ergonómico completo. A 289€ es uno de los mejores monitores para diseñadores y fotógrafos en este rango de precio. No tiene los extras de los modelos de gama alta, pero para la mayoría del trabajo creativo cotidiano no son necesarios.
 
-> ⚠️ **Aviso**: FitzDesk puede recibir una comisión si compras a través de los enlaces de este artículo, sin coste adicional para ti.

@@ -1,8 +1,8 @@
----
+﻿---
 title: "Corsair K70 Core TKL: mecánico sin numpad para el setup que viaja"
 slug: "corsair-k70-core-tkl-analisis"
 categoria: "teclados"
-fecha: "2026-07-07"
+fecha: "2026-08-13"
 descripcion: "Análisis del Corsair K70 Core TKL: teclado mecánico compacto con switches MLX Red V2, amortiguación acústica y cable USB-C extraíble a 80€."
 imagen: "/images/articulos/corsair-k70-core-tkl-analisis.webp"
 imagen_thumb: "/images/articulos/corsair-k70-core-tkl-analisis-thumb.webp"
@@ -102,4 +102,3 @@ Sí, aunque algunas teclas tienen leyendas Windows (la tecla Super aparece como 
 **¿Qué alternativa hay en el mismo rango de precio?**
 El Keychron K8 Pro (119€) ofrece inalámbrico y es más portable, pero cuesta más. En mecánicos con cable a precio similar, el HyperX Alloy Origins Core es una alternativa directa.
 
-> ⚠️ **Aviso**: FitzDesk puede recibir una comisión si compras a través de nuestros enlaces, sin coste adicional para ti.
