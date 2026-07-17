@@ -54,6 +54,8 @@ const reviewSchema = esAnalisisConPuntuacion ? {
   itemReviewed: {
     '@type': 'Product',
     name: productName,
+    image: `https://fitzdesk.com${imagen}`,
+    description: descripcion,
     ...(precioLimpio && {
       offers: {
         '@type': 'Offer',
