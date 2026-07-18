@@ -55,7 +55,7 @@ No es el portátil más elegante ni el que impresiona en la primera foto. Es el 
 
 ## Experiencia de uso
 
-La construcción del E14 transmite solidez desde el primer momento. No hay flex en la tapa ni en el teclado. Los materiales son funcionales sin ser llamativos, con un acabado negro mate mate que no acumula huellas.
+La construcción del E14 transmite solidez desde el primer momento. No hay flex en la tapa ni en el teclado. Los materiales son funcionales sin ser llamativos, con un acabado negro mate que no acumula huellas.
 
 La batería de 57 Wh da entre 8 y 10 horas en uso mixto de oficina. Es suficiente para una jornada completa con gestión inteligente. Bajo carga de trabajo intensiva (compilación, videoconferencias con pantalla compartida continua) baja a 5-6 horas.
 

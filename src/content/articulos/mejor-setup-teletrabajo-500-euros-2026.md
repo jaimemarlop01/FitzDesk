@@ -59,7 +59,7 @@ Aunque el BenQ GW2780 es un excelente monitor Full HD, puede que en el futuro de
 
 ### Mejora 2: Añadir un hub USB-C
 
-Un hub USB-C puede ser una excelente adición a tu setup, especialmente si tu ordenador o laptop tiene limitadas salidas USB. Un buen hub no solo te proporciona más puertos, sino que también puede ofrecer cargado rápido, salidas de video adicionales y conexiones de red, lo que puede mejorar significativamente la organización y la funcionalidad de tu espacio de trabajo.
+Un hub USB-C puede ser una excelente adición a tu setup, especialmente si tu ordenador o portátil tiene limitadas salidas USB. Un buen hub no solo te proporciona más puertos, sino que también puede ofrecer cargado rápido, salidas de video adicionales y conexiones de red, lo que puede mejorar significativamente la organización y la funcionalidad de tu espacio de trabajo.
 
 ### Mejora 3: Upgrade del ratón al MX Master 3S
 
