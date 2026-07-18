@@ -77,7 +77,7 @@ Si hay que reducir los 277€ todavía más, cada componente tiene una versión 
 
 ## 🐿️ Fitz recomienda este setup
 
-Me encanta este conjunto porque ofrece una gran calidad y valor. El BenQ GW2780 es el componente estrella, ya que su calidad de imagen y comodidad lo hacen ideal para cualquier trabajador remoto. Lo recomendaría a cualquier persona que busque crear un espacio de trabajo productivo sin gastar una fortuna. Con este setup, tendrás todo lo que necesitas para trabajar eficientemente desde casa.
+Si me preguntas qué setup monto con 300€, este es el que recomiendo. El BenQ GW2780 es el componente estrella: su calidad de imagen y comodidad lo hacen ideal para cualquier teletrabajador. Un monitor, un teclado mecánico y un ratón que dura dos meses sin recargar. Por 277€, difícil pedir más.
 
 ## Conclusión
 

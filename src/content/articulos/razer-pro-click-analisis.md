@@ -31,6 +31,14 @@ La conectividad es dual: 2,4 GHz con el receptor USB HyperSpeed de Razer (1ms de
 
 El diseño es ergonómico para mano derecha con forma que invita a un agarre de palma natural. Las 7 teclas programables permiten asignar atajos desde la app Razer Synapse. El clic silencioso reduce el ruido en un 90% respecto a botones mecánicos convencionales, según sus especificaciones, lo que lo hace adecuado para entornos compartidos o espacios silenciosos.
 
+## Diseño y construcción
+
+El Pro Click presenta un acabado blanco mate (o negro en la versión oscura) que lo aleja radicalmente de la estética gaming habitual de Razer. No hay RGB, no hay logotipos llamativos, no hay líneas angulosas. El resultado es un ratón que encaja en cualquier escritorio profesional y pasa desapercibido en videollamadas, algo que sus propios hermanos gaming no pueden decir.
+
+La forma es ergonómica para mano derecha con soporte para un agarre de palma natural. El peso de aproximadamente 91 gramos es equilibrado: suficientemente ligero para no fatigar la muñeca en jornadas largas, pero con la masa justa para no sentirse frágil al moverlo. El material exterior tiene una textura mate que mejora el agarre incluso con las manos calientes.
+
+La rueda de desplazamiento ofrece desplazamiento suave sin el "modo libre" electromagnético del MX Master 3S. Para navegación de documentos y páginas web el tacto es adecuado; para hojas de cálculo largas o documentos de miles de líneas, quienes vienen del scroll MagSpeed notarán la diferencia.
+
 ## Experiencia de uso esperada
 
 Por sus características, cabe esperar un ratón cómodo para jornadas largas. La forma ergonómica y el peso equilibrado (~91g) deberían reducir la fatiga en la muñeca comparado con un ratón plano convencional. La rueda de desplazamiento no tiene el modo libre del MX Master 3S, pero por sus especificaciones ofrece desplazamiento suave adecuado para navegar documentos.

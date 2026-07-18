@@ -55,7 +55,7 @@ Para quien trabaja con un portátil como dispositivo principal, esto transforma 
 
 ## Experiencia de uso
 
-La resolución 4K en 27 pulgadas tiene un efecto inmediato en la comodidad visual: el texto es notoriamente más nítido, los iconos más definidos, las fuentes más elegantes. Después de una semana de uso, volver a un monitor Full HD de 27 pulgadas resulta desagradable.
+La resolución 4K en 27 pulgadas tiene un efecto inmediato en la comodidad visual: el texto es notoriamente más nítido, los iconos más definidos, las fuentes más elegantes. Según quienes han dado el salto al 4K, volver a Full HD resulta llamativamente inferior.
 
 El cable único USB-C merece especial mención práctica. La rutina se convierte en: llegas al escritorio, enchufas un cable al portátil, empiezas a trabajar. La pantalla del portátil se apaga, el monitor 4K se activa y el portátil empieza a cargarse. Al acabar, desenchufas el cable y te vas con el portátil cargado. Es un flujo de trabajo que parece trivial pero reduce la fricción del día a día de forma significativa.
 

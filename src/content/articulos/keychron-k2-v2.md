@@ -27,6 +27,7 @@ especificaciones:
   Carcasa: "Aluminio (versión V2)"
   Hotswap: "No (versión estándar)"
   Peso: "870 g"
+tipo: "analisis"
 ---
 
 > ⚠️ **Este modelo está agotado en la tienda oficial de Keychron (SKU K2-C2H) y ausente en PcComponentes, Amazon.es, idealo.es y COOLMOD.** El precio mostrado (60€) es una conversión desde 68,24$ de la tienda oficial, no un precio de compra activo en España — actualízalo si vuelve a tener stock.

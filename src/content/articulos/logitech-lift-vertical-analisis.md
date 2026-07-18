@@ -47,7 +47,7 @@ El Logitech Lift es la respuesta de Logitech al creciente mercado de periférico
 
 **El sensor óptico** cubre de 400 a 4.000 DPI. Para trabajo de oficina, navegación web, videollamadas y gestión de documentos es más que suficiente. Para diseño gráfico de precisión extrema o uso en pantallas 4K de alta resolución, el sensor tiene sus límites.
 
-**La batería** funciona con una pila AA que Logitech estima en 24 meses. En uso real hemos superado el año sin cambiarla. Es uno de esos periféricos que sacas de la cabeza en lo que a alimentación se refiere.
+**La batería** funciona con una pila AA que Logitech estima en 24 meses. Según las especificaciones del fabricante, la autonomía supera el año en uso habitual. Es uno de esos periféricos que sacas de la cabeza en lo que a alimentación se refiere.
 
 **Los seis botones** incluyen clic izquierdo, derecho, rueda (clic central), botón de retroceso, botón adelante y un botón de ajuste de velocidad del puntero. Sin programación avanzada por aplicación, pero cubre el uso estándar.
 

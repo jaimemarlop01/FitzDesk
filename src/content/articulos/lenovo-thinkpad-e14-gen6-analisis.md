@@ -96,7 +96,7 @@ Una alternativa es el LG Gram, aunque si necesitas un diseño premium y no te im
 
 ## 🐿️ Fitz recomienda
 
-Me encanta el teclado ThinkPad, es el mejor que he probado en un portátil de 14 pulgadas. Sin embargo, el diseño sobrio puede no ser del agrado de todos. En resumen, es una excelente opción para profesionales que buscan fiabilidad y productividad. Mi nota: 8.8/10
+Aquí Fitz no tiene dudas: el teclado ThinkPad es el mejor que puedes encontrar integrado en un portátil de 14 pulgadas. El diseño sobrio no va a ganar ningún premio de estética, pero si tu prioridad es escribir mucho y tener un equipo que dure años, el E14 Gen 6 es la elección más inteligente. Mi nota: 8.8/10
 
 ## Conclusión
 

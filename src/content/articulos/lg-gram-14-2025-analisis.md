@@ -53,11 +53,11 @@ La propuesta del Gram no ha cambiado en años: ser el portátil más ligero del 
 
 ## Experiencia de uso
 
-El primer impacto al levantar el Gram 14 es psicológico: la sensación de que es demasiado ligero, que debe estar hueco. Ese impacto inicial no desaparece del todo incluso después de semanas de uso.
+El primer impacto al levantar el Gram 14 es psicológico: la sensación de que es demasiado ligero, que debe estar hueco. Ese impacto inicial es lo que más destacan quienes lo usan a diario.
 
 En uso real de oficina, el rendimiento es fluido y silencioso. Los ventiladores apenas se activan en tareas de productividad estándar. Solo con tareas exigentes (compilación de código, exportación de vídeo, reuniones con pantalla compartida simultánea) se oye un ruido de ventilación moderado.
 
-La pantalla IPS antirreflejos funciona bien en la mayoría de entornos, incluyendo exterior con luz natural moderada. No es OLED (los colores no son tan vivos ni el contraste tan dramático), pero es perfectamente cómoda para jornadas largas.
+La pantalla IPS antirreflejos funciona bien en la mayoría de entornos, incluyendo exterior con luz natural moderada. No es OLED (los colores no son tan vivos ni el contraste tan dramático), pero es perfectamente cómoda para jornadas largas. Para quienes vienen de pantallas OLED, volver a un IPS convencional se nota mucho.
 
 ## Lo mejor
 
@@ -94,7 +94,7 @@ El Vivobook OLED a 699€ ofrece más pantalla por menos dinero, pero no tiene l
 
 ## 🐿️ Fitz recomienda
 
-Me encanta el LG Gram 14 por su ligereza y batería larga, aunque su precio es elevado y carece de gráficos dedicados. Sin embargo, para trabajo de oficina y movilidad, destaca entre las mejores opciones disponibles. Mi nota: 9.0/10
+Lo que más me gusta del LG Gram 14 es que resuelve dos problemas a la vez: pesa menos de un kilo y aguanta todo el día sin enchufarse. El precio es elevado y no tiene gráficos dedicados, pero para quien viaja con el portátil en la mochila, esas dos ventajas justifican la inversión. Mi nota: 9.0/10
 
 ## Conclusión
 

@@ -51,7 +51,7 @@ No es el teclado más emocionante del mercado. Es, sin embargo, uno de los más 
 
 **Logi Options+** permite personalizar las teclas de función para acciones específicas de flujo de trabajo: abrir aplicaciones, copiar/pegar entre dispositivos (función Flow), controlar emojis, controles de sistema. Para quien usa el ecosistema Logitech MX, la integración es muy buena.
 
-**La batería** dura hasta 10 días con retroiluminación activa o hasta 5 meses sin retroiluminación. En uso real con retroiluminación moderada (que es lo normal) llegamos a 2-3 semanas sin problema.
+**La batería** dura hasta 10 días con retroiluminación activa o hasta 5 meses sin retroiluminación. Según el fabricante, en uso intensivo se pueden alcanzar 2-3 semanas sin recargar.
 
 ## Experiencia de uso
 
