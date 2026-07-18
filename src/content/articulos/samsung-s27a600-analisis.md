@@ -35,6 +35,10 @@ Por sus características, cabe esperar un monitor con imagen equilibrada y color
 
 El diseño de bordes ultra-finos de Samsung hace que el monitor resulte visualmente limpio en el escritorio, especialmente en configuraciones de doble monitor donde el espacio entre pantallas importa para la inmersión visual.
 
+La compatibilidad con AMD FreeSync reduce el tearing y el stuttering en movimientos rápidos de interfaz, aunque para trabajo de oficina puro este aspecto tiene menos relevancia que para quien alterna entre trabajo y contenido multimedia. Los 75 Hz del panel son suficientes para trabajo de productividad y permiten disfrutar de vídeo y contenido fluido sin los saltos de refresco que se perciben a 60 Hz en algunas situaciones.
+
+El soporte con pivote a 90° es un diferencial práctico que muchos monitores de este precio no incluyen. En modo retrato, la pantalla muestra una columna de texto o código más larga sin tener que hacer scroll, lo que mejora la productividad en tareas específicas como programación, revisión de documentos legales extensos o lectura de artículos largos.
+
 ## Lo mejor
 
 - Precio ajustado para un QHD IPS de 27 pulgadas

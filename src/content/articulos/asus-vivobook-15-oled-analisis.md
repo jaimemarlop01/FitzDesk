@@ -55,7 +55,7 @@ Los **120 Hz** en OLED dan una fluidez notable en el desplazamiento de páginas 
 
 El impacto visual de la pantalla OLED es inmediato. La primera vez que abres el portátil y ves los negros absolutamente negros en cualquier fondo oscuro, o los colores saturados de una fotografía, la comparación con un IPS convencional es brutal.
 
-Para trabajo diario con documentos de texto, el OLED también mejora la experiencia: el blanco del papel digital es más limpio, el texto más nítido. Después de días de uso, volver a un IPS se siente apagado.
+Para trabajo diario con documentos de texto, el OLED también mejora la experiencia: el blanco del papel digital es más limpio, el texto más nítido. Para quienes vienen de pantallas OLED, volver a un IPS convencional se nota en seguida.
 
 La batería es el punto débil más evidente. Con 6-8 horas en uso mixto de oficina (videoconferencias, navegación, documentos), es suficiente para una jornada completa si tienes acceso a un enchufe cerca. Para trabajo fuera de casa sin fuente de alimentación a mano, puede quedarse corta en jornadas largas.
 
@@ -96,7 +96,7 @@ Una alternativa podría ser el LG Gram 14, especialmente si necesitas más auton
 
 ## 🐿️ Fitz recomienda
 
-Me encanta la pantalla OLED del Vivobook 15 por su calidad visual excepcional, aunque la batería de 6-8 horas puede ser un poco justa para algunas necesidades. Sin embargo, considero que la experiencia visual que ofrece vale la pena. Mi nota: 8.6/10
+Este Vivobook me tiene convencido por la pantalla. A 699€ no existe otra forma de tener OLED de verdad en un portátil de trabajo, y para quien pasa ocho horas mirando texto y documentos, la diferencia visual es inmediata. La batería es el punto débil, pero si tienes un enchufe cerca, no es un problema real. Mi nota: 8.6/10
 
 ## Conclusión
 

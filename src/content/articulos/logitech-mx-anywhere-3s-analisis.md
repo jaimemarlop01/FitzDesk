@@ -50,7 +50,7 @@ El Logitech MX Anywhere 3S cumple las tres con holgura. Y además trae el scroll
 
 **El sensor Darkfield** funciona sobre cristal, cuero, madera brillante y prácticamente cualquier superficie. Si trabajas desde cafeterías o mesas de coworking con superficies variadas, no necesitas alfombrilla. El rango de 200 a 8.000 DPI da control preciso tanto para trabajo creativo como para navegación básica.
 
-**La batería** dura hasta 70 días con una carga completa via USB-C. En uso real en teletrabajo (6-8 horas diarias) llegamos fácilmente a las 5 semanas. La recarga es rápida y el puerto es USB-C, no micro-USB como en generaciones anteriores.
+**La batería** dura hasta 70 días con una carga completa via USB-C. Según sus especificaciones, en uso intensivo de 6-8 horas diarias cabe esperar unas 5 semanas de autonomía. La recarga es rápida y el puerto es USB-C, no micro-USB como en generaciones anteriores.
 
 **El diseño** es ambidextro aunque está ligeramente orientado a diestros. Pesa 99 g, lo que lo hace muy manejable para desplazamientos largos. La conectividad dual (Logi Bolt y Bluetooth) permite vincularlo a dos dispositivos y alternar entre ellos con el botón inferior.
 

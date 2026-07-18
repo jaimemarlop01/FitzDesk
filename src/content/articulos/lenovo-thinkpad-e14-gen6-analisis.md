@@ -55,7 +55,7 @@ No es el portátil más elegante ni el que impresiona en la primera foto. Es el 
 
 ## Experiencia de uso
 
-La construcción del E14 transmite solidez desde el primer momento. No hay flex en la tapa ni en el teclado. Los materiales son funcionales sin ser llamativos, con un acabado negro mate mate que no acumula huellas.
+La construcción del E14 transmite solidez desde el primer momento. No hay flex en la tapa ni en el teclado. Los materiales son funcionales sin ser llamativos, con un acabado negro mate que no acumula huellas.
 
 La batería de 57 Wh da entre 8 y 10 horas en uso mixto de oficina. Es suficiente para una jornada completa con gestión inteligente. Bajo carga de trabajo intensiva (compilación, videoconferencias con pantalla compartida continua) baja a 5-6 horas.
 
@@ -96,7 +96,7 @@ Una alternativa es el LG Gram, aunque si necesitas un diseño premium y no te im
 
 ## 🐿️ Fitz recomienda
 
-Me encanta el teclado ThinkPad, es el mejor que he probado en un portátil de 14 pulgadas. Sin embargo, el diseño sobrio puede no ser del agrado de todos. En resumen, es una excelente opción para profesionales que buscan fiabilidad y productividad. Mi nota: 8.8/10
+Aquí Fitz no tiene dudas: el teclado ThinkPad es el mejor que puedes encontrar integrado en un portátil de 14 pulgadas. El diseño sobrio no va a ganar ningún premio de estética, pero si tu prioridad es escribir mucho y tener un equipo que dure años, el E14 Gen 6 es la elección más inteligente. Mi nota: 8.8/10
 
 ## Conclusión
 

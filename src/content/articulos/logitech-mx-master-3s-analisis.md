@@ -47,11 +47,11 @@ Esta tercera versión "S" incorpora dos mejoras sobre el modelo anterior: los cl
 
 **El scroll MagSpeed** es la característica más diferencial. La rueda electromagnética tiene dos modos: táctil (con retención por pasos, perfecto para hojas de cálculo o código) y libre (gira sin resistencia y desplaza miles de líneas en segundos). El cambio entre modos puede ser manual con un clic o automático según detecte la velocidad de desplazamiento. Una vez que lo usas, cualquier rueda convencional parece anticuada.
 
-**El sensor Darkfield** funciona sobre cualquier superficie: madera, cristal, cuero, superficies brillantes. Rango de 200 a 8.000 DPI ajustable en incrementos de 50, lo que permite adaptarlo perfectamente tanto a trabajo en 4K como a uso básico. Sin aceleración ni pérdida de tracking en meses de uso intensivo.
+**El sensor Darkfield** funciona sobre cualquier superficie: madera, cristal, cuero, superficies brillantes. Rango de 200 a 8.000 DPI ajustable en incrementos de 50, lo que permite adaptarlo perfectamente tanto a trabajo en 4K como a uso básico. Sus especificaciones apuntan a un sensor sin aceleración ni pérdida de tracking incluso en superficies complicadas.
 
 **Easy-Switch multidispositivo**: el botón lateral permite alternar entre tres dispositivos vinculados en un solo clic. De MacBook a PC a iPad sin tocar nada más. Para quien trabaja con múltiples dispositivos, esta funcionalidad es transformadora.
 
-**La batería** dura 70 días con una carga completa. En uso real con 8 horas diarias llegamos a 6 semanas sin problema. La recarga USB-C da 3 horas de uso por cada minuto de carga. Nunca te quedas sin ratón.
+**La batería** dura 70 días con una carga completa. Según el fabricante, en uso intensivo de 8 horas diarias cabe esperar unas 6 semanas de autonomía. La recarga USB-C da 3 horas de uso por cada minuto de carga. Nunca te quedas sin ratón.
 
 **El cuerpo** pesa 141 g: suficientemente ligero para maniobrar con facilidad y suficientemente sólido para sentirlo controlado. La textura mate superior y el caucho lateral ofrecen un agarre firme sin esfuerzo.
 

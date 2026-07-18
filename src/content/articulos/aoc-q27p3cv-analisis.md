@@ -40,7 +40,11 @@ La base ofrece regulación completa: altura (hasta 150mm), inclinación, giro e 
 
 El panel IPS cubre el 99% del espacio sRGB, lo que se traduce en colores bien saturados y sin desviaciones visibles para trabajo de diseño básico y edición de imágenes. Para trabajo de color profesional con ajuste de perfil ICC, un monitor de calibración dedicado es la herramienta adecuada; para el teletrabajador que retoca fotos o trabaja con material visual sin requisitos de preprensa, la cobertura del Q27P3CV es más que suficiente.
 
+Los 75 Hz del panel son una ventaja discreta pero real respecto a los 60 Hz estándar de muchos monitores de oficina: el desplazamiento de ventanas y páginas web se percibe más fluido, lo que reduce la fatiga visual en jornadas largas. No es un diferencial decisivo para trabajo de oficina puro, pero sí apreciable para quien alterna entre documentos y navegación intensiva.
+
 Los 65W de carga por USB-C cubren sin problema ultrabooks, MacBook Air y la mayoría de portátiles de trabajo con Ryzen o Intel de gama media. Un MacBook Pro 16" bajo carga intensiva cargará más despacio de lo habitual, pero no se descargará mientras trabaja — simplemente no cargará tan rápido como con su cargador propio.
+
+Los altavoces integrados de 2×3W son funcionales para escuchar el audio de videollamadas sin auriculares. En el precio del Q27P3CV, su presencia es un añadido útil en situaciones puntuales, no la razón de comprarlo.
 
 ## Lo mejor
 
