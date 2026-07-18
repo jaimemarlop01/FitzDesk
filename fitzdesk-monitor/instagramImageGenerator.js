@@ -191,7 +191,26 @@ async function getItemExplanations(items, content, kind) {
 }
 
 export async function getCarouselContent({ data, content }) {
-  // 1. Frontmatter (poco habitual en este esquema, pero se respeta si existe)
+  // 0. Campos pre-generados en el borrador (sin coste de Groq en publicación)
+  if (
+    Array.isArray(data.instagram_pros_frases) && data.instagram_pros_frases.length > 0 &&
+    Array.isArray(data.instagram_contras_frases) && data.instagram_contras_frases.length > 0 &&
+    typeof data.instagram_veredicto === 'string' && data.instagram_veredicto.trim()
+  ) {
+    let pros    = parseBulletList(extractSection(content, /^##\s*Lo mejor/i), 4);
+    let contras = parseBulletList(extractSection(content, /^##\s*Lo mejorable/i), 3);
+    if (pros.length === 0)    pros    = ['Ver análisis completo en fitzdesk.com'];
+    if (contras.length === 0) contras = ['Ver análisis completo en fitzdesk.com'];
+    return {
+      pros,
+      contras,
+      veredicto:          data.instagram_veredicto.trim(),
+      prosExplanations:   pros.map((_, i) => data.instagram_pros_frases[i] || genericExplanation('pro', i)),
+      contrasExplanations: contras.map((_, i) => data.instagram_contras_frases[i] || genericExplanation('con', i)),
+    };
+  }
+
+  // 1. Frontmatter legacy (poco habitual en este esquema, pero se respeta si existe)
   let pros        = Array.isArray(data.lo_mejor) ? data.lo_mejor : [];
   let contras     = Array.isArray(data.lo_mejorable) ? data.lo_mejorable : [];
   let veredictoSrc = typeof data.fitzQuote === 'string' ? data.fitzQuote : null;
@@ -250,6 +269,21 @@ export async function getCarouselContent({ data, content }) {
 // dos grupos temáticos propios de la guía (e.g. "cuándo elegir 4K" /
 // "cuándo basta el Full HD"). Fallback a secciones "Cuándo SÍ / NO" si Groq falla.
 async function getGuideCarouselContent({ data, content }) {
+  // 0. Campos pre-generados en el borrador (sin coste de Groq en publicación)
+  if (
+    typeof data.instagram_slide2_titulo === 'string' && data.instagram_slide2_titulo.trim() &&
+    Array.isArray(data.instagram_slide2_items) && data.instagram_slide2_items.length > 0 &&
+    typeof data.instagram_slide3_titulo === 'string' && data.instagram_slide3_titulo.trim() &&
+    Array.isArray(data.instagram_slide3_items) && data.instagram_slide3_items.length > 0 &&
+    typeof data.instagram_veredicto === 'string' && data.instagram_veredicto.trim()
+  ) {
+    return {
+      slide2: { titulo: data.instagram_slide2_titulo.trim(), items: data.instagram_slide2_items, kind: 'pro' },
+      slide3: { titulo: data.instagram_slide3_titulo.trim(), items: data.instagram_slide3_items, kind: 'pro' },
+      veredicto: data.instagram_veredicto.trim(),
+    };
+  }
+
   // Veredicto: para guías, condensar SIN mencionar marcas ni modelos concretos
   // (las guías cubren varias opciones; nombrar una sola en el slide parece
   // favoritismo y quita generalidad al consejo editorial de Fitz).

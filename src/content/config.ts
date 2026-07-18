@@ -32,6 +32,13 @@ const articulosCollection = defineCollection({
     descuento: z.string().optional(),
     oferta_activa: z.boolean().optional(),
     analisis_relacionado: z.string().optional(),
+    instagram_veredicto: z.string().optional(),
+    instagram_pros_frases: z.array(z.string()).optional(),
+    instagram_contras_frases: z.array(z.string()).optional(),
+    instagram_slide2_titulo: z.string().optional(),
+    instagram_slide2_items: z.array(z.string()).optional(),
+    instagram_slide3_titulo: z.string().optional(),
+    instagram_slide3_items: z.array(z.string()).optional(),
   }),
 });
 
