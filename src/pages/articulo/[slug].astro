@@ -56,6 +56,13 @@ const reviewSchema = esAnalisisConPuntuacion ? {
     name: productName,
     image: `https://fitzdesk.com${imagen}`,
     description: descripcion,
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue: puntuacion,
+      bestRating: '10',
+      worstRating: '0',
+      reviewCount: '1',
+    },
     ...(precioLimpio && {
       offers: {
         '@type': 'Offer',
