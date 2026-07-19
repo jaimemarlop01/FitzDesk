@@ -141,6 +141,16 @@ keywords_secundarias:
   - "[keyword 3]"
   - "[keyword 4]"
 fitzQuote: "[veredicto corto de Fitz en 2-3 frases, terminando con 'Mi nota: X/10']"
+instagram_veredicto: "[frase corta del veredicto de Fitz para el slide 4 de Instagram, máximo 18 palabras, sin emojis, primera persona]"
+instagram_pros_frases:
+  - "[frase de impacto real para el pro 1, máximo 8 palabras, tono cercano]"
+  - "[frase de impacto real para el pro 2, máximo 8 palabras]"
+  - "[frase de impacto real para el pro 3, máximo 8 palabras]"
+  - "[frase de impacto real para el pro 4, máximo 8 palabras]"
+instagram_contras_frases:
+  - "[frase de impacto real para el contra 1, máximo 8 palabras]"
+  - "[frase de impacto real para el contra 2, máximo 8 palabras]"
+  - "[frase de impacto real para el contra 3, máximo 8 palabras]"
 borrador: true
 ---
 
@@ -195,7 +205,12 @@ Veredicto en primera persona. Exactamente 3 frases: punto fuerte clave + punto d
 
 > ⚠️ **Aviso de afiliado**: Si compras a través de nuestros enlaces podemos recibir una pequeña comisión sin coste adicional para ti. Esto nos ayuda a seguir publicando análisis honestos e independientes.
 
-Extensión: 900-1.100 palabras en el cuerpo. Español de España.`;
+Extensión: 900-1.100 palabras en el cuerpo. Español de España.
+
+INSTRUCCIONES PARA LOS CAMPOS DE INSTAGRAM EN EL FRONTMATTER:
+- instagram_veredicto: Una sola frase (máximo 18 palabras) en primera persona, sin emojis. Condensa la esencia del veredicto de Fitz para el slide 4. Ejemplo: "Si trabajas muchas horas al ordenador, este ratón cambia las reglas del juego."
+- instagram_pros_frases: Exactamente 4 frases, en el mismo orden que los bullets de "## Lo mejor". Cada una describe el IMPACTO REAL del pro para quien teletrabaja, no el dato técnico. Máximo 8 palabras. Tono cercano, como hablarle a un amigo. No repetir palabras del bullet. Frases MALAS: "Rueda menos fluida causa frustración". Frases BUENAS: "Olvídate de cargarlo durante semanas", "El cursor va exactamente donde quieres".
+- instagram_contras_frases: Exactamente 3 frases, en el mismo orden que los bullets de "## Lo mejorable". Mismas reglas: impacto real, máximo 8 palabras, tono cercano, sin repetir palabras del bullet.`;
 
   const completion = await client.chat.completions.create({
     model: 'llama-3.3-70b-versatile',

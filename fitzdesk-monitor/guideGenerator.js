@@ -70,8 +70,25 @@ presupuesto: "${presupuesto}€"
 enlace_afiliado: "${enlacePrincipal}"
 tiempo_lectura: "10 min"
 tipo: "guia"
+instagram_slide2_titulo: "[título del slide 2, máximo 5 palabras, describe cuándo/para quién SÍ aplica]"
+instagram_slide2_items:
+  - "[punto clave 1 — máximo 8 palabras]"
+  - "[punto clave 2 — máximo 8 palabras]"
+  - "[punto clave 3 — máximo 8 palabras]"
+  - "[punto clave 4 — máximo 8 palabras]"
+instagram_slide3_titulo: "[título del slide 3, máximo 5 palabras, describe cuándo NO aplica o alternativa]"
+instagram_slide3_items:
+  - "[punto clave 1 — máximo 8 palabras]"
+  - "[punto clave 2 — máximo 8 palabras]"
+  - "[punto clave 3 — máximo 8 palabras]"
+instagram_veredicto: "[consejo final de Fitz, máximo 18 palabras, sin marcas ni modelos concretos, sin emojis, primera persona]"
 borrador: true
 ---
+
+INSTRUCCIONES PARA LOS CAMPOS DE INSTAGRAM EN EL FRONTMATTER:
+- instagram_slide2_titulo / instagram_slide2_items: Los puntos más relevantes de la guía o los argumentos a favor de la opción A si es una comparativa. El título debe resumir el eje del slide (ej: "Cuándo merece la pena", "Para trabajo intensivo"). Máximo 4 items, máximo 8 palabras cada uno.
+- instagram_slide3_titulo / instagram_slide3_items: Los casos en que este setup/producto NO aplica, o los argumentos de la opción B si es comparativa. Máximo 3 items, máximo 8 palabras cada uno.
+- instagram_veredicto: Una sola frase en primera persona (voz de Fitz), sin nombrar marcas ni modelos concretos, sin emojis. Ejemplo: "Para quien trabaja desde casa con varios dispositivos, este setup lo cambia todo."
 
 ESTRUCTURA OBLIGATORIA DEL CUERPO:
 

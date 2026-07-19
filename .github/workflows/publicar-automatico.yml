@@ -235,7 +235,23 @@ jobs:
         if: steps.check.outputs.status == 'ready' && steps.process.outcome == 'success' && success()
         env:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
-        run: node fitzdesk-monitor/instagramImageGenerator.js --slug ${{ steps.check.outputs.published_slug }}
+        run: |
+          SLUG="${{ steps.check.outputs.published_slug }}"
+          # Si los slides ya existen en develop (pre-generados durante la revisión
+          # del borrador), copiarlos directamente — sin Puppeteer ni Groq.
+          SLIDES_COPIED=0
+          for i in 1 2 3 4; do
+            FILE="public/images/redes/${SLUG}-instagram-${i}.png"
+            if git show origin/develop:"${FILE}" > "${FILE}" 2>/dev/null; then
+              SLIDES_COPIED=$((SLIDES_COPIED + 1))
+            fi
+          done
+          if [ "$SLIDES_COPIED" -gt 0 ]; then
+            echo "✅ ${SLIDES_COPIED} slides pre-generados copiados desde develop — saltando Puppeteer"
+          else
+            echo "Sin slides pre-generados — generando con Puppeteer"
+            node fitzdesk-monitor/instagramImageGenerator.js --slug "${SLUG}"
+          fi
 
       - name: Subir carrusel generado a main
         id: subir_imagenes
