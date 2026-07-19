@@ -5,7 +5,6 @@ categoria: "ratones"
 fecha: "2026-08-20"
 descripcion: "Análisis del Logitech MX Vertical: postura ergonómica de 57°, sensor 4000 DPI y Logi Bolt para profesionales con jornadas largas."
 imagen: "/images/articulos/logitech-mx-vertical-analisis.webp"
-imagen_placeholder: true
 imagen_thumb: "/images/articulos/logitech-mx-vertical-analisis-thumb.webp"
 puntuacion: 8.6
 criterios:
