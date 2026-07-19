@@ -12,7 +12,7 @@ criterios:
   autonomia: 7.0
   conectividad: 6.5
   calidad_precio: 7.0
-precio: "Ver precio"
+precio: "~126€ (Kickstarter)"
 enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=airra+labs+rotary+mouse"
 tiempo_lectura: "6 min"
 tipo: "analisis"
@@ -24,6 +24,8 @@ keywords_secundarias:
 borrador: true
 imagen_thumb: "/images/articulos/airra-labs-rotary-mouse-analisis-thumb.webp"
 ---
+
+> ⚠️ **Disponibilidad**: el Rotary Mouse se comercializa actualmente a través de su campaña de Kickstarter a un precio aproximado de 126€ (conversión desde $139 USD). El precio de venta al público cuando llegue a tiendas convencionales puede diferir.
 
 ## Introducción
 
