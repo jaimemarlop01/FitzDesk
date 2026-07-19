@@ -12,7 +12,7 @@ criterios:
   pantalla: 8.0
   teclado_trackpad: 8.0
   calidad_precio: 6.5
-precio: "Ver precio"
+precio: "4599,99€"
 enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=asus+rog+strix+scar+18"
 tiempo_lectura: "7 min"
 tipo: "analisis"
@@ -22,7 +22,10 @@ keywords_secundarias:
   - "teletrabajo"
   - "productividad"
 imagen_thumb: "/images/articulos/asus-rog-strix-scar-18-analisis-thumb.webp"
+fecha_actualizacion: "2026-07-19"
+actualizado: true
 ---
+> 📅 **Artículo actualizado en julio de 2026**: Precio actualizado a 4599,99€ en PcComponentes (modelo G835LX). Es posible encontrar configuraciones de entrada de la gama SCAR 18 desde precios inferiores en otras tiendas como idealo.es o Amazon.
 
 ## Introducción
 

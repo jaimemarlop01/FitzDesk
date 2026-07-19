@@ -11,7 +11,7 @@ criterios:
   conectividad: 9.0
   cuidado_ocular: 8.0
   calidad_precio: 8.0
-precio: "459.96€"
+precio: "459,96€"
 enlace_afiliado: "https://www.pccomponentes.com/lg-27up850n-w-27-led-ips-ultrahd-4k-freesync-usb-c"
 tiempo_lectura: "7 min"
 tipo: "analisis"
@@ -30,7 +30,7 @@ especificaciones:
   Ajustes: "Altura, inclinación, rotación, pivote"
   Certificaciones: "HDR400, sRGB 99%, DCI-P3 95%"
   Altavoces: "No incluidos"
-fecha_actualizacion: "2026-07-15"
+fecha_actualizacion: "2026-07-19"
 actualizado: true
 ---
 > 📅 **Artículo actualizado en julio de 2026**: Precio actualizado a 459.96€ en PcComponentes.

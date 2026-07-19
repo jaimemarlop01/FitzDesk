@@ -12,7 +12,7 @@ criterios:
   compatibilidad: 7.5
   sonido_imagen: 9.0
   calidad_precio: 7.0
-precio: "Ver precio"
+precio: "289,99€"
 enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=razer+seiren+v3+pro"
 tiempo_lectura: "5 min"
 tipo: "analisis"
@@ -23,7 +23,10 @@ keywords_secundarias:
   - "grabación de voz"
 borrador: true
 imagen_thumb: "/images/articulos/razer-seiren-v3-pro-analisis-thumb.webp"
+fecha_actualizacion: "2026-07-19"
+actualizado: true
 ---
+> 📅 **Artículo actualizado en julio de 2026**: Precio actualizado a 289,99€ en PcComponentes.
 
 ## Introducción
 
