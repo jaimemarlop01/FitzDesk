@@ -12,7 +12,7 @@ criterios:
   conectividad: 8.0
   cuidado_ocular: 7.5
   calidad_precio: 6.5
-precio: "Ver precio"
+precio: "999€"
 enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=lg+ultragear+34gx90sb-w"
 tiempo_lectura: "6 min"
 tipo: "analisis"
@@ -23,7 +23,10 @@ keywords_secundarias:
   - "teletrabajo"
 borrador: true
 imagen_thumb: "/images/articulos/lg-ultragear-34gx90sb-w-analisis-thumb.webp"
+fecha_actualizacion: "2026-07-19"
+actualizado: true
 ---
+> 📅 **Artículo actualizado en julio de 2026**: Precio actualizado a 999€ en PcComponentes.
 
 ## Introducción
 
