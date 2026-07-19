@@ -148,7 +148,7 @@ Publicaciones: 10 artículos
 - 8 martes/jueves: análisis de productos
 Hitos:
 - [ ] 30+ artículos publicados
-- [ ] Solicitar programa PcComponentes en Awin
+- [x] Solicitar programa PcComponentes en Awin — enviado 2026-07-19, pendiente de aprobación
 - [x] Configurar Google Search Console (completado en junio 2026, verificación por DNS)
 - [ ] Registrar @fitzdesk en redes sociales
 
@@ -157,7 +157,7 @@ Publicaciones: 10 artículos
 - 2 domingos: guías o comparativas
 - 8 martes/jueves: análisis de productos
 Hitos:
-- [ ] Alta en Awin esperando respuesta
+- [x] Alta en Awin solicitada 2026-07-19, esperando respuesta
 - [ ] Activar enlaces de afiliado si aprobado
 - [ ] Primeras comisiones potenciales
 
@@ -266,7 +266,7 @@ Objetivos:
 - [x] ✅ Conseguir imagen oficial real de `airra-labs-rotary-mouse-analisis` — **RESUELTO 2026-07-07**: el usuario proporcionó `16x9_2133x1200_highres-rotary-mouse.webp` (imagen oficial del producto en 16:9). Procesada con Sharp (1200x675 quality:85 + 400x225 quality:80, WebP). Ya en disco. Artículo calendarizado para el 23/07 (tras adelantarse del 11/08). Precio: ~126€ Kickstarter con aviso editorial. Publica automáticamente.
 - [ ] Activar Pinterest cuando se apruebe el scope `pins:write` en la API de Pinterest (aparcado el 2026-06-23 — se activó brevemente el mismo día y se revirtió a `PINTEREST_ENABLED = false` por falta de esa aprobación). Cuando se apruebe: cambiar `PINTEREST_ENABLED = true` en `socialPublisher.js` y confirmar que `PINTEREST_ACCESS_TOKEN`/`PINTEREST_BOARD_ID` existen como secrets reales en GitHub (a fecha de hoy no hay confirmación de que existan)
 - [ ] Lanzar prompt de búsqueda de productos cuando queden menos de 6 borradores
-- [ ] Solicitar alta en Awin en Julio 2026 cuando haya 30+ artículos publicados — **34 artículos publicados (2026-07-19), solicitud pendiente de enviar**
+- [x] ✅ Solicitar alta en Awin — **solicitud enviada 2026-07-19 (34 artículos publicados), pendiente de aprobación**
 - [x] Configurar Google Search Console — propiedad fitzdesk.com verificada por DNS (TXT record, 2026-06-12); sitemap enviado, pendiente confirmación de indexación por parte de Google (hasta 24h)
 - [ ] Registrar @fitzdesk en redes sociales
 - [ ] Añadir secret `GOOGLE_SERVICE_ACCOUNT_KEY` en GitHub → repo → Settings → Secrets and variables → Actions (valor: JSON de `fitzdesk-monitor/google-credentials.json` en base64 — `[Convert]::ToBase64String([IO.File]::ReadAllBytes('google-credentials.json'))` en PowerShell) para que el step "Reenviar sitemap a Google Search Console" en `publicar-automatico.yml` funcione
