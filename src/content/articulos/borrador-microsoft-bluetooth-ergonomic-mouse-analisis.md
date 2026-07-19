@@ -5,7 +5,6 @@ categoria: "ratones"
 fecha: "2026-09-22"
 descripcion: "Análisis del Microsoft Bluetooth Ergonomic Mouse: diseño ergonómico asimétrico, Bluetooth puro y botones de acceso directo para teletrabajo."
 imagen: "/images/articulos/microsoft-bluetooth-ergonomic-mouse-analisis.webp"
-imagen_placeholder: true
 imagen_thumb: "/images/articulos/microsoft-bluetooth-ergonomic-mouse-analisis-thumb.webp"
 puntuacion: 7.6
 criterios:
