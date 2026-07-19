@@ -271,7 +271,8 @@ Objetivos:
 - [ ] Registrar @fitzdesk en redes sociales
 - [ ] Añadir secret `GOOGLE_SERVICE_ACCOUNT_KEY` en GitHub → repo → Settings → Secrets and variables → Actions (valor: JSON de `fitzdesk-monitor/google-credentials.json` en base64 — `[Convert]::ToBase64String([IO.File]::ReadAllBytes('google-credentials.json'))` en PowerShell) para que el step "Reenviar sitemap a Google Search Console" en `publicar-automatico.yml` funcione
 - [ ] Obtener foto real de producto para 5 borradores con `imagen_placeholder: true`: `logitech-mx-vertical-analisis` (20/08), `mejores-soportes-brazos-monitor-teletrabajo-2026` (23/08), `asus-proart-pa278cv-analisis` (08/09), `logitech-brio-505-analisis` (15/09), `microsoft-bluetooth-ergonomic-mouse-analisis` (22/09) — el sistema de publicación automática bloquea estos artículos hasta que `imagen_placeholder: true` se elimine del frontmatter
-- [ ] **Publicar carruseles retroactivos en Instagram**: 24 artículos (mayo-junio 2026, anteriores al pipeline) tienen carruseles generados y commiteados en develop. Publicar con `node socialPublisher.js --slug [slug]` uno a uno (o en bloque si se confirma). Facebook para los recientes: Muñeca dolorida (12/07), SCAR 18 (14/07), Mobi Fold (16/07) — pegar URL directamente en Facebook
+- [ ] **Publicar carruseles retroactivos en Instagram**: 24 artículos (mayo-junio 2026, anteriores al pipeline) tienen carruseles generados y commiteados en develop. Publicar con `node socialPublisher.js --slug [slug]` uno a uno (o en bloque si se confirma)
+- [x] ✅ Facebook manual al día (2026-07-19): Muñeca dolorida (12/07), SCAR 18 (14/07), Mobi Fold (16/07) publicados
 
 ## Estado de borradores
 - Última revisión: 2026-07-14
