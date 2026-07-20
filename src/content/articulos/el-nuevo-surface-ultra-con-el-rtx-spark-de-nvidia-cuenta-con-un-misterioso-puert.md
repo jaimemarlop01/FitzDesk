@@ -1,8 +1,8 @@
 ---
-title: "Surface Laptop Ultra: el portátil con NVIDIA RTX Spark que redefine Windows"
+title: "Surface Laptop Ultra: el portátil con NVIDIA RTX Spark"
 categoria: "portatiles"
 fecha: "2026-06-09"
-descripcion: "Microsoft presenta el Surface Laptop Ultra con NVIDIA RTX Spark: 20 núcleos ARM, GPU Blackwell, 128GB RAM y pantalla mini-LED 2000 nits. Disponible en otoño 2026."
+descripcion: "Microsoft presenta el Surface Laptop Ultra con NVIDIA RTX Spark: 20 núcleos ARM, GPU Blackwell y pantalla mini-LED 2000 nits. Disponible en otoño 2026."
 imagen: "/images/articulos/el-nuevo-surface-ultra-con-el-rtx-spark-de-nvidia-cuenta-con-un-misterioso-puert.webp"
 precio: "Por confirmar"
 enlace_afiliado: ""

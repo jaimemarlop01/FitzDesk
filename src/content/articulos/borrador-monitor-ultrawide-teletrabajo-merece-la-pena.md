@@ -13,6 +13,10 @@ keyword_principal: "monitor ultrawide para teletrabajo"
 keywords_secundarias:
   - "monitor 34 pulgadas trabajo"
   - "ultrawide productividad 2026"
+enlaces:
+  - "https://www.pccomponentes.com/buscar/?query=msi+pro+mp341cq"
+  - "https://www.pccomponentes.com/buscar/?query=lg+34wq75c"
+  - "https://www.pccomponentes.com/buscar/?query=lg+ultrawide+34bq76c"
 borrador: true
 ---
 

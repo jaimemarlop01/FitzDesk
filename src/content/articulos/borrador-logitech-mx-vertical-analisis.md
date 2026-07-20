@@ -49,7 +49,7 @@ Doble conexión: receptor USB Logi Bolt (2.4 GHz) o Bluetooth. El receptor propo
 
 El botón Easy-Switch permite alternar entre dos dispositivos con un solo clic. Útil si trabajas con portátil y sobremesa, o con ordenador y tablet.
 
-La batería interna se recarga por Micro-USB (sí, Micro-USB, no USB-C — es el punto más anticuado del diseño) y Logitech estima una autonomía de cuatro meses. En uso real con 6-8 horas diarias llegamos a los tres meses sin problema. La recarga completa tarda unas tres horas.
+La batería interna se recarga por Micro-USB (sí, Micro-USB, no USB-C — es el punto más anticuado del diseño) y Logitech estima una autonomía de cuatro meses. En uso real con 6-8 horas diarias, la batería aguanta tres meses sin problema. La recarga completa tarda unas tres horas.
 
 ## Lo mejor
 
@@ -85,6 +85,8 @@ El MX Vertical es más grande (para manos medianas y grandes), tiene sensor de m
 ## 🐿️ Fitz recomienda
 
 El MX Vertical es el ratón que me habría gustado conocer antes de que mi fisioterapeuta me lo recomendara. La primera semana cuesta, no voy a mentirte. Pero a partir de ahí, el cambio en la postura es real y se nota al final del día. El puerto Micro-USB es un fallo que en 2026 no tiene excusa, pero a este precio ya no es un argumento para descartarlo. Si tienes más de seis horas al día con el ratón en la mano, date una oportunidad.
+
+Mi nota: 8.6/10
 
 ## Conclusión
 

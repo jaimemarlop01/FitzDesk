@@ -1,5 +1,5 @@
 ﻿---
-title: "Keychron V1: el mecánico de aluminio que rompe la relación calidad-precio"
+title: "Keychron V1: el teclado mecánico de aluminio sin rival en precio"
 categoria: "teclados"
 fecha: "2026-05-10"
 descripcion: "Análisis del Keychron V1: cuerpo de aluminio CNC, gasket mount, hot-swap y QMK/VIA por menos de 80€. El mejor teclado mecánico por su precio."

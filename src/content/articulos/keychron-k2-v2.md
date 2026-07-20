@@ -1,8 +1,9 @@
 ---
-title: "Análisis Keychron K2 V2: el teclado mecánico ideal para trabajar desde casa"
+title: "Keychron K2 V2: el teclado mecánico para trabajar desde casa"
 categoria: "teclados"
 fecha: "2026-05-15"
-descripcion: "El Keychron K2 V2 es el teclado mecánico inalámbrico más popular entre los trabajadores remotos. Analizamos si realmente merece su fama después de meses de uso."
+descripcion: "El Keychron K2 V2 es el teclado mecánico inalámbrico más popular entre teletrabajadores. Analizamos si merece su fama después de meses de uso."
+keyword_principal: "teclado mecánico inalámbrico teletrabajo"
 imagen: "/images/articulos/keychron-k2-v2.webp"
 puntuacion: 8.8
 criterios:

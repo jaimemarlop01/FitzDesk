@@ -86,6 +86,8 @@ Sí. USB-C hace señal de vídeo + carga de datos + carga de 90W en un solo cabl
 
 El PA278CV es el monitor que dejaría en el escritorio de un diseñador o fotógrafo sin necesidad de discusión. El informe de calibración individual no es un truco de marketing: es una hoja A4 con los valores medidos de tu monitor concreto. A 289€ con USB-C 90W y soporte completo, es la opción más sólida del mercado en ese precio para trabajo profesional con color. La única razón para mirar otra cosa es si necesitas el 100% P3 para producción de vídeo.
 
+Mi nota: 9.1/10
+
 ## Conclusión
 
 El ASUS ProArt PA278CV combina los requisitos esenciales del monitor para trabajo creativo profesional: calibración verificada individualmente, cobertura de color completa, USB-C de alta potencia y soporte ergonómico completo. A 289€ es uno de los mejores monitores para diseñadores y fotógrafos en este rango de precio. No tiene los extras de los modelos de gama alta, pero para la mayoría del trabajo creativo cotidiano no son necesarios.

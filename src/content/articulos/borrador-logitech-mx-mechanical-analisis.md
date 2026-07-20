@@ -47,7 +47,7 @@ El diseño es limpio, con perfil bajo y teclas tipo scissor en cuanto a aparienc
 
 Easy-Switch de tres posiciones permite vincular hasta tres dispositivos (Windows, macOS, iPad) y cambiar entre ellos con un clic. La conexión se hace por Bluetooth o receptor Logi Bolt: el receptor da menor latencia, el Bluetooth es más versátil si no tienes puerto USB libre.
 
-La batería promete 15 días con retroiluminación activada y hasta 10 meses en modo de bajo consumo sin luz. En uso real con retroiluminación moderada llegamos a 10 días por carga. La recarga es por USB-C, lo que ya sitúa al teclado en el estándar actual.
+La batería promete 15 días con retroiluminación activada y hasta 10 meses en modo de bajo consumo sin luz. En uso real con retroiluminación moderada, la autonomía ronda los 10 días por carga. La recarga es por USB-C, lo que ya sitúa al teclado en el estándar actual.
 
 La app Logi Options+ en Windows y macOS permite personalizar teclas, ajustar la retroiluminación, configurar el Easy-Switch y crear perfiles por aplicación. Es software maduro y fiable que añade valor real al hardware.
 
@@ -85,6 +85,8 @@ Depende. El MX Keys S tiene un tacto de scissor más silencioso y premium que mu
 ## 🐿️ Fitz recomienda
 
 El MX Mechanical es el primer teclado mecánico que recomendaría a alguien que dice "los mecánicos son para gamers". No tiene nada de gaming: el diseño es discreto, el backlight es funcional y la conectividad es la misma que esperas de la gama MX. El precio pica, pero si pasas ocho horas al día escribiendo, los switches mecánicos de calidad marcan una diferencia real en cómo te sientes al final de la jornada.
+
+Mi nota: 8.4/10
 
 ## Conclusión
 

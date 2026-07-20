@@ -43,7 +43,11 @@ const related = allArticles
 
 // Review schema solo para análisis con puntuación numérica.
 // Google exige offers en itemReviewed para enriquecer resultados.
-const precioLimpio = precio ? precio.replace(/[€\s]/g, '').replace(',', '.') : null;
+const precioLimpio = precio
+  ? (precio.match(/[\d.,]+/) ?? [null])[0]
+      ?.replace(/\.(?=\d{3}(?:[,.]|$))/, '')
+      .replace(',', '.')
+  : null;
 const esAnalisisConPuntuacion = tipo === 'analisis' && typeof puntuacion === 'number';
 
 const reviewSchema = esAnalisisConPuntuacion ? {

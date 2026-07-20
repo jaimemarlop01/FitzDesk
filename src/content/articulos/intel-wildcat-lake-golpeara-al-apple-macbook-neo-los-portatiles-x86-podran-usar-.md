@@ -4,6 +4,7 @@ slug: "intel-wildcat-lake-golpeara-al-apple-macbook-neo-los-portatiles-x86-podra
 categoria: "portatiles"
 fecha: "2026-06-30"
 descripcion: "Intel Wildcat Lake llega con refrigeración Frore AirJet Mini G2: portátiles de 11,3 mm, silenciosos y con 15W sostenidos."
+keyword_principal: "portátiles ultrafinos sin ventilador"
 imagen: "/images/articulos/intel-wildcat-lake-golpeara-al-apple-macbook-neo-los-portatiles-x86-podran-usar-.webp"
 precio: "Ver precio"
 tiempo_lectura: "5 min"

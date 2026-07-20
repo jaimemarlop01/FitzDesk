@@ -15,7 +15,7 @@ precio: "623,83€"
 enlace_afiliado: "https://www.pccomponentes.com/dell-s2722qc"
 tiempo_lectura: "6 min"
 tipo: "analisis"
-keyword_principal: "monitor 4K USB-C"
+keyword_principal: "monitor QHD USB-C Dell"
 keywords_secundarias:
   - "Dell S2722QC"
   - "LG 27UP850N"

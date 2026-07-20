@@ -60,7 +60,7 @@ La batería promete 12 meses de autonomía con dos pilas AA. En uso real con 6 h
 ## Lo mejorable
 
 - Solo Bluetooth, sin receptor USB dedicado
-- Sensor 2.400 DPI ajusto para tareas de alta precisión
+- Sensor de 2.400 DPI algo justo para tareas de alta precisión
 - Sin multidispositivo: solo empareja con un equipo a la vez
 - No disponible en PcComponentes actualmente
 
@@ -84,6 +84,8 @@ En Amazon.es y MediaMarkt España. PcComponentes no lo tiene actualmente en cat�
 ## 🐿️ Fitz recomienda
 
 El Microsoft Bluetooth Ergonomic Mouse es la opción más sensata si ya vives en el universo de Microsoft 365 y quieres un ratón que se integre bien sin complicar la vida. La ergonomía suave lo hace más accesible que un ratón vertical puro, y los botones de acceso rápido son un detalle que parece pequeño hasta que los usas cada día. El único obstáculo práctico es que no está en PcComponentes: para comprarlo en España hay que ir a Amazon o MediaMarkt.
+
+Mi nota: 7.6/10
 
 ## Conclusión
 

@@ -10,6 +10,16 @@ tipo: "guia"
 presupuesto: "298€ - 808€"
 borrador: true
 imagen_thumb: "/images/articulos/doble-monitor-teletrabajo-merece-la-pena-thumb.webp"
+keyword_principal: "doble monitor teletrabajo"
+keywords_secundarias:
+  - "dos monitores trabajo"
+  - "segunda pantalla teletrabajo"
+  - "setup monitores doble"
+enlaces:
+  - "https://www.pccomponentes.com/buscar/?query=benq+gw2780"
+  - "https://www.pccomponentes.com/buscar/?query=lg+27up850n"
+  - "https://www.pccomponentes.com/buscar/?query=dell+s2722qc"
+  - "https://www.pccomponentes.com/buscar/?query=lg+27un880"
 ---
 
 ## Introducción

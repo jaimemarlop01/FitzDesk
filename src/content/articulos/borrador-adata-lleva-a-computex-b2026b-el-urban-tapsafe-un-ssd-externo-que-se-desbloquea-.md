@@ -8,6 +8,13 @@ imagen: "/images/articulos/borrador-adata-lleva-a-computex-b2026b-el-urban-tapsa
 precio: "Ver precio"
 tiempo_lectura: "4 min"
 tipo: "lanzamiento"
+keyword_principal: "SSD externo NFC"
+keywords_secundarias:
+  - "ADATA Urban TapSafe"
+  - "SSD portátil seguro"
+  - "almacenamiento cifrado NFC"
+enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=adata+urban+tapsafe"
+imagen_thumb: "/images/articulos/borrador-adata-lleva-a-computex-b2026b-el-urban-tapsafe-un-ssd-externo-que-se-desbloquea--thumb.webp"
 borrador: true
 ---
 

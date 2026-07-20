@@ -86,6 +86,8 @@ El MP341CQ E12 es una revisión del hardware con conectividad ligeramente actual
 
 Si alguna vez te has preguntado cómo sería tener dos monitores sin el marco en el medio, el MSI Pro MP341CQ te responde por menos de 225€. El ultrawide transforma el flujo de trabajo con aplicaciones abiertas en paralelo de una forma que, una vez que lo pruebas, es difícil volver atrás. El soporte sin ajuste de altura es el punto débil práctico: si no quedas a la altura ergonómica correcta con el soporte base, necesitarás un brazo de monitor adicional.
 
+Mi nota: 8.5/10
+
 ## Conclusión
 
 El MSI Pro MP341CQ es uno de los monitores ultrawide más equilibrados del mercado en su precio. La resolución WQHD, el USB-C 65W, los 100 Hz y el PbP hacen de él una herramienta real de productividad a un precio que ha hecho accesible el formato ultrawide para el teletrabajador sin presupuesto de gama alta. Si el espacio en escritorio te lo permite, es una de las mejores compras para mejorar la productividad en el puesto de trabajo.

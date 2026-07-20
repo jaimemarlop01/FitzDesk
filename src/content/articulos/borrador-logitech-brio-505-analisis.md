@@ -8,10 +8,10 @@ imagen: "/images/articulos/logitech-brio-505-analisis.webp"
 imagen_thumb: "/images/articulos/logitech-brio-505-analisis-thumb.webp"
 puntuacion: 8.5
 criterios:
-  calidad_imagen: 8.5
+  calidad_construccion: 8.5
   facilidad_uso: 9.5
-  conectividad: 8.5
   compatibilidad: 9.5
+  sonido_imagen: 8.5
   calidad_precio: 8.5
 precio: "70,95€"
 enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=Logitech+Brio+505"
@@ -85,6 +85,8 @@ El Brio 500 tiene resolución 4K (frente al Full HD del 505), mejor micrófono c
 ## 🐿️ Fitz recomienda
 
 El Brio 505 es la webcam que recomendaría al 90% de los teletrabajadores que me preguntan. No necesita configuración, el encuadre automático funciona de verdad, y el obturador físico es el tipo de funcionalidad que parece pequeña hasta que llevas tres meses con la paz mental de saber que la cámara está tapada. El micrófono es básico, eso sí: si el audio te preocupa, combínala con un micrófono independiente.
+
+Mi nota: 8.5/10
 
 ## Conclusión
 

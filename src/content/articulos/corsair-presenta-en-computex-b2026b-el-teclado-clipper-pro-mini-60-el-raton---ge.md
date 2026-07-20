@@ -4,6 +4,7 @@ slug: "corsair-presenta-en-computex-b2026b-el-teclado-clipper-pro-mini-60-el-rat
 categoria: "teclados"
 fecha: "2026-07-02"
 descripcion: "Corsair presenta en Computex 2026 el Clipper Pro Mini 60: teclado mecánico compacto con interruptores magnéticos e iluminación RGB."
+keyword_principal: "teclado mecánico compacto inalámbrico"
 imagen: "/images/articulos/corsair-presenta-en-computex-b2026b-el-teclado-clipper-pro-mini-60-el-raton---ge.webp"
 precio: "Ver precio"
 tiempo_lectura: "5 min"

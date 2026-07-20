@@ -12,6 +12,11 @@ enlace_afiliado: "https://www.pccomponentes.com/buscador/?query=ASUS%20Vivobook%
 tiempo_lectura: "2 min"
 tipo: "oferta"
 oferta_activa: true
+imagen_thumb: "/images/articulos/asus-vivobook-15-oferta-thumb.webp"
+keyword_principal: "ASUS Vivobook 15 oferta"
+keywords_secundarias:
+  - "portátil en oferta PcComponentes"
+  - "ASUS Vivobook 15 precio"
 borrador: true
 ---
 

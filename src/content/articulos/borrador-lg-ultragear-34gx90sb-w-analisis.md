@@ -80,7 +80,11 @@ Su tecnología OLED, que ofrece una calidad de imagen excepcional y una mayor pr
 
 ## 🐿️ Fitz recomienda
 
-El UltraGear 34GX90SB-W es un monitor que destaca dentro de su categoría por su tecnología OLED y su frecuencia de refresco de 240 Hz. Sin embargo, el precio puede ser un obstáculo para algunos compradores. En general, es una excelente opción para quien busca una pantalla de alta calidad para trabajar o jugar. Mi nota: 8/10
+A 999€ el LG UltraGear 34GX90SB-W no es una compra casual. Pero si tu trabajo incluye edición visual, código con varias ventanas abiertas o cualquier tarea donde el color y el espacio importen, el OLED ultrawide de 34" con 240 Hz es una combinación que los monitores convencionales no igualan en ningún precio cercano.
+
+El riesgo de burn-in en uso de oficina con escritorio dinámico no es un problema práctico. Con barras de tareas fijas o logos corporativos siempre en pantalla durante muchas horas, conviene pensarlo antes de comprar. Para el resto, la imagen habla sola.
+
+Mi nota: 8/10
 
 ## Conclusión
 

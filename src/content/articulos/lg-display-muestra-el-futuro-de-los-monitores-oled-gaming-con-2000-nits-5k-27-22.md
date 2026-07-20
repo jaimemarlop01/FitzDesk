@@ -1,8 +1,8 @@
 ---
-title: "LG OLED 27\" 5K 2000 nits: el monitor premium para teletrabajo que lo cambia todo"
+title: "LG OLED 27\" 5K 2000 nits: el monitor premium que lo cambia todo"
 categoria: "monitores"
 fecha: "2026-06-03"
-descripcion: "El nuevo LG OLED 27\" con 5K y 2000 nits llega para redefinir los monitores premium de teletrabajo"
+descripcion: "El nuevo LG OLED 27\" con 5K y 2000 nits llega para redefinir los monitores premium de teletrabajo. Aún sin precio ni fecha confirmados."
 imagen: "/images/articulos/lg-display-muestra-el-futuro-de-los-monitores-oled-gaming-con-2000-nits-5k-27-22.webp"
 precio: "Por confirmar"
 enlace_afiliado: ""

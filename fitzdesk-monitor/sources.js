@@ -6,12 +6,12 @@
 export const SOURCES = [
   {
     name: 'Xataka',
-    url: 'https://feeds.weblogssl.com/xataka2',
+    url: 'https://www.xataka.com/feedburner.xml',
     enabled: true,
   },
   {
     name: 'Genbeta',
-    url: 'https://feeds.weblogssl.com/genbeta',
+    url: 'https://www.genbeta.com/rss',
     enabled: true,
   },
   {
@@ -22,7 +22,7 @@ export const SOURCES = [
   {
     name: 'El Chapuzas Informático',
     url: 'https://elchapuzasinformatico.com/feed/',
-    enabled: true,
+    enabled: false, // HTTP 402 desde 2026-07-20 — desactivado hasta confirmar estado del sitio
   },
   // PcComponentes bloquea scraping externo (403, reto de Cloudflare) —
   // sin RSS directo viable, se usa un Google Alert como alternativa.

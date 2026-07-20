@@ -84,13 +84,15 @@ Para teletrabajo, lo más habitual es tenerlo tumbado delante del teclado o apoy
 
 **Sí encaja si** tienes un setup fijo, ya usas un monitor principal de 27" o más y buscas una segunda pantalla dedicada a comunicaciones y herramientas de monitoreo (dashboards de trabajo, chats, reproductores). También si tienes una torre con bahía libre y quieres el panel integrado.
 
-**No encaja si** buscas una segunda pantalla para presentaciones o para extender el área de trabajo con documentos — para eso necesitas una pantalla más grande y en 16:9. Tampoco si el presupuesto ajustado; a este precio, un monitor secundario de 24" Full HD tiene más usos.
+**No encaja si** buscas una segunda pantalla para presentaciones o para extender el área de trabajo con documentos — para eso necesitas una pantalla más grande y en 16:9. Tampoco si el presupuesto es ajustado; a este precio, un monitor secundario de 24" Full HD tiene más usos.
 
 ---
 
 ## 🐿️ Fitz recomienda
 
 El XENEON Edge resuelve un problema real con una ejecución cuidada: segunda pantalla táctil, compacta, sin reflejos, con USB-C. El inconveniente es que 273€ es un precio difícil de justificar para algo que muchos harán con un monitor viejo o con una tablet barata en modo segunda pantalla. Si ya tienes el setup resuelto y quieres añadir esa capa de control táctil sin ocupar espacio extra, es una compra que no defrauda. Si estás montando el setup desde cero, hay prioridades más urgentes.
+
+Mi nota: 7.5/10
 
 ---
 

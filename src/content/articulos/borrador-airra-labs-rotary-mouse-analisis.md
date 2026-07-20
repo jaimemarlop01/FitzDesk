@@ -56,9 +56,9 @@ La curva de adaptación es real: los primeros días la mano busca instintivament
 
 ## Lo mejorable
 
-- **Curva de aprendizaje**: al introducir una nueva forma de interactuar con el ordenador, es posible que se necesite tiempo para adaptarse y sentirse cómodo con el mecanismo rotatorio.
-- **Compatibilidad**: conviene comprobar la compatibilidad con el sistema operativo y software habituales, ya que una limitación en este sentido podría reducir su atractivo.
-- **Precio**: el precio estimado se sitúa entre 49 y 109 dólares según la versión, lo que puede ser un obstáculo frente a ratones tradicionales más asequibles.
+- **Curva de aprendizaje**: la mano busca instintivamente la rueda donde ya no está; la adaptación requiere entre cinco y diez días antes de que el gesto rotatorio resulte natural.
+- **Compatibilidad**: la compatibilidad con macOS y Linux no está confirmada para todas las funciones avanzadas; conviene verificar el soporte antes de comprar.
+- **Precio**: ~126€ en Kickstarter es una inversión elevada frente a ratones tradicionales con prestaciones similares en el resto de funciones.
 
 ## ¿Para quién es ideal?
 
@@ -74,7 +74,11 @@ Su mecanismo rotatorio, que ofrece una velocidad y control distintos a los raton
 
 ## 🐿️ Fitz recomienda
 
-El Rotary Mouse de Airra Labs es una propuesta que cambia la forma en que interactuamos con el ordenador, ofreciendo una velocidad y control fuera de lo común. Sin embargo, es importante considerar la curva de aprendizaje y el precio antes de tomar una decisión. Si buscas una herramienta que te brinde una experiencia de uso distinta y estás dispuesto a adaptarte a algo nuevo, el Rotary Mouse puede ser una buena elección. Mi nota: 7/10
+Cambiar la rueda del ratón por un dial rotatorio suena extraño hasta que lo usas en un documento de cientos de páginas. La adaptación inicial es real: los primeros días la mano busca instintivamente la rueda donde ya no está. Pasada esa semana, el control gradual del giro tiene algo que el scroll escalonado no puede dar.
+
+A ~126€ en Kickstarter, el precio es el otro factor a vigilar: apostar en una campaña implica confiar en que la producción final esté a la altura de la demo. La idea tiene mérito; la ejecución lo determinará.
+
+Mi nota: 7/10
 
 ## Conclusión
 

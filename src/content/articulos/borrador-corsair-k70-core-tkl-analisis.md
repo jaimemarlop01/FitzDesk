@@ -81,7 +81,9 @@ El cable USB-C es trenzado y extraíble. El conector está en el lateral izquier
 
 ## 🐿️ Fitz recomienda
 
-A 80€ hay que elegir entre la versatilidad de un inalámbrico como el Logitech MX Keys S (más caro, pero multi-dispositivo) y la calidad de construcción de un mecánico con cuerpo de aluminio. El K70 Core TKL elige claramente lo segundo. Si tu teclado no se mueve del escritorio y quieres que duré años con un tacto que mejora con el tiempo, este Corsair compite bien. Si necesitas llevarlo a la oficina o conectarlo al portátil y al sobremesa indistintamente, busca en otro sitio.
+A 80€ hay que elegir entre la versatilidad de un inalámbrico como el Logitech MX Keys S (más caro, pero multi-dispositivo) y la calidad de construcción de un mecánico con cuerpo de aluminio. El K70 Core TKL elige claramente lo segundo. Si tu teclado no se mueve del escritorio y quieres que dure años con un tacto que mejora con el tiempo, este Corsair compite bien. Si necesitas llevarlo a la oficina o conectarlo al portátil y al sobremesa indistintamente, busca en otro sitio.
+
+Mi nota: 7.8/10
 
 ---
 

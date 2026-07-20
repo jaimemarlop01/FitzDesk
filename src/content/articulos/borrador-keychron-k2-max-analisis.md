@@ -49,7 +49,7 @@ La construcción del chasis en aluminio anodizado en los modelos más completos 
 
 Bluetooth 5.1 con soporte para tres dispositivos mediante Easy-Switch (botones Fn+1, Fn+2, Fn+3), cable USB-C, y receptor 2.4 GHz opcional para la mínima latencia posible. Para trabajo de oficina, el Bluetooth 5.1 es suficientemente rápido. Para quien necesita la menor latencia posible (trabajo de precisión con cursor, edición intensiva), el receptor 2.4 GHz o el USB-C cubren ese caso.
 
-La batería de 4.000 mAh promete hasta 300 horas sin retroiluminación o varios días con luz activada. En uso real con RGB moderado llegamos a 4-5 días por carga. La recarga por USB-C es rápida (2-3 horas completas).
+La batería de 4.000 mAh promete hasta 300 horas sin retroiluminación o varios días con luz activada. En uso real con RGB moderado, la autonomía ronda los 4-5 días por carga. La recarga por USB-C es rápida (2-3 horas completas).
 
 ## Lo mejor
 
@@ -85,6 +85,8 @@ Sí. El teclado funciona plug-and-play. Keychron Launcher y QMK son opcionales p
 ## 🐿️ Fitz recomienda
 
 El K2 Max es el teclado que más recomendaría a alguien que quiere dar el salto al mecánico con la cabeza fría. El 75% es el layout más equilibrado para teletrabajo, el hot-swap elimina el miedo a elegir mal el switch, y el QMK está ahí para el día que quieras explorar. La única pega práctica: busca la versión ISO-ES si el layout español es importante para ti, porque la versión de PcComponentes puede ser US International.
+
+Mi nota: 8.8/10
 
 ## Conclusión
 

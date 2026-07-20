@@ -148,7 +148,7 @@ Publicaciones: 10 artículos
 - 8 martes/jueves: análisis de productos
 Hitos:
 - [ ] 30+ artículos publicados
-- [ ] Solicitar programa PcComponentes en Awin
+- [x] Solicitar programa PcComponentes en Awin — enviado ~2026-06-25, pendiente de aprobación
 - [x] Configurar Google Search Console (completado en junio 2026, verificación por DNS)
 - [ ] Registrar @fitzdesk en redes sociales
 
@@ -157,7 +157,7 @@ Publicaciones: 10 artículos
 - 2 domingos: guías o comparativas
 - 8 martes/jueves: análisis de productos
 Hitos:
-- [ ] Alta en Awin esperando respuesta
+- [x] Alta en Awin solicitada ~2026-06-25, esperando respuesta
 - [ ] Activar enlaces de afiliado si aprobado
 - [ ] Primeras comisiones potenciales
 
@@ -266,20 +266,30 @@ Objetivos:
 - [x] ✅ Conseguir imagen oficial real de `airra-labs-rotary-mouse-analisis` — **RESUELTO 2026-07-07**: el usuario proporcionó `16x9_2133x1200_highres-rotary-mouse.webp` (imagen oficial del producto en 16:9). Procesada con Sharp (1200x675 quality:85 + 400x225 quality:80, WebP). Ya en disco. Artículo calendarizado para el 23/07 (tras adelantarse del 11/08). Precio: ~126€ Kickstarter con aviso editorial. Publica automáticamente.
 - [ ] Activar Pinterest cuando se apruebe el scope `pins:write` en la API de Pinterest (aparcado el 2026-06-23 — se activó brevemente el mismo día y se revirtió a `PINTEREST_ENABLED = false` por falta de esa aprobación). Cuando se apruebe: cambiar `PINTEREST_ENABLED = true` en `socialPublisher.js` y confirmar que `PINTEREST_ACCESS_TOKEN`/`PINTEREST_BOARD_ID` existen como secrets reales en GitHub (a fecha de hoy no hay confirmación de que existan)
 - [ ] Lanzar prompt de búsqueda de productos cuando queden menos de 6 borradores
-- [ ] Solicitar alta en Awin en Julio 2026 cuando haya 30+ artículos publicados
+- [x] ✅ Solicitar alta en Awin — **solicitud enviada ~2026-06-25 (pendiente de aprobación)**
 - [x] Configurar Google Search Console — propiedad fitzdesk.com verificada por DNS (TXT record, 2026-06-12); sitemap enviado, pendiente confirmación de indexación por parte de Google (hasta 24h)
 - [ ] Registrar @fitzdesk en redes sociales
 - [ ] Añadir secret `GOOGLE_SERVICE_ACCOUNT_KEY` en GitHub → repo → Settings → Secrets and variables → Actions (valor: JSON de `fitzdesk-monitor/google-credentials.json` en base64 — `[Convert]::ToBase64String([IO.File]::ReadAllBytes('google-credentials.json'))` en PowerShell) para que el step "Reenviar sitemap a Google Search Console" en `publicar-automatico.yml` funcione
-- [ ] Obtener foto real de producto para 5 borradores con `imagen_placeholder: true`: `logitech-mx-vertical-analisis` (20/08), `mejores-soportes-brazos-monitor-teletrabajo-2026` (23/08), `asus-proart-pa278cv-analisis` (08/09), `logitech-brio-505-analisis` (15/09), `microsoft-bluetooth-ergonomic-mouse-analisis` (22/09) — el sistema de publicación automática bloquea estos artículos hasta que `imagen_placeholder: true` se elimine del frontmatter
-- [ ] **Publicar carruseles retroactivos en Instagram**: 24 artículos (mayo-junio 2026, anteriores al pipeline) tienen carruseles generados y commiteados en develop. Publicar con `node socialPublisher.js --slug [slug]` uno a uno (o en bloque si se confirma)
+- [x] ✅ Obtener foto real de producto para 5 borradores con `imagen_placeholder: true` — **RESUELTO 2026-07-19**: `logitech-mx-vertical-analisis`, `mejores-soportes-brazos-monitor-teletrabajo-2026`, `asus-proart-pa278cv-analisis`, `logitech-brio-505-analisis`, `microsoft-bluetooth-ergonomic-mouse-analisis` — imágenes reales obtenidas con `imageCollector.js --query` (DuckDuckGo), `imagen_placeholder: true` eliminado de todos los frontmatters. Los 5 artículos ya se publicarán automáticamente en sus fechas (20/08–22/09)
+- [ ] **Publicar carruseles retroactivos en Instagram**: 24 artículos (mayo-junio 2026, anteriores al pipeline) tienen carruseles generados y commiteados en develop. Publicar con `node socialPublisher.js --slug [slug]` uno a uno — **casi terminado (2026-07-19), pendiente de revisión final**
 - [x] ✅ Facebook manual al día (2026-07-19): Muñeca dolorida (12/07), SCAR 18 (14/07), Mobi Fold (16/07) publicados
 
 ## Estado de borradores
-- Última revisión: 2026-07-14
-- Borradores pendientes: 20
-- Listos para publicar: 7
-- Última ejecución de completar-borradores: 2026-06-24
-- Borradores descartados: 0 en esta pasada
+- Última revisión: 2026-07-20
+- Borradores pendientes: 25
+- Última ejecución de completar-borradores: 2026-07-20
+- Borradores descartados: 0
+- Borradores completados: 17
+- Borradores listos para revisión humana: 25
+- **Pasada 2026-07-20 — completar-borradores sobre los 25 borradores activos**:
+  - 12 artículos de análisis con `Mi nota:` ausente en `## 🐿️ Fitz recomienda` → añadido (benq-pd2705q, logitech-pop-keys, msi-pro-mp341cq, asus-proart-pa278cv, logitech-brio-505, corsair-k70-core-tkl, corsair-xeneon-edge, microsoft-bluetooth-ergonomic-mouse, logitech-signature-m650, logitech-mx-mechanical, keychron-k2-max, logitech-mx-vertical)
+  - `borrador-logitech-brio-505-analisis` — criterios corregidos (calidad_imagen→calidad_construccion, conectividad→sonido_imagen) para coincidir con la categoría setups
+  - `borrador-adata-lleva-a-computex-b2026b-el-urban-tapsafe...` — añadidos keyword_principal, keywords_secundarias y enlace_afiliado (faltaban)
+  - `borrador-asus-vivobook-15-oferta` — añadidos keyword_principal y keywords_secundarias (faltaban)
+  - `borrador-asus-portatiles-trabajo-exigente-2026` — añadidos imagen_thumb, keyword_principal, keywords_secundarias y enlaces (faltaban)
+  - `borrador-doble-monitor-teletrabajo-merece-la-pena` — añadidos keyword_principal, keywords_secundarias y enlaces (faltaban en frontmatter)
+  - `borrador-monitor-ultrawide-teletrabajo-merece-la-pena` — añadidos enlaces (faltaban en frontmatter)
+  - Build verificado: 0 errores en cambios de frontmatter (borradores con borrador:true no generan página)
 - **Pasada 2026-07-07 — revisión completa sobre los 28 borradores activos**:
   - `borrador-cherry-kc-6000-slim-analisis` — eliminadas las secciones duplicadas "Preguntas frecuentes" + "🐿️ Fitz recomienda" (bloque genérico de plantilla que convivía con el bloque real; bug conocido documentado en CLAUDE.md desde la pasada 2026-06-25)
   - `borrador-hp-935-creator-wireless-analisis` — sección "Experiencia de uso esperada" con lenguaje "cabe esperar" convertida a sección "Uso y ergonomía" con prosa declarativa. **Urgente: este artículo publica hoy (2026-07-07)**
@@ -348,8 +358,10 @@ De esos 14, **4 se conservaron y completaron** (traídos a `develop` con frontma
 **Bug corregido en `analyzer.js`**: el segundo borrador descartado tenía `borrador: false` en el frontmatter pese a estar recién generado sin revisar. Causa: `generateDraft()` deja que la IA genere el frontmatter completo como texto libre (incluyendo el campo `borrador:`), y el código nunca lo validaba después — al contrario que `precio:` y `enlace_afiliado:`, que sí se sobrescriben siempre en `injectPcData()`. Corregido añadiendo una normalización forzada antes de `injectPcData()`: si el campo existe con cualquier valor (`true` o `false`), se fuerza a `true`; si no existe, se inserta antes del cierre del frontmatter. Mismo patrón defensivo que ya usaban `precio`/`enlace_afiliado`.
 
 ## Estado del código
-- Última revisión: 2026-07-19 (17ª pasada — fotos lifestyle Gemini para guías de setup; precios actualizados; slide 3 portatil-vs-sobremesa regenerado)
+- Última revisión: 2026-07-20 (18ª pasada — revisión de pasadas 13-17; sin errores críticos nuevos)
 - Errores críticos pendientes: 0 | Estado: ✅ Sin errores críticos
+- **Advertencias nuevas detectadas (18ª pasada)**:
+  - `src/pages/articulo/[slug].astro:46` — `precioLimpio` produce valores inválidos en JSON-LD para 3 artículos publicados (ver informe)
 - **Correcciones 2026-07-19 (17ª pasada)**:
   - **Imágenes de guías de setup reemplazadas con fotos Gemini Imagen 3**: `mejor-setup-teletrabajo-500-euros-2026` (monitor + teclado + ratón sobre escritorio de madera clara, 23KB) y `setup-teletrabajo-profesional-2026` (Keychron K8 Pro + MX Master + monitor 4K sobre escritorio de nogal oscuro, 61KB). Las imágenes anteriores eran cuadrículas de productos generadas por el compositor automático (fondo blanco) que quedaban casi negras con el degradado del slide 1 de Instagram. Los 8 slides de Instagram regenerados (4 por guía, todos >50KB)
   - **`portatil-vs-sobremesa-teletrabajo-2026`**: slide 3 regenerado (estaba en 47KB, por debajo del umbral de 50KB de `socialReviewer.js`; ahora 51KB)
@@ -451,7 +463,7 @@ De esos 14, **4 se conservaron y completaron** (traídos a `develop` con frontma
   - 14 artículos de análisis — bloque `criterios:` con 5 valores reales por categoría (ratones: ergonomia/precision/autonomia/conectividad/calidad_precio · teclados: tacto/ruido/conectividad/durabilidad/calidad_precio · monitores: calidad_imagen/ergonomia_soporte/conectividad/cuidado_ocular/calidad_precio · portátiles: rendimiento/bateria/pantalla/teclado_trackpad/calidad_precio)
 
 ## Estado de precios
-- Última revisión de precios: 2026-07-19
+- Última revisión de precios: 2026-07-20
 - Artículos con precio desactualizado: 0 ✅
 - Artículos pendientes de revisión: 3 (`lg-gram-14-2025-analisis`, `asus-vivobook-15-oled-analisis`, `lenovo-thinkpad-e14-gen6-analisis` — configuraciones descatalogadas del mercado español, no reabrir salvo dato nuevo del usuario, misma situación que revisiones anteriores)
 - **Revisión 2026-07-19**: 5 precios actualizados en una pasada:
@@ -703,7 +715,7 @@ Con los dos bugs anteriores corregidos, el usuario relanzó otra vez y llegaron 
 - **2 bugs técnicos de SEO encontrados a partir de esa captura, 1 corregido y 1 pendiente de acción manual**:
   - **✅ CORREGIDO — canonical autorreferenciado (corregido dos veces, la primera en la dirección equivocada)**: `BaseLayout.astro` generaba `<link rel="canonical">` a partir de `Astro.url.pathname` tal cual, sin normalizar — cada variante (con o sin barra) se autodeclaraba canónica a sí misma, sin consolidar nunca la señal en una sola URL. Esto explica los duplicados vistos en Search Console (`/keychron-k2-v2` y `/keychron-k2-v2/` como páginas distintas, mismo patrón en lg-display y en `/categoria/comparativas`). **Primer intento (incorrecto)**: se normalizó quitando la barra final, asumiendo que esa era la forma servida sin redirección — resultó ser al revés, detectado al comprobar en vivo con `curl -I` contra varias páginas reales (keychron-k2-v2, razer-pro-click, categoria/teclados): GitHub Pages siempre devuelve `301` en la versión sin barra hacia la versión con barra, que es la única que responde `200` directamente. **Corrección final**: canonical normalizado para que SIEMPRE termine en barra (salvo la raíz `/`); además se corrigió `src/lib/url.ts` (la función `u()`, usada por todos los enlaces internos del sitio — Header, Footer, ArticleCard, índice, buscador) para que genere las rutas también con barra final, evitando que cada clic interno pasara por una redirección innecesaria. Verificado en el HTML generado: canonical y sitemap ya usan `https://fitzdesk.com/articulo/keychron-k2-v2/` con barra
   - **🔴 BUG CRÍTICO introducido por la propia corrección anterior, detectado y corregido el mismo día 2026-06-25**: al hacer que `u()` añadiera siempre barra final, también se la añadía a las imágenes (`u(imagen)`, usado en `ArticleCard.astro` y `[slug].astro` para CADA imagen del sitio) — el resultado era `src="/images/articulos/foo.webp/"`, una URL que no existe como archivo en GitHub Pages (solo las rutas de página tienen "variante con barra", los archivos estáticos no). **Esto rompió todas las imágenes del sitio en producción** tras el merge a `main` de la corrección del canonical, hasta que el usuario lo reportó ("no se ven las imágenes en la web"). Corregido añadiendo un filtro en `u()`: si la ruta termina en una extensión de archivo (`\.[a-z0-9]+$`), se trata como recurso estático y NO se le añade barra; el resto (rutas de página) sigue recibiéndola como antes. Verificado en el HTML generado: imágenes sin barra (`/images/articulos/keychron-v1-analisis.webp`), enlaces de página con barra (`/articulo/keychron-k2-v2/`), canonical sin cambios. Lección: cualquier cambio en un helper de URL compartido por rutas de página Y recursos estáticos necesita probarse contra ambos casos, no solo el que motivó el cambio.
-  - **⚠️ PENDIENTE — falta acción manual, no se puede arreglar por código**: una de las URLs indexadas estaba en `http://`, no `https://`. Confirmado con una petición HTTP real (`curl -I http://fitzdesk.com/...`) que el dominio devuelve `200 OK` directamente en HTTP, sin redirigir a HTTPS — falta activar **"Enforce HTTPS"** en GitHub → repositorio FitzDesk → Settings → Pages (checkbox, justo debajo de la configuración del dominio personalizado). No se pudo aplicar desde aquí: no hay `gh` CLI instalado en el sistema ni un token de API disponible en este entorno para hacerlo vía `PATCH /repos/{owner}/{repo}/pages`. Acción de 10 segundos en la interfaz de GitHub, pendiente de que el usuario la haga
+  - **✅ RESUELTO 2026-07-19**: "Enforce HTTPS" activado por el usuario en GitHub → Settings → Pages. El dominio ya fuerza HTTPS y no sirve el sitio en `http://`.
 - **Automatizaciones acordadas como siguiente paso (pendientes de credenciales, no implementadas todavía)**: (1) llamar a `indexingChecker.js --fix` desde `publicar-automatico.yml` justo después de cada publicación, para reenviar el sitemap sin esperar a que alguien lo note; (2) retomar la integración semanal de arriba para que el lunes se notifique a Discord qué páginas siguen atascadas, con el enlace de "Solicitar indexación" ya preparado — sigue exigiendo un clic humano, Google no permite que sea 100% automático para contenido normal
 - **Bug real corregido 2026-06-25 — enlaces de "solicitar indexación manual" rotos (siempre 404)**: se generaron a mano construyendo `https://search.google.com/search-console/inspect?resource_id=...&id=[URL del artículo]`, asumiendo que el parámetro `id` era la URL de la página. Falso: ese `id` es un identificador opaco que genera Google en cada inspección real, devuelto por la propia API en el campo `inspectionResult.inspectionResultLink` — no se puede construir a mano. Confirmado con el usuario (los enlaces dieron 404 en la práctica) y verificado por búsqueda antes de corregir. `indexingChecker.js` corregido para capturar `inspectionResultLink` directamente de la respuesta de la API en vez de intentar reconstruirlo; si la API no lo devuelve (p. ej. en un error), cae a instrucciones de uso manual de la herramienta (`search.google.com/search-console/inspect`, seleccionar la propiedad, pegar la URL a mano). **Mientras no exista la cuenta de servicio**, la única vía real para solicitar indexación manual es: entrar en https://search.google.com/search-console/, seleccionar la propiedad fitzdesk.com, pegar cada URL en la barra de "Inspección de URLs" y pulsar "Solicitar indexación" si hace falta — sin enlaces directos posibles todavía
 
