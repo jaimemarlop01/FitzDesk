@@ -85,6 +85,8 @@ En Amazon.es y MediaMarkt España. PcComponentes no lo tiene actualmente en cat�
 
 El Microsoft Bluetooth Ergonomic Mouse es la opción más sensata si ya vives en el universo de Microsoft 365 y quieres un ratón que se integre bien sin complicar la vida. La ergonomía suave lo hace más accesible que un ratón vertical puro, y los botones de acceso rápido son un detalle que parece pequeño hasta que los usas cada día. El único obstáculo práctico es que no está en PcComponentes: para comprarlo en España hay que ir a Amazon o MediaMarkt.
 
+Mi nota: 7.6/10
+
 ## Conclusión
 
 El Microsoft Bluetooth Ergonomic Mouse no destaca en especificaciones técnicas puras, pero cumple bien su propósito: ofrecer una ergonomía razonable, integración natural con Windows y buena autonomía a un precio moderado. Si tu trabajo gira en torno a Microsoft 365 y buscas un ratón Bluetooth sin grandes pretensiones, es una opción que no decepciona. Para quien necesite más precisión, multidispositivo o receptor USB, hay mejores alternativas en el mismo rango.

@@ -86,6 +86,8 @@ Depende. El MX Keys S tiene un tacto de scissor más silencioso y premium que mu
 
 El MX Mechanical es el primer teclado mecánico que recomendaría a alguien que dice "los mecánicos son para gamers". No tiene nada de gaming: el diseño es discreto, el backlight es funcional y la conectividad es la misma que esperas de la gama MX. El precio pica, pero si pasas ocho horas al día escribiendo, los switches mecánicos de calidad marcan una diferencia real en cómo te sientes al final de la jornada.
 
+Mi nota: 8.4/10
+
 ## Conclusión
 
 El Logitech MX Mechanical ocupa un espacio que hasta hace poco no existía: el teclado mecánico diseñado específicamente para el entorno profesional. La combinación de switches de calidad, diseño discreto, batería de 15 días y Easy-Switch de tres dispositivos lo hacen una propuesta sólida para teletrabajadores exigentes. El precio es su mayor obstáculo, pero para quien valora la experiencia de escritura y trabaja muchas horas, la inversión tiene sentido.

@@ -86,6 +86,8 @@ El MX Vertical es más grande (para manos medianas y grandes), tiene sensor de m
 
 El MX Vertical es el ratón que me habría gustado conocer antes de que mi fisioterapeuta me lo recomendara. La primera semana cuesta, no voy a mentirte. Pero a partir de ahí, el cambio en la postura es real y se nota al final del día. El puerto Micro-USB es un fallo que en 2026 no tiene excusa, pero a este precio ya no es un argumento para descartarlo. Si tienes más de seis horas al día con el ratón en la mano, date una oportunidad.
 
+Mi nota: 8.6/10
+
 ## Conclusión
 
 El Logitech MX Vertical resuelve con eficacia lo que promete: reduce la tensión en muñeca y antebrazo al cambiar la postura de trabajo. La adaptación inicial es real pero breve. A 64,98€ actuales, el precio ya no es el obstáculo que era cuando se acercaba a los 100€. Si buscas un ratón ergonómico que realmente cambie algo, este es uno de los argumentos más sólidos del mercado en ese formato.

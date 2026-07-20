@@ -275,11 +275,21 @@ Objetivos:
 - [x] ✅ Facebook manual al día (2026-07-19): Muñeca dolorida (12/07), SCAR 18 (14/07), Mobi Fold (16/07) publicados
 
 ## Estado de borradores
-- Última revisión: 2026-07-14
-- Borradores pendientes: 20
-- Listos para publicar: 7
-- Última ejecución de completar-borradores: 2026-06-24
-- Borradores descartados: 0 en esta pasada
+- Última revisión: 2026-07-20
+- Borradores pendientes: 25
+- Última ejecución de completar-borradores: 2026-07-20
+- Borradores descartados: 0
+- Borradores completados: 17
+- Borradores listos para revisión humana: 25
+- **Pasada 2026-07-20 — completar-borradores sobre los 25 borradores activos**:
+  - 12 artículos de análisis con `Mi nota:` ausente en `## 🐿️ Fitz recomienda` → añadido (benq-pd2705q, logitech-pop-keys, msi-pro-mp341cq, asus-proart-pa278cv, logitech-brio-505, corsair-k70-core-tkl, corsair-xeneon-edge, microsoft-bluetooth-ergonomic-mouse, logitech-signature-m650, logitech-mx-mechanical, keychron-k2-max, logitech-mx-vertical)
+  - `borrador-logitech-brio-505-analisis` — criterios corregidos (calidad_imagen→calidad_construccion, conectividad→sonido_imagen) para coincidir con la categoría setups
+  - `borrador-adata-lleva-a-computex-b2026b-el-urban-tapsafe...` — añadidos keyword_principal, keywords_secundarias y enlace_afiliado (faltaban)
+  - `borrador-asus-vivobook-15-oferta` — añadidos keyword_principal y keywords_secundarias (faltaban)
+  - `borrador-asus-portatiles-trabajo-exigente-2026` — añadidos imagen_thumb, keyword_principal, keywords_secundarias y enlaces (faltaban)
+  - `borrador-doble-monitor-teletrabajo-merece-la-pena` — añadidos keyword_principal, keywords_secundarias y enlaces (faltaban en frontmatter)
+  - `borrador-monitor-ultrawide-teletrabajo-merece-la-pena` — añadidos enlaces (faltaban en frontmatter)
+  - Build verificado: 0 errores en cambios de frontmatter (borradores con borrador:true no generan página)
 - **Pasada 2026-07-07 — revisión completa sobre los 28 borradores activos**:
   - `borrador-cherry-kc-6000-slim-analisis` — eliminadas las secciones duplicadas "Preguntas frecuentes" + "🐿️ Fitz recomienda" (bloque genérico de plantilla que convivía con el bloque real; bug conocido documentado en CLAUDE.md desde la pasada 2026-06-25)
   - `borrador-hp-935-creator-wireless-analisis` — sección "Experiencia de uso esperada" con lenguaje "cabe esperar" convertida a sección "Uso y ergonomía" con prosa declarativa. **Urgente: este artículo publica hoy (2026-07-07)**
@@ -348,8 +358,10 @@ De esos 14, **4 se conservaron y completaron** (traídos a `develop` con frontma
 **Bug corregido en `analyzer.js`**: el segundo borrador descartado tenía `borrador: false` en el frontmatter pese a estar recién generado sin revisar. Causa: `generateDraft()` deja que la IA genere el frontmatter completo como texto libre (incluyendo el campo `borrador:`), y el código nunca lo validaba después — al contrario que `precio:` y `enlace_afiliado:`, que sí se sobrescriben siempre en `injectPcData()`. Corregido añadiendo una normalización forzada antes de `injectPcData()`: si el campo existe con cualquier valor (`true` o `false`), se fuerza a `true`; si no existe, se inserta antes del cierre del frontmatter. Mismo patrón defensivo que ya usaban `precio`/`enlace_afiliado`.
 
 ## Estado del código
-- Última revisión: 2026-07-19 (17ª pasada — fotos lifestyle Gemini para guías de setup; precios actualizados; slide 3 portatil-vs-sobremesa regenerado)
+- Última revisión: 2026-07-20 (18ª pasada — revisión de pasadas 13-17; sin errores críticos nuevos)
 - Errores críticos pendientes: 0 | Estado: ✅ Sin errores críticos
+- **Advertencias nuevas detectadas (18ª pasada)**:
+  - `src/pages/articulo/[slug].astro:46` — `precioLimpio` produce valores inválidos en JSON-LD para 3 artículos publicados (ver informe)
 - **Correcciones 2026-07-19 (17ª pasada)**:
   - **Imágenes de guías de setup reemplazadas con fotos Gemini Imagen 3**: `mejor-setup-teletrabajo-500-euros-2026` (monitor + teclado + ratón sobre escritorio de madera clara, 23KB) y `setup-teletrabajo-profesional-2026` (Keychron K8 Pro + MX Master + monitor 4K sobre escritorio de nogal oscuro, 61KB). Las imágenes anteriores eran cuadrículas de productos generadas por el compositor automático (fondo blanco) que quedaban casi negras con el degradado del slide 1 de Instagram. Los 8 slides de Instagram regenerados (4 por guía, todos >50KB)
   - **`portatil-vs-sobremesa-teletrabajo-2026`**: slide 3 regenerado (estaba en 47KB, por debajo del umbral de 50KB de `socialReviewer.js`; ahora 51KB)
@@ -451,7 +463,7 @@ De esos 14, **4 se conservaron y completaron** (traídos a `develop` con frontma
   - 14 artículos de análisis — bloque `criterios:` con 5 valores reales por categoría (ratones: ergonomia/precision/autonomia/conectividad/calidad_precio · teclados: tacto/ruido/conectividad/durabilidad/calidad_precio · monitores: calidad_imagen/ergonomia_soporte/conectividad/cuidado_ocular/calidad_precio · portátiles: rendimiento/bateria/pantalla/teclado_trackpad/calidad_precio)
 
 ## Estado de precios
-- Última revisión de precios: 2026-07-19
+- Última revisión de precios: 2026-07-20
 - Artículos con precio desactualizado: 0 ✅
 - Artículos pendientes de revisión: 3 (`lg-gram-14-2025-analisis`, `asus-vivobook-15-oled-analisis`, `lenovo-thinkpad-e14-gen6-analisis` — configuraciones descatalogadas del mercado español, no reabrir salvo dato nuevo del usuario, misma situación que revisiones anteriores)
 - **Revisión 2026-07-19**: 5 precios actualizados en una pasada:

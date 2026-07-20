@@ -86,6 +86,8 @@ Sí. El teclado funciona plug-and-play. Keychron Launcher y QMK son opcionales p
 
 El K2 Max es el teclado que más recomendaría a alguien que quiere dar el salto al mecánico con la cabeza fría. El 75% es el layout más equilibrado para teletrabajo, el hot-swap elimina el miedo a elegir mal el switch, y el QMK está ahí para el día que quieras explorar. La única pega práctica: busca la versión ISO-ES si el layout español es importante para ti, porque la versión de PcComponentes puede ser US International.
 
+Mi nota: 8.8/10
+
 ## Conclusión
 
 El Keychron K2 Max es uno de los mejores teclados mecánicos para teletrabajo en 2026. Combina un layout 75% muy práctico, personalización QMK, hot-swap y triple conectividad a un precio que compite directamente con el Logitech MX Mechanical. Para usuarios que priorizan la flexibilidad técnica y la construcción a largo plazo, es difícil encontrar algo más completo en este rango.

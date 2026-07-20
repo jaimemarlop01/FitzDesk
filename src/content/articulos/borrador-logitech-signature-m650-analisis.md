@@ -86,6 +86,8 @@ Solo en tamaño: el L es un centímetro más largo y ancho. El sensor, los boton
 
 El M650 no intenta ser el ratón más avanzado del mundo, y eso es exactamente su virtud. Si buscas algo silencioso, que dure sin pilas dos años y no te dé problemas, este ratón cumple sin sorpresas. La única restricción real es el Bluetooth puro: si tu portátil tiene Bluetooth fiable, ningún problema. Si no, busca algo con receptor USB.
 
+Mi nota: 7.8/10
+
 ## Conclusión
 
 El Logitech Signature M650 es uno de los mejores ratones de su rango para quien busca simplicidad y silencio. No tiene las funcionalidades premium del MX Master, pero tampoco lo pretende. La combinación de clic silencioso, batería de dos años y precio ajustado lo hace una opción seria para cualquier puesto de teletrabajo que no necesite más que un ratón fiable que no moleste a quien tienes al lado.

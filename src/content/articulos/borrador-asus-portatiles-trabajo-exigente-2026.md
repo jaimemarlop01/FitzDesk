@@ -5,9 +5,21 @@ categoria: "portatiles"
 fecha: "2026-07-26"
 descripcion: "Cinco portátiles ASUS para teletrabajo exigente en 2026: desde el ultraligero ExpertBook hasta el ProArt para diseño y edición."
 imagen: "/images/articulos/asus-portatiles-trabajo-exigente-2026.webp"
+imagen_thumb: "/images/articulos/asus-portatiles-trabajo-exigente-2026-thumb.webp"
 tiempo_lectura: "7 min"
 tipo: "guia"
 presupuesto: "999€ - 3.500€"
+keyword_principal: "portátiles ASUS para teletrabajo"
+keywords_secundarias:
+  - "ASUS ExpertBook"
+  - "ASUS ProArt portátil"
+  - "portátil trabajo exigente 2026"
+enlaces:
+  - "https://www.pccomponentes.com/buscar/?query=asus+expertbook+p5"
+  - "https://www.pccomponentes.com/buscar/?query=asus+zenbook+duo"
+  - "https://www.pccomponentes.com/buscar/?query=asus+proart+p16"
+  - "https://www.pccomponentes.com/buscar/?query=asus+rog+strix+g18"
+  - "https://www.pccomponentes.com/buscar/?query=asus+tuf+gaming+a16"
 borrador: true
 ---
 

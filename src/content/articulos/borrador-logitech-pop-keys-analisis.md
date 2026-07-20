@@ -87,6 +87,8 @@ El K380 tiene membrana (no mecánico) y es más silencioso. El POP Keys tiene re
 
 El POP Keys es el teclado con más carácter del análisis. Si necesitas un mecánico inalámbrico sin gastarte 150€ y no te importa que los F1-F12 sean combinación, te da exactamente lo que buscas. El diseño es divisivo —hay gente que no quiere colores en su escritorio y respeto eso— pero técnicamente, por debajo de 50€, cuesta encontrar un mecánico Bluetooth que se comporte tan bien.
 
+Mi nota: 7.5/10
+
 ## Conclusión
 
 El Logitech POP Keys demuestra que un teclado mecánico inalámbrico no tiene que costar 150€ para ser válido para teletrabajo. La combinación de switches táctiles de bajo perfil, triple Bluetooth y batería de pilas a menos de 50€ lo hace una opción seria en su rango. Las limitaciones son claras: sin fila F física y sin retroiluminación. Si convives con eso, el POP Keys es una compra sólida.
