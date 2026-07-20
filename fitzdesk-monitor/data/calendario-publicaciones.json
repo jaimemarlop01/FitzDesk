@@ -317,16 +317,6 @@
     },
     {
       "fecha": "2026-09-08",
-      "diaSemana": "martes",
-      "slug": "borrador-asus-proart-pa278cv-analisis",
-      "titulo": "ASUS ProArt PA278CV: precisión de color profesional con USB-C",
-      "categoria": "monitores",
-      "prioridad": "ALTA",
-      "tipo": "analisis",
-      "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00. Imagen pendiente: ejecutar imageCollector antes de publicar"
-    },
-    {
-      "fecha": "2026-09-10",
       "diaSemana": "jueves",
       "slug": "borrador-logitech-pop-keys-analisis",
       "titulo": "Logitech POP Keys: el teclado mecánico con personalidad propia",
@@ -334,6 +324,16 @@
       "prioridad": "MEDIA",
       "tipo": "analisis",
       "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00"
+    },
+    {
+      "fecha": "2026-09-10",
+      "diaSemana": "martes",
+      "slug": "borrador-asus-proart-pa278cv-analisis",
+      "titulo": "ASUS ProArt PA278CV: precisión de color profesional con USB-C",
+      "categoria": "monitores",
+      "prioridad": "ALTA",
+      "tipo": "analisis",
+      "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00. Imagen pendiente: ejecutar imageCollector antes de publicar"
     },
     {
       "fecha": "2026-09-15",
