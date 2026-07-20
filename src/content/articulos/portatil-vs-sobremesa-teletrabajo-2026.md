@@ -1,9 +1,10 @@
 ---
-title: "Portátil o sobremesa para teletrabajar: cómo decidir según tu situación en 2026"
+title: "Portátil o sobremesa para teletrabajar: cómo decidir en 2026"
 slug: "portatil-vs-sobremesa-teletrabajo-2026"
 categoria: "guias"
 fecha: "2026-06-06"
 descripcion: "¿Portátil o sobremesa para trabajar desde casa? Analizamos pros, contras y cuándo merece la pena cada opción según tu situación."
+keyword_principal: "portátil o sobremesa teletrabajo"
 imagen: "/images/articulos/portatil-vs-sobremesa-teletrabajo-2026.webp"
 tiempo_lectura: "7 min"
 tipo: "guia"

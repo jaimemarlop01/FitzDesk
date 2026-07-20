@@ -4,6 +4,7 @@ slug: "razer-pro-click-analisis"
 categoria: "ratones"
 fecha: "2026-06-23"
 descripcion: "Análisis del Razer Pro Click: ratón inalámbrico ergonómico para trabajo de oficina con sensor de precisión y hasta 400h de batería."
+keyword_principal: "ratón profesional sin RGB"
 imagen: "/images/articulos/razer-pro-click-analisis.webp"
 puntuacion: 8.5
 criterios:

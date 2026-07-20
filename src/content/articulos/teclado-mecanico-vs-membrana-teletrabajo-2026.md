@@ -1,9 +1,10 @@
 ---
-title: "Teclado mecánico o de membrana para teletrabajar: cuál es mejor para ti en 2026"
+title: "Teclado mecánico o de membrana para teletrabajar: cuál elegir"
 slug: "teclado-mecanico-vs-membrana-teletrabajo-2026"
 categoria: "guias"
 fecha: "2026-06-06"
 descripcion: "¿Teclado mecánico o de membrana para trabajar desde casa? Descubre cuál se adapta mejor a tu forma de escribir y a tu entorno de trabajo."
+keyword_principal: "teclado mecánico o de membrana"
 imagen: "/images/articulos/teclado-mecanico-vs-membrana-teletrabajo-2026.webp"
 tiempo_lectura: "7 min"
 tipo: "guia"

@@ -1,9 +1,10 @@
 ---
-title: "Samsung S27A600NAU: QHD de 27\" sin USB-C pero sin compromisos en imagen"
+title: "Samsung S27A600NAU: QHD de 27\" sin USB-C y sin compromisos"
 slug: "samsung-s27a600-analisis"
 categoria: "monitores"
 fecha: "2026-06-16"
 descripcion: "Análisis del Samsung S27A600NAU: monitor 27\" QHD IPS con diseño ultrafino y calibración de fábrica para el escritorio profesional por ~200€."
+keyword_principal: "monitor QHD 27 pulgadas Samsung"
 imagen: "/images/articulos/samsung-s27a600-analisis.webp"
 puntuacion: 8.4
 precio: "489€"

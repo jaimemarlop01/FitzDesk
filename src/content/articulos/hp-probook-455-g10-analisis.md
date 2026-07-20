@@ -4,6 +4,7 @@ slug: "hp-probook-455-g10-analisis"
 categoria: "portatiles"
 fecha: "2026-06-18"
 descripcion: "Análisis del HP ProBook 455 G10: portátil empresarial AMD con lector de huella, teclado retroiluminado y batería larga por menos de 600€."
+keyword_principal: "portátil AMD Ryzen para empresa"
 imagen: "/images/articulos/hp-probook-455-g10-analisis.webp"
 puntuacion: 8.6
 criterios:

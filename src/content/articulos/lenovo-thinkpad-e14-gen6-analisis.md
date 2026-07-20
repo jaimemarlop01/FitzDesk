@@ -1,8 +1,8 @@
 ﻿---
-title: "Lenovo ThinkPad E14 Gen 6: fiabilidad empresarial sin precio empresarial"
+title: "Lenovo ThinkPad E14 Gen 6: fiabilidad empresarial a buen precio"
 categoria: "portatiles"
 fecha: "2026-05-24"
-descripcion: "Análisis del ThinkPad E14 Gen 6: el mejor teclado de su categoría, construcción robusta y soporte a largo plazo por 849€. El portátil de los profesionales serios."
+descripcion: "ThinkPad E14 Gen 6: el mejor teclado de su categoría, construcción robusta y soporte empresarial a largo plazo por 849€. Para los profesionales serios."
 imagen: "/images/articulos/lenovo-thinkpad-e14-gen6-analisis.webp"
 puntuacion: 8.8
 criterios:
