@@ -6,7 +6,6 @@ fecha: "2026-09-20"
 descripcion: "Guía para elegir el mejor teclado mecánico para teletrabajo en 2026: qué switch elegir, qué modelos merece la pena y por qué los mecánicos duran más."
 imagen: "/images/articulos/mejor-teclado-mecanico-teletrabajo-2026.webp"
 imagen_thumb: "/images/articulos/mejor-teclado-mecanico-teletrabajo-2026-thumb.webp"
-imagen_placeholder: true
 presupuesto: "48€ - 156€"
 tiempo_lectura: "8 min"
 tipo: "guia"
