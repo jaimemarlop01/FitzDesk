@@ -49,7 +49,7 @@ Doble conexión: receptor USB Logi Bolt (2.4 GHz) o Bluetooth. El receptor propo
 
 El botón Easy-Switch permite alternar entre dos dispositivos con un solo clic. Útil si trabajas con portátil y sobremesa, o con ordenador y tablet.
 
-La batería interna se recarga por Micro-USB (sí, Micro-USB, no USB-C — es el punto más anticuado del diseño) y Logitech estima una autonomía de cuatro meses. En uso real con 6-8 horas diarias llegamos a los tres meses sin problema. La recarga completa tarda unas tres horas.
+La batería interna se recarga por Micro-USB (sí, Micro-USB, no USB-C — es el punto más anticuado del diseño) y Logitech estima una autonomía de cuatro meses. En uso real con 6-8 horas diarias, la batería aguanta tres meses sin problema. La recarga completa tarda unas tres horas.
 
 ## Lo mejor
 

@@ -49,7 +49,7 @@ La construcción del chasis en aluminio anodizado en los modelos más completos 
 
 Bluetooth 5.1 con soporte para tres dispositivos mediante Easy-Switch (botones Fn+1, Fn+2, Fn+3), cable USB-C, y receptor 2.4 GHz opcional para la mínima latencia posible. Para trabajo de oficina, el Bluetooth 5.1 es suficientemente rápido. Para quien necesita la menor latencia posible (trabajo de precisión con cursor, edición intensiva), el receptor 2.4 GHz o el USB-C cubren ese caso.
 
-La batería de 4.000 mAh promete hasta 300 horas sin retroiluminación o varios días con luz activada. En uso real con RGB moderado llegamos a 4-5 días por carga. La recarga por USB-C es rápida (2-3 horas completas).
+La batería de 4.000 mAh promete hasta 300 horas sin retroiluminación o varios días con luz activada. En uso real con RGB moderado, la autonomía ronda los 4-5 días por carga. La recarga por USB-C es rápida (2-3 horas completas).
 
 ## Lo mejor
 

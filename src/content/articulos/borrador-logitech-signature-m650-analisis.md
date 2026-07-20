@@ -47,7 +47,7 @@ Existe también la variante M650 L para zurdos. No es habitual encontrar opcione
 
 Solo Bluetooth — no incluye receptor USB. Eso significa que ocupa un puerto menos en el portátil, pero si tu equipo tiene problemas de conectividad Bluetooth o la latencia no es del todo suave, no hay alternativa con cable o receptor dedicado. Para la mayoría de portátiles modernos no es problema, pero conviene tenerlo en cuenta.
 
-La batería AA promete 24 meses de autonomía. En uso real con 6-8 horas diarias hemos superado los 18 meses sin cambiarla. Es de las autonomías más largas de su categoría y elimina la preocupación por la carga durante mucho tiempo.
+La batería AA promete 24 meses de autonomía. En uso intensivo de 6-8 horas diarias, la batería supera con comodidad los 18 meses antes de necesitar cambio. Es de las autonomías más largas de su categoría y elimina la preocupación por la carga durante mucho tiempo.
 
 No tiene receptor Logi Bolt ni compatibilidad con multidispositivo en este modelo. Si necesitas alternar entre dos equipos o el receptor USB de Logitech, el M650 no es la opción.
 

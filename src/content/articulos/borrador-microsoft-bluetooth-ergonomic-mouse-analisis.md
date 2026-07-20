@@ -60,7 +60,7 @@ La batería promete 12 meses de autonomía con dos pilas AA. En uso real con 6 h
 ## Lo mejorable
 
 - Solo Bluetooth, sin receptor USB dedicado
-- Sensor 2.400 DPI ajusto para tareas de alta precisión
+- Sensor de 2.400 DPI algo justo para tareas de alta precisión
 - Sin multidispositivo: solo empareja con un equipo a la vez
 - No disponible en PcComponentes actualmente
 
