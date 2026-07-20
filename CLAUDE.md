@@ -276,8 +276,9 @@ Objetivos:
 
 ## Estado de borradores
 - Última revisión: 2026-07-20
-- Borradores pendientes: 25
+- Borradores pendientes: 26
 - Última ejecución de completar-borradores: 2026-07-20
+- **Nuevo borrador añadido 2026-07-20**: `mejor-teclado-mecanico-teletrabajo-2026` (guía, teclados, 20/09) — cubre los 7 mecánicos analizados hasta esa fecha; imagen Gemini real (sin imagen_placeholder)
 - Borradores descartados: 0
 - Borradores completados: 17
 - Borradores listos para revisión humana: 25
@@ -358,9 +359,17 @@ De esos 14, **4 se conservaron y completaron** (traídos a `develop` con frontma
 **Bug corregido en `analyzer.js`**: el segundo borrador descartado tenía `borrador: false` en el frontmatter pese a estar recién generado sin revisar. Causa: `generateDraft()` deja que la IA genere el frontmatter completo como texto libre (incluyendo el campo `borrador:`), y el código nunca lo validaba después — al contrario que `precio:` y `enlace_afiliado:`, que sí se sobrescriben siempre en `injectPcData()`. Corregido añadiendo una normalización forzada antes de `injectPcData()`: si el campo existe con cualquier valor (`true` o `false`), se fuerza a `true`; si no existe, se inserta antes del cierre del frontmatter. Mismo patrón defensivo que ya usaban `precio`/`enlace_afiliado`.
 
 ## Estado del código
-- Última revisión: 2026-07-20 (18ª pasada — revisión de pasadas 13-17; sin errores críticos nuevos)
+- Última revisión: 2026-07-20 (19ª pasada — SEO y borrador teclados mecánicos; sin errores críticos nuevos)
 - Errores críticos pendientes: 0 | Estado: ✅ Sin errores críticos
-- **Advertencias nuevas detectadas (18ª pasada)**:
+- **Cambios 2026-07-20 (19ª pasada — SEO + contenido)**:
+  - **SEO — títulos**: 12 títulos de artículos publicados recortados a ≤70 caracteres (portatil-vs-sobremesa, teclado-mecanico-vs-membrana, lg-display lanzamiento, mejor-monitor-guia, lg-27un880, lg-27up850n, keychron-k2-v2, el-nuevo-surface-ultra, keychron-v1, setup-teletrabajo-profesional, samsung-s27a600, lenovo-thinkpad)
+  - **SEO — keyword_principal**: añadido en los 16 artículos publicados que no lo tenían (todos los anteriores al pipeline de SEO)
+  - **SEO — descripciones**: 8 descripciones ajustadas al rango 120-160 caracteres (3 expandidas, 5 recortadas)
+  - **SEO — canibalización resuelta**: `dell-s2722qc-analisis` tenía `keyword_principal: "monitor 4K USB-C"` — el Dell S2722QC es QHD (2560×1440), no 4K. Cambiado a `"monitor QHD USB-C Dell"`. El LG 27UP850N-W sí es 4K y conserva `"monitor 4K USB-C LG"`
+  - **Notas/puntuaciones de borradores verificadas**: todas dentro de ±0.4 de la media de criterios — rango editorial normal, sin inflación
+  - **3 archivos huérfanos eliminados**: `logitech-mx-master-3s.webp` (versión sin sufijo -analisis, 15KB), `raton-ergonomico-vs-estandar-teletrabajo.webp` (artículo eliminado, 32KB), `_convert_tmp.cjs` (script puntual no trackeado)
+  - **Nuevo borrador**: `mejor-teclado-mecanico-teletrabajo-2026` (guía, teclados, 20/09) — 7 teclados analizados, imagen Gemini real (3 keyboards en fila, escritorio roble), ~1250 palabras
+- **Advertencias pendientes (18ª pasada, sin corregir)**:
   - `src/pages/articulo/[slug].astro:46` — `precioLimpio` produce valores inválidos en JSON-LD para 3 artículos publicados (ver informe)
 - **Correcciones 2026-07-19 (17ª pasada)**:
   - **Imágenes de guías de setup reemplazadas con fotos Gemini Imagen 3**: `mejor-setup-teletrabajo-500-euros-2026` (monitor + teclado + ratón sobre escritorio de madera clara, 23KB) y `setup-teletrabajo-profesional-2026` (Keychron K8 Pro + MX Master + monitor 4K sobre escritorio de nogal oscuro, 61KB). Las imágenes anteriores eran cuadrículas de productos generadas por el compositor automático (fondo blanco) que quedaban casi negras con el degradado del slide 1 de Instagram. Los 8 slides de Instagram regenerados (4 por guía, todos >50KB)
@@ -466,6 +475,7 @@ De esos 14, **4 se conservaron y completaron** (traídos a `develop` con frontma
 - Última revisión de precios: 2026-07-20
 - Artículos con precio desactualizado: 0 ✅
 - Artículos pendientes de revisión: 3 (`lg-gram-14-2025-analisis`, `asus-vivobook-15-oled-analisis`, `lenovo-thinkpad-e14-gen6-analisis` — configuraciones descatalogadas del mercado español, no reabrir salvo dato nuevo del usuario, misma situación que revisiones anteriores)
+- **⚠️ Alerta próxima — 2026-07-24**: 9 artículos actualizados el 2026-06-24 cruzarán los 30 días sin revisión de precio (benq-gw2780, dell-s2722qc, keychron-k8-pro, keychron-v1, lg-27un880, logitech-lift-vertical, logitech-mx-anywhere-3s, logitech-mx-keys-s, logitech-mx-master-3s)
 - **Revisión 2026-07-19**: 5 precios actualizados en una pasada:
   - `lg-ultragear-34gx90sb-w-analisis` (borrador, publica 21/07): "Ver precio" → 999€. Confirmado que 34GX90SB-W y 34GX90SA-W son el mismo hardware con sufijos regionales distintos; ambos tienen MLA+ y 1300 nits. Precio oficial confirmado por el usuario
   - `asus-rog-strix-scar-18-analisis` (publicado 14/07): "Ver precio" → 4.599,99€ (PcComponentes, modelo G835LX). Nota añadida en el artículo: posible encontrarlo más barato desde 3.683,94€ en idealo/Amazon (modelo G835LR, entrada de gama)
@@ -505,6 +515,8 @@ De esos 14, **4 se conservaron y completaron** (traídos a `develop` con frontma
 - **Corregido 2026-06-21: error de día de la semana.** Una sesión anterior calculó mal el día de semana de fechas de julio (asumió 10/07=jueves y 13/07=domingo cuando en realidad 10/07=viernes y 13/07=lunes). Verificado con cálculo de fecha real (no a mano): el jueves real sin cubrir era el **09/07** y el domingo quincenal real (14 días tras el 28/06) es el **12/07**. Todas las fechas de julio/agosto de esta entrada están verificadas con `Date.UTC()`, no contadas a mano
 - Calendario completo hasta 2026-09-22 (36 publicaciones totales, 16 ya publicadas: mejor-raton 14/06, samsung 16/06, hp-probook 18/06, razer-pro-click 23/06, logitech-k380 25/06, monitor-4k-vs-full-hd 28/06, intel-wildcat-lake 30/06, corsair-clipper-pro-mini-60 02/07, hp-935-creator-wireless 07/07, aoc-q27p3cv 09/07, dolor-muneca 12/07, asus-rog-strix-scar-18 14/07, logitech-mobi-fold 16/07)
 - Próxima publicación pendiente: 2026-07-21 — borrador-lg-ultragear-34gx90sb-w-analisis (analisis, monitores, martes)
+- **Corrección de calendario 2026-07-20**: swap 08/09 ↔ 10/09 para evitar monitores consecutivos — `asus-proart-pa278cv` pasa a 10/09 (jue), `logitech-pop-keys` pasa a 08/09 (mar). Categorías resultantes: …06/09 guía monitores → 08/09 teclados → 10/09 monitores… sin repetición consecutiva
+- **Guía 20/09 cubierta**: `mejor-teclado-mecanico-teletrabajo-2026` cubre el hueco dominical del 20/09 que no tenía borrador asignado
 - **Ampliación 2026-07-06 — 14 entradas nuevas (13/08 a 22/09)**: corsair-k70-core-tkl (13/08 jue, teclados), corsair-xeneon-edge (18/08 mar, monitores), logitech-mx-vertical (20/08 jue, ratones), mejores-soportes-brazos-monitor [guía] (23/08 dom, setups), logitech-mx-mechanical (25/08 mar, teclados), benq-pd2705q (27/08 jue, monitores), logitech-signature-m650 (01/09 mar, ratones), keychron-k2-max (03/09 jue, teclados), monitor-ultrawide-teletrabajo [guía] (06/09 dom, monitores), asus-proart-pa278cv (08/09 mar, monitores — imagen pendiente), logitech-pop-keys (10/09 jue, teclados), logitech-brio-505 (15/09 mar, periféricos), msi-pro-mp341cq (17/09 jue, monitores), microsoft-bluetooth-ergonomic-mouse (22/09 mar, ratones). Guía del 23/08 actualizada: webcams → soportes de monitor.
 - Huérfanos incorporados al calendario en esta sesión (11): dolor-muneca-teletrabajo (12/07, domingo), asus-rog-strix-scar-18 (14/07), logitech-mobi-fold (16/07), lg-ultragear-34gx90sb-w (21/07), airra-labs-rotary-mouse (23/07), asus-portatiles-trabajo-exigente-2026 (26/07, domingo), jabra-evolve2-30-se (28/07), cherry-kc-6000-slim (30/07), logitech-mk470 (04/08), trust-tk-350-silent (06/08), razer-seiren-v3-pro (11/08)
 - Guía nueva creada y calendarizada el mismo día: `doble-monitor-teletrabajo-merece-la-pena` (09/08, domingo) — cubre el hueco quincenal de guías que ya no tenía ningún borrador disponible (los 3 existentes ya estaban todos asignados). 1042 palabras, enlaza los 4 análisis de monitores ya publicados (LG 27UP850N-W, Dell S2722QC, LG 27UN880, BenQ GW2780)
