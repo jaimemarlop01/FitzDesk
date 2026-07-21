@@ -18,6 +18,11 @@ enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=razer+pro+click"
 tiempo_lectura: "6 min"
 tipo: "analisis"
 imagen_thumb: "/images/articulos/razer-pro-click-analisis-thumb.webp"
+conectividad: "2.4GHz HyperSpeed / Bluetooth"
+cable: "Inalámbrico"
+dpi: "16.000 DPI (Focus+)"
+bateria: "400h (2.4GHz) / 465h (BT)"
+peso: "~91g"
 ---
 
 Razer lleva décadas construyendo su reputación sobre ratones para videojuegos. Por eso resulta llamativo cuando la misma empresa lanza un ratón pensado explícitamente para el trabajo de oficina, sin iluminación RGB, sin perfiles de DPI agresivos y sin el diseño alienígena habitual. El Razer Pro Click es exactamente eso: el intento de Razer de trasladar sus tecnologías de precisión al escritorio profesional en un formato discreto.

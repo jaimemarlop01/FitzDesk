@@ -24,6 +24,10 @@ keywords_secundarias:
 imagen_thumb: "/images/articulos/lg-ultragear-34gx90sb-w-analisis-thumb.webp"
 fecha_actualizacion: "2026-07-19"
 actualizado: true
+tamano: "34 pulgadas"
+resolucion: "WQHD (3440×1440)"
+panel: "OLED"
+frecuencia: "240 Hz"
 ---
 > 📅 **Artículo actualizado en julio de 2026**: Precio actualizado a 999€ en PcComponentes.
 

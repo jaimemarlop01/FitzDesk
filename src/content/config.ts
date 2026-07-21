@@ -39,6 +39,34 @@ const articulosCollection = defineCollection({
     instagram_slide2_items: z.array(z.string()).optional(),
     instagram_slide3_titulo: z.string().optional(),
     instagram_slide3_items: z.array(z.string()).optional(),
+    // Campos de especificaciones separados (ratones + teclados)
+    cable: z.string().optional(),
+    conectividad: z.string().optional(),
+    compatible: z.string().optional(),
+    bateria: z.string().optional(),
+    // Ratones
+    dpi: z.string().optional(),
+    peso: z.string().optional(),
+    // Teclados
+    switches: z.string().optional(),
+    formato: z.string().optional(),
+    retroiluminacion: z.string().optional(),
+    // Monitores
+    tamano: z.string().optional(),
+    resolucion: z.string().optional(),
+    panel: z.string().optional(),
+    frecuencia: z.string().optional(),
+    puertos: z.string().optional(),
+    brillo: z.string().optional(),
+    hdr: z.string().optional(),
+    usb_c_vatios: z.string().optional(),
+    // Portátiles
+    procesador: z.string().optional(),
+    ram: z.string().optional(),
+    almacenamiento: z.string().optional(),
+    pantalla_tamano: z.string().optional(),
+    pantalla_tipo: z.string().optional(),
+    so: z.string().optional(),
   }),
 });
 

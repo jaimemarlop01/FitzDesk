@@ -35,6 +35,12 @@ especificaciones:
   Scroll: "MagSpeed electromagnético"
 fecha_actualizacion: "2026-06-24"
 actualizado: true
+conectividad: "Bluetooth / Logi Bolt (2,4 GHz)"
+cable: "USB-C (para carga)"
+dpi: "200–8000 ppp"
+bateria: "hasta 70 días"
+peso: "99 g"
+compatible: "Windows, macOS, iPadOS, ChromeOS"
 ---
 > 📅 **Artículo actualizado en junio de 2026**: Precio actualizado a 59,99€ en PcComponentes.
 

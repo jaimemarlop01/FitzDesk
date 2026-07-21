@@ -32,6 +32,12 @@ especificaciones:
   Teclas_especiales: "Teclas de función para flujo de trabajo (Logi Options+)"
 fecha_actualizacion: "2026-06-24"
 actualizado: true
+conectividad: "Bluetooth / Logi Bolt (2,4 GHz)"
+cable: "USB-C (para carga)"
+switches: "Membrana de perfil bajo (scissor switch)"
+retroiluminacion: "Adaptativa inteligente (sensor de luz ambiente)"
+bateria: "hasta 10 días (con retroiluminación) / 5 meses (sin retroiluminación)"
+compatible: "Windows, macOS, iPadOS, Android"
 ---
 > 📅 **Artículo actualizado en junio de 2026**: Precio actualizado a 74,95€ en PcComponentes.
 

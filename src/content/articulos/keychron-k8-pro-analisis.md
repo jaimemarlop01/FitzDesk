@@ -22,6 +22,13 @@ keywords_secundarias:
   - "teclado inalámbrico"
   - "teclado para Mac y Windows"
 fitzQuote: "El K8 Pro es la respuesta a la pregunta 'cuándo merece la pena pasarse a un mecánico'. Respuesta: cuando tienes este teclado delante. Calidad de construcción, flexibilidad de conexión y hot-swap para experimentar con switches. No tiene excusas para decepcionar. Mi nota: 9.0/10"
+conectividad: "USB-C / Bluetooth / 2.4GHz"
+cable: "Con cable / Inalámbrico"
+switches: "Hot-swap Gateron G Pro"
+formato: "TKL (87 teclas)"
+retroiluminacion: "RGB por tecla"
+bateria: "4.000 mAh"
+compatible: "Mac / Windows"
 especificaciones:
   Formato: "TKL (87 teclas, sin numpad)"
   Switches: "Hot-swap (Gateron G Pro Red/Brown/Blue)"

@@ -32,6 +32,12 @@ especificaciones:
   Certificacion: "TÜV Rheinland Eye Comfort"
 fecha_actualizacion: "2026-06-24"
 actualizado: true
+tamano: "27 pulgadas"
+resolucion: "Full HD (1920×1080)"
+panel: "IPS"
+frecuencia: "60 Hz"
+puertos: "HDMI 1.4, DisplayPort 1.2, VGA"
+brillo: "250 nits"
 ---
 > 📅 **Artículo actualizado en junio de 2026**: Precio actualizado a 266,81€ en PcComponentes.
 

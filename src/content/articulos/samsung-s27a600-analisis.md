@@ -15,6 +15,11 @@ tipo: "analisis"
 imagen_thumb: "/images/articulos/samsung-s27a600-analisis-thumb.webp"
 fecha_actualizacion: "2026-07-14"
 actualizado: true
+tamano: "27 pulgadas"
+resolucion: "QHD (2560×1440)"
+panel: "IPS"
+frecuencia: "75 Hz"
+puertos: "HDMI 2.0, DisplayPort 1.2"
 ---
 > 📅 **Artículo actualizado en julio de 2026**: Precio actualizado a 489€ en PcComponentes.
 

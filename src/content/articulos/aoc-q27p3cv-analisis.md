@@ -22,6 +22,13 @@ keywords_secundarias:
   - "monitores con USB-C"
   - "monitores QHD"
 imagen_thumb: "/images/articulos/aoc-q27p3cv-analisis-thumb.webp"
+tamano: "27 pulgadas"
+resolucion: "QHD (2560×1440)"
+panel: "IPS"
+frecuencia: "75 Hz"
+puertos: "USB-C 65W, 4x USB-A"
+hdr: "HDR10 (compatible)"
+usb_c_vatios: "65W"
 ---
 
 El Dell S2722QC tiene un problema: el AOC Q27P3CV existe. A precio similar o inferior, AOC ha construido un monitor QHD de 27 pulgadas con panel IPS, USB-C de 65W y un hub USB integrado que convierte el monitor en el centro de conectividad del escritorio. Es el tipo de producto que no genera titulares en el sector pero que, puesto junto a la competencia en una comparativa objetiva, resulta difícil de ignorar.

@@ -31,6 +31,14 @@ especificaciones:
   Carga: "USB-C 65W"
   Peso: "1.7 kg"
   Puertos: "USB-C x2, USB-A x2, HDMI 2.1, lector SD"
+procesador: "Intel Core i5-13500H / Core i7-13700H"
+ram: "16 GB DDR5"
+almacenamiento: "512 GB NVMe SSD"
+pantalla_tamano: "15,6 pulgadas"
+pantalla_tipo: "OLED"
+bateria: "70 Wh (6-8 horas uso mixto)"
+peso: "1,7 kg"
+puertos: "2x USB-C, 2x USB-A, HDMI 2.1, lector SD"
 ---
 
 ## La pantalla que justifica la compra por sí sola

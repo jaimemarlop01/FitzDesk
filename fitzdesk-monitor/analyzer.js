@@ -102,6 +102,52 @@ function injectPcData(content, pcResult) {
   return updated;
 }
 
+function getSpecsTemplate(categoria) {
+  switch (categoria) {
+    case 'ratones':
+      return `conectividad: "[p.ej. 'Bluetooth 5 / 2.4GHz']"
+cable: "[Inalámbrico | Con cable | Ambos]"
+dpi: "[p.ej. '200 – 8000 ppp']"
+bateria: "[p.ej. '70 días' o '400h']"
+peso: "[p.ej. '141g']"
+compatible: "[p.ej. 'Windows / macOS']"`;
+    case 'teclados':
+      return `conectividad: "[p.ej. 'USB-C / Bluetooth / 2.4GHz']"
+cable: "[Con cable | Inalámbrico | Ambos]"
+switches: "[p.ej. 'Gateron Red' o 'Cherry MX Brown']"
+formato: "[TKL | 75% | 65% | Completo]"
+retroiluminacion: "[RGB | Blanca | Sin retroiluminación]"
+bateria: "[p.ej. '4000 mAh' — omitir si es solo con cable]"
+compatible: "[p.ej. 'Mac / Windows']"`;
+    case 'monitores':
+      return `tamano: "[p.ej. '27 pulgadas']"
+resolucion: "[p.ej. '4K (3840×2160)' o 'QHD (2560×1440)']"
+panel: "[IPS | VA | OLED | TN]"
+frecuencia: "[p.ej. '60 Hz' o '144 Hz']"
+puertos: "[p.ej. '2× HDMI, 1× USB-C, 1× DP']"
+brillo: "[p.ej. '400 nits']"
+hdr: "[p.ej. 'HDR400' o 'Sin HDR']"
+usb_c_vatios: "[p.ej. '96W' — omitir si no tiene USB-C con carga]"`;
+    case 'portatiles':
+      return `procesador: "[p.ej. 'Intel Core Ultra 7' o 'AMD Ryzen 7']"
+ram: "[p.ej. '16 GB LPDDR5']"
+almacenamiento: "[p.ej. '512 GB NVMe SSD']"
+pantalla_tamano: "[p.ej. '14 pulgadas']"
+pantalla_tipo: "[p.ej. 'IPS 1920×1200' o 'OLED 2880×1800']"
+bateria: "[p.ej. '72 Wh / ~18h']"
+peso: "[p.ej. '1,2 kg']"
+puertos: "[p.ej. '2× USB-C, 2× USB-A, HDMI']"
+so: "[p.ej. 'Windows 11 Home' o 'Sin SO']"`;
+    case 'perifericos':
+      return `conectividad: "[p.ej. 'USB / Bluetooth']"
+cable: "[Con cable | Inalámbrico | Ambos]"
+bateria: "[p.ej. '20h' — omitir si es solo USB]"
+compatible: "[p.ej. 'Windows / macOS / Linux']"`;
+    default:
+      return '';
+  }
+}
+
 export async function generateDraft({ title, description, link, source }) {
   logInfo(`Generando borrador para: "${title}"`);
 
@@ -152,6 +198,7 @@ instagram_contras_frases:
   - "[frase de impacto real para el contra 2, máximo 8 palabras]"
   - "[frase de impacto real para el contra 3, máximo 8 palabras]"
 borrador: true
+${getSpecsTemplate(categoria)}
 ---
 
 <!--

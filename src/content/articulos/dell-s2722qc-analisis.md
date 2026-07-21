@@ -32,6 +32,13 @@ especificaciones:
   Altavoces: "No incluidos"
 fecha_actualizacion: "2026-06-24"
 actualizado: true
+tamano: "27 pulgadas"
+resolucion: "4K (3840×2160)"
+panel: "IPS"
+frecuencia: "60 Hz"
+puertos: "USB-C, 2x HDMI 1.4, 2x USB-A"
+brillo: "350 nits"
+usb_c_vatios: "65W"
 ---
 > 📅 **Artículo actualizado en junio de 2026**: Precio actualizado a 623,83€ (PcComponentes ya no lo lista; precio verificado en idealo.es).
 

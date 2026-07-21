@@ -20,6 +20,13 @@ tipo: "analisis"
 imagen_thumb: "/images/articulos/hp-probook-455-g10-analisis-thumb.webp"
 fecha_actualizacion: "2026-07-14"
 actualizado: true
+procesador: "AMD Ryzen 7 7730U"
+pantalla_tamano: "15,6 pulgadas"
+pantalla_tipo: "IPS"
+bateria: "51 Wh (hasta 12-13 horas)"
+peso: "~1,78 kg"
+puertos: "USB-A, USB-C (Power Delivery), HDMI, lector microSD, RJ-45"
+so: "Windows 11 Pro / Home (según configuración)"
 ---
 > 📅 **Artículo actualizado en julio de 2026**: Precio actualizado a 899€ en PcComponentes.
 

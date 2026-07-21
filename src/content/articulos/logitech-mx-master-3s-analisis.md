@@ -21,6 +21,12 @@ keywords_secundarias:
   - "ratón para trabajo"
   - "mouse de productividad"
 fitzQuote: "El MX Master 3S no es solo un ratón: es la diferencia entre acabar el día con la muñeca destrozada o en plena forma. Si trabajas más de seis horas al día frente al ordenador, aquí está tu inversión más rentable del año. Mi nota: 9.2/10"
+conectividad: "Bluetooth 5 / Logi Bolt (2.4GHz)"
+cable: "Inalámbrico"
+dpi: "200 – 8.000 ppp"
+bateria: "70 días"
+peso: "141g"
+compatible: "Windows / macOS / iPadOS / Linux"
 especificaciones:
   Conexion: "Bluetooth 5 / Logi Bolt (2.4 GHz)"
   Sensor: "Darkfield de alta precisión"

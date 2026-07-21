@@ -264,13 +264,6 @@ declare module 'astro:content' {
   collection: "articulos";
   data: InferEntrySchema<"articulos">
 } & { render(): Render[".md"] };
-"borrador-lg-ultragear-34gx90sb-w-analisis.md": {
-	id: "borrador-lg-ultragear-34gx90sb-w-analisis.md";
-  slug: "lg-ultragear-34gx90sb-w-analisis";
-  body: string;
-  collection: "articulos";
-  data: InferEntrySchema<"articulos">
-} & { render(): Render[".md"] };
 "borrador-logitech-brio-505-analisis.md": {
 	id: "borrador-logitech-brio-505-analisis.md";
   slug: "logitech-brio-505-analisis";
@@ -309,6 +302,13 @@ declare module 'astro:content' {
 "borrador-logitech-signature-m650-analisis.md": {
 	id: "borrador-logitech-signature-m650-analisis.md";
   slug: "logitech-signature-m650-analisis";
+  body: string;
+  collection: "articulos";
+  data: InferEntrySchema<"articulos">
+} & { render(): Render[".md"] };
+"borrador-mejor-teclado-mecanico-teletrabajo-2026.md": {
+	id: "borrador-mejor-teclado-mecanico-teletrabajo-2026.md";
+  slug: "mejor-teclado-mecanico-teletrabajo-2026";
   body: string;
   collection: "articulos";
   data: InferEntrySchema<"articulos">
@@ -456,6 +456,13 @@ declare module 'astro:content' {
 "lg-gram-14-2025-analisis.md": {
 	id: "lg-gram-14-2025-analisis.md";
   slug: "lg-gram-14-2025-analisis";
+  body: string;
+  collection: "articulos";
+  data: InferEntrySchema<"articulos">
+} & { render(): Render[".md"] };
+"lg-ultragear-34gx90sb-w-analisis.md": {
+	id: "lg-ultragear-34gx90sb-w-analisis.md";
+  slug: "lg-ultragear-34gx90sb-w-analisis";
   body: string;
   collection: "articulos";
   data: InferEntrySchema<"articulos">

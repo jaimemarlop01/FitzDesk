@@ -23,6 +23,13 @@ keywords_secundarias:
   - "teclado para Mac"
   - "teclado inalámbrico"
 imagen_thumb: "/images/articulos/logitech-k380-analisis-thumb.webp"
+conectividad: "Bluetooth 3.0 (hasta 3 dispositivos)"
+cable: "Inalámbrico (solo Bluetooth)"
+switches: "Membrana (~2mm de recorrido)"
+formato: "Compacto sin numérico"
+retroiluminacion: "No"
+bateria: "hasta 24 meses (2x pilas AAA)"
+compatible: "Windows, macOS, Android, iOS, Chrome OS"
 ---
 
 Hay productos que se venden solos porque resuelven un problema real a un precio justo. El Logitech K380 es uno de ellos: teclado Bluetooth compacto que conecta tres dispositivos simultáneamente, funciona con Windows, Mac, Android e iOS, tiene teclas con un tacto sorprendentemente agradable para su precio y una batería de hasta dos años. Todo por unos 40€.

@@ -20,6 +20,11 @@ criterios:
 imagen_thumb: "/images/articulos/logitech-mobi-fold-analisis-thumb.webp"
 fecha_actualizacion: "2026-07-07"
 actualizado: true
+conectividad: "Bluetooth (hasta 2 dispositivos)"
+cable: "USB-C (para carga)"
+dpi: "Sensor óptico (sin DPI configurable)"
+bateria: "recargable (USB-C)"
+compatible: "Windows, macOS, Chrome OS, iPadOS"
 ---
 > 📅 **Artículo actualizado en julio de 2026**: Precio actualizado a 79,99€ en PcComponentes.
 

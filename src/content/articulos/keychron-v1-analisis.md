@@ -32,6 +32,12 @@ especificaciones:
   Peso: "1.1 kg"
 fecha_actualizacion: "2026-06-24"
 actualizado: true
+conectividad: "USB-C (solo cable)"
+cable: "USB-C"
+switches: "Hot-swap (Gateron G Pro / Keychron)"
+formato: "75% (84 teclas)"
+retroiluminacion: "RGB por tecla"
+compatible: "Windows, macOS"
 ---
 > 📅 **Artículo actualizado en junio de 2026**: Precio actualizado a 71,39€ (PcComponentes ya no lo lista; precio de COOLMOD, actualmente agotado para compra online).
 
