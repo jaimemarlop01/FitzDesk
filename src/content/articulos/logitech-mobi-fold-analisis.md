@@ -75,18 +75,6 @@ Lo que me impide ponerle nota más alta es el perfil ergonómico. Para jornadas 
 
 **Mi nota: 8.0/10**
 
-## Especificaciones clave
-
-| Característica | Detalle |
-|---|---|
-| Tipo | Ratón óptico compacto plegable |
-| Conectividad | Bluetooth (hasta 2 dispositivos) |
-| Sensor | Óptico sin DPI configurable |
-| Diseño | Ambidextro, perfil bajo |
-| Batería | Recargable USB-C |
-| Clic | Silencioso (amortiguado) |
-| Compatibilidad | Windows, macOS, Chrome OS, iPadOS |
-
 ## Conclusión
 
 El Logitech Mobi Fold ocupa un nicho concreto y lo resuelve bien: ratón de bolsillo para teletrabajadores en movimiento. La conectividad Bluetooth doble, la carga USB-C y el clic silencioso son aciertos reales. El perfil compacto es su virtud y su límite: perfecto para movilidad, no ideal para jornadas de escritorio.
