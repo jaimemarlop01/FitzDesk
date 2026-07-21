@@ -272,6 +272,15 @@ jobs:
       - name: Disparar deploy y esperar a que termine
         if: steps.check.outputs.status == 'ready' && steps.process.outcome == 'success' && success() && steps.subir_imagenes.outputs.subidas == 'true'
         timeout-minutes: 5
+        # continue-on-error para que un fallo del deploy (o un exit-code inesperado
+        # de gh run watch --exit-status) no mate todo el workflow ni bloquee la
+        # comprobación de imágenes del paso siguiente. Si el deploy falló de verdad,
+        # las imágenes no estarán disponibles y el paso "Esperar imágenes" lo detecta
+        # y avisa a Discord por su propia ruta. Si el deploy simplemente tardó en
+        # registrarse y gh run watch devolvió un código no-cero por un error de red
+        # transitorio, las imágenes pueden ya estar vivas y el carrusel se publica sin
+        # problema. En ambos casos el usuario recibe un aviso Discord concreto.
+        continue-on-error: true
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -400,4 +409,36 @@ jobs:
               -H "Content-Type: application/json" \
               --data-binary @- \
           && echo "Notificación Discord enviada" \
+          || echo "⚠️ No se pudo enviar la notificación Discord"
+
+      # ── 8. Notificación Discord — fallo inesperado del workflow ─────────────────
+      # Catch-all que cubre fallos en cualquier paso anterior no gestionado por
+      # las notificaciones específicas (proceso fallido, imágenes no disponibles).
+      # Incluye fallos tempranos (checkout, git, Actions runner, etc.) que de otro
+      # modo pasarían completamente desapercibidos.
+      - name: Discord — fallo inesperado del workflow
+        if: failure()
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          SLUG="${{ steps.check.outputs.published_slug }}"
+          DRAFT="${{ steps.check.outputs.draft_slug }}"
+          LABEL="${SLUG:-${DRAFT:-desconocido}}"
+          jq -n \
+            --arg label "$LABEL" \
+            '{
+              embeds: [{
+                title: "🔴 Workflow de publicación fallido inesperadamente",
+                description: "El workflow terminó con error sin llegar a notificarlo por el canal habitual. Revisa los logs de GitHub Actions y publica manualmente si el artículo no aparece en la web.",
+                color: 15548997,
+                fields: [
+                  { name: "Artículo / Borrador", value: $label },
+                  { name: "Acción",              value: "GitHub → Actions → Publicar automático FitzDesk → ver logs del run fallido" }
+                ]
+              }]
+            }' \
+          | curl -s -X POST "$DISCORD_WEBHOOK_URL" \
+              -H "Content-Type: application/json" \
+              --data-binary @- \
+          && echo "Notificación de fallo inesperado enviada" \
           || echo "⚠️ No se pudo enviar la notificación Discord"
