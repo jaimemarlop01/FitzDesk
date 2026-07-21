@@ -25,6 +25,7 @@ imagen_thumb: "/images/articulos/lg-ultragear-34gx90sb-w-analisis-thumb.webp"
 fecha_actualizacion: "2026-07-19"
 actualizado: true
 tamano: "34 pulgadas"
+puertos: "HDMI 2.1, DisplayPort 1.4, USB-C (65W)"
 resolucion: "WQHD (3440×1440)"
 panel: "OLED"
 frecuencia: "240 Hz"

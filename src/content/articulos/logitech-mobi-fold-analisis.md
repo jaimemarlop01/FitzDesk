@@ -24,6 +24,7 @@ conectividad: "Bluetooth (hasta 2 dispositivos)"
 cable: "USB-C (para carga)"
 dpi: "Sensor óptico (sin DPI configurable)"
 bateria: "recargable (USB-C)"
+peso: "79g"
 compatible: "Windows, macOS, Chrome OS, iPadOS"
 ---
 > 📅 **Artículo actualizado en julio de 2026**: Precio actualizado a 79,99€ en PcComponentes.

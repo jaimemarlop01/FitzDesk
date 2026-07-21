@@ -33,6 +33,7 @@ especificaciones:
 fecha_actualizacion: "2026-06-24"
 actualizado: true
 conectividad: "Bluetooth / Logi Bolt (2,4 GHz)"
+cable: "Inalámbrico"
 dpi: "400–4000 ppp"
 bateria: "hasta 24 meses (pila AA)"
 peso: "125 g"

@@ -37,6 +37,7 @@ cable: "USB-C (para carga)"
 switches: "Membrana de perfil bajo (scissor switch)"
 retroiluminacion: "Adaptativa inteligente (sensor de luz ambiente)"
 bateria: "hasta 10 días (con retroiluminación) / 5 meses (sin retroiluminación)"
+formato: "Completo (con numérico)"
 compatible: "Windows, macOS, iPadOS, Android"
 ---
 > 📅 **Artículo actualizado en junio de 2026**: Precio actualizado a 74,95€ en PcComponentes.
