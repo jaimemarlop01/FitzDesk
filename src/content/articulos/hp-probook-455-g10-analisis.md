@@ -21,6 +21,8 @@ imagen_thumb: "/images/articulos/hp-probook-455-g10-analisis-thumb.webp"
 fecha_actualizacion: "2026-07-14"
 actualizado: true
 procesador: "AMD Ryzen 7 7730U"
+ram: "16 GB DDR4-3200"
+almacenamiento: "512 GB NVMe SSD"
 pantalla_tamano: "15,6 pulgadas"
 pantalla_tipo: "IPS"
 bateria: "51 Wh (hasta 12-13 horas)"

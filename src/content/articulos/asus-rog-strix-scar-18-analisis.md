@@ -25,8 +25,12 @@ imagen_thumb: "/images/articulos/asus-rog-strix-scar-18-analisis-thumb.webp"
 fecha_actualizacion: "2026-07-19"
 actualizado: true
 procesador: "Intel Core Ultra 9 275HX (2.7 GHz, hasta 5.4 GHz, 24 núcleos)"
+ram: "32 GB DDR5-5600"
+almacenamiento: "2 TB NVMe PCIe 4.0"
 pantalla_tamano: "18 pulgadas"
 pantalla_tipo: "Mini LED 2560×1600 (WQXGA) 16:10 240Hz"
+bateria: "90 Wh"
+peso: "3,30 kg"
 puertos: "USB-C (Thunderbolt), USB-A, HDMI, lector de tarjetas"
 so: "Windows 11 Home"
 ---
