@@ -21,7 +21,6 @@ keywords_secundarias:
   - "monitor OLED"
   - "WebOS"
   - "teletrabajo"
-borrador: true
 imagen_thumb: "/images/articulos/lg-ultragear-34gx90sb-w-analisis-thumb.webp"
 fecha_actualizacion: "2026-07-19"
 actualizado: true
