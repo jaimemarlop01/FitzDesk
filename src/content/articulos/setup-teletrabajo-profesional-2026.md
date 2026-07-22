@@ -21,11 +21,11 @@ Nuestra filosofía es simple: no queremos que te gastes una fortuna en hardware,
 
 ## Resumen del setup
 
-| Producto | Categoría | Precio | Enlace |
+| Producto | Categoría | Precio | Análisis |
 |---|---|---|---|
-| LG 27UP850N | Monitor 4K | 399€ | [Ver en PcComponentes](https://www.pccomponentes.com/lg-27up850n-monitor-4k) |
-| Keychron K8 Pro | Teclado mecánico | 109€ | [Ver en PcComponentes](https://www.pccomponentes.com/keychron-k8-pro) |
-| Logitech MX Master 3S | Ratón | 99€ | [Ver en PcComponentes](https://www.pccomponentes.com/logitech-mx-master-3s) |
+| LG 27UP850N | Monitor 4K | 399€ | [Ver análisis](/articulo/lg-27up850n-analisis/) |
+| Keychron K8 Pro | Teclado mecánico | 109€ | [Ver análisis](/articulo/keychron-k8-pro-analisis/) |
+| Logitech MX Master 3S | Ratón | 99€ | [Ver análisis](/articulo/logitech-mx-master-3s-analisis/) |
 | **TOTAL** | | **607€** | |
 
 ## Por qué hemos elegido cada producto

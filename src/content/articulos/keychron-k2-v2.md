@@ -29,9 +29,18 @@ especificaciones:
   Hotswap: "No (versión estándar)"
   Peso: "870 g"
 tipo: "analisis"
+conectividad: "Bluetooth 5.1 / USB-C"
+cable: "USB-C"
+switches: "Gateron G Pro Red / Brown / Blue"
+formato: "75% (84 teclas)"
+retroiluminacion: "RGB por tecla"
+bateria: "4000 mAh (hasta 200 horas)"
+compatible: "macOS, Windows, iOS, Android"
 ---
 
 > ⚠️ **Este modelo está agotado en la tienda oficial de Keychron (SKU K2-C2H) y ausente en PcComponentes, Amazon.es, idealo.es y COOLMOD.** El precio mostrado (60€) es una conversión desde 68,24$ de la tienda oficial, no un precio de compra activo en España — actualízalo si vuelve a tener stock.
+
+El Keychron K2 V2 lleva años siendo la respuesta automática cuando alguien pregunta por su primer teclado mecánico inalámbrico: formato 75 %, compatible con Mac y Windows, conectividad Bluetooth y cable USB-C, y un precio que no pide convicción para comprarlo.
 
 ## El teclado mecánico que todo el mundo recomienda
 

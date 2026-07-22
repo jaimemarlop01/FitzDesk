@@ -1,49 +1,152 @@
 ---
 export interface Props {
-  especificaciones: Record<string, string>;
+  especificaciones?: Record<string, string>;
+  flatSpecs?: Record<string, string>;
+  categoria: string;
+  enlace_afiliado?: string;
 }
 
-const { especificaciones } = Astro.props;
-const entries = Object.entries(especificaciones);
+interface SpecRow {
+  label: string;
+  flatKey?: string;
+  keys: string[];
+}
+
+const CATEGORY_SPECS: Record<string, SpecRow[]> = {
+  ratones: [
+    { label: 'Conectividad',        flatKey: 'conectividad',  keys: ['Conectividad', 'Conexion', 'Conexión'] },
+    { label: 'Con/sin cable',       flatKey: 'cable',         keys: ['Cable', 'Inalambrico', 'Wireless', 'Tipo_conexion'] },
+    { label: 'Sensor / DPI máximo', flatKey: 'dpi',           keys: ['DPI', 'Sensor'] },
+    { label: 'Batería',             flatKey: 'bateria',       keys: ['Bateria', 'Batería', 'Autonomia', 'Autonomía'] },
+    { label: 'Peso',                flatKey: 'peso',          keys: ['Peso'] },
+    { label: 'Compatible con',      flatKey: 'compatible',    keys: ['Compatibilidad', 'Compatible', 'Sistemas', 'SO'] },
+  ],
+  teclados: [
+    { label: 'Conectividad',     flatKey: 'conectividad',     keys: ['Conectividad', 'Conexion', 'Conexión'] },
+    { label: 'Con/sin cable',    flatKey: 'cable',            keys: ['Cable', 'Inalambrico', 'Wireless', 'Tipo_conexion'] },
+    { label: 'Switches',         flatKey: 'switches',         keys: ['Switches', 'Switch', 'Mecanismo'] },
+    { label: 'Formato',          flatKey: 'formato',          keys: ['Formato', 'Layout', 'Tamano'] },
+    { label: 'Retroiluminación', flatKey: 'retroiluminacion', keys: ['Retroiluminacion', 'Retroiluminación', 'RGB', 'Iluminacion'] },
+    { label: 'Batería',          flatKey: 'bateria',          keys: ['Bateria', 'Batería', 'Autonomia', 'Autonomía'] },
+    { label: 'Compatible con',   flatKey: 'compatible',       keys: ['Compatibilidad', 'Compatible', 'Sistemas', 'SO'] },
+  ],
+  monitores: [
+    { label: 'Tamaño',                  flatKey: 'tamano',       keys: [] },
+    { label: 'Resolución',              flatKey: 'resolucion',   keys: [] },
+    { label: 'Panel',                   flatKey: 'panel',        keys: ['Panel', 'Tipo_panel', 'Pantalla_tipo'] },
+    { label: 'Frecuencia de refresco',  flatKey: 'frecuencia',   keys: ['Frecuencia', 'Hz', 'Refresh'] },
+    { label: 'Puertos',                 flatKey: 'puertos',      keys: ['Conectividad', 'Puertos', 'Conexiones'] },
+    { label: 'Brillo',                  flatKey: 'brillo',       keys: ['Brillo', 'Luminosidad', 'Nits'] },
+    { label: 'HDR y color',             flatKey: 'hdr',          keys: ['Certificaciones', 'HDR', 'Color', 'Cobertura'] },
+    { label: 'USB-C / Carga',          flatKey: 'usb_c_vatios', keys: ['USB_C', 'Carga_USB', 'Power_Delivery'] },
+  ],
+  portatiles: [
+    { label: 'Procesador',         flatKey: 'procesador',     keys: ['Procesador', 'CPU', 'Chip', 'Micro'] },
+    { label: 'RAM',                flatKey: 'ram',            keys: ['RAM', 'Memoria', 'Memoria_RAM'] },
+    { label: 'Almacenamiento',     flatKey: 'almacenamiento', keys: ['Almacenamiento', 'SSD', 'Disco', 'Storage'] },
+    { label: 'Pantalla',           flatKey: 'pantalla',        keys: ['Pantalla', 'Display'] },
+    { label: 'Batería',            flatKey: 'bateria',        keys: ['Bateria', 'Batería', 'Autonomia', 'Autonomía'] },
+    { label: 'Peso',               flatKey: 'peso',           keys: ['Peso'] },
+    { label: 'Puertos',            flatKey: 'puertos',        keys: ['Puertos', 'Conectividad', 'Conexiones'] },
+    { label: 'Sistema operativo',  flatKey: 'so',             keys: ['SO', 'Sistema', 'OS', 'Sistema_operativo'] },
+  ],
+  perifericos: [
+    { label: 'Conectividad',         flatKey: 'conectividad', keys: ['Conectividad', 'Conexion', 'Conexión'] },
+    { label: 'Con/sin cable',        flatKey: 'cable',        keys: ['Cable', 'Wireless', 'Inalambrico', 'Tipo_conexion'] },
+    { label: 'Resolución / calidad', keys: ['Resolucion', 'Calidad', 'Megapixeles', 'Calidad_imagen'] },
+    { label: 'Batería',              flatKey: 'bateria',      keys: ['Bateria', 'Batería', 'Autonomia', 'Autonomía'] },
+    { label: 'Compatible con',       flatKey: 'compatible',   keys: ['Compatibilidad', 'Compatible', 'Sistemas', 'SO'] },
+  ],
+};
+
+function normalize(s: string): string {
+  return s.toLowerCase().replace(/[-_\s]/g, '');
+}
+
+function findInMap(specs: Record<string, string> | undefined, keys: string[]): string | null {
+  if (!specs || keys.length === 0) return null;
+  const entries = Object.entries(specs);
+  for (const key of keys) {
+    if (specs[key] !== undefined) return specs[key];
+    const match = entries.find(([k]) => normalize(k) === normalize(key));
+    if (match) return match[1];
+  }
+  return null;
+}
+
+function resolveRow(
+  row: SpecRow,
+  flatSpecs: Record<string, string>,
+  especificaciones: Record<string, string> | undefined
+): string | null {
+  if (row.flatKey && flatSpecs[row.flatKey] !== undefined) return flatSpecs[row.flatKey];
+  return findInMap(especificaciones, row.keys);
+}
+
+const { especificaciones, flatSpecs = {}, categoria, enlace_afiliado } = Astro.props;
+const templateRows = CATEGORY_SPECS[categoria];
+
+type Row = { label: string; value: string | null };
+
+const rows: Row[] = templateRows
+  ? templateRows.map(r => ({ label: r.label, value: resolveRow(r, flatSpecs, especificaciones) }))
+  : especificaciones
+    ? Object.entries(especificaciones).map(([k, v]) => ({ label: k.replace(/_/g, ' '), value: v }))
+    : [];
+
+const filledRows = rows.filter(r => r.value !== null);
 ---
 
-<div class="specs-table-wrapper">
-  <h3 class="specs-title">Especificaciones técnicas</h3>
-  <table class="specs-table">
-    <tbody>
-      {entries.map(([key, value]) => (
-        <tr>
-          <th scope="row">{key.replace(/_/g, ' ')}</th>
-          <td>{value}</td>
-        </tr>
-      ))}
-    </tbody>
-  </table>
-</div>
+{filledRows.length > 0 && (
+  <div class="specs-wrapper">
+    <h3 class="specs-heading">Especificaciones principales</h3>
+    <div class="specs-scroll">
+      <table class="specs-table">
+        <tbody>
+          {filledRows.map(row => (
+            <tr>
+              <th scope="row">{row.label}</th>
+              <td>{row.value}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+)}
 
 <style>
-  .specs-table-wrapper {
+  .specs-wrapper {
     border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
     overflow: hidden;
-    margin: 2rem 0;
+    margin: 1.25rem 0;
+    background: var(--color-bg);
   }
 
-  .specs-title {
+  .specs-heading {
     font-family: var(--font-display);
-    font-size: 1rem;
+    font-size: 0.8rem;
     font-weight: 700;
-    padding: 0.875rem 1.25rem;
-    background: var(--color-bg-tertiary);
+    padding: 0.55rem 1rem;
+    background: var(--color-bg-secondary);
     border-bottom: 1px solid var(--color-border);
     margin: 0;
-    color: var(--color-text);
+    color: var(--color-text-muted);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .specs-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .specs-table {
     width: 100%;
+    min-width: 280px;
     border-collapse: collapse;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
   }
 
   .specs-table tr {
@@ -54,32 +157,32 @@ const entries = Object.entries(especificaciones);
     border-bottom: none;
   }
 
-  .specs-table tr:nth-child(even) {
+  .specs-table th {
+    width: 38%;
+    padding: 0.45rem 1rem;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    white-space: nowrap;
+    vertical-align: top;
     background: var(--color-bg-secondary);
   }
 
-  .specs-table th {
-    width: 40%;
-    padding: 0.75rem 1.25rem;
-    text-align: left;
-    font-weight: 600;
-    color: var(--color-text);
-    white-space: nowrap;
-  }
-
   .specs-table td {
-    padding: 0.75rem 1.25rem;
-    color: var(--color-text-muted);
+    padding: 0.45rem 1rem;
+    color: var(--color-text);
+    line-height: 1.4;
   }
 
   @media (max-width: 480px) {
     .specs-table th,
     .specs-table td {
-      padding: 0.65rem 1rem;
+      padding: 0.4rem 0.85rem;
+      font-size: 0.75rem;
     }
-
     .specs-table th {
-      width: 45%;
+      width: 42%;
     }
   }
 </style>

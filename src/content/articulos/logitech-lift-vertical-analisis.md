@@ -32,8 +32,16 @@ especificaciones:
   Botones: "6 programables"
 fecha_actualizacion: "2026-06-24"
 actualizado: true
+conectividad: "Bluetooth / Logi Bolt (2,4 GHz)"
+cable: "Inalámbrico"
+dpi: "400–4000 ppp"
+bateria: "hasta 24 meses (pila AA)"
+peso: "125 g"
+compatible: "Windows, macOS, iPadOS, ChromeOS"
 ---
 > 📅 **Artículo actualizado en junio de 2026**: Precio actualizado a 45,90€ en PcComponentes.
+
+El Logitech Lift Vertical resuelve un problema concreto: la tensión acumulada en la muñeca después de jornadas largas con un ratón convencional. Su diseño en posición vertical elimina la pronación forzada del antebrazo y existe en versión para zurdos, diferencial raro en la categoría de ratones ergonómicos.
 
 ## Cuando el dolor de muñeca obliga a cambiar de ratón
 

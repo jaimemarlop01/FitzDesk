@@ -21,11 +21,11 @@ Nuestra filosofía es simple: queremos ofrecerte el máximo rendimiento por el m
 
 ## Resumen del setup
 
-| Producto | Categoría | Precio | Enlace |
+| Producto | Categoría | Precio | Análisis |
 |---|---|---|---|
-| BenQ GW2780 | Monitor | 149€ | [Ver en PcComponentes](https://www.pccomponentes.com/benq-gw2780-monitor-led-27) |
-| Keychron V1 | Teclado mecánico | 79€ | [Ver en PcComponentes](https://www.pccomponentes.com/keychron-v1-teclado-mecanico) |
-| Logitech MX Anywhere 3S | Ratón | 49€ | [Ver en PcComponentes](https://www.pccomponentes.com/logitech-mx-anywhere-3s) |
+| BenQ GW2780 | Monitor | 149€ | [Ver análisis](/articulo/benq-gw2780-analisis/) |
+| Keychron V1 | Teclado mecánico | 79€ | [Ver análisis](/articulo/keychron-v1-analisis/) |
+| Logitech MX Anywhere 3S | Ratón | 49€ | [Ver análisis](/articulo/logitech-mx-anywhere-3s-analisis/) |
 | **TOTAL** | | **277€** | |
 
 ## Por qué hemos elegido cada producto

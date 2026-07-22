@@ -3,9 +3,8 @@ import { getCollection, type CollectionEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import CategoryBadge from '../../components/CategoryBadge.astro';
 import ScoreBox from '../../components/ScoreBox.astro';
-import SpecsTable from '../../components/SpecsTable.astro';
 import AffiliateButton from '../../components/AffiliateButton.astro';
-import FitzQuote from '../../components/FitzQuote.astro';
+import SpecsTable from '../../components/SpecsTable.astro';
 import ArticleCard from '../../components/ArticleCard.astro';
 import { u, base } from '../../lib/url';
 import { scoreColor } from '../../lib/score';
@@ -24,7 +23,95 @@ interface Props {
 
 const { article } = Astro.props;
 const { Content } = await article.render();
-const { title, fecha, categoria, descripcion, imagen, puntuacion, precio, enlace_afiliado, tiempo_lectura, fitzQuote, especificaciones, tipo, precio_oferta, precio_normal, descuento, oferta_activa } = article.data;
+const {
+  title, fecha, categoria, descripcion, imagen, puntuacion, precio, enlace_afiliado,
+  tiempo_lectura, fitzQuote, especificaciones, tipo, precio_oferta, precio_normal, descuento, oferta_activa,
+  cable, dpi, peso, bateria, conectividad, compatible,
+  switches, formato, retroiluminacion,
+  tamano, resolucion, panel, frecuencia, puertos, brillo, hdr, usb_c_vatios,
+  procesador, ram, almacenamiento, pantalla_tamano, pantalla_tipo, so,
+} = article.data;
+
+const pantalla = pantalla_tamano && pantalla_tipo
+  ? `${pantalla_tamano} · ${pantalla_tipo}`
+  : pantalla_tamano ?? pantalla_tipo ?? undefined;
+
+const flatSpecs: Record<string, string> = Object.fromEntries(
+  (Object.entries({
+    cable, dpi, peso, bateria, conectividad, compatible,
+    switches, formato, retroiluminacion,
+    tamano, resolucion, panel, frecuencia, puertos, brillo, hdr, usb_c_vatios,
+    procesador, ram, almacenamiento, pantalla, pantalla_tamano, so,
+  }) as [string, string | undefined][]).filter((e): e is [string, string] => e[1] !== undefined)
+);
+const SIDEBAR_SPECS: Record<string, Array<{label: string; flatKey?: string; keys: string[]}>> = {
+  ratones: [
+    { label: 'Conectividad',   flatKey: 'conectividad', keys: ['Conectividad', 'Conexion', 'Conexión'] },
+    { label: 'Cable',          flatKey: 'cable',        keys: ['Cable', 'Inalambrico', 'Wireless'] },
+    { label: 'DPI',            flatKey: 'dpi',          keys: ['DPI', 'Sensor'] },
+    { label: 'Batería',        flatKey: 'bateria',      keys: ['Bateria', 'Batería', 'Autonomia', 'Autonomía'] },
+    { label: 'Peso',           flatKey: 'peso',         keys: ['Peso'] },
+    { label: 'Compatible',     flatKey: 'compatible',   keys: ['Compatibilidad', 'Compatible', 'Sistemas'] },
+  ],
+  teclados: [
+    { label: 'Conectividad',     flatKey: 'conectividad',     keys: ['Conectividad', 'Conexion', 'Conexión'] },
+    { label: 'Cable',            flatKey: 'cable',            keys: ['Cable', 'Inalambrico', 'Wireless'] },
+    { label: 'Switches',         flatKey: 'switches',         keys: ['Switches', 'Switch', 'Mecanismo'] },
+    { label: 'Formato',          flatKey: 'formato',          keys: ['Formato', 'Layout'] },
+    { label: 'Retroiluminación', flatKey: 'retroiluminacion', keys: ['Retroiluminacion', 'Retroiluminación', 'RGB'] },
+    { label: 'Batería',          flatKey: 'bateria',          keys: ['Bateria', 'Batería', 'Autonomia', 'Autonomía'] },
+  ],
+  monitores: [
+    { label: 'Tamaño',     flatKey: 'tamano',       keys: [] },
+    { label: 'Resolución', flatKey: 'resolucion',   keys: [] },
+    { label: 'Panel',      flatKey: 'panel',        keys: ['Panel', 'Tipo_panel'] },
+    { label: 'Frecuencia', flatKey: 'frecuencia',   keys: ['Frecuencia', 'Hz'] },
+    { label: 'Puertos',    flatKey: 'puertos',      keys: ['Puertos', 'Conectividad', 'Conexiones'] },
+    { label: 'USB-C',      flatKey: 'usb_c_vatios', keys: ['USB_C', 'Carga_USB', 'Power_Delivery'] },
+  ],
+  portatiles: [
+    { label: 'CPU',      flatKey: 'procesador',      keys: ['Procesador', 'CPU', 'Chip'] },
+    { label: 'RAM',      flatKey: 'ram',             keys: ['RAM', 'Memoria'] },
+    { label: 'SSD',      flatKey: 'almacenamiento',  keys: ['Almacenamiento', 'SSD', 'Disco'] },
+    { label: 'Pantalla', flatKey: 'pantalla_tamano', keys: ['Pantalla', 'Display'] },
+    { label: 'Batería',  flatKey: 'bateria',         keys: ['Bateria', 'Batería', 'Autonomia', 'Autonomía'] },
+    { label: 'Peso',     flatKey: 'peso',            keys: ['Peso'] },
+  ],
+  perifericos: [
+    { label: 'Conectividad',       flatKey: 'conectividad', keys: ['Conectividad', 'Conexion', 'Conexión'] },
+    { label: 'Cable',              flatKey: 'cable',        keys: ['Cable', 'Wireless', 'Inalambrico'] },
+    { label: 'Resolución/calidad', keys: ['Resolucion', 'Resolución', 'Calidad', 'Megapixeles', 'Calidad_imagen'] },
+    { label: 'Batería',            flatKey: 'bateria',      keys: ['Bateria', 'Batería', 'Autonomia', 'Autonomía'] },
+    { label: 'Compatible',         flatKey: 'compatible',   keys: ['Compatibilidad', 'Compatible', 'Sistemas'] },
+  ],
+};
+
+function normSpec(s: string): string {
+  return s.toLowerCase().replace(/[-_\s]/g, '');
+}
+
+function resolveSpec(
+  flatKey: string | undefined,
+  keys: string[],
+  fSpecs: Record<string, string>,
+  eSpecs?: Record<string, string>
+): string | null {
+  if (flatKey && fSpecs[flatKey] !== undefined) return fSpecs[flatKey];
+  if (!eSpecs || !keys.length) return null;
+  for (const k of keys) {
+    if (eSpecs[k] !== undefined) return eSpecs[k];
+    const m = Object.entries(eSpecs).find(([ek]) => normSpec(ek) === normSpec(k));
+    if (m) return m[1];
+  }
+  return null;
+}
+
+const sidebarSpecRows = (tipo !== 'guia' && SIDEBAR_SPECS[categoria])
+  ? SIDEBAR_SPECS[categoria]
+      .map(r => ({ label: r.label, value: resolveSpec(r.flatKey, r.keys, flatSpecs, especificaciones) }))
+      .filter((r): r is { label: string; value: string } => r.value !== null)
+  : [];
+
 const esOferta = tipo === 'oferta';
 const precioMostrado = esOferta && precio_oferta ? precio_oferta : precio;
 
@@ -142,15 +229,34 @@ const reviewSchema = esAnalisisConPuntuacion ? {
 
           <AffiliateButton href={pcSearchUrl} precio={precio} />
 
-          {fitzQuote && <FitzQuote quote={fitzQuote} />}
-
           <div class="prose">
             <Content />
           </div>
 
-          {especificaciones && Object.keys(especificaciones).length > 0 && (
-            <SpecsTable especificaciones={especificaciones} />
+          {tipo !== 'guia' && (
+            <div id="specs-body-inject" style="display:none">
+              <SpecsTable
+                especificaciones={especificaciones}
+                flatSpecs={flatSpecs}
+                categoria={categoria}
+                enlace_afiliado={enlace_afiliado}
+              />
+            </div>
           )}
+          <script is:inline>
+            (function () {
+              var el = document.getElementById('specs-body-inject');
+              if (!el) return;
+              var firstH2 = document.querySelector('.prose h2');
+              if (firstH2) {
+                firstH2.parentNode.insertBefore(el, firstH2);
+              } else {
+                var prose = document.querySelector('.prose');
+                if (prose) prose.appendChild(el);
+              }
+              el.style.display = '';
+            })();
+          </script>
 
           <AffiliateButton href={pcSearchUrl} precio={precio} />
         </main>
@@ -188,14 +294,14 @@ const reviewSchema = esAnalisisConPuntuacion ? {
             </div>
           )}
 
-          {especificaciones && Object.keys(especificaciones).length > 0 && (
+          {sidebarSpecRows.length > 0 && (
             <div class="sidebar-card sidebar-specs">
-              <h3>Specs rápidas</h3>
+              <h3>Especificaciones</h3>
               <dl>
-                {Object.entries(especificaciones).slice(0, 5).map(([k, v]) => (
+                {sidebarSpecRows.map(r => (
                   <>
-                    <dt>{k.replace(/_/g, ' ')}</dt>
-                    <dd>{v}</dd>
+                    <dt>{r.label}</dt>
+                    <dd>{r.value}</dd>
                   </>
                 ))}
               </dl>

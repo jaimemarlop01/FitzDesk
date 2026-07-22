@@ -20,6 +20,12 @@ criterios:
 imagen_thumb: "/images/articulos/logitech-mobi-fold-analisis-thumb.webp"
 fecha_actualizacion: "2026-07-07"
 actualizado: true
+conectividad: "Bluetooth (hasta 2 dispositivos)"
+cable: "USB-C (para carga)"
+dpi: "Sensor óptico (sin DPI configurable)"
+bateria: "recargable (USB-C)"
+peso: "79g"
+compatible: "Windows, macOS, Chrome OS, iPadOS"
 ---
 > 📅 **Artículo actualizado en julio de 2026**: Precio actualizado a 79,99€ en PcComponentes.
 
@@ -68,18 +74,6 @@ Me gusta el Mobi Fold por lo que es: un ratón de movilidad sin pretensiones. Ha
 Lo que me impide ponerle nota más alta es el perfil ergonómico. Para jornadas largas en hotel o coworking, la mano empieza a notar que este ratón está optimizado para el bolsillo, no para la palma. Si haces mucho trabajo fuera del escritorio, considera invertir algo más en el MX Anywhere 3S.
 
 **Mi nota: 8.0/10**
-
-## Especificaciones clave
-
-| Característica | Detalle |
-|---|---|
-| Tipo | Ratón óptico compacto plegable |
-| Conectividad | Bluetooth (hasta 2 dispositivos) |
-| Sensor | Óptico sin DPI configurable |
-| Diseño | Ambidextro, perfil bajo |
-| Batería | Recargable USB-C |
-| Clic | Silencioso (amortiguado) |
-| Compatibilidad | Windows, macOS, Chrome OS, iPadOS |
 
 ## Conclusión
 

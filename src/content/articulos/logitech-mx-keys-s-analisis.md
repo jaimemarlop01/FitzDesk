@@ -32,8 +32,17 @@ especificaciones:
   Teclas_especiales: "Teclas de función para flujo de trabajo (Logi Options+)"
 fecha_actualizacion: "2026-06-24"
 actualizado: true
+conectividad: "Bluetooth / Logi Bolt (2,4 GHz)"
+cable: "USB-C (para carga)"
+switches: "Membrana de perfil bajo (scissor switch)"
+retroiluminacion: "Adaptativa inteligente (sensor de luz ambiente)"
+bateria: "hasta 10 días (con retroiluminación) / 5 meses (sin retroiluminación)"
+formato: "Completo (con numérico)"
+compatible: "Windows, macOS, iPadOS, Android"
 ---
 > 📅 **Artículo actualizado en junio de 2026**: Precio actualizado a 74,95€ en PcComponentes.
+
+El Logitech MX Keys S es el teclado de referencia para quien busca comodidad antes que sensación mecánica: teclas de perfil bajo con cavidad esférica, retroiluminación adaptativa, Easy-Switch para tres dispositivos y hasta 5 meses de batería sin recargar. La opción de membrana más sólida en el segmento de 70-120€.
 
 ## El teclado de los que valoran la fluidez sobre todo
 

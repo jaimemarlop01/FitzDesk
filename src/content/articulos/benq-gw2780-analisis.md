@@ -32,8 +32,16 @@ especificaciones:
   Certificacion: "TÜV Rheinland Eye Comfort"
 fecha_actualizacion: "2026-06-24"
 actualizado: true
+tamano: "27 pulgadas"
+resolucion: "Full HD (1920×1080)"
+panel: "IPS"
+frecuencia: "60 Hz"
+puertos: "HDMI 1.4, DisplayPort 1.2, VGA"
+brillo: "250 nits"
 ---
 > 📅 **Artículo actualizado en junio de 2026**: Precio actualizado a 266,81€ en PcComponentes.
+
+El BenQ GW2780 es el punto de entrada más razonado a los monitores de 27 pulgadas: IPS Full HD, certificación TÜV Eye-Care, altavoces integrados y un precio sin fricciones. Ideal para quien trabaja todo el día con la pantalla del portátil y quiere dar el salto a un monitor externo sin complicaciones.
 
 ## El monitor de los que dan el salto desde la pantalla del portátil
 

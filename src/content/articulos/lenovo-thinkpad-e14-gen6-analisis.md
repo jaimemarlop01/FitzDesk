@@ -31,7 +31,17 @@ especificaciones:
   Puertos: "USB-C Thunderbolt x2, USB-A x2, HDMI 2.1, RJ45, lector SD"
   Peso: "1.4 kg"
   Garantia: "3 años on-site (opcional)"
+procesador: "AMD Ryzen 7 8845HS / Intel Core Ultra 7"
+ram: "16 GB DDR5"
+almacenamiento: "512 GB NVMe SSD"
+pantalla_tamano: "14 pulgadas"
+pantalla_tipo: "IPS"
+bateria: "57 Wh (8-10 horas)"
+peso: "1,4 kg"
+puertos: "2x USB-C Thunderbolt, 2x USB-A, HDMI 2.1, RJ-45, lector SD"
 ---
+
+El Lenovo ThinkPad E14 Gen 6 trae la filosofía de la serie a un precio más accesible: el teclado más reconocido del sector, construcción pensada para durar años, 1,4 kg y hasta 10 horas de batería. El portátil para quien valora la fiabilidad por encima de la estética.
 
 ## El portátil que envejece mejor que cualquier otro
 

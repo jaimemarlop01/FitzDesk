@@ -21,6 +21,14 @@ keywords_secundarias:
   - "portatil resistente"
   - "LG Gram 14"
 fitzQuote: "Menos de un kilo con 18 horas de batería. La primera vez que coges el Gram 14 piensas que está vacío por dentro. Luego lo usas un día completo sin enchufarlo y entiendes que la ingeniería a veces sí hace milagros. Para quien vive en movimiento, no hay alternativa. Mi nota: 9.0/10"
+procesador: "Intel Core Ultra 7 (Serie 2)"
+ram: "16 GB LPDDR5"
+almacenamiento: "512 GB NVMe SSD"
+pantalla_tamano: "14 pulgadas"
+pantalla_tipo: "IPS 1920×1200 (16:10)"
+bateria: "72 Wh / ~18h"
+peso: "999g"
+puertos: "2× USB-C TB, 2× USB-A, HDMI, microSD"
 especificaciones:
   Peso: "999 g"
   Pantalla: "14 pulgadas IPS 1920x1200 (16:10) antirreflejos"
@@ -32,6 +40,8 @@ especificaciones:
   Certificacion: "MIL-STD-810H (resistencia militar)"
   Puertos: "USB-C x2 (Thunderbolt), USB-A x2, HDMI, microSD"
 ---
+
+El LG Gram 14 es el portátil para quien no quiere elegir entre peso y resistencia: menos de un kilo, certificación MIL-STD-810H y hasta 18 horas de batería declarada. El argumento de LG para quienes trabajan en movimiento y no pueden permitirse un portátil que falle en el peor momento.
 
 ## El portátil para quien viaja y no quiere concesiones
 
