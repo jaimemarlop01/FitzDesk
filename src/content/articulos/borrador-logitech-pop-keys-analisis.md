@@ -2,7 +2,7 @@
 title: "Logitech POP Keys: el teclado mecánico con personalidad propia"
 slug: "logitech-pop-keys-analisis"
 categoria: "teclados"
-fecha: "2026-09-10"
+fecha: "2026-09-08"
 descripcion: "Análisis del Logitech POP Keys: switches mecánicos táctiles, teclas emoji intercambiables y triple Bluetooth para teletrabajo con carácter."
 imagen: "/images/articulos/logitech-pop-keys-analisis.webp"
 imagen_thumb: "/images/articulos/logitech-pop-keys-analisis-thumb.webp"

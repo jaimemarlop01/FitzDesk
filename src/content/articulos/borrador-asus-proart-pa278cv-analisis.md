@@ -2,7 +2,7 @@
 title: "ASUS ProArt PA278CV: precisión de color profesional con USB-C"
 slug: "asus-proart-pa278cv-analisis"
 categoria: "monitores"
-fecha: "2026-09-08"
+fecha: "2026-09-10"
 descripcion: "Análisis del ASUS ProArt PA278CV: panel IPS QHD 27\", 100% sRGB, USB-C 90W de carga y calibración de fábrica para trabajo profesional."
 imagen: "/images/articulos/asus-proart-pa278cv-analisis.webp"
 imagen_thumb: "/images/articulos/asus-proart-pa278cv-analisis-thumb.webp"
