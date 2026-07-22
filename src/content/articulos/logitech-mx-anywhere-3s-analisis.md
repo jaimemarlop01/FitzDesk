@@ -44,6 +44,8 @@ compatible: "Windows, macOS, iPadOS, ChromeOS"
 ---
 > 📅 **Artículo actualizado en junio de 2026**: Precio actualizado a 59,99€ en PcComponentes.
 
+El Logitech MX Anywhere 3S es el ratón compacto del ecosistema MX: 99 gramos, rueda MagSpeed electromagnética, hasta 70 días de batería y soporte para dos dispositivos (Logi Bolt y Bluetooth). Para quien necesita precisión de ratón de escritorio en un formato que cabe en cualquier bolsa de portátil.
+
 ## Para quienes trabajan donde haga falta
 
 No todo el mundo trabaja desde el mismo escritorio todos los días. Para los que alternan entre casa, oficina, cafeterías, salas de reuniones y vuelos, el ratón de viaje ideal necesita cumplir tres condiciones: que quepa en cualquier bolso, que funcione en cualquier superficie y que no se quede sin batería en el peor momento posible.

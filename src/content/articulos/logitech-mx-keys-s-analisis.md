@@ -42,6 +42,8 @@ compatible: "Windows, macOS, iPadOS, Android"
 ---
 > 📅 **Artículo actualizado en junio de 2026**: Precio actualizado a 74,95€ en PcComponentes.
 
+El Logitech MX Keys S es el teclado de referencia para quien busca comodidad antes que sensación mecánica: teclas de perfil bajo con cavidad esférica, retroiluminación adaptativa, Easy-Switch para tres dispositivos y hasta 5 meses de batería sin recargar. La opción de membrana más sólida en el segmento de 70-120€.
+
 ## El teclado de los que valoran la fluidez sobre todo
 
 El debate mecánico vs membrana en el mundo del trabajo lleva años activo, y la respuesta honesta es: depende del uso y del usuario. Para quien escribe código ocho horas al día, la respuesta suele ser mecánico. Para quien alterna entre escribir, navegar, videoconferencias y gestión de múltiples dispositivos, el Logitech MX Keys S tiene un argumento muy sólido.

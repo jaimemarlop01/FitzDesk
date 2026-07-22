@@ -36,8 +36,6 @@ so: "Windows 11 Home"
 ---
 > 📅 **Artículo actualizado en julio de 2026**: Precio actualizado a 4599,99€ en PcComponentes (modelo G835LX). Es posible encontrar configuraciones de entrada de la gama SCAR 18 desde precios inferiores en otras tiendas como idealo.es o Amazon.
 
-## Introducción
-
 El ASUS ROG Strix SCAR 18 pertenece a la categoría de portátiles gaming de alto rendimiento, pero esa etiqueta no debería alejar a quienes lo evalúan como herramienta de trabajo. Editores de vídeo, desarrolladores de software con compilaciones pesadas, diseñadores 3D y profesionales de machine learning tienen en este portátil una de las pocas opciones del mercado que iguala o supera a una estación de trabajo de sobremesa sin renunciar del todo a la portabilidad.
 
 El argumento es sencillo: la CPU y GPU del SCAR 18 son las mismas que en una estación de trabajo convencional, empaquetadas en un chasis que cabe en una mochila. El precio y el peso son los compromisos que hay que aceptar a cambio.

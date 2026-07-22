@@ -40,6 +40,8 @@ compatible: "macOS, Windows, iOS, Android"
 
 > ⚠️ **Este modelo está agotado en la tienda oficial de Keychron (SKU K2-C2H) y ausente en PcComponentes, Amazon.es, idealo.es y COOLMOD.** El precio mostrado (60€) es una conversión desde 68,24$ de la tienda oficial, no un precio de compra activo en España — actualízalo si vuelve a tener stock.
 
+El Keychron K2 V2 lleva años siendo la respuesta automática cuando alguien pregunta por su primer teclado mecánico inalámbrico: formato 75 %, compatible con Mac y Windows, conectividad Bluetooth y cable USB-C, y un precio que no pide convicción para comprarlo.
+
 ## El teclado mecánico que todo el mundo recomienda
 
 Hay productos que se ganan su reputación a pulso, y el Keychron K2 V2 es uno de ellos. Lleva años siendo la recomendación automática cuando alguien pregunta por primer teclado mecánico, y después de meses usándolo a diario, entendemos perfectamente por qué.

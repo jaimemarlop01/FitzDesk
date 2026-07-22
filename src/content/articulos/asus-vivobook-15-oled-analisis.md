@@ -41,6 +41,8 @@ peso: "1,7 kg"
 puertos: "2x USB-C, 2x USB-A, HDMI 2.1, lector SD"
 ---
 
+El ASUS Vivobook 15 OLED lleva una tecnología de pantalla que hasta hace poco estaba reservada a portátiles de más de 1.000€ y la baja a 699€. Si pasas muchas horas frente a la pantalla, el salto visual respecto a un IPS convencional es inmediato y difícil de ignorar.
+
 ## La pantalla que justifica la compra por sí sola
 
 El argumento principal del ASUS Vivobook 15 OLED es directo y fácil de entender: tiene pantalla OLED de 15,6 pulgadas a 699€. Eso es relevante porque los portátiles con OLED de calidad suelen empezar en 900-1.000€. ASUS ha conseguido bajar ese umbral de forma significativa.

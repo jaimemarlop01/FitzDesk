@@ -41,6 +41,8 @@ especificaciones:
   Puertos: "USB-C x2 (Thunderbolt), USB-A x2, HDMI, microSD"
 ---
 
+El LG Gram 14 es el portátil para quien no quiere elegir entre peso y resistencia: menos de un kilo, certificación MIL-STD-810H y hasta 18 horas de batería declarada. El argumento de LG para quienes trabajan en movimiento y no pueden permitirse un portátil que falle en el peor momento.
+
 ## El portátil para quien viaja y no quiere concesiones
 
 Hay portátiles ligeros que son delgados y elegantes pero que se doblan al apretarlos. Hay portátiles resistentes que pesan como una enciclopedia. Y hay el LG Gram 14, que pesa menos de un kilo, supera las pruebas de resistencia militar y dura un día completo con una sola carga.

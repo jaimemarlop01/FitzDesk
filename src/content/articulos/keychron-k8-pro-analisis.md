@@ -43,6 +43,8 @@ actualizado: true
 ---
 > 📅 **Artículo actualizado en junio de 2026**: Precio actualizado a 119,95€ (PcComponentes ya no lo lista; precio verificado en COOLMOD).
 
+El Keychron K8 Pro da un paso más allá del teclado mecánico básico: hot-swap de fábrica, RGB por tecla, marco de aluminio y batería de 4.000 mAh. Para quien ya sabe que quiere mecánico y busca recorrido de personalización sin llegar a precios de nicho.
+
 ## La puerta de entrada al mundo mecánico serio
 
 Hay un momento en la vida de cualquier persona que escribe muchas horas al día en que se pregunta si realmente merece la pena un teclado mecánico. La respuesta honesta es: depende del teclado. Con el Keychron K8 Pro, la respuesta es sí.

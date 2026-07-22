@@ -41,6 +41,8 @@ peso: "1,4 kg"
 puertos: "2x USB-C Thunderbolt, 2x USB-A, HDMI 2.1, RJ-45, lector SD"
 ---
 
+El Lenovo ThinkPad E14 Gen 6 trae la filosofía de la serie a un precio más accesible: el teclado más reconocido del sector, construcción pensada para durar años, 1,4 kg y hasta 10 horas de batería. El portátil para quien valora la fiabilidad por encima de la estética.
+
 ## El portátil que envejece mejor que cualquier otro
 
 La línea ThinkPad de Lenovo lleva décadas siendo el portátil preferido de empresas, administraciones públicas, investigadores y profesionales que necesitan un equipo que funcione bien durante años, no durante meses. El ThinkPad E14 Gen 6 trae esa filosofía a un precio más accesible que la línea T o X de la familia.

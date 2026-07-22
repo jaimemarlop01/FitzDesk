@@ -60,7 +60,6 @@ const collectionSchema = {
       <div class="toolbar">
         <div class="filter-pills" role="group" aria-label="Filtrar por categoría">
           <button class="pill active" data-filter="all">Todos</button>
-          <button class="pill" data-filter="ofertas">🔥 Ofertas</button>
           {categories.map(cat => (
             <button class="pill" data-filter={cat}>
               {CATEGORY_LABELS[cat] ?? cat}

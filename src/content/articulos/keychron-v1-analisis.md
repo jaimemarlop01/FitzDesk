@@ -41,6 +41,8 @@ compatible: "Windows, macOS"
 ---
 > 📅 **Artículo actualizado en junio de 2026**: Precio actualizado a 71,39€ (PcComponentes ya no lo lista; precio de COOLMOD, actualmente agotado para compra online).
 
+El Keychron V1 es la respuesta para quien quiere un teclado mecánico serio sin pagar por el nombre: gasket mount, hot-swap de serie, formato 75 % y construcción robusta por debajo de los 80€. La opción más sensata del catálogo Keychron para teletrabajo de jornada larga.
+
 ## Cuando el presupuesto y la calidad parecen incompatibles
 
 En el mercado de los teclados mecánicos existe una regla no escrita: para conseguir cuerpo de aluminio, gasket mount y hot-swap al mismo tiempo, tienes que prepararte para gastar más de 150€. El Keychron V1 rompe esa regla de forma tan contundente que la primera reacción de muchos es buscar el truco.
