@@ -2,7 +2,7 @@
 title: "Logitech MK470: combo teclado y ratón para teletrabajo sencillo"
 slug: "logitech-mk470-analisis"
 categoria: "setups"
-fecha: "2026-08-04"
+fecha: "2026-07-30"
 descripcion: "Análisis del Logitech MK470, combo de teclado y ratón inalámbrico compacto, silencioso y pensado para teletrabajo y estudio."
 imagen: "/images/articulos/logitech-mk470-analisis.webp"
 puntuacion: 8.0
