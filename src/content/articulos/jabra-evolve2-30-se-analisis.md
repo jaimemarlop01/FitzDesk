@@ -21,7 +21,6 @@ keywords_secundarias:
   - "auriculares con cancelación de ruido"
   - "Jabra Evolve2 30 SE"
   - "auriculares para teletrabajo"
-borrador: true
 imagen_thumb: "/images/articulos/jabra-evolve2-30-se-analisis-thumb.webp"
 ---
 
