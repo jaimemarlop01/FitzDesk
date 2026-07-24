@@ -64,9 +64,9 @@ Estos son los cuatro modelos que hemos probado en profundidad y que cubren los p
 
 | Teclado | Tipo | Precio | Nota |
 |---|---|---|---|
-| [Logitech MX Keys S](/articulo/logitech-mx-keys-s-analisis) | Membrana perfil bajo | 119€ | 8.8/10 |
-| [Keychron V1](/articulo/keychron-v1-analisis) | Mecánico (entrada de gama) | 79€ | 8.9/10 |
-| [Keychron K2 V2](/articulo/keychron-k2-v2) | Mecánico compacto inalámbrico | 89€ | 8.8/10 |
+| [Logitech MX Keys S](/articulo/logitech-mx-keys-s-analisis) | Membrana perfil bajo | 119€ | 8.0/10 |
+| [Keychron V1](/articulo/keychron-v1-analisis) | Mecánico (entrada de gama) | 79€ | 8.8/10 |
+| [Keychron K2 V2](/articulo/keychron-k2-v2) | Mecánico compacto inalámbrico | 89€ | 8.5/10 |
 | [Keychron K8 Pro](/articulo/keychron-k8-pro-analisis) | Mecánico premium | 109€ | 9.0/10 |
 
 El **MX Keys S** es el único membrana del grupo, y es el más caro de los cuatro. Se justifica por su comodidad, su retroiluminación inteligente y su Easy-Switch para tres dispositivos. Es el teclado de quienes valoran la experiencia por encima de la personalización.

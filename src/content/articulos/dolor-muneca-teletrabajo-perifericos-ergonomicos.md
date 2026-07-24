@@ -38,7 +38,7 @@ Un ratón convencional mantiene la mano en pronación —palma hacia abajo— du
 
 Los ratones verticales resuelven este problema al colocar la mano en esa posición natural. Hay una semana de adaptación —el cerebro tarda en reprogramar los movimientos— pero después la mayoría de usuarios no vuelven al ratón plano voluntariamente.
 
-### [Logitech Lift Vertical](/articulo/logitech-lift-vertical-analisis) — 69€ · Nota 8.4/10
+### [Logitech Lift Vertical](/articulo/logitech-lift-vertical-analisis) — 69€ · Nota 8.2/10
 
 El Lift es la solución más directa al dolor de muñeca a un precio razonable. Ángulo vertical de 57 grados, sensor óptico preciso, disponible en versión para zurdos y diestros, y batería de hasta 24 meses con una pila AA.
 
@@ -62,7 +62,7 @@ El error más común con el teclado no es el tipo de teclas ni el ruido: es la a
 
 La solución son los teclados de perfil bajo: las teclas son más cortas, el ángulo de escritura es más plano y las muñecas mantienen una posición más neutra. No necesitas apoyarlas en un reposamuñecas — de hecho, los reposamuñecas son contraproducentes si se usan mientras escribes activamente, aunque ayudan durante las pausas.
 
-### [Logitech MX Keys S](/articulo/logitech-mx-keys-s-analisis) — 119€ · Nota 8.8/10
+### [Logitech MX Keys S](/articulo/logitech-mx-keys-s-analisis) — 119€ · Nota 8.0/10
 
 El MX Keys S tiene teclas de membrana de perfil bajo con un recorrido de apenas 1,8 mm. La sensación es suave y silenciosa, y la posición de escritura resultante es notablemente más plana que con un teclado estándar. No tiene el feedback táctil de un mecánico, pero para uso intensivo de escritura de texto en entornos de trabajo la comodidad de sus teclas es difícil de superar.
 

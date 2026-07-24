@@ -176,7 +176,7 @@ categoria: "${categoria}"
 fecha: "${today()}"
 descripcion: "[descripción SEO, máximo 150 caracteres]"
 imagen: "/images/articulos/${slug}.webp"
-puntuacion: [estimación del 1 al 10 basada en lo conocido]
+puntuacion: [número con una decimal, usando esta rúbrica obligatoria: 7.0=cumple lo básico sin destacar; 7.5=buena opción con limitaciones claras; 8.0=sólido y recomendable; 8.5=muy bueno, destaca en su categoría; 9.0=referente de categoría; 9.5+=casi perfecto (rarísimo). Usa decimales SOLO para diferenciar productos dentro del mismo tier (ej: 8.1 vs 8.3 = ambos "sólidos" pero uno mejor que otro). Nunca uses más de un decimal. Ningún producto debe superar 8.5 salvo que sea genuinamente el referente de su categoría. Productos de nicho, lanzamientos sin precio confirmado o con pocas unidades vendidas deben tender a 7.0-7.5 por defecto.]
 precio: "pendiente"
 enlace_afiliado: "https://www.pccomponentes.com"
 tiempo_lectura: "7 min"
@@ -186,7 +186,7 @@ keywords_secundarias:
   - "[keyword 2]"
   - "[keyword 3]"
   - "[keyword 4]"
-fitzQuote: "[veredicto corto de Fitz en 2-3 frases, terminando con 'Mi nota: X/10']"
+fitzQuote: "[veredicto corto de Fitz en 2-3 frases, terminando con 'Mi nota: X.X/10' — la nota debe coincidir exactamente con el campo puntuacion]"
 instagram_veredicto: "[frase corta del veredicto de Fitz para el slide 4 de Instagram, máximo 18 palabras, sin emojis, primera persona]"
 instagram_pros_frases:
   - "[frase de impacto real para el pro 1, máximo 8 palabras, tono cercano]"
@@ -245,7 +245,7 @@ La ventaja más diferencial en 2-3 líneas.
 Nombra 1 alternativa concreta.
 
 ## 🐿️ Fitz recomienda
-Veredicto en primera persona. Exactamente 3 frases: punto fuerte clave + punto débil más importante + frase de cierre con recomendación. Termina con: "Mi nota: X/10"
+Veredicto en primera persona. Exactamente 3 frases: punto fuerte clave + punto débil más importante + frase de cierre con recomendación. Termina con: "Mi nota: X.X/10" — la nota debe ser idéntica al campo puntuacion del frontmatter (misma rúbrica: 7.0=básico, 7.5=limitaciones claras, 8.0=sólido, 8.5=destacado, 9.0=referente, 9.5+=excepcional).
 
 ## Conclusión
 1 párrafo de cierre orientado a la acción. Sin ser agresivo.

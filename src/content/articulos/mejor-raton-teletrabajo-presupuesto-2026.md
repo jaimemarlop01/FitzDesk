@@ -46,7 +46,7 @@ Evita los ratones de marca desconocida por debajo de 15€: el sensor barato es 
 
 ## La mejor opción hasta 60€
 
-**[Logitech MX Anywhere 3S](/articulo/logitech-mx-anywhere-3s-analisis) — 49€ · Nota: 8.7/10**
+**[Logitech MX Anywhere 3S](/articulo/logitech-mx-anywhere-3s-analisis) — 49€ · Nota: 8.6/10**
 
 El Anywhere 3S es el mejor ratón de teletrabajo que puedes comprar sin llegar a los 60€ — y por poco. En realidad es el MX Master comprimido en un formato compacto que cabe en cualquier bolso.
 
@@ -81,7 +81,7 @@ Conecta con hasta 3 dispositivos simultáneamente mediante Easy-Switch, al igual
 | | [Logitech MX Anywhere 3S](/articulo/logitech-mx-anywhere-3s-analisis) | [Logitech MX Master 3S](/articulo/logitech-mx-master-3s-analisis) |
 |---|---|---|
 | Precio | 49€ | 99€ |
-| Puntuación FitzDesk | 8.7/10 | 9.2/10 |
+| Puntuación FitzDesk | 8.6/10 | 9.2/10 |
 | Peso | 99 g | 141 g |
 | Batería | Hasta 70 días | Hasta 70 días |
 | Scroll MagSpeed | ✓ | ✓ |

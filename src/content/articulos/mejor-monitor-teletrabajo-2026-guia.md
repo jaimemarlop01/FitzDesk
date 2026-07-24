@@ -68,8 +68,8 @@ El resultado es un setup de un cable: llegas al escritorio, conectas un USB-C y 
 
 | Monitor | Resolución | Precio | Nota |
 |---|---|---|---|
-| [BenQ GW2780](/articulo/benq-gw2780-analisis) | Full HD 27" IPS | 149€ | 8.2/10 |
-| [Dell S2722QC](/articulo/dell-s2722qc-analisis) | 4K 27" USB-C | 329€ | 8.7/10 |
+| [BenQ GW2780](/articulo/benq-gw2780-analisis) | Full HD 27" IPS | 149€ | 7.0/10 |
+| [Dell S2722QC](/articulo/dell-s2722qc-analisis) | 4K 27" USB-C | 329€ | 8.6/10 |
 | [LG 27UP850N](/articulo/lg-27up850n-analisis) | 4K 27" USB-C | 399€ | 9.1/10 |
 | [LG 27UN880](/articulo/lg-27un880) | 4K 27" USB-C + brazo | 479€ | 8.5/10 |
 
