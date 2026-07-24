@@ -40,7 +40,7 @@ bateria: "hasta 10 días (con retroiluminación) / 5 meses (sin retroiluminació
 formato: "Completo (con numérico)"
 compatible: "Windows, macOS, iPadOS, Android"
 ---
-> 📅 **Artículo actualizado en junio de 2026**: Precio actualizado a 74,95€ en PcComponentes.
+> 📅 **Artículo actualizado en junio de 2026**: Precio actualizado a 74,95€ en PcComponentes. Puntuación revisada a 8.0/10.
 
 El Logitech MX Keys S es el teclado de referencia para quien busca comodidad antes que sensación mecánica: teclas de perfil bajo con cavidad esférica, retroiluminación adaptativa, Easy-Switch para tres dispositivos y hasta 5 meses de batería sin recargar. La opción de membrana más sólida en el segmento de 70-120€.
 

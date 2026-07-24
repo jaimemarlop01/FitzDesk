@@ -27,7 +27,7 @@ bateria: "recargable (USB-C)"
 peso: "79g"
 compatible: "Windows, macOS, Chrome OS, iPadOS"
 ---
-> 📅 **Artículo actualizado en julio de 2026**: Precio actualizado a 79,99€ en PcComponentes.
+> 📅 **Artículo actualizado en julio de 2026**: Precio actualizado a 79,99€ en PcComponentes. Puntuación revisada a 7.0/10.
 
 El **Logitech Mobi Fold** es la respuesta de Logitech a una necesidad real: un ratón que cabe en cualquier bolsillo y que no te da excusas para trabajar con el touchpad. Compacto, plegable y silencioso, está diseñado para los que se mueven entre casa, la oficina y la cafetería sin querer cargar con un ratón de escritorio.
 

@@ -40,6 +40,8 @@ bateria: "70 Wh (6-8 horas uso mixto)"
 peso: "1,7 kg"
 puertos: "2x USB-C, 2x USB-A, HDMI 2.1, lector SD"
 ---
+> 📅 **Artículo revisado en julio de 2026**: Puntuación actualizada a 8.2/10 con nueva rúbrica editorial.
+
 
 El ASUS Vivobook 15 OLED lleva una tecnología de pantalla que hasta hace poco estaba reservada a portátiles de más de 1.000€ y la baja a 699€. Si pasas muchas horas frente a la pantalla, el salto visual respecto a un IPS convencional es inmediato y difícil de ignorar.
 

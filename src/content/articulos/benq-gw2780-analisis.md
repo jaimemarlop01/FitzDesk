@@ -39,7 +39,7 @@ frecuencia: "60 Hz"
 puertos: "HDMI 1.4, DisplayPort 1.2, VGA"
 brillo: "250 nits"
 ---
-> 📅 **Artículo actualizado en junio de 2026**: Precio actualizado a 266,81€ en PcComponentes.
+> 📅 **Artículo actualizado en junio de 2026**: Precio actualizado a 266,81€ en PcComponentes. Puntuación revisada a 7.0/10.
 
 El BenQ GW2780 es el punto de entrada más razonado a los monitores de 27 pulgadas: IPS Full HD, certificación TÜV Eye-Care, altavoces integrados y un precio sin fricciones. Ideal para quien trabaja todo el día con la pantalla del portátil y quiere dar el salto a un monitor externo sin complicaciones.
 

@@ -40,6 +40,8 @@ bateria: "57 Wh (8-10 horas)"
 peso: "1,4 kg"
 puertos: "2x USB-C Thunderbolt, 2x USB-A, HDMI 2.1, RJ-45, lector SD"
 ---
+> 📅 **Artículo revisado en julio de 2026**: Puntuación actualizada a 8.6/10 con nueva rúbrica editorial.
+
 
 El Lenovo ThinkPad E14 Gen 6 trae la filosofía de la serie a un precio más accesible: el teclado más reconocido del sector, construcción pensada para durar años, 1,4 kg y hasta 10 horas de batería. El portátil para quien valora la fiabilidad por encima de la estética.
 
