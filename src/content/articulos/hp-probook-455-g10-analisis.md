@@ -1,4 +1,4 @@
----
+﻿---
 title: "HP ProBook 455 G10: AMD Ryzen empresarial sin precio empresarial"
 slug: "hp-probook-455-g10-analisis"
 categoria: "portatiles"
@@ -6,7 +6,7 @@ fecha: "2026-06-18"
 descripcion: "Análisis del HP ProBook 455 G10: portátil empresarial AMD con lector de huella, teclado retroiluminado y batería larga por menos de 600€."
 keyword_principal: "portátil AMD Ryzen para empresa"
 imagen: "/images/articulos/hp-probook-455-g10-analisis.webp"
-puntuacion: 8.6
+puntuacion: 8.0
 criterios:
   rendimiento: 8.0
   bateria: 9.0
@@ -88,7 +88,7 @@ El ProBook 455 G10 es el portátil para quien cree que los portátiles han perdi
 
 Si necesitas portabilidad extrema o pantalla QHD, el LG Gram 14 o el ThinkPad E14 son mejores candidatos. Si necesitas que el portátil funcione bien durante años en una mesa y dure toda la jornada, el ProBook es difícil de batir a este precio.
 
-Mi nota: 8.6/10
+Mi nota: 8.0/10
 
 ## Conclusión
 

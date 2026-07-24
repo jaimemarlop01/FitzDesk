@@ -4,7 +4,7 @@ categoria: "portatiles"
 fecha: "2026-05-24"
 descripcion: "ThinkPad E14 Gen 6: el mejor teclado de su categoría, construcción robusta y soporte empresarial a largo plazo por 849€. Para los profesionales serios."
 imagen: "/images/articulos/lenovo-thinkpad-e14-gen6-analisis.webp"
-puntuacion: 8.8
+puntuacion: 8.6
 criterios:
   rendimiento: 8.5
   bateria: 7.0
@@ -20,7 +20,7 @@ keywords_secundarias:
   - "portátil empresarial"
   - "ThinkPad"
   - "Lenovo"
-fitzQuote: "El ThinkPad E14 no es glamuroso y lo sabe. Su apuesta es diferente: el mejor teclado de la categoría, construcción para durar cinco años, soporte empresarial y fiabilidad probada. Para quien trabaja en serio con su portátil y no quiere cambiar de equipo en dos años, es la elección más inteligente. Mi nota: 8.8/10"
+fitzQuote: "El ThinkPad E14 no es glamuroso y lo sabe. Su apuesta es diferente: el mejor teclado de la categoría, construcción para durar cinco años, soporte empresarial y fiabilidad probada. Para quien trabaja en serio con su portátil y no quiere cambiar de equipo en dos años, es la elección más inteligente. Mi nota: 8.6/10"
 especificaciones:
   Pantalla: "14 pulgadas IPS 1920x1200 (16:10)"
   Procesador: "AMD Ryzen 7 8845HS / Intel Core Ultra 7"
@@ -106,7 +106,7 @@ Una alternativa es el LG Gram, aunque si necesitas un diseño premium y no te im
 
 ## 🐿️ Fitz recomienda
 
-Aquí Fitz no tiene dudas: el teclado ThinkPad es el mejor que puedes encontrar integrado en un portátil de 14 pulgadas. El diseño sobrio no va a ganar ningún premio de estética, pero si tu prioridad es escribir mucho y tener un equipo que dure años, el E14 Gen 6 es la elección más inteligente. Mi nota: 8.8/10
+Aquí Fitz no tiene dudas: el teclado ThinkPad es el mejor que puedes encontrar integrado en un portátil de 14 pulgadas. El diseño sobrio no va a ganar ningún premio de estética, pero si tu prioridad es escribir mucho y tener un equipo que dure años, el E14 Gen 6 es la elección más inteligente. Mi nota: 8.6/10
 
 ## Conclusión
 

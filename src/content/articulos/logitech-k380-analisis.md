@@ -1,11 +1,11 @@
----
+﻿---
 title: "Logitech K380: el teclado Bluetooth que se adapta a todo"
 slug: "logitech-k380-analisis"
 categoria: "teclados"
 fecha: "2026-06-25"
 descripcion: "Análisis del Logitech K380: teclado Bluetooth compacto multi-dispositivo compatible con Windows, Mac, iOS y Android por menos de 40€."
 imagen: "/images/articulos/logitech-k380-analisis.webp"
-puntuacion: 8.7
+puntuacion: 7.5
 criterios:
   tacto: 7.5
   ruido: 8.5
@@ -89,7 +89,7 @@ El K380 es el teclado que recomendaría a cualquier persona que empiece a montar
 
 Si dentro de un año decides que necesitas retroiluminación, tacto mecánico o teclado numérico, habrás aprendido exactamente qué valoras. Y el K380 habrá cumplido su función perfectamente mientras tanto.
 
-Mi nota: 8.7/10
+Mi nota: 7.5/10
 
 ## Conclusión
 

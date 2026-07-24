@@ -1,4 +1,4 @@
----
+﻿---
 title: "Logitech Mobi Fold: ratón compacto plegable para teletrabajo móvil"
 slug: "logitech-mobi-fold-analisis"
 categoria: "ratones"
@@ -10,7 +10,7 @@ precio: "79,99€"
 enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=logitech+mobi+fold"
 tiempo_lectura: "7 min"
 tipo: "analisis"
-puntuacion: 8.0
+puntuacion: 7.0
 criterios:
   ergonomia: 7.0
   precision: 7.5
@@ -73,7 +73,7 @@ Me gusta el Mobi Fold por lo que es: un ratón de movilidad sin pretensiones. Ha
 
 Lo que me impide ponerle nota más alta es el perfil ergonómico. Para jornadas largas en hotel o coworking, la mano empieza a notar que este ratón está optimizado para el bolsillo, no para la palma. Si haces mucho trabajo fuera del escritorio, considera invertir algo más en el MX Anywhere 3S.
 
-**Mi nota: 8.0/10**
+**Mi nota: 7.0/10**
 
 ## Conclusión
 

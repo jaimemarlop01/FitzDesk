@@ -4,7 +4,7 @@ categoria: "portatiles"
 fecha: "2026-05-22"
 descripcion: "Análisis del ASUS Vivobook 15 OLED 2025: pantalla OLED 15.6\" con colores espectaculares, Intel Core i5/i7 y precio de 699€."
 imagen: "/images/articulos/asus-vivobook-15-oled-analisis.webp"
-puntuacion: 8.6
+puntuacion: 8.2
 criterios:
   rendimiento: 7.5
   bateria: 6.5
@@ -20,7 +20,7 @@ keywords_secundarias:
   - "ASUS Vivobook 15"
   - "portatil para trabajo"
   - "pantalla oled 15.6"
-fitzQuote: "Si pasas muchas horas mirando una pantalla, invertir en OLED es la mejor decisión ergonómica que puedes tomar. El Vivobook 15 te da OLED de verdad por 699€. La batería no es su punto fuerte, pero la pantalla hace que lo perdones. Mi nota: 8.6/10"
+fitzQuote: "Si pasas muchas horas mirando una pantalla, invertir en OLED es la mejor decisión ergonómica que puedes tomar. El Vivobook 15 te da OLED de verdad por 699€. La batería no es su punto fuerte, pero la pantalla hace que lo perdones. Mi nota: 8.2/10"
 especificaciones:
   Pantalla: "OLED 15.6 pulgadas 1920x1080 120 Hz"
   Procesador: "Intel Core i5-13500H / Core i7-13700H"
@@ -106,7 +106,7 @@ Una alternativa podría ser el LG Gram 14, especialmente si necesitas más auton
 
 ## 🐿️ Fitz recomienda
 
-Este Vivobook me tiene convencido por la pantalla. A 699€ no existe otra forma de tener OLED de verdad en un portátil de trabajo, y para quien pasa ocho horas mirando texto y documentos, la diferencia visual es inmediata. La batería es el punto débil, pero si tienes un enchufe cerca, no es un problema real. Mi nota: 8.6/10
+Este Vivobook me tiene convencido por la pantalla. A 699€ no existe otra forma de tener OLED de verdad en un portátil de trabajo, y para quien pasa ocho horas mirando texto y documentos, la diferencia visual es inmediata. La batería es el punto débil, pero si tienes un enchufe cerca, no es un problema real. Mi nota: 8.2/10
 
 ## Conclusión
 
