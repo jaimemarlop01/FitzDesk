@@ -21,7 +21,7 @@ panel: "IPS"
 frecuencia: "75 Hz"
 puertos: "HDMI 2.0, DisplayPort 1.2"
 ---
-> 📅 **Artículo actualizado en julio de 2026**: Precio actualizado a 489€ en PcComponentes.
+> 📅 **Artículo actualizado en julio de 2026**: Precio actualizado a 489€ en PcComponentes. Puntuación revisada a 7.5/10.
 
 En el catálogo de monitores para teletrabajo hay una franja de precio que el mercado no siempre cubre bien: los 180-220€ donde el Full HD ya queda escaso pero el QHD con USB-C está por encima del presupuesto. El Samsung S27A600 vive exactamente ahí: QHD de 27 pulgadas, panel IPS con buena calibración y un diseño slim que encaja en cualquier escritorio, todo por alrededor de 200€.
 

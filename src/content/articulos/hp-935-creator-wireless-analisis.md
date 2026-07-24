@@ -28,6 +28,8 @@ dpi: "800–3200 ppp"
 bateria: "hasta 3 meses"
 peso: "~101 g"
 ---
+> 📅 **Artículo revisado en julio de 2026**: Puntuación actualizada a 8.0/10 con nueva rúbrica editorial.
+
 
 HP es una marca que no suele aparecer en las primeras conversaciones sobre periféricos de teletrabajo, pero tiene una línea de accesorios para creadores y profesionales que merece más atención. El HP 935 Creator Wireless es un buen ejemplo: ratón láser inalámbrico con conectividad triple, recarga USB-C y especificaciones orientadas a quienes trabajan con monitores de alta resolución y más de un equipo.
 

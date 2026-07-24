@@ -39,7 +39,7 @@ bateria: "hasta 24 meses (pila AA)"
 peso: "125 g"
 compatible: "Windows, macOS, iPadOS, ChromeOS"
 ---
-> 📅 **Artículo actualizado en junio de 2026**: Precio actualizado a 45,90€ en PcComponentes.
+> 📅 **Artículo actualizado en junio de 2026**: Precio actualizado a 45,90€ en PcComponentes. Puntuación revisada a 8.2/10.
 
 El Logitech Lift Vertical resuelve un problema concreto: la tensión acumulada en la muñeca después de jornadas largas con un ratón convencional. Su diseño en posición vertical elimina la pronación forzada del antebrazo y existe en versión para zurdos, diferencial raro en la categoría de ratones ergonómicos.
 

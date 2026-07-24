@@ -37,6 +37,8 @@ retroiluminacion: "RGB por tecla"
 bateria: "4000 mAh (hasta 200 horas)"
 compatible: "macOS, Windows, iOS, Android"
 ---
+> 📅 **Artículo revisado en julio de 2026**: Puntuación actualizada a 8.5/10 con nueva rúbrica editorial.
+
 
 > ⚠️ **Este modelo está agotado en la tienda oficial de Keychron (SKU K2-C2H) y ausente en PcComponentes, Amazon.es, idealo.es y COOLMOD.** El precio mostrado (60€) es una conversión desde 68,24$ de la tienda oficial, no un precio de compra activo en España — actualízalo si vuelve a tener stock.
 

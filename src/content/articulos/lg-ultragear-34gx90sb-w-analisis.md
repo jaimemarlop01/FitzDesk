@@ -30,7 +30,7 @@ resolucion: "WQHD (3440×1440)"
 panel: "OLED"
 frecuencia: "240 Hz"
 ---
-> 📅 **Artículo actualizado en julio de 2026**: Precio actualizado a 999€ en PcComponentes.
+> 📅 **Artículo actualizado en julio de 2026**: Precio actualizado a 999€ en PcComponentes. Puntuación revisada a 8.5/10.
 
 El mercado de monitores para trabajadores remotos es cada vez más competitivo, con opciones que van desde las más básicas hasta las más avanzadas. En este contexto, LG ha lanzado el UltraGear 34GX90SB-W, un monitor OLED de 34 pulgadas con resolución WQHD y una frecuencia de refresco de 240 Hz. El producto combina calidad de imagen y características técnicas avanzadas, lo que lo hace atractivo para quienes buscan mejorar su experiencia de trabajo en casa.
 

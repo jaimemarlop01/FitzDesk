@@ -30,7 +30,7 @@ peso: "~1,78 kg"
 puertos: "USB-A, USB-C (Power Delivery), HDMI, lector microSD, RJ-45"
 so: "Windows 11 Pro / Home (según configuración)"
 ---
-> 📅 **Artículo actualizado en julio de 2026**: Precio actualizado a 899€ en PcComponentes.
+> 📅 **Artículo actualizado en julio de 2026**: Precio actualizado a 899€ en PcComponentes. Puntuación revisada a 8.0/10.
 
 La gama ProBook de HP lleva décadas siendo el portátil del autónomo que necesita fiabilidad empresarial sin pagar el precio de un ThinkPad X1 o un Dell XPS. El ProBook 455 G10 es la versión AMD de esa propuesta: procesadores Ryzen de eficiencia energética, construcción sólida, pantalla decente y las funciones de seguridad que el trabajo profesional exige, todo por debajo de los 600€.
 

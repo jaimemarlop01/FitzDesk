@@ -31,6 +31,8 @@ retroiluminacion: "No"
 bateria: "hasta 24 meses (2x pilas AAA)"
 compatible: "Windows, macOS, Android, iOS, Chrome OS"
 ---
+> 📅 **Artículo revisado en julio de 2026**: Puntuación actualizada a 7.5/10 con nueva rúbrica editorial.
+
 
 Hay productos que se venden solos porque resuelven un problema real a un precio justo. El Logitech K380 es uno de ellos: teclado Bluetooth compacto que conecta tres dispositivos simultáneamente, funciona con Windows, Mac, Android e iOS, tiene teclas con un tacto sorprendentemente agradable para su precio y una batería de hasta dos años. Todo por unos 40€.
 
