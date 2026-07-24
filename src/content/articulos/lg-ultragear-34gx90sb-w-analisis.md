@@ -1,11 +1,11 @@
----
+﻿---
 title: "LG UltraGear 34GX90SB-W: monitor OLED de 34\" con 240 Hz y WebOS"
 slug: "lg-ultragear-34gx90sb-w-analisis"
 categoria: "monitores"
 fecha: "2026-07-21"
 descripcion: "Análisis del LG UltraGear 34GX90SB-W: monitor OLED curvo de 34\" WQHD a 240 Hz con WebOS integrado, válido para teletrabajo y ocio."
 imagen: "/images/articulos/lg-ultragear-34gx90sb-w-analisis.webp"
-puntuacion: 8.0
+puntuacion: 8.5
 criterios:
   calidad_imagen: 9.0
   ergonomia_soporte: 7.5
@@ -86,7 +86,7 @@ A 999€ el LG UltraGear 34GX90SB-W no es una compra casual. Pero si tu trabajo 
 
 El riesgo de burn-in en uso de oficina con escritorio dinámico no es un problema práctico. Con barras de tareas fijas o logos corporativos siempre en pantalla durante muchas horas, conviene pensarlo antes de comprar. Para el resto, la imagen habla sola.
 
-Mi nota: 8/10
+Mi nota: 8.5/10
 
 ## Conclusión
 

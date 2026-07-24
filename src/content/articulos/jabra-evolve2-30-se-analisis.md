@@ -1,11 +1,11 @@
----
+﻿---
 title: "Jabra Evolve2 30 SE: auriculares certificados para videollamadas"
 slug: "jabra-evolve2-30-se-analisis"
 categoria: "setups"
 fecha: "2026-07-23"
 descripcion: "Análisis del Jabra Evolve2 30 SE: auriculares USB con cancelación de ruido y certificación Teams para videollamadas en entornos con ruido."
 imagen: "/images/articulos/jabra-evolve2-30-se-analisis.webp"
-puntuacion: 8.8
+puntuacion: 8.5
 criterios:
   calidad_construccion: 8.5
   facilidad_uso: 9.0
@@ -88,7 +88,7 @@ Si tienes videollamadas de trabajo y vives en un entorno con ruido, estos auricu
 
 Que sean cableados en 2026 no es un defecto, es una decisión: siempre encendidos, sin latencia, sin buscar el cargador antes de la reunión de las nueve. Para un headset de trabajo, el cable es una ventaja.
 
-Mi nota: 8.8/10
+Mi nota: 8.5/10
 
 ## Conclusión
 

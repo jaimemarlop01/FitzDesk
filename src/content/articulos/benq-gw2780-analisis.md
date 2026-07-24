@@ -4,7 +4,7 @@ categoria: "monitores"
 fecha: "2026-05-15"
 descripcion: "Análisis del BenQ GW2780: panel IPS 27 pulgadas con filtro de luz azul y modo sin parpadeo por 149€. El primer monitor externo con el que no te equivocas."
 imagen: "/images/articulos/benq-gw2780-analisis.webp"
-puntuacion: 8.2
+puntuacion: 7.0
 criterios:
   calidad_imagen: 7.5
   ergonomia_soporte: 6.0
@@ -20,7 +20,7 @@ keywords_secundarias:
   - "monitor para teletrabajo"
   - "benq gw2780"
   - "monitores baratos"
-fitzQuote: "El GW2780 es el monitor con el que empiezas y del que te acuerdas con cariño cuando años después tienes un 4K de 400€. Hace lo básico muy bien: IPS, 27 pulgadas, sin cansancio visual, precio justo. Para empezar o para tener un segundo monitor, es difícil argumentar en contra. Mi nota: 8.2/10"
+fitzQuote: "El GW2780 es el monitor con el que empiezas y del que te acuerdas con cariño cuando años después tienes un 4K de 400€. Hace lo básico muy bien: IPS, 27 pulgadas, sin cansancio visual, precio justo. Para empezar o para tener un segundo monitor, es difícil argumentar en contra. Mi nota: 7.0/10"
 especificaciones:
   Panel: "IPS Full HD (1920x1080) 27 pulgadas"
   Frecuencia: "60 Hz"
@@ -105,7 +105,7 @@ Una alternativa sería el Dell S2722QC, aunque supera el doble del precio.
 
 ## 🐿️ Fitz recomienda
 
-Considero que el BenQ GW2780 es un monitor ideal para aquellos que buscan calidad y comodidad sin romper el banco. Su punto débil más importante es la falta de ajuste de altura y la resolución Full HD, pero para el precio, es difícil encontrar algo mejor. Mi nota: 8.2/10
+Considero que el BenQ GW2780 es un monitor ideal para aquellos que buscan calidad y comodidad sin romper el banco. Su punto débil más importante es la falta de ajuste de altura y la resolución Full HD, pero para el precio, es difícil encontrar algo mejor. Mi nota: 7.0/10
 
 ## Conclusión
 

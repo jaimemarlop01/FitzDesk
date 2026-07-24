@@ -1,11 +1,11 @@
----
+﻿---
 title: "ASUS ROG Strix SCAR 18: potencia de sobremesa en formato portátil"
 slug: "asus-rog-strix-scar-18-analisis"
 categoria: "portatiles"
 fecha: "2026-07-14"
 descripcion: "Análisis del ASUS ROG Strix SCAR 18: portátil de alto rendimiento con CPU y GPU potentes, útil para edición de vídeo y desarrollo además de gaming."
 imagen: "/images/articulos/asus-rog-strix-scar-18-analisis.webp"
-puntuacion: 8.0
+puntuacion: 7.0
 criterios:
   rendimiento: 9.5
   bateria: 5.5
@@ -104,7 +104,7 @@ Su rendimiento excepcional, gracias a un procesador y una tarjeta gráfica muy p
 
 ## 🐿️ Fitz recomienda
 
-El ASUS ROG Strix SCAR 18 es un portátil gaming muy potente que ofrece un rendimiento excepcional. Sin embargo, su tamaño y peso pueden ser un obstáculo para algunos usuarios. En general, si estás dispuesto a pagar un precio premium por un dispositivo que pueda manejar aplicaciones exigentes, entonces el ASUS ROG Strix SCAR 18 es una excelente opción. Mi nota: 8/10
+El ASUS ROG Strix SCAR 18 es un portátil gaming muy potente que ofrece un rendimiento excepcional. Sin embargo, su tamaño y peso pueden ser un obstáculo para algunos usuarios. En general, si estás dispuesto a pagar un precio premium por un dispositivo que pueda manejar aplicaciones exigentes, entonces el ASUS ROG Strix SCAR 18 es una excelente opción. Mi nota: 7.0/10
 
 ## Conclusión
 

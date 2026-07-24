@@ -1,11 +1,11 @@
----
+﻿---
 title: "HP 935 Creator Wireless: el ratón multi-dispositivo para pantallas 4K"
 slug: "hp-935-creator-wireless-analisis"
 categoria: "ratones"
 fecha: "2026-07-07"
 descripcion: "Análisis del HP 935 Creator Wireless: ratón láser multi-dispositivo con recarga USB-C para teletrabajadores con varios equipos y monitores 4K."
 imagen: "/images/articulos/hp-935-creator-wireless-analisis.webp"
-puntuacion: 8.3
+puntuacion: 8.0
 criterios:
   ergonomia: 7.0
   precision: 8.5
@@ -90,7 +90,7 @@ El HP 935 es el ratón silencioso de HP que no hace ruido en las conversaciones 
 
 Para los demás, Logitech sigue siendo más maduro en software y el cambio de dispositivo más fluido. Pero el 935 no es una opción menor: es simplemente una opción diferente con un argumento propio.
 
-Mi nota: 8.3/10
+Mi nota: 8.0/10
 
 ## Conclusión
 

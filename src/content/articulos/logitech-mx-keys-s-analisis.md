@@ -4,7 +4,7 @@ categoria: "teclados"
 fecha: "2026-05-13"
 descripcion: "Logitech MX Keys S: teclas de perfil bajo cómodas, retroiluminación inteligente y Easy-Switch para 3 dispositivos. El teclado de los productivos."
 imagen: "/images/articulos/logitech-mx-keys-s-analisis.webp"
-puntuacion: 8.8
+puntuacion: 8.0
 criterios:
   tacto: 9.2
   ruido: 9.3
@@ -20,7 +20,7 @@ keywords_secundarias:
   - "teclados para oficina"
   - "teclados bluetooth"
   - "teclados logitech"
-fitzQuote: "No es mecánico, no tiene hot-swap, no es personalizable. Y sin embargo es el teclado que más veo en los escritorios de personas que trabajan en serio. La comodidad de sus teclas es adictiva, y el Easy-Switch para tres dispositivos es una funcionalidad que suena a detalle y termina siendo imprescindible. Mi nota: 8.8/10"
+fitzQuote: "No es mecánico, no tiene hot-swap, no es personalizable. Y sin embargo es el teclado que más veo en los escritorios de personas que trabajan en serio. La comodidad de sus teclas es adictiva, y el Easy-Switch para tres dispositivos es una funcionalidad que suena a detalle y termina siendo imprescindible. Mi nota: 8.0/10"
 especificaciones:
   Tipo: "Membrana de perfil bajo (scissor switch)"
   Conectividad: "Bluetooth / Logi Bolt (2.4 GHz)"
@@ -105,7 +105,7 @@ El Keychron V1 es una buena alternativa para quien busca un teclado mecánico.
 
 ## 🐿️ Fitz recomienda
 
-Me encanta el teclado Logitech MX Keys S por su comodidad y fluidez, aunque el precio de 119€ es un poco elevado. La conectividad Bluetooth es rápida, pero puede tener un micro-lag en aplicaciones de tiempo crítico. Mi nota: 8.8/10
+Me encanta el teclado Logitech MX Keys S por su comodidad y fluidez, aunque el precio de 119€ es un poco elevado. La conectividad Bluetooth es rápida, pero puede tener un micro-lag en aplicaciones de tiempo crítico. Mi nota: 8.0/10
 
 ## Conclusión
 

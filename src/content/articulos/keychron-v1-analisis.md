@@ -4,7 +4,7 @@ categoria: "teclados"
 fecha: "2026-05-10"
 descripcion: "Análisis del Keychron V1: cuerpo de aluminio CNC, gasket mount, hot-swap y QMK/VIA por menos de 80€. El mejor teclado mecánico por su precio."
 imagen: "/images/articulos/keychron-v1-analisis.webp"
-puntuacion: 8.9
+puntuacion: 8.8
 criterios:
   tacto: 9.0
   ruido: 8.5
@@ -20,7 +20,7 @@ keywords_secundarias:
   - "teclado gamer"
   - "gasket mount"
   - "hot-swap"
-fitzQuote: "Aluminio CNC, gasket mount y hot-swap por 79€. Cuando ves el precio del V1 piensas que hay algún truco. No lo hay. Keychron simplemente decidió hacer el mejor teclado posible a precio honesto. El único truco es que solo va por cable, pero para uso de escritorio fijo, eso no importa. Mi nota: 8.9/10"
+fitzQuote: "Aluminio CNC, gasket mount y hot-swap por 79€. Cuando ves el precio del V1 piensas que hay algún truco. No lo hay. Keychron simplemente decidió hacer el mejor teclado posible a precio honesto. El único truco es que solo va por cable, pero para uso de escritorio fijo, eso no importa. Mi nota: 8.8/10"
 especificaciones:
   Cuerpo: "Aluminio CNC mecanizado"
   Montaje: "Gasket mount (amortiguación suave)"
@@ -106,7 +106,7 @@ El K8 Pro es una alternativa si se necesita conectividad inalámbrica.
 
 ## 🐿️ Fitz recomienda
 
-Me encanta el Keychron V1 por su cuerpo de aluminio CNC y su gasket mount, que ofrecen una experiencia de escritura suave y silenciosa. La falta de conectividad inalámbrica es un punto débil, pero no es un problema para uso de escritorio fijo. En general, es un teclado excepcional para su precio. Mi nota: 8.9/10
+Me encanta el Keychron V1 por su cuerpo de aluminio CNC y su gasket mount, que ofrecen una experiencia de escritura suave y silenciosa. La falta de conectividad inalámbrica es un punto débil, pero no es un problema para uso de escritorio fijo. En general, es un teclado excepcional para su precio. Mi nota: 8.8/10
 
 ## Conclusión
 
