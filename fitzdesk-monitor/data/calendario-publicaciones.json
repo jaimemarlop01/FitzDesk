@@ -1,5 +1,5 @@
 {
-  "generado": "2026-06-22",
+  "generado": "2026-07-24",
   "publicaciones": [
     {
       "fecha": "2026-06-14",
@@ -363,7 +363,7 @@
       "categoria": "guias",
       "prioridad": "MEDIA",
       "tipo": "guia",
-      "nota": "Sin restricción de horario — publica cuando estés listo. Borrador PENDIENTE DE CREAR (slot reservado)"
+      "nota": "Sin restricción de horario — publica cuando estés listo"
     },
     {
       "fecha": "2026-09-22",
@@ -384,6 +384,286 @@
       "prioridad": "MEDIA",
       "tipo": "analisis",
       "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00"
+    },
+    {
+      "fecha": "2026-09-27",
+      "diaSemana": "domingo",
+      "slug": "borrador-mejores-ratones-inalambricos-teletrabajo-2026",
+      "titulo": "Mejores ratones inalámbricos para teletrabajo 2026: guía de compra",
+      "categoria": "ratones",
+      "prioridad": "MEDIA",
+      "tipo": "guia",
+      "nota": "Sin restricción de horario — publica cuando estés listo"
+    },
+    {
+      "fecha": "2026-09-29",
+      "diaSemana": "martes",
+      "slug": "borrador-razer-pro-click-mini-analisis",
+      "titulo": "Razer Pro Click Mini: el ratón profesional compacto de Razer",
+      "categoria": "ratones",
+      "prioridad": "MEDIA",
+      "tipo": "analisis",
+      "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00"
+    },
+    {
+      "fecha": "2026-10-01",
+      "diaSemana": "jueves",
+      "slug": "borrador-keychron-q1-pro-analisis",
+      "titulo": "Keychron Q1 Pro: mecánico premium inalámbrico con aluminio y QMK",
+      "categoria": "teclados",
+      "prioridad": "ALTA",
+      "tipo": "analisis",
+      "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00"
+    },
+    {
+      "fecha": "2026-10-06",
+      "diaSemana": "martes",
+      "slug": "borrador-microsoft-arc-mouse-analisis",
+      "titulo": "Microsoft Arc Mouse: el ratón plegable para trabajar desde cualquier sitio",
+      "categoria": "ratones",
+      "prioridad": "MEDIA",
+      "tipo": "analisis",
+      "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00"
+    },
+    {
+      "fecha": "2026-10-08",
+      "diaSemana": "jueves",
+      "slug": "borrador-mejores-portatiles-teletrabajo-menos-800-euros-2026",
+      "titulo": "Mejores portátiles para teletrabajo por menos de 800€ en 2026",
+      "categoria": "portatiles",
+      "prioridad": "ALTA",
+      "tipo": "guia",
+      "nota": "Sin restricción de horario — publica cuando estés listo"
+    },
+    {
+      "fecha": "2026-10-13",
+      "diaSemana": "martes",
+      "slug": "borrador-lenovo-ideapad-5-pro-analisis",
+      "titulo": "Lenovo IdeaPad 5 Pro 14: portátil equilibrado para teletrabajo a precio razonable",
+      "categoria": "portatiles",
+      "prioridad": "MEDIA",
+      "tipo": "analisis",
+      "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00"
+    },
+    {
+      "fecha": "2026-10-15",
+      "diaSemana": "jueves",
+      "slug": "borrador-kensington-pro-fit-ergo-analisis",
+      "titulo": "Kensington Pro Fit Ergo Wireless: ergonomía vertical sin sacrificar funciones",
+      "categoria": "ratones",
+      "prioridad": "MEDIA",
+      "tipo": "analisis",
+      "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00"
+    },
+    {
+      "fecha": "2026-10-20",
+      "diaSemana": "martes",
+      "slug": "borrador-samsung-s60ua-analisis",
+      "titulo": "Samsung ViewFinity S60UA 27\": 4K profesional con conectividad USB-C",
+      "categoria": "monitores",
+      "prioridad": "MEDIA",
+      "tipo": "analisis",
+      "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00"
+    },
+    {
+      "fecha": "2026-10-22",
+      "diaSemana": "jueves",
+      "slug": "borrador-logitech-mx-keys-mini-analisis",
+      "titulo": "Logitech MX Keys Mini: el teclado compacto para setups sin espacio libre",
+      "categoria": "teclados",
+      "prioridad": "ALTA",
+      "tipo": "analisis",
+      "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00"
+    },
+    {
+      "fecha": "2026-10-25",
+      "diaSemana": "domingo",
+      "slug": "borrador-mejores-hubs-usb-c-teletrabajo-2026",
+      "titulo": "Mejores hubs y docks USB-C para teletrabajo 2026: guía de compra",
+      "categoria": "setups",
+      "prioridad": "MEDIA",
+      "tipo": "guia",
+      "nota": "Sin restricción de horario — publica cuando estés listo"
+    },
+    {
+      "fecha": "2026-10-27",
+      "diaSemana": "martes",
+      "slug": "borrador-anker-655-hub-usb-c-analisis",
+      "titulo": "Anker 655 USB-C Hub 8 en 1: el hub que convierte un cable en ocho puertos",
+      "categoria": "setups",
+      "prioridad": "MEDIA",
+      "tipo": "analisis",
+      "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00"
+    },
+    {
+      "fecha": "2026-10-29",
+      "diaSemana": "jueves",
+      "slug": "borrador-razer-pro-type-ultra-analisis",
+      "titulo": "Razer Pro Type Ultra: mecánico inalámbrico silencioso para el teletrabajador serio",
+      "categoria": "teclados",
+      "prioridad": "MEDIA",
+      "tipo": "analisis",
+      "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00"
+    },
+    {
+      "fecha": "2026-11-03",
+      "diaSemana": "martes",
+      "slug": "borrador-lg-32un880-analisis",
+      "titulo": "LG 32UN880-B Ergo: el monitor 4K de 32\" con brazo integrado",
+      "categoria": "monitores",
+      "prioridad": "ALTA",
+      "tipo": "analisis",
+      "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00"
+    },
+    {
+      "fecha": "2026-11-05",
+      "diaSemana": "jueves",
+      "slug": "borrador-dell-ms5320w-analisis",
+      "titulo": "Dell MS5320W: ratón multi-dispositivo para el teletrabajador que se mueve",
+      "categoria": "ratones",
+      "prioridad": "MEDIA",
+      "tipo": "analisis",
+      "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00"
+    },
+    {
+      "fecha": "2026-11-10",
+      "diaSemana": "martes",
+      "slug": "borrador-hp-spectre-x360-14-analisis",
+      "titulo": "HP Spectre x360 14: el convertible premium para teletrabajadores sin compromisos",
+      "categoria": "portatiles",
+      "prioridad": "ALTA",
+      "tipo": "analisis",
+      "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00"
+    },
+    {
+      "fecha": "2026-11-12",
+      "diaSemana": "jueves",
+      "slug": "borrador-benq-screenbar-plus-analisis",
+      "titulo": "BenQ ScreenBar Plus: iluminación de escritorio con mando de control integrado",
+      "categoria": "setups",
+      "prioridad": "MEDIA",
+      "tipo": "analisis",
+      "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00"
+    },
+    {
+      "fecha": "2026-11-17",
+      "diaSemana": "martes",
+      "slug": "borrador-logitech-signature-m750-analisis",
+      "titulo": "Logitech Signature M750: el ratón silencioso de tamaño mediano que lo hace todo bien",
+      "categoria": "ratones",
+      "prioridad": "MEDIA",
+      "tipo": "analisis",
+      "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00"
+    },
+    {
+      "fecha": "2026-11-19",
+      "diaSemana": "jueves",
+      "slug": "borrador-keychron-b6-pro-analisis",
+      "titulo": "Keychron B6 Pro: mecánico Bluetooth de gama media con hot-swap",
+      "categoria": "teclados",
+      "prioridad": "MEDIA",
+      "tipo": "analisis",
+      "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00"
+    },
+    {
+      "fecha": "2026-11-22",
+      "diaSemana": "domingo",
+      "slug": "borrador-regalos-navidad-teletrabajadores-2026",
+      "titulo": "Regalos de Navidad para teletrabajadores 2026: ideas para todos los presupuestos",
+      "categoria": "setups",
+      "prioridad": "ALTA",
+      "tipo": "guia",
+      "nota": "Sin restricción de horario — publica cuando estés listo"
+    },
+    {
+      "fecha": "2026-11-24",
+      "diaSemana": "martes",
+      "slug": "borrador-aoc-u27p2a-analisis",
+      "titulo": "AOC U27P2A: el monitor 4K de 27\" con soporte ergonómico completo",
+      "categoria": "monitores",
+      "prioridad": "MEDIA",
+      "tipo": "analisis",
+      "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00"
+    },
+    {
+      "fecha": "2026-11-26",
+      "diaSemana": "jueves",
+      "slug": "borrador-logitech-g515-tkl-analisis",
+      "titulo": "Logitech G515 TKL Lightspeed: mecánico de perfil bajo para teletrabajo",
+      "categoria": "teclados",
+      "prioridad": "MEDIA",
+      "tipo": "analisis",
+      "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00"
+    },
+    {
+      "fecha": "2026-12-01",
+      "diaSemana": "martes",
+      "slug": "borrador-thinkpad-x1-carbon-gen13-analisis",
+      "titulo": "Lenovo ThinkPad X1 Carbon Gen 13: el ultrabook empresarial más refinado",
+      "categoria": "portatiles",
+      "prioridad": "ALTA",
+      "tipo": "analisis",
+      "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00"
+    },
+    {
+      "fecha": "2026-12-03",
+      "diaSemana": "jueves",
+      "slug": "borrador-asus-proart-pa278cgv-analisis",
+      "titulo": "ASUS ProArt PA278CGV: color profesional certificado con USB-C y hub integrado",
+      "categoria": "monitores",
+      "prioridad": "MEDIA",
+      "tipo": "analisis",
+      "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00"
+    },
+    {
+      "fecha": "2026-12-08",
+      "diaSemana": "martes",
+      "slug": "borrador-logitech-signature-m650-large-analisis",
+      "titulo": "Logitech Signature M650 Large: silencioso y cómodo para manos grandes",
+      "categoria": "ratones",
+      "prioridad": "MEDIA",
+      "tipo": "analisis",
+      "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00"
+    },
+    {
+      "fecha": "2026-12-10",
+      "diaSemana": "jueves",
+      "slug": "borrador-keychron-k8-max-analisis",
+      "titulo": "Keychron K8 Max: el TKL inalámbrico con todos los extras que buscabas",
+      "categoria": "teclados",
+      "prioridad": "MEDIA",
+      "tipo": "analisis",
+      "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00"
+    },
+    {
+      "fecha": "2026-12-15",
+      "diaSemana": "martes",
+      "slug": "borrador-dell-s2722dc-analisis",
+      "titulo": "Dell S2722DC 27\" QHD USB-C: el monitor de productividad sin complicaciones",
+      "categoria": "monitores",
+      "prioridad": "MEDIA",
+      "tipo": "analisis",
+      "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00"
+    },
+    {
+      "fecha": "2026-12-17",
+      "diaSemana": "jueves",
+      "slug": "borrador-microsoft-bluetooth-desktop-analisis",
+      "titulo": "Microsoft Bluetooth Desktop: el combo teclado y ratón para el setup minimalista",
+      "categoria": "setups",
+      "prioridad": "MEDIA",
+      "tipo": "analisis",
+      "nota": "⏰ Recuerda publicar entre las 9:00 y las 14:00"
+    },
+    {
+      "fecha": "2026-12-20",
+      "diaSemana": "domingo",
+      "slug": "borrador-mejores-perifericos-teletrabajo-2026",
+      "titulo": "Los mejores periféricos de teletrabajo de 2026: el resumen definitivo del año",
+      "categoria": "setups",
+      "prioridad": "ALTA",
+      "tipo": "guia",
+      "nota": "Sin restricción de horario — publica cuando estés listo"
     }
   ]
 }
