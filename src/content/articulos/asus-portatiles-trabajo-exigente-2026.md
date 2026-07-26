@@ -20,7 +20,6 @@ enlaces:
   - "https://www.pccomponentes.com/buscar/?query=asus+proart+p16"
   - "https://www.pccomponentes.com/buscar/?query=asus+rog+strix+g18"
   - "https://www.pccomponentes.com/buscar/?query=asus+tuf+gaming+a16"
-borrador: true
 ---
 
 No todos los portátiles sirven para lo mismo, y la gama ASUS en 2026 lo demuestra mejor que nadie. Hay un modelo pensado para ir a cualquier sitio sin sentirlo en la espalda, otro para editar vídeo de forma profesional, otro para dos pantallas simultáneas y hasta dos modelos que vienen del mundo gaming pero tienen unas especificaciones de CPU y GPU que los convierten en las mejores máquinas para renderizar, compilar o trabajar con datos pesados.
