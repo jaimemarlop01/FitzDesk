@@ -271,7 +271,7 @@ jobs:
 
       - name: Disparar deploy y esperar a que termine
         if: steps.check.outputs.status == 'ready' && steps.process.outcome == 'success' && success() && steps.subir_imagenes.outputs.subidas == 'true'
-        timeout-minutes: 5
+        timeout-minutes: 12
         # continue-on-error para que un fallo del deploy (o un exit-code inesperado
         # de gh run watch --exit-status) no mate todo el workflow ni bloquee la
         # comprobación de imágenes del paso siguiente. Si el deploy falló de verdad,
@@ -280,6 +280,10 @@ jobs:
         # registrarse y gh run watch devolvió un código no-cero por un error de red
         # transitorio, las imágenes pueden ya estar vivas y el carrusel se publica sin
         # problema. En ambos casos el usuario recibe un aviso Discord concreto.
+        # timeout-minutes subido de 5 a 12 (2026-07-27): el timeout de 5 min era
+        # insuficiente con las colas de GitHub Actions — el deploy tardaba más en
+        # arrancar que en completar, dejando las imágenes sin propagar al CDN cuando
+        # "Esperar imágenes" ya empezaba a sondear.
         continue-on-error: true
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -298,7 +302,7 @@ jobs:
       - name: Esperar a que las imágenes estén servidas en vivo
         id: esperar_imagenes
         if: steps.check.outputs.status == 'ready' && steps.process.outcome == 'success' && success()
-        timeout-minutes: 6
+        timeout-minutes: 12
         continue-on-error: true
         run: |
           SLUG="${{ steps.check.outputs.published_slug }}"
@@ -320,7 +324,7 @@ jobs:
           # terminado. Sin este sleep, los primeros intentos fallan garantizados.
           sleep 30
           ELAPSED=30
-          MAX_WAIT=300
+          MAX_WAIT=600
           while true; do
             ALL_OK=true
             for n in $(seq 1 "$SLIDE_COUNT"); do

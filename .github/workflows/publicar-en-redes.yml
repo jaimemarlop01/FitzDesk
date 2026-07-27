@@ -80,7 +80,7 @@ jobs:
 
       - name: Disparar deploy y esperar a que termine
         if: inputs.only != 'facebook' && steps.subir_imagenes.outputs.subidas == 'true'
-        timeout-minutes: 5
+        timeout-minutes: 12
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -98,7 +98,7 @@ jobs:
       - name: Esperar a que las imágenes estén servidas en vivo
         id: esperar_imagenes
         if: inputs.only != 'facebook'
-        timeout-minutes: 6
+        timeout-minutes: 12
         continue-on-error: true
         run: |
           SLUG="${{ inputs.slug }}"
@@ -120,7 +120,7 @@ jobs:
           # terminado. Sin este sleep, los primeros intentos fallan garantizados.
           sleep 30
           ELAPSED=30
-          MAX_WAIT=300
+          MAX_WAIT=600
           while true; do
             ALL_OK=true
             for n in $(seq 1 "$SLIDE_COUNT"); do
