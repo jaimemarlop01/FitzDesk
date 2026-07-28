@@ -106,7 +106,7 @@ function resolveSpec(
   return null;
 }
 
-const sidebarSpecRows = (tipo !== 'guia' && SIDEBAR_SPECS[categoria])
+const sidebarSpecRows = (tipo !== 'guia' && tipo !== 'lanzamiento' && SIDEBAR_SPECS[categoria])
   ? SIDEBAR_SPECS[categoria]
       .map(r => ({ label: r.label, value: resolveSpec(r.flatKey, r.keys, flatSpecs, especificaciones) }))
       .filter((r): r is { label: string; value: string } => r.value !== null)
@@ -233,7 +233,7 @@ const reviewSchema = esAnalisisConPuntuacion ? {
             <Content />
           </div>
 
-          {tipo !== 'guia' && (
+          {tipo !== 'guia' && tipo !== 'lanzamiento' && (
             <div id="specs-body-inject" style="display:none">
               <SpecsTable
                 especificaciones={especificaciones}
