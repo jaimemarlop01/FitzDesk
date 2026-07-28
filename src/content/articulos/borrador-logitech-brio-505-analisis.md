@@ -23,6 +23,9 @@ keywords_secundarias:
   - "webcam Full HD USB-C"
   - "cámara web para Teams Zoom"
 borrador: true
+conectividad: "USB-C"
+cable: "Con cable"
+compatible: "Windows / macOS / ChromeOS / iOS / iPadOS"
 ---
 
 La cámara integrada del portátil nunca es suficiente para videollamadas profesionales. La posición fija, la calidad del sensor y la iluminación automática —que suele hacer que parezcas estar en un sótano con una vela— son tres problemas que una webcam externa dedicada resuelve desde el primer día. El Logitech Brio 505 es la respuesta de Logitech para quien quiere mejorar su presencia en videollamadas sin complicarse la vida.

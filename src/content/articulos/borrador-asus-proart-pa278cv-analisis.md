@@ -23,6 +23,14 @@ keywords_secundarias:
   - "monitor diseño USB-C"
   - "monitor QHD 27 pulgadas profesional"
 borrador: true
+tamano: "27 pulgadas"
+resolucion: "QHD (2560×1440)"
+panel: "IPS"
+frecuencia: "75 Hz"
+puertos: "USB-C 90W, DisplayPort 1.2, HDMI 2.0, 4x USB-A"
+brillo: "350 nits"
+hdr: "No"
+usb_c_vatios: "90W"
 ---
 
 El ASUS ProArt PA278CV viene con una promesa específica: que el color que ves en pantalla sea el color que ves en el trabajo final. No es una promesa vacía: incluye informe de calibración individual de fábrica con una desviación máxima de Delta E menor a 2 (el umbral por encima del cual las diferencias de color se vuelven visibles al ojo humano). Para diseñadores, fotógrafos y cualquier profesional que trabaje con color, ese detalle vale más que cualquier especificación de brillo.

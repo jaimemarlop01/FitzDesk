@@ -23,6 +23,14 @@ keywords_secundarias:
   - "monitor 27 pulgadas USB-C"
   - "monitor diseño profesional"
 borrador: true
+tamano: "27 pulgadas"
+resolucion: "QHD (2560×1440)"
+panel: "IPS"
+frecuencia: "60 Hz"
+puertos: "USB-C 65W, HDMI 2.0, DisplayPort 1.4, 4x USB-A 3.0"
+brillo: "350 nits"
+hdr: "No"
+usb_c_vatios: "65W"
 ---
 
 Los monitores para diseño y trabajo creativo tienen un requisito que los de productividad general no siempre cubren: la fidelidad del color. El BenQ PD2705Q es el miembro más accesible de la familia Creative Pro de BenQ, una línea diseñada para profesionales que necesitan que lo que ven en pantalla coincida con lo que se imprime o publica. Con validación Pantone, DICOM y 100% sRGB en un panel IPS QHD de 27", a 299€, la propuesta es seria.

@@ -23,6 +23,13 @@ keywords_secundarias:
   - "teclado inalámbrico mecánico"
   - "teclado mecánico para trabajo"
 borrador: true
+conectividad: "Bluetooth 5.1 (3 dispositivos) / Logi Bolt"
+cable: "Inalámbrico"
+switches: "Romer-G Tactile (mecánico)"
+formato: "Compacto sin numpad"
+retroiluminacion: "Sin retroiluminación"
+bateria: "~36 meses (pilas AA)"
+compatible: "Windows / macOS / ChromeOS / iPadOS"
 ---
 
 El Logitech POP Keys no intenta pasar desapercibido. Los colores vivos, las teclas emoji intercambiables y el diseño compacto son una declaración de intenciones: hay espacio en el escritorio de trabajo para un periférico que no sea gris oscuro ni negro mate. Y debajo de la estética, hay un teclado mecánico real con conectividad de gama media que funciona correctamente para el día a día.

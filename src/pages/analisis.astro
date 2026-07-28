@@ -12,17 +12,52 @@ const articles = allArticles
 const total = articles.length;
 const INITIAL_SHOW = 24;
 
-const CATEGORY_LABELS: Record<string, string> = {
-  ratones:    'Ratones',
-  teclados:   'Teclados',
-  monitores:  'Monitores',
-  portatiles: 'Portátiles',
-  setups:     'Setups',
-  guias:      'Guías',
-  auriculares:'Auriculares',
-};
+const CATEGORY_CARDS = [
+  {
+    slug: 'ratones', label: 'Ratones', color: '#DBEAFE',
+    desc: 'Los mejores ratones para trabajar sin cansancio',
+    icon: `<path stroke-linecap="round" stroke-linejoin="round" d="M7 10.5C7 7 9.2 4.5 12 4.5C14.8 4.5 17 7 17 10.5V15C17 18.5 14.8 20.5 12 20.5C9.2 20.5 7 18.5 7 15V10.5Z"/><line x1="12" y1="4.5" x2="12" y2="11.5" stroke-linecap="round"/><rect x="10.5" y="6.5" width="3" height="5" rx="1.5"/>`,
+  },
+  {
+    slug: 'teclados', label: 'Teclados', color: '#EDE9FE',
+    desc: 'Mecánicos, silenciosos y ergonómicos',
+    icon: `<rect x="1.5" y="5.5" width="21" height="13" rx="2.5"/><path stroke-linecap="round" d="M4 9H6.5M9 9H11.5M14 9H16.5M19 9H21"/><path stroke-linecap="round" d="M5 12.5H7.5M10 12.5H12.5M15 12.5H17.5"/><path stroke-linecap="round" d="M7 16H17"/>`,
+  },
+  {
+    slug: 'monitores', label: 'Monitores', color: '#CCFBF1',
+    desc: 'Pantallas que cuidan tu vista y tu espalda',
+    icon: `<rect x="2" y="3" width="20" height="13" rx="2"/><line x1="12" y1="16" x2="12" y2="20" stroke-linecap="round"/><line x1="8" y1="20" x2="16" y2="20" stroke-linecap="round"/>`,
+  },
+  {
+    slug: 'portatiles', label: 'Portátiles', color: '#DCFCE7',
+    desc: 'Los mejores portátiles para teletrabajadores',
+    icon: `<rect x="4" y="3" width="16" height="11" rx="1.5"/><line x1="4" y1="14" x2="20" y2="14" stroke-linecap="round"/><path stroke-linecap="round" stroke-linejoin="round" d="M2 17H22C22 17 21 19.5 20 19.5H4C3 19.5 2 17 2 17Z"/>`,
+  },
+  {
+    slug: 'setups', label: 'Setups', color: '#FEF3C7',
+    desc: 'Builds completos para teletrabajar mejor desde casa',
+    icon: `<rect x="5.5" y="2.5" width="13" height="9.5" rx="1.5"/><line x1="12" y1="12" x2="12" y2="15.5" stroke-linecap="round"/><line x1="9" y1="15.5" x2="15" y2="15.5" stroke-linecap="round"/><line x1="2" y1="19.5" x2="22" y2="19.5" stroke-linecap="round"/><line x1="3.5" y1="15.5" x2="8" y2="15.5" stroke-linecap="round"/><line x1="16" y1="15.5" x2="20.5" y2="15.5" stroke-linecap="round"/>`,
+  },
+  {
+    slug: 'guias', label: 'Guías', color: '#FFE4E6',
+    desc: 'Guías de compra para elegir sin perder tiempo',
+    icon: `<path stroke-linecap="round" stroke-linejoin="round" d="M4 5C6 4.5 9 4.5 12 6V20C9 18.5 6 18.5 4 19V5Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M20 5C18 4.5 15 4.5 12 6V20C15 18.5 18 18.5 20 19V5Z"/><line x1="7" y1="9" x2="10" y2="9" stroke-linecap="round"/><line x1="7" y1="12" x2="10" y2="12" stroke-linecap="round"/>`,
+  },
+  {
+    slug: 'auriculares', label: 'Auriculares', color: '#FCE7F3',
+    desc: 'Audio profesional para videollamadas',
+    icon: `<path stroke-linecap="round" d="M4 14a8 8 0 0 1 16 0"/><rect x="2" y="14" width="4" height="6" rx="2"/><rect x="18" y="14" width="4" height="6" rx="2"/>`,
+  },
+];
+
+const categoryCounts: Record<string, number> = {};
+articles.forEach(a => {
+  const cat = a.data.categoria;
+  categoryCounts[cat] = (categoryCounts[cat] ?? 0) + 1;
+});
 
 const categories = [...new Set(articles.map(a => a.data.categoria))].sort();
+const activeCards = CATEGORY_CARDS.filter(c => categories.includes(c.slug));
 
 function parsePriceAttr(precio?: string): string {
   if (!precio || precio === 'pendiente') return '99999';
@@ -56,17 +91,29 @@ const collectionSchema = {
         </p>
       </header>
 
+      <!-- Filtro por categoría -->
+      <div class="cat-filter-grid" role="group" aria-label="Filtrar por categoría">
+        <button class="cat-card active" data-filter="all" style="background: #F3F4F6">
+          <svg class="cat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <rect x="2" y="2" width="9" height="9" rx="2"/><rect x="13" y="2" width="9" height="9" rx="2"/>
+            <rect x="2" y="13" width="9" height="9" rx="2"/><rect x="13" y="13" width="9" height="9" rx="2"/>
+          </svg>
+          <span class="cat-label">Todos</span>
+          <span class="cat-count">{total}</span>
+        </button>
+        {activeCards.map(cat => (
+          <button class="cat-card" data-filter={cat.slug} style={`background: ${cat.color}`}>
+            <svg class="cat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <Fragment set:html={cat.icon} />
+            </svg>
+            <span class="cat-label">{cat.label}</span>
+            <span class="cat-count">{categoryCounts[cat.slug] ?? 0}</span>
+          </button>
+        ))}
+      </div>
+
       <!-- Toolbar -->
       <div class="toolbar">
-        <div class="filter-pills" role="group" aria-label="Filtrar por categoría">
-          <button class="pill active" data-filter="all">Todos</button>
-          {categories.map(cat => (
-            <button class="pill" data-filter={cat}>
-              {CATEGORY_LABELS[cat] ?? cat}
-            </button>
-          ))}
-        </div>
-
         <div class="toolbar-right">
           <select class="sort-select" id="sort-select" aria-label="Ordenar por">
             <option value="reciente">Más recientes</option>
@@ -217,10 +264,10 @@ const collectionSchema = {
     if (lmWrap) lmWrap.hidden = filtered.length <= visibleCount;
   }
 
-  // Category pills
-  document.querySelectorAll<HTMLElement>('.pill').forEach(btn => {
+  // Category cards
+  document.querySelectorAll<HTMLElement>('.cat-card').forEach(btn => {
     btn.addEventListener('click', () => {
-      document.querySelectorAll('.pill').forEach(b => {
+      document.querySelectorAll('.cat-card').forEach(b => {
         b.classList.remove('active');
         b.removeAttribute('aria-current');
       });
@@ -282,51 +329,69 @@ const collectionSchema = {
     color: var(--color-text-muted);
   }
 
+  /* ── Filtro por categoría ── */
+  .cat-filter-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .cat-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    padding: 0.9rem 1rem;
+    border-radius: var(--radius-lg, 12px);
+    border: 2px solid transparent;
+    cursor: pointer;
+    text-align: left;
+    transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+  }
+
+  .cat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+
+  .cat-card.active {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 1px var(--color-primary);
+  }
+
+  .cat-card .cat-icon {
+    width: 24px;
+    height: 24px;
+    color: var(--color-text);
+    opacity: 0.7;
+    margin-bottom: 0.15rem;
+  }
+
+  .cat-card .cat-label {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--color-text);
+    display: block;
+  }
+
+  .cat-card .cat-count {
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+    display: block;
+  }
+
   /* ── Toolbar ── */
   .toolbar {
     display: flex;
-    align-items: center;
+    justify-content: flex-end;
     gap: 1rem;
-    flex-wrap: wrap;
     margin-bottom: 1.25rem;
-  }
-
-  .filter-pills {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    flex: 1;
-  }
-
-  .pill {
-    padding: 0.4rem 1rem;
-    border-radius: 999px;
-    border: 1.5px solid var(--color-border);
-    background: white;
-    color: var(--color-text-muted);
-    font-size: 0.875rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all var(--transition);
-    white-space: nowrap;
-  }
-
-  .pill:hover {
-    border-color: var(--color-brand);
-    color: var(--color-brand);
-  }
-
-  .pill.active {
-    background: var(--color-brand);
-    border-color: var(--color-brand);
-    color: white;
   }
 
   .toolbar-right {
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    flex-shrink: 0;
   }
 
   .sort-select {
