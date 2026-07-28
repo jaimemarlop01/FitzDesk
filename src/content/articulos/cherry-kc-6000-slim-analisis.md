@@ -21,7 +21,6 @@ keywords_secundarias:
   - "teclado scissor"
   - "teclado de bajo perfil"
   - "Cherry KC 6000 Slim"
-borrador: true
 imagen_thumb: "/images/articulos/cherry-kc-6000-slim-analisis-thumb.webp"
 ---
 
