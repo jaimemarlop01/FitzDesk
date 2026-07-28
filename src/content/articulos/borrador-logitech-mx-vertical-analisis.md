@@ -23,6 +23,12 @@ keywords_secundarias:
   - "ratón ergonómico teletrabajo"
   - "ratón vertical postura"
 borrador: true
+conectividad: "Logi Bolt / Bluetooth 5.1"
+cable: "Inalámbrico"
+dpi: "400–4000 DPI"
+bateria: "~4 meses (pila AA)"
+peso: "135 g"
+compatible: "Windows / macOS / Linux"
 ---
 
 La muñeca no miente. Si llevas meses con molestias al final del día, el culpable suele ser la postura forzada que impone cualquier ratón convencional: el antebrazo girado hacia abajo, los tendones en tensión constante durante horas. El Logitech MX Vertical aborda el problema de raíz, no con un masaje ni un reposamuñecas de espuma: cambia el ángulo por completo.

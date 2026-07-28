@@ -23,6 +23,12 @@ keywords_secundarias:
   - "ratón inalámbrico silencioso"
   - "ratón Bluetooth oficina"
 borrador: true
+conectividad: "Logi Bolt / Bluetooth 5.0"
+cable: "Inalámbrico"
+dpi: "400–4000 DPI"
+bateria: "~24 meses (pila AA)"
+peso: "101 g"
+compatible: "Windows / macOS / ChromeOS / Linux"
 ---
 
 No todos los ratones tienen que tener diez botones, scroll magnético y una app de configuración con cuarenta opciones. A veces lo que necesitas es algo que funcione bien, no haga ruido en la oficina o en las videollamadas, y cuya batería no te preocupe durante dos años. El Logitech Signature M650 es exactamente eso: ninguna sorpresa, ningún fallo, ninguna extravagancia.

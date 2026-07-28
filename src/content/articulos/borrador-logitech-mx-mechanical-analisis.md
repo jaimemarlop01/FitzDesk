@@ -23,6 +23,13 @@ keywords_secundarias:
   - "teclado mecánico inalámbrico"
   - "teclado mecánico silencioso"
 borrador: true
+conectividad: "Logi Bolt / Bluetooth / USB-C"
+cable: "Inalámbrico / Con cable"
+switches: "Kailh Linear Quiet (silencioso)"
+formato: "Full-size con numpad"
+retroiluminacion: "Retroiluminación blanca inteligente"
+bateria: "~15 días (retroiluminación on) / ~10 semanas (off)"
+compatible: "Windows / macOS"
 ---
 
 Los teclados mecánicos siempre se han asociado al gaming: grandes, ruidosos, con RGB que iluminaría un estadio. El Logitech MX Mechanical intenta hacer exactamente lo opuesto: llevar la experiencia de escritura mecánica al entorno profesional, con un diseño de oficina, retroiluminación discreta y conectividad inalámbrica de primera línea. Para muchos trabajadores, es el primer teclado mecánico que considerarían en serio.

@@ -23,6 +23,11 @@ keywords_secundarias:
   - "segunda pantalla teletrabajo"
   - "monitor USB-C táctil"
 borrador: true
+tamano: "14.5 pulgadas"
+resolucion: "2560×720 (32:9 ultrawide)"
+panel: "AHVA (IPS-like), mate, táctil"
+frecuencia: "60 Hz"
+puertos: "USB-C (DP Alt Mode), HDMI"
 ---
 
 Hay una categoría de periféricos que el teletrabajo ha empujado sin que nadie lo anticipara: las segundas pantallas compactas. No un monitor de 27" adicional, sino algo más pequeño y específico — una pantalla para chats, notificaciones, reproductores o paneles de control, mientras el monitor principal queda libre para el trabajo real. El Corsair XENEON Edge es la versión más sofisticada de esa idea: 14,5 pulgadas, táctil, formato ultrawide 32:9, y un soporte magnético que funciona tanto sobre la mesa como montado en el interior del PC.

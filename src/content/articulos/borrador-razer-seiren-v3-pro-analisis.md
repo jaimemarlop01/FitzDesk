@@ -25,6 +25,9 @@ borrador: true
 imagen_thumb: "/images/articulos/razer-seiren-v3-pro-analisis-thumb.webp"
 fecha_actualizacion: "2026-07-19"
 actualizado: true
+conectividad: "USB-C / XLR"
+cable: "Con cable"
+compatible: "Windows / macOS"
 ---
 > 📅 **Artículo actualizado en julio de 2026**: Precio actualizado a 289,99€ en PcComponentes.
 

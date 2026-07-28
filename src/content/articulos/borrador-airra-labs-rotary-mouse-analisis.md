@@ -23,6 +23,11 @@ keywords_secundarias:
   - "tecnología de ratones"
 borrador: true
 imagen_thumb: "/images/articulos/airra-labs-rotary-mouse-analisis-thumb.webp"
+conectividad: "Bluetooth / receptor USB"
+cable: "Inalámbrico"
+dpi: "Sin especificación pública (Kickstarter)"
+bateria: "Sin especificación pública"
+compatible: "Windows / macOS"
 ---
 
 > ⚠️ **Disponibilidad**: el Rotary Mouse se comercializa actualmente a través de su campaña de Kickstarter a un precio aproximado de 126€ (conversión desde $139 USD). El precio de venta al público cuando llegue a tiendas convencionales puede diferir.

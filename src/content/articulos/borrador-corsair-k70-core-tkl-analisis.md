@@ -23,6 +23,12 @@ keywords_secundarias:
   - "teclado compacto teletrabajo"
   - "switches MLX Red"
 borrador: true
+conectividad: "USB-C"
+cable: "Con cable"
+switches: "Corsair MLX Red V2 (lineal)"
+formato: "TKL (sin numpad)"
+retroiluminacion: "RGB por tecla"
+compatible: "Windows / macOS / Linux"
 ---
 
 El Corsair K70 Core TKL llega a un mercado que lleva años pidiendo lo mismo: un mecánico de verdad, sin numpad, a un precio que no duela. A 80€ entra de lleno en el territorio de los Keychron, pero con una propuesta distinta: construcción más robusta, switches propios de Corsair y un acabado claramente orientado a la mesa del escritorio, aunque su ADN sea gaming.

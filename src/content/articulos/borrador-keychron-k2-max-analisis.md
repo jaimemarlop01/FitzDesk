@@ -23,6 +23,13 @@ keywords_secundarias:
   - "teclado 75% teletrabajo"
   - "teclado mecánico hot-swap inalámbrico"
 borrador: true
+conectividad: "Bluetooth 5.1 / USB-C / receptor 2.4 GHz"
+cable: "Inalámbrico / Con cable"
+switches: "Gateron G Pro hot-swappables"
+formato: "75% (con fila de función)"
+retroiluminacion: "RGB por tecla"
+bateria: "~4000 mAh"
+compatible: "Windows / macOS / Linux / iOS / Android"
 ---
 
 El Keychron K2 Max es la evolución lógica de uno de los teclados mecánicos más valorados para teletrabajo. El diseño 75% mantiene la fila de función, las teclas de navegación y el Delete en un espacio un 30% más compacto que un teclado completo. Eso no es solo ahorro de escritorio: es también menos recorrido para la mano desde el teclado hasta el ratón, menos tensión en el hombro derecho en jornadas largas.

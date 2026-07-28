@@ -23,6 +23,12 @@ keywords_secundarias:
   - "ratón ergonómico Bluetooth"
   - "ratón para teletrabajo Microsoft"
 borrador: true
+conectividad: "Bluetooth 5.0"
+cable: "Inalámbrico"
+dpi: "800–2400 DPI"
+bateria: "~12 meses (pila AA)"
+peso: "103 g"
+compatible: "Windows / macOS / Android"
 ---
 
 Microsoft lleva décadas fabricando periféricos para uso profesional, y su línea ergonómica para teletrabajo tiene una filosofía clara: comodidad por encima de especificaciones técnicas. El Bluetooth Ergonomic Mouse es la versión inalámbrica más compacta de esa apuesta, pensada para profesionales que buscan un ratón que no les haga pensar en su muñeca al final del día, sin entrar en el territorio de los ratones verticales.

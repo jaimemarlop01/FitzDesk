@@ -23,6 +23,14 @@ keywords_secundarias:
   - "monitor 34 pulgadas ultrawide"
   - "monitor curvo para trabajo"
 borrador: true
+tamano: "34 pulgadas"
+resolucion: "WQHD (3440×1440)"
+panel: "VA curvo (1500R)"
+frecuencia: "100 Hz"
+puertos: "USB-C 65W, 2x HDMI 2.0, DisplayPort 1.4"
+brillo: "350 nits"
+hdr: "No"
+usb_c_vatios: "65W"
 ---
 
 El monitor ultrawide cambia la forma de trabajar. No es exageración: con 3440x1440 píxeles en una relación 21:9, tienes el equivalente a dos monitores de 27" Full HD en un solo panel sin el marco en el medio. Para trabajo con múltiples ventanas abiertas, edición de video, o cualquier flujo de trabajo que implique comparar o ver varias cosas al mismo tiempo, la diferencia frente a un 16:9 es inmediata.
