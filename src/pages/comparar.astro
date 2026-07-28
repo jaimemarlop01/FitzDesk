@@ -40,16 +40,9 @@ const CAT_LABELS: Record<string, string> = {
   ratones: 'Ratones', teclados: 'Teclados', monitores: 'Monitores',
   portatiles: 'Portátiles', setups: 'Setups',
 };
-const CAT_CARDS: Record<string, { color: string; icon: string }> = {
-  ratones:   { color: '#DBEAFE', icon: '<path stroke-linecap="round" stroke-linejoin="round" d="M7 10.5C7 7 9.2 4.5 12 4.5C14.8 4.5 17 7 17 10.5V15C17 18.5 14.8 20.5 12 20.5C9.2 20.5 7 18.5 7 15V10.5Z"/><line x1="12" y1="4.5" x2="12" y2="11.5" stroke-linecap="round"/><rect x="10.5" y="6.5" width="3" height="5" rx="1.5"/>' },
-  teclados:  { color: '#EDE9FE', icon: '<rect x="1.5" y="5.5" width="21" height="13" rx="2.5"/><path stroke-linecap="round" d="M4 9H6.5M9 9H11.5M14 9H16.5M19 9H21"/><path stroke-linecap="round" d="M5 12.5H7.5M10 12.5H12.5M15 12.5H17.5"/><path stroke-linecap="round" d="M7 16H17"/>' },
-  monitores: { color: '#CCFBF1', icon: '<rect x="2" y="3" width="20" height="13" rx="2"/><line x1="12" y1="16" x2="12" y2="20" stroke-linecap="round"/><line x1="8" y1="20" x2="16" y2="20" stroke-linecap="round"/>' },
-  portatiles:{ color: '#DCFCE7', icon: '<rect x="4" y="3" width="16" height="11" rx="1.5"/><line x1="4" y1="14" x2="20" y2="14" stroke-linecap="round"/><path stroke-linecap="round" stroke-linejoin="round" d="M2 17H22C22 17 21 19.5 20 19.5H4C3 19.5 2 17 2 17Z"/>' },
-  setups:    { color: '#FEF3C7', icon: '<rect x="5.5" y="2.5" width="13" height="9.5" rx="1.5"/><line x1="12" y1="12" x2="12" y2="15.5" stroke-linecap="round"/><line x1="9" y1="15.5" x2="15" y2="15.5" stroke-linecap="round"/><line x1="2" y1="19.5" x2="22" y2="19.5" stroke-linecap="round"/><line x1="3.5" y1="15.5" x2="8" y2="15.5" stroke-linecap="round"/><line x1="16" y1="15.5" x2="20.5" y2="15.5" stroke-linecap="round"/>' },
-};
 const validCats = CAT_ORDER.filter(c => (byCategory[c]?.length ?? 0) >= 2);
 
-const dataJson = JSON.stringify({ byCategory, validCats, catLabels: CAT_LABELS, catCards: CAT_CARDS });
+const dataJson = JSON.stringify({ byCategory, validCats, catLabels: CAT_LABELS });
 ---
 
 <BaseLayout
@@ -252,11 +245,19 @@ const dataJson = JSON.stringify({ byCategory, validCats, catLabels: CAT_LABELS, 
     });
   }
 
+  /* ── CARD DATA (defined client-side — SVG strings safe in JS, not in JSON) ── */
+  var CAT_CARD_DATA = {
+    ratones:    { color: '#DBEAFE', icon: '<path stroke-linecap="round" stroke-linejoin="round" d="M7 10.5C7 7 9.2 4.5 12 4.5C14.8 4.5 17 7 17 10.5V15C17 18.5 14.8 20.5 12 20.5C9.2 20.5 7 18.5 7 15V10.5Z"/><line x1="12" y1="4.5" x2="12" y2="11.5" stroke-linecap="round"/><rect x="10.5" y="6.5" width="3" height="5" rx="1.5"/>' },
+    teclados:   { color: '#EDE9FE', icon: '<rect x="1.5" y="5.5" width="21" height="13" rx="2.5"/><path stroke-linecap="round" d="M4 9H6.5M9 9H11.5M14 9H16.5M19 9H21"/><path stroke-linecap="round" d="M5 12.5H7.5M10 12.5H12.5M15 12.5H17.5"/><path stroke-linecap="round" d="M7 16H17"/>' },
+    monitores:  { color: '#CCFBF1', icon: '<rect x="2" y="3" width="20" height="13" rx="2"/><line x1="12" y1="16" x2="12" y2="20" stroke-linecap="round"/><line x1="8" y1="20" x2="16" y2="20" stroke-linecap="round"/>' },
+    portatiles: { color: '#DCFCE7', icon: '<rect x="4" y="3" width="16" height="11" rx="1.5"/><line x1="4" y1="14" x2="20" y2="14" stroke-linecap="round"/><path stroke-linecap="round" stroke-linejoin="round" d="M2 17H22C22 17 21 19.5 20 19.5H4C3 19.5 2 17 2 17Z"/>' },
+    setups:     { color: '#FEF3C7', icon: '<rect x="5.5" y="2.5" width="13" height="9.5" rx="1.5"/><line x1="12" y1="12" x2="12" y2="15.5" stroke-linecap="round"/><line x1="9" y1="15.5" x2="15" y2="15.5" stroke-linecap="round"/><line x1="2" y1="19.5" x2="22" y2="19.5" stroke-linecap="round"/><line x1="3.5" y1="15.5" x2="8" y2="15.5" stroke-linecap="round"/><line x1="16" y1="15.5" x2="20.5" y2="15.5" stroke-linecap="round"/>' },
+  };
+
   /* ── DOM REFS ── */
   var stepProducts    = document.getElementById('step-products');
   var stepCompare     = document.getElementById('step-compare');
   var catPills        = document.getElementById('cat-pills');
-  var catCards        = data.catCards || {};
   var productsGrid    = document.getElementById('products-grid');
   var btnCompare      = document.getElementById('btn-compare');
   var btnBack         = document.getElementById('btn-back');
@@ -278,7 +279,7 @@ const dataJson = JSON.stringify({ byCategory, validCats, catLabels: CAT_LABELS, 
 
   /* ── RENDER CATEGORY CARDS ── */
   validCats.forEach(function(cat) {
-    var cardData = catCards[cat] || {};
+    var cardData = CAT_CARD_DATA[cat] || {};
     var color = cardData.color || '#F3F4F6';
     var icon  = cardData.icon  || '';
     var count = (byCategory[cat] || []).length;
