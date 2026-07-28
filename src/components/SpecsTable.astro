@@ -57,6 +57,12 @@ const CATEGORY_SPECS: Record<string, SpecRow[]> = {
     { label: 'Batería',              flatKey: 'bateria',      keys: ['Bateria', 'Batería', 'Autonomia', 'Autonomía'] },
     { label: 'Compatible con',       flatKey: 'compatible',   keys: ['Compatibilidad', 'Compatible', 'Sistemas', 'SO'] },
   ],
+  setups: [
+    { label: 'Conectividad',  flatKey: 'conectividad', keys: ['Conectividad', 'Conexion', 'Conexión'] },
+    { label: 'Con/sin cable', flatKey: 'cable',        keys: ['Cable', 'Wireless', 'Inalambrico', 'Tipo_conexion'] },
+    { label: 'Batería',       flatKey: 'bateria',      keys: ['Bateria', 'Batería', 'Autonomia', 'Autonomía'] },
+    { label: 'Compatible con', flatKey: 'compatible',  keys: ['Compatibilidad', 'Compatible', 'Sistemas', 'SO'] },
+  ],
 };
 
 function normalize(s: string): string {
