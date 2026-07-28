@@ -72,9 +72,10 @@ const categories = [
     `,
   },
   {
-    slug: 'comparativas',
-    label: 'Comparativas',
-    desc: 'Elige sin dudas entre los productos más populares',
+    slug: 'comparar',
+    href: '/comparar',
+    label: 'Comparar',
+    desc: 'Compara dos productos cara a cara con radar visual',
     color: '#FFEDD5',
     icon: `
       <line x1="12" y1="3" x2="12" y2="20" stroke-linecap="round"/>
@@ -178,7 +179,7 @@ const whyItems = [
       <p class="section-subtitle">Encuentra el periférico perfecto para tu setup</p>
       <div class="categories-grid">
         {categories.map(cat => (
-          <a href={u(`/categoria/${cat.slug}`)} class="category-card" style={`background: ${cat.color}`}>
+          <a href={cat.href ?? u(`/categoria/${cat.slug}`)} class="category-card" style={`background: ${cat.color}`}>
             <svg class="cat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
               <Fragment set:html={cat.icon} />
             </svg>
