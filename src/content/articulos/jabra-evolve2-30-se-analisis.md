@@ -14,6 +14,9 @@ criterios:
   calidad_precio: 8.5
 precio: "89,99€"
 enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=jabra+evolve2+30"
+conectividad: "USB-A / mini-jack 3.5mm"
+cable: "Con cable"
+compatible: "Windows / macOS / Certificado Teams y Google Meet"
 tiempo_lectura: "5 min"
 tipo: "analisis"
 keyword_principal: "auriculares para videollamadas"
