@@ -14,6 +14,12 @@ criterios:
   calidad_precio: 8.0
 precio: "49,99€"
 enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=cherry+kc+6000+slim"
+conectividad: "USB-A"
+cable: "Con cable"
+switches: "Scissor (tijera)"
+formato: "Completo con numpad"
+retroiluminacion: "Sin retroiluminación"
+compatible: "Windows / macOS / Linux"
 tiempo_lectura: "5 min"
 tipo: "analisis"
 keyword_principal: "teclado silencioso para oficina"
