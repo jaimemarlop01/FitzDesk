@@ -271,19 +271,17 @@ jobs:
 
       - name: Disparar deploy y esperar a que termine
         if: steps.check.outputs.status == 'ready' && steps.process.outcome == 'success' && success() && steps.subir_imagenes.outputs.subidas == 'true'
-        timeout-minutes: 12
+        timeout-minutes: 20
         # continue-on-error para que un fallo del deploy (o un exit-code inesperado
         # de gh run watch --exit-status) no mate todo el workflow ni bloquee la
         # comprobación de imágenes del paso siguiente. Si el deploy falló de verdad,
         # las imágenes no estarán disponibles y el paso "Esperar imágenes" lo detecta
-        # y avisa a Discord por su propia ruta. Si el deploy simplemente tardó en
-        # registrarse y gh run watch devolvió un código no-cero por un error de red
-        # transitorio, las imágenes pueden ya estar vivas y el carrusel se publica sin
-        # problema. En ambos casos el usuario recibe un aviso Discord concreto.
-        # timeout-minutes subido de 5 a 12 (2026-07-27): el timeout de 5 min era
-        # insuficiente con las colas de GitHub Actions — el deploy tardaba más en
-        # arrancar que en completar, dejando las imágenes sin propagar al CDN cuando
-        # "Esperar imágenes" ya empezaba a sondear.
+        # y avisa a Discord por su propia ruta.
+        # timeout-minutes subido de 5→12 (2026-07-27) y de 12→20 (2026-07-30):
+        # el bucle de espera del run nuevo aumentado de 30×5s=150s a 60×10s=600s
+        # porque con colas lentas de GitHub el run nuevo no aparece en 2.5 min
+        # y gh run watch terminaba viendo el run viejo (ya acabado), dejando el
+        # CDN sin propagar cuando empezaba "Esperar imágenes".
         continue-on-error: true
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -291,18 +289,21 @@ jobs:
           ANTES=$(gh run list --workflow=deploy.yml --limit 1 --json databaseId --jq '.[0].databaseId')
           gh workflow run deploy.yml --ref main
           echo "Esperando a que empiece el nuevo run de deploy.yml..."
-          for i in $(seq 1 30); do
+          for i in $(seq 1 60); do
             NUEVO=$(gh run list --workflow=deploy.yml --limit 1 --json databaseId --jq '.[0].databaseId')
             if [ "$NUEVO" != "$ANTES" ]; then break; fi
-            sleep 5
+            sleep 10
           done
+          if [ "$NUEVO" = "$ANTES" ]; then
+            echo "⚠️ El nuevo run de deploy.yml no apareció en 600 s — continuando de todas formas"
+          fi
           echo "Esperando a que termine el run $NUEVO..."
           gh run watch "$NUEVO" --exit-status
 
       - name: Esperar a que las imágenes estén servidas en vivo
         id: esperar_imagenes
         if: steps.check.outputs.status == 'ready' && steps.process.outcome == 'success' && success()
-        timeout-minutes: 12
+        timeout-minutes: 17
         continue-on-error: true
         run: |
           SLUG="${{ steps.check.outputs.published_slug }}"
@@ -324,7 +325,7 @@ jobs:
           # terminado. Sin este sleep, los primeros intentos fallan garantizados.
           sleep 30
           ELAPSED=30
-          MAX_WAIT=600
+          MAX_WAIT=900
           while true; do
             ALL_OK=true
             for n in $(seq 1 "$SLIDE_COUNT"); do
@@ -359,7 +360,7 @@ jobs:
             '{
               embeds: [{
                 title: "⚠️ Carrusel no disponible — publicar redes manualmente",
-                description: "El artículo se publicó correctamente en la web pero las imágenes del carrusel no estuvieron disponibles en 5 min tras el deploy (CDN lento). Ejecuta **Publicar en redes sociales (manual)** con el slug para publicar en Instagram cuando las imágenes estén servidas.",
+                description: "El artículo se publicó correctamente en la web pero las imágenes del carrusel no estuvieron disponibles en 15 min tras el deploy (CDN lento). Ejecuta **Publicar en redes sociales (manual)** con el slug para publicar en Instagram cuando las imágenes estén servidas.",
                 color: 16776960,
                 fields: [{ name: "Slug", value: $slug }]
               }]
