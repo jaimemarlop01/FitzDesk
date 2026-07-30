@@ -24,9 +24,9 @@ keywords_secundarias:
   - "eficiencia"
   - "comodidad"
 imagen_thumb: "/images/articulos/logitech-mk470-analisis-thumb.webp"
-conectividad: "USB (receptor Unifying 2.4 GHz)"
+conectividad: "Nano receptor USB 2.4 GHz (no Unifying)"
 cable: "Inalámbrico"
-bateria: "~36 meses (teclado) / ~18 meses (ratón)"
+bateria: "36 meses / 2 AAA (teclado), 18 meses / 1 AA (ratón)"
 compatible: "Windows / macOS / ChromeOS"
 ---
 
@@ -40,13 +40,13 @@ El Logitech MK470 se dirige a quienes buscan una experiencia de trabajo cómoda 
 
 El Logitech MK470 cuenta con varias características que lo hacen destacar. Su teclado es fino y compacto, con un perfil bajo que reduce la distancia entre las teclas y la mesa, lo que ayuda a mantener la muñeca en una posición más natural durante sesiones largas. Incluye teclado numérico completo, útil para quien necesita hacer cálculos o introducir datos con frecuencia. La conexión inalámbrica mediante receptor USB elimina la necesidad de cables y emparejamiento por Bluetooth, lo que simplifica la configuración inicial: se conecta el receptor y el combo funciona sin pasos adicionales.
 
-El ratón es ligero y silencioso gracias a un mecanismo de clic amortiguado, lo que lo hace adecuado para entornos compartidos o para quien necesita concentrarse sin el repiqueteo habitual de los clics. La batería de ambos dispositivos dura alrededor de dos años con un uso normal según el fabricante, lo que evita estar pendiente de cargarlos o cambiar pilas con frecuencia. El alcance del receptor inalámbrico cubre distancias de hasta 10 metros, suficiente para la mayoría de espacios de trabajo domésticos.
+El ratón es ligero y silencioso gracias a un mecanismo de clic amortiguado, lo que lo hace adecuado para entornos compartidos o para quien necesita concentrarse sin el repiqueteo habitual de los clics. Logitech declara hasta 36 meses para el teclado (2 pilas AAA) y hasta 18 meses para el ratón (1 pila AA), lo que en la práctica significa cambiarlas muy poco. El alcance del receptor inalámbrico cubre distancias de hasta 10 metros, suficiente para la mayoría de espacios de trabajo domésticos.
 
 ## Escritura y uso cotidiano
 
 El teclado de perfil bajo reduce la extensión de las muñecas respecto a los de altura convencional: para sesiones de varias horas al día es un factor ergonómico real aunque difícil de apreciar hasta que se compara. Las teclas no tienen la respuesta táctil de un mecánico ni el recorrido largo de los teclados de membrana estándar, pero para redactar correos, preparar presentaciones o trabajar con hojas de cálculo la sensación de escritura es fluida y sin fatiga.
 
-El ratón silencioso funciona bien en espacios compartidos: el clic amortiguado no se capta en videollamadas con micrófono abierto, a diferencia del clic estándar de un ratón convencional que los micrófonos de portátil recogen claramente. La conexión USB Unifying es plug-and-play sin emparejamiento ni configuración adicional.
+El ratón silencioso funciona bien en espacios compartidos: el clic amortiguado no se capta en videollamadas con micrófono abierto, a diferencia del clic estándar de un ratón convencional que los micrófonos de portátil recogen claramente. La conexión mediante nano receptor USB es plug-and-play sin emparejamiento ni configuración adicional.
 
 ## Lo mejor
 
@@ -77,7 +77,7 @@ Su combinación de diseño compacto, conexión inalámbrica y batería de larga 
 
 ## 🐿️ Fitz recomienda
 
-A menos de 50€ obtienes teclado y ratón inalámbrico, silencioso y con batería para dos años, sin instalar nada. El plástico del teclado flexiona un poco si aprietas con fuerza, y no hay Bluetooth ni multi-dispositivo. Pero si lo que quieres es montar un puesto básico y dejar de pensar en el combo, el MK470 cumple sin historia.
+A menos de 50€ obtienes teclado y ratón inalámbrico, silencioso y con batería para 3 años (teclado) y año y medio (ratón), sin instalar nada. El plástico del teclado flexiona un poco si aprietas con fuerza, y no hay Bluetooth ni multi-dispositivo. Pero si lo que quieres es montar un puesto básico y dejar de pensar en el combo, el MK470 cumple sin historia.
 
 Mi nota: 8/10
 
