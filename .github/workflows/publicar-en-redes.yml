@@ -80,25 +80,28 @@ jobs:
 
       - name: Disparar deploy y esperar a que termine
         if: inputs.only != 'facebook' && steps.subir_imagenes.outputs.subidas == 'true'
-        timeout-minutes: 12
+        timeout-minutes: 20
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           ANTES=$(gh run list --workflow=deploy.yml --limit 1 --json databaseId --jq '.[0].databaseId')
           gh workflow run deploy.yml --ref main
           echo "Esperando a que empiece el nuevo run de deploy.yml..."
-          for i in $(seq 1 30); do
+          for i in $(seq 1 60); do
             NUEVO=$(gh run list --workflow=deploy.yml --limit 1 --json databaseId --jq '.[0].databaseId')
             if [ "$NUEVO" != "$ANTES" ]; then break; fi
-            sleep 5
+            sleep 10
           done
+          if [ "$NUEVO" = "$ANTES" ]; then
+            echo "⚠️ El nuevo run de deploy.yml no apareció en 600 s — continuando de todas formas"
+          fi
           echo "Esperando a que termine el run $NUEVO..."
           gh run watch "$NUEVO" --exit-status
 
       - name: Esperar a que las imágenes estén servidas en vivo
         id: esperar_imagenes
         if: inputs.only != 'facebook'
-        timeout-minutes: 12
+        timeout-minutes: 17
         continue-on-error: true
         run: |
           SLUG="${{ inputs.slug }}"
@@ -120,7 +123,7 @@ jobs:
           # terminado. Sin este sleep, los primeros intentos fallan garantizados.
           sleep 30
           ELAPSED=30
-          MAX_WAIT=600
+          MAX_WAIT=900
           while true; do
             ALL_OK=true
             for n in $(seq 1 "$SLIDE_COUNT"); do

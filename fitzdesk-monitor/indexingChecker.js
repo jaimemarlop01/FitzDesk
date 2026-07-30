@@ -97,7 +97,7 @@ function loadPublishedArticles() {
       const { data } = matter(raw);
       if (data.borrador === true) return null; // por si algún borrador no lleva el prefijo
       const slug = data.slug ?? file.replace('.md', '');
-      return { slug, titulo: data.title ?? slug, url: `${SITE_URL}/articulo/${slug}` };
+      return { slug, titulo: data.title ?? slug, url: `${SITE_URL}/articulo/${slug}/` };
     })
     .filter(Boolean);
 }

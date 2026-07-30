@@ -272,7 +272,7 @@ Objetivos:
 - [ ] Añadir secret `GOOGLE_SERVICE_ACCOUNT_KEY` en GitHub → repo → Settings → Secrets and variables → Actions (valor: JSON de `fitzdesk-monitor/google-credentials.json` en base64 — `[Convert]::ToBase64String([IO.File]::ReadAllBytes('google-credentials.json'))` en PowerShell) para que el step "Reenviar sitemap a Google Search Console" en `publicar-automatico.yml` funcione
 - [x] ✅ Obtener foto real de producto para 5 borradores con `imagen_placeholder: true` — **RESUELTO 2026-07-19**: `logitech-mx-vertical-analisis`, `mejores-soportes-brazos-monitor-teletrabajo-2026`, `asus-proart-pa278cv-analisis`, `logitech-brio-505-analisis`, `microsoft-bluetooth-ergonomic-mouse-analisis` — imágenes reales obtenidas con `imageCollector.js --query` (DuckDuckGo), `imagen_placeholder: true` eliminado de todos los frontmatters. Los 5 artículos ya se publicarán automáticamente en sus fechas (20/08–22/09)
 - [ ] **Publicar carruseles retroactivos en Instagram**: 24 artículos (mayo-junio 2026, anteriores al pipeline) tienen carruseles generados y commiteados en develop. Publicar con `node socialPublisher.js --slug [slug]` uno a uno — **casi terminado (2026-07-19), pendiente de revisión final**
-- [x] ✅ Facebook manual al día (2026-07-19): Muñeca dolorida (12/07), SCAR 18 (14/07), Mobi Fold (16/07) publicados
+- [x] ✅ Facebook programado hasta Logitech MX Mechanical (25/08) — agosto cubierto hasta esa fecha. Pendiente: BenQ PD2705Q (27/08) — la herramienta de programación no dejó llegar más lejos el 2026-07-28
 
 ## Estado de borradores
 - Última revisión: 2026-07-20
@@ -359,8 +359,20 @@ De esos 14, **4 se conservaron y completaron** (traídos a `develop` con frontma
 **Bug corregido en `analyzer.js`**: el segundo borrador descartado tenía `borrador: false` en el frontmatter pese a estar recién generado sin revisar. Causa: `generateDraft()` deja que la IA genere el frontmatter completo como texto libre (incluyendo el campo `borrador:`), y el código nunca lo validaba después — al contrario que `precio:` y `enlace_afiliado:`, que sí se sobrescriben siempre en `injectPcData()`. Corregido añadiendo una normalización forzada antes de `injectPcData()`: si el campo existe con cualquier valor (`true` o `false`), se fuerza a `true`; si no existe, se inserta antes del cierre del frontmatter. Mismo patrón defensivo que ya usaban `precio`/`enlace_afiliado`.
 
 ## Estado del código
-- Última revisión: 2026-07-24 (21ª pasada — rescalado de puntuaciones + rúbrica en analyzer.js; sin errores críticos nuevos)
+- Última revisión: 2026-07-28 (23ª pasada — fix /comparar category cards)
 - Errores críticos pendientes: 0 | Estado: ✅ Sin errores críticos
+- **Cambios 2026-07-28 (23ª pasada — fix /comparar)**:
+  - **`comparar.astro` — category cards no aparecían (bug crítico de interfaz)**: los SVG strings (con `<`, `>`, `"`) se pasaban al cliente vía `JSON.stringify` + `set:html` en un `<script type="application/json">`. Astro procesa `set:html` como HTML, lo que corrompía el JSON. `JSON.parse` lanzaba un error, el script se detenía antes del `forEach` de cards, y el contenedor `#cat-pills` quedaba vacío. **Solución**: `CAT_CARD_DATA` (colores e iconos SVG) se define ahora como objeto JS estático directamente en el `<script>` del cliente — los SVG strings con comillas simples son seguros en literales JS porque el parser HTML dentro de `<script>` solo cierra el bloque con `</script>`, no con otros `<tags>`. Se eliminó `CAT_CARDS` del frontmatter de Astro y del `dataJson`. El CSS ya estaba en `<style is:global>` (correcto para elementos creados por JS).
+  - **`/categoria/comparativas/` eliminada**: la página de categoría de comparativas se quitó del array `allCategories` de `[slug].astro` y de todas las referencias en `Footer.astro` y `buscar.astro` — reemplazada por la herramienta `/comparar`.
+  - **`/analisis` — category cards visuales**: los pills de filtro se reemplazaron por cards visuales con icono SVG, color de fondo y contador — renderizadas en el template de Astro (server-side), mismo estilo que la home.
+  - **Card "Comparar" en home** (`index.astro`): añadida entre Setups y Guías, con `href` personalizado a `/comparar` en vez de `/categoria/comparar`.
+  - Build verificado: 55 páginas, sin errores.
+- **Cambios 2026-07-28 (22ª pasada — auditoría completa)**:
+  - **Bug crítico resuelto — `lg-27un880.md` sin campo `tipo`**: el artículo LG 27UN880 (publicado en main desde mayo 2026) no tenía `tipo: "analisis"` en el frontmatter, lo que impedía que se renderizara el ScoreBox (nota 8.5/10), el schema Review de Google y la tabla de specs. Corregido en main (commit `77cc0ec`) y develop.
+  - **Specs añadidas a 16 borradores calendarizados (30/07–22/09)**: todos carecían de campos planos de especificaciones (`conectividad`, `cable`, `switches`, `tamano`, `resolucion`, etc.) y del bloque `especificaciones:` de fallback — SpecsTable no habría renderizado nada al publicarse. Añadidos campos correctos según categoría: setups (mk470, seiren-v3-pro, brio-505), teclados (trust-tk-350, corsair-k70, mx-mechanical, k2-max, pop-keys), ratones (airra-labs, mx-vertical, signature-m650, ms-ergonomic), monitores (xeneon-edge, benq-pd2705q, asus-proart-pa278cv, msi-pro-mp341cq).
+  - **Guard `lanzamiento` en SpecsTable confirmado correcto**: los 4 artículos de tipo `lanzamiento` (intel-wildcat-lake, corsair-clipper, lg-display, surface-laptop-ultra) no muestran specs por diseño — condición `tipo !== 'guia' && tipo !== 'lanzamiento'` en `[slug].astro` funciona correctamente.
+  - **`borrador: false` en guías publicadas**: harmless — el workflow de publicación automática lo inserta explícitamente al hacer el sync de develop; no afecta a la renderización.
+  - Build verificado: 56 páginas, sin errores.
 - **Cambios 2026-07-24 (21ª pasada — objetividad editorial)**:
   - **Rescalado de puntuaciones — 17 artículos publicados**: se detectó compresión del rango (todos entre 8.0-9.2 sin diferenciación real) y sesgo hacia puntuaciones altas. Aplicada nueva rúbrica con tiers explícitos: 7.0=cumple lo básico, 7.5=limitaciones notables, 8.0=sólido/recomendable, 8.5=muy bueno, 9.0=referente, 9.5+=casi perfecto. Los decimales dentro de un tier solo sirven para ordenar productos entre sí. Artículos con nota revisada: mx-anywhere-3s (8.7→8.6), lift-vertical (8.4→8.2), hp-935-creator (8.3→8.0), mobi-fold (8.0→7.0), dell-s2722qc (8.7→8.6), lg-ultragear (8.0→8.5), samsung-s27a600 (8.4→7.5), benq-gw2780 (8.2→7.0), lenovo-thinkpad-e14 (8.8→8.6), asus-vivobook-15-oled (8.6→8.2), hp-probook-455 (8.6→8.0), asus-rog-strix-scar-18 (8.0→7.0), keychron-v1 (8.9→8.8), keychron-k2-v2 (8.8→8.5), mx-keys-s (8.8→8.0), logitech-k380 (8.7→7.5), jabra-evolve2-30-se (8.8→8.5). Sin cambios: mx-master-3s (9.2), razer-pro-click (8.5), lg-27up850n-w (9.1), aoc-q27p3cv (9.0), lg-gram-14 (9.0).
   - **Cajas 📅 de actualización añadidas/ampliadas**: los 17 artículos tienen ahora una caja `> 📅 **Artículo actualizado/revisado en julio de 2026**` que menciona la puntuación revisada. 11 artículos con caja existente: añadido ". Puntuación revisada a X.X/10." al final. 6 artículos sin caja: creada con texto "Puntuación actualizada a X.X/10 con nueva rúbrica editorial."
@@ -528,8 +540,8 @@ De esos 14, **4 se conservaron y completaron** (traídos a `develop` con frontma
 - **✅ airra-labs-rotary-mouse ya tiene imagen oficial (2026-07-07)** — imagen real proporcionada por el usuario (`16x9_2133x1200_highres-rotary-mouse.webp`), procesada con Sharp. Slot del 11/08 desbloqueado.
 - **Cambio de calendario 2026-06-22**: `airra-labs-rotary-mouse-analisis` se retira de su slot del 23/07 (jueves) por falta de imagen oficial. En vez de dejar hueco o descartarlo, se desplazó toda la secuencia martes/jueves un slot hacia atrás (jabra-evolve2-30-se 28/07→23/07, cherry-kc-6000-slim 30/07→28/07, logitech-mk470 04/08→30/07, trust-tk-350-silent 06/08→04/08, razer-seiren-v3-pro 11/08→06/08) y Airra Labs pasa a ocupar el último slot libre, el 11/08 (martes). Acuerdo con el usuario: si sigue sin imagen cuando se vuelva a regenerar el calendario, se desplaza de nuevo al final (no se descarta el borrador, solo se pospone indefinidamente). Categorías vecinas verificadas sin repetición consecutiva tras el desplazamiento (21/07 monitores → 23/07 setups → 26/07 guias → 28/07 teclados → 30/07 setups → 04/08 teclados → 06/08 setups → 09/08 guias → 11/08 ratones)
 - **Corregido 2026-06-21: error de día de la semana.** Una sesión anterior calculó mal el día de semana de fechas de julio (asumió 10/07=jueves y 13/07=domingo cuando en realidad 10/07=viernes y 13/07=lunes). Verificado con cálculo de fecha real (no a mano): el jueves real sin cubrir era el **09/07** y el domingo quincenal real (14 días tras el 28/06) es el **12/07**. Todas las fechas de julio/agosto de esta entrada están verificadas con `Date.UTC()`, no contadas a mano
-- Calendario completo hasta 2026-09-22 (36 publicaciones totales, 18 ya publicadas: mejor-raton 14/06, samsung 16/06, hp-probook 18/06, razer-pro-click 23/06, logitech-k380 25/06, monitor-4k-vs-full-hd 28/06, intel-wildcat-lake 30/06, corsair-clipper-pro-mini-60 02/07, hp-935-creator-wireless 07/07, aoc-q27p3cv 09/07, dolor-muneca 12/07, asus-rog-strix-scar-18 14/07, logitech-mobi-fold 16/07, lg-ultragear-34gx90sb-w 21/07, jabra-evolve2-30-se 23/07)
-- Próxima publicación pendiente: 2026-07-28 — borrador-cherry-kc-6000-slim-analisis (analisis, teclados, martes)
+- Calendario completo hasta 2026-09-22 (36 publicaciones totales, 19 ya publicadas: mejor-raton 14/06, samsung 16/06, hp-probook 18/06, razer-pro-click 23/06, logitech-k380 25/06, monitor-4k-vs-full-hd 28/06, intel-wildcat-lake 30/06, corsair-clipper-pro-mini-60 02/07, hp-935-creator-wireless 07/07, aoc-q27p3cv 09/07, dolor-muneca 12/07, asus-rog-strix-scar-18 14/07, logitech-mobi-fold 16/07, lg-ultragear-34gx90sb-w 21/07, jabra-evolve2-30-se 23/07, cherry-kc-6000-slim 28/07)
+- Próxima publicación pendiente: 2026-07-30 — borrador-logitech-mk470-analisis (analisis, setups, miércoles)
 - **Corrección de calendario 2026-07-20**: swap 08/09 ↔ 10/09 para evitar monitores consecutivos — `asus-proart-pa278cv` pasa a 10/09 (jue), `logitech-pop-keys` pasa a 08/09 (mar). Categorías resultantes: …06/09 guía monitores → 08/09 teclados → 10/09 monitores… sin repetición consecutiva
 - **Guía 20/09 cubierta**: `mejor-teclado-mecanico-teletrabajo-2026` cubre el hueco dominical del 20/09 que no tenía borrador asignado
 - **Ampliación 2026-07-06 — 14 entradas nuevas (13/08 a 22/09)**: corsair-k70-core-tkl (13/08 jue, teclados), corsair-xeneon-edge (18/08 mar, monitores), logitech-mx-vertical (20/08 jue, ratones), mejores-soportes-brazos-monitor [guía] (23/08 dom, setups), logitech-mx-mechanical (25/08 mar, teclados), benq-pd2705q (27/08 jue, monitores), logitech-signature-m650 (01/09 mar, ratones), keychron-k2-max (03/09 jue, teclados), monitor-ultrawide-teletrabajo [guía] (06/09 dom, monitores), asus-proart-pa278cv (08/09 mar, monitores — imagen pendiente), logitech-pop-keys (10/09 jue, teclados), logitech-brio-505 (15/09 mar, periféricos), msi-pro-mp341cq (17/09 jue, monitores), microsoft-bluetooth-ergonomic-mouse (22/09 mar, ratones). Guía del 23/08 actualizada: webcams → soportes de monitor.
@@ -581,7 +593,8 @@ A partir de ahora, cualquier publicación automática futura disparará el deplo
 - Cuando lleguen al mercado: ejecutar agente actualizar-lanzamiento con el slug correspondiente
 
 ## Últimas publicaciones
-- Última publicación: 2026-07-23 — "Jabra Evolve2 30 SE: auriculares con cable certificados UC para videollamadas" (analisis) — publicado automáticamente vía workflow. Instagram publicado manualmente el 2026-07-28 (falló en el pipeline por timeout CDN, resuelto con el fix de 2026-07-28)
+- Última publicación: 2026-07-28 — "Cherry KC 6000 Slim: teclado mecánico compacto para teletrabajo" (analisis, teclados) — publicado automáticamente vía workflow. Instagram pendiente.
+- 2026-07-23 — "Jabra Evolve2 30 SE: auriculares con cable certificados UC para videollamadas" (analisis) — publicado automáticamente vía workflow. Instagram publicado manualmente el 2026-07-28 (falló en el pipeline por timeout CDN, resuelto con el fix de 2026-07-28)
 - 2026-07-21 — "LG UltraGear 34GX90SB-W: OLED 34\" WQHD para el setup de trabajo serio" (analisis) — publicado automáticamente vía workflow. Instagram publicado manualmente el 2026-07-28 (ídem)
 - 2026-07-16 — "Logitech Mobi Fold: ratón compacto plegable para teletrabajo móvil" (analisis) — publicado automáticamente vía workflow. Instagram publicado. Facebook manual
 - 2026-07-14 — "ASUS ROG Strix SCAR 18: potencia de sobremesa en formato portátil" (analisis) — publicado automáticamente vía workflow. Instagram publicado. Facebook manual
@@ -620,6 +633,30 @@ A partir de ahora, cualquier publicación automática futura disparará el deplo
 - Para probar: GitHub → Actions → Publicar automático FitzDesk → Run workflow → `fecha_override: YYYY-MM-DD`
 - Script helper: `fitzdesk-monitor/auto-publisher.js` (modos `--check` y `--process`)
 - Tras publicar en `main`, sincronizar `develop` y antes de notificar a Discord: ejecuta `socialPublisher.js` (ver sección siguiente)
+
+## Formato de publicaciones manuales de Facebook
+
+Cada post de Facebook sigue esta estructura exacta (sin hashtags):
+
+```
+[Título del artículo igual que en la web]
+
+[Párrafo de intro — 2-3 frases, hook sobre el problema o la propuesta de valor]
+
+• **Punto clave**: explicación del beneficio real en una frase.
+• **Punto clave**: explicación del beneficio real en una frase.
+• **Punto clave**: explicación del beneficio real en una frase.
+• **Punto clave**: explicación del beneficio real en una frase.
+
+[Pregunta para comentarios] 👇
+```
+
+Normas:
+- 4 bullets con • y negrita en el concepto clave
+- Sin hashtags
+- La URL se pega aparte debajo del texto (Facebook genera la preview sola)
+- Programar para el mismo día de publicación en la web (o día siguiente)
+- La herramienta de programación de Meta limita el horizonte a ~4 semanas; programar por bloques
 
 ## Publicación en redes sociales — Instagram y Facebook (2026-06-22)
 
