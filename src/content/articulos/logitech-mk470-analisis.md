@@ -23,7 +23,6 @@ keywords_secundarias:
   - "teletrabajo"
   - "eficiencia"
   - "comodidad"
-borrador: true
 imagen_thumb: "/images/articulos/logitech-mk470-analisis-thumb.webp"
 conectividad: "USB (receptor Logi Bolt 2.4 GHz)"
 cable: "Inalámbrico"
