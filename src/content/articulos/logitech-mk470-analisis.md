@@ -24,7 +24,7 @@ keywords_secundarias:
   - "eficiencia"
   - "comodidad"
 imagen_thumb: "/images/articulos/logitech-mk470-analisis-thumb.webp"
-conectividad: "USB (receptor Logi Bolt 2.4 GHz)"
+conectividad: "USB (receptor Unifying 2.4 GHz)"
 cable: "Inalámbrico"
 bateria: "~36 meses (teclado) / ~18 meses (ratón)"
 compatible: "Windows / macOS / ChromeOS"
