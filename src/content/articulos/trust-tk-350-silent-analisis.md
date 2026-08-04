@@ -21,7 +21,6 @@ keywords_secundarias:
   - "teclados para teletrabajo"
   - "teclados inalámbricos"
 tipo: "analisis"
-borrador: true
 imagen_thumb: "/images/articulos/trust-tk-350-silent-analisis-thumb.webp"
 conectividad: "USB (receptor 2.4 GHz)"
 cable: "Inalámbrico"
