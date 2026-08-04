@@ -21,7 +21,6 @@ keywords_secundarias:
   - "teclados para teletrabajo"
   - "teclados inalámbricos"
 tipo: "analisis"
-borrador: true
 imagen_thumb: "/images/articulos/trust-tk-350-silent-analisis-thumb.webp"
 conectividad: "USB (receptor 2.4 GHz)"
 cable: "Inalámbrico"
@@ -40,7 +39,7 @@ En un mercado donde los teclados inalámbricos silenciosos de marcas premium par
 
 El TK-350 Silent utiliza teclas con mecanismo diseñado para reducir el ruido de impacto. Según sus especificaciones, las teclas están optimizadas para minimizar el sonido al pulsarlas, haciéndolo adecuado para espacios de trabajo compartidos y videollamadas. La conectividad es inalámbrica a 2,4 GHz mediante receptor USB-A nano, con alcance de hasta 10 metros.
 
-El formato es completo con teclado numérico y teclas de función multimedia accesibles directamente. Según sus especificaciones, la batería permite varios meses de uso antes de necesitar recarga o cambio de pilas, dependiendo del modelo exacto.
+El formato es completo con teclado numérico y teclas de función multimedia accesibles directamente. Trust declara hasta 12 meses de autonomía con una pila AA, lo que en la práctica se traduce en no acordarse de cambiarla durante la mayor parte del año.
 
 El diseño es sobrio y funcional: bordes rectos, teclas de tamaño estándar y sin iluminación. El perfil es convencional, similar al de cualquier teclado de oficina clásico.
 
@@ -88,7 +87,7 @@ Funciona como teclado genérico USB en Mac, aunque el layout está pensado para 
 No. Es plug-and-play: conectas el receptor USB y funciona inmediatamente sin drivers adicionales.
 
 **¿Cuánto dura la batería?**
-Según sus especificaciones, la batería tiene una larga duración para uso habitual de oficina. La autonomía exacta depende de la intensidad de uso.
+Trust declara hasta 12 meses con una pila AA estándar para uso habitual de oficina. En la práctica, la duración real depende de la intensidad de uso.
 
 ## 🐿️ Fitz recomienda
 
