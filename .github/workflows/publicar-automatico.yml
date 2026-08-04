@@ -257,6 +257,12 @@ jobs:
         id: subir_imagenes
         if: steps.check.outputs.status == 'ready' && steps.process.outcome == 'success' && success()
         run: |
+          # "Sincronizar develop" hace git checkout -B develop, lo que deja el repo
+          # en la rama develop. Hay que volver a main antes de añadir los slides,
+          # porque si el diff se evalúa contra develop (donde los slides ya existen)
+          # devuelve vacío → subidas=false → el deploy se salta → los slides nunca
+          # llegan a main → las URLs dan 404 → Instagram falla (bug detectado 2026-08-04).
+          git checkout main
           git config user.name  "FitzDesk Bot"
           git config user.email "bot@fitzdesk.com"
           git add public/images/redes/
