@@ -273,6 +273,7 @@ Objetivos:
 - [x] ✅ Obtener foto real de producto para 5 borradores con `imagen_placeholder: true` — **RESUELTO 2026-07-19**: `logitech-mx-vertical-analisis`, `mejores-soportes-brazos-monitor-teletrabajo-2026`, `asus-proart-pa278cv-analisis`, `logitech-brio-505-analisis`, `microsoft-bluetooth-ergonomic-mouse-analisis` — imágenes reales obtenidas con `imageCollector.js --query` (DuckDuckGo), `imagen_placeholder: true` eliminado de todos los frontmatters. Los 5 artículos ya se publicarán automáticamente en sus fechas (20/08–22/09)
 - [ ] **Publicar carruseles retroactivos en Instagram**: 24 artículos (mayo-junio 2026, anteriores al pipeline) tienen carruseles generados y commiteados en develop. Publicar con `node socialPublisher.js --slug [slug]` uno a uno — **casi terminado (2026-07-19), pendiente de revisión final**
 - [x] ✅ Facebook programado hasta Logitech MX Mechanical (25/08) — agosto cubierto hasta esa fecha. Pendiente: BenQ PD2705Q (27/08) — la herramienta de programación no dejó llegar más lejos el 2026-07-28
+- [x] ✅ Pre-generar carruseles Instagram para todos los artículos del calendario — **COMPLETADO 2026-08-06**: 47 artículos cubiertos (06/08–20/12). 18 artículos (06/08–22/09) commiteados en sesión anterior; 29 artículos (24/09–20/12) generados en esta sesión. 3 imágenes nuevas obtenidas: lenovo-ideapad-5-pro, mejores-hubs-usb-c, thinkpad-x1-carbon-gen13
 
 ## Estado de borradores
 - Última revisión: 2026-07-20
