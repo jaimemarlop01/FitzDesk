@@ -21,7 +21,6 @@ keywords_secundarias:
   - "micrófonos para teletrabajo"
   - "audio de estudio"
   - "grabación de voz"
-borrador: true
 imagen_thumb: "/images/articulos/razer-seiren-v3-pro-analisis-thumb.webp"
 fecha_actualizacion: "2026-07-19"
 actualizado: true
