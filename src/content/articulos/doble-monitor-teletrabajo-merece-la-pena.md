@@ -1,7 +1,7 @@
 ---
 title: "Doble monitor en teletrabajo: ¿merece la pena para tu trabajo?"
 slug: "doble-monitor-teletrabajo-merece-la-pena"
-categoria: "monitores"
+categoria: "guias"
 fecha: "2026-08-09"
 descripcion: "¿Necesitas un segundo monitor o es capricho? Te explicamos cuándo compensa el doble monitor en teletrabajo según tu tipo de trabajo."
 imagen: "/images/articulos/doble-monitor-teletrabajo-merece-la-pena.webp"
