@@ -8,7 +8,6 @@ imagen: "/images/articulos/doble-monitor-teletrabajo-merece-la-pena.webp"
 tiempo_lectura: "7 min"
 tipo: "guia"
 presupuesto: "298€ - 808€"
-borrador: true
 imagen_thumb: "/images/articulos/doble-monitor-teletrabajo-merece-la-pena-thumb.webp"
 keyword_principal: "doble monitor teletrabajo"
 keywords_secundarias:
