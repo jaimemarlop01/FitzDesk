@@ -21,7 +21,6 @@ keywords_secundarias:
   - "ratón con rueda rotatoria"
   - "Airra Labs"
   - "tecnología de ratones"
-borrador: true
 imagen_thumb: "/images/articulos/airra-labs-rotary-mouse-analisis-thumb.webp"
 conectividad: "Bluetooth / receptor USB"
 cable: "Inalámbrico"
