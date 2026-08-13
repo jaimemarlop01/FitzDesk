@@ -22,7 +22,6 @@ keywords_secundarias:
   - "Corsair K70 Core TKL"
   - "teclado compacto teletrabajo"
   - "switches MLX Red"
-borrador: true
 conectividad: "USB-C"
 cable: "Con cable"
 switches: "Corsair MLX Red V2 (lineal)"
