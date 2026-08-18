@@ -22,7 +22,6 @@ keywords_secundarias:
   - "Corsair XENEON Edge"
   - "segunda pantalla teletrabajo"
   - "monitor USB-C táctil"
-borrador: true
 tamano: "14.5 pulgadas"
 resolucion: "2560×720 (32:9 ultrawide)"
 panel: "AHVA (IPS-like), mate, táctil"
