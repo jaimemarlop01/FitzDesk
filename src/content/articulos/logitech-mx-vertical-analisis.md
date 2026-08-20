@@ -22,7 +22,6 @@ keywords_secundarias:
   - "Logitech MX Vertical"
   - "ratón ergonómico teletrabajo"
   - "ratón vertical postura"
-borrador: true
 conectividad: "Logi Bolt / Bluetooth 5.1"
 cable: "Inalámbrico"
 dpi: "400–4000 DPI"
