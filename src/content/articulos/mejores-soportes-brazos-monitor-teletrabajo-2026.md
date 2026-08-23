@@ -19,7 +19,6 @@ enlaces:
   - "https://www.pccomponentes.com/buscar/?query=startech+armpivotb+brazo+monitor"
   - "https://www.pccomponentes.com/buscar/?query=ergotron+lx+brazo+monitor"
   - "https://www.pccomponentes.com/buscar/?query=onkron+G140+brazo+doble+monitor"
-borrador: true
 ---
 
 El monitor lleva en el escritorio desde siempre. Lo habitual es dejarlo en su stand original y olvidarse. El problema es que ese stand suele situar la pantalla demasiado baja para una postura correcta, ocupa superficie de trabajo y no permite ningún ajuste real durante el día.
