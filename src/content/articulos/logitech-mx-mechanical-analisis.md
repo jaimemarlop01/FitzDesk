@@ -22,7 +22,6 @@ keywords_secundarias:
   - "Logitech MX Mechanical"
   - "teclado mecánico inalámbrico"
   - "teclado mecánico silencioso"
-borrador: true
 conectividad: "Logi Bolt / Bluetooth / USB-C"
 cable: "Inalámbrico / Con cable"
 switches: "Kailh Linear Quiet (silencioso)"
