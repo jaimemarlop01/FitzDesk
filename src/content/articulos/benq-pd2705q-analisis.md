@@ -22,7 +22,6 @@ keywords_secundarias:
   - "BenQ PD2705Q"
   - "monitor 27 pulgadas USB-C"
   - "monitor diseño profesional"
-borrador: true
 tamano: "27 pulgadas"
 resolucion: "QHD (2560×1440)"
 panel: "IPS"
