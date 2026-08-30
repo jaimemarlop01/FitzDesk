@@ -82,7 +82,7 @@ Cambiar la rueda del ratón por un dial rotatorio suena extraño hasta que lo us
 
 A ~126€ en Kickstarter, el precio es el otro factor a vigilar: apostar en una campaña implica confiar en que la producción final esté a la altura de la demo. La idea tiene mérito; la ejecución lo determinará.
 
-Mi nota: 7/10
+Mi nota: 7.0/10
 
 ## Conclusión
 

@@ -41,7 +41,7 @@ especificaciones:
 fecha_actualizacion: "2026-07-19"
 actualizado: true
 ---
-> 📅 **Artículo actualizado en julio de 2026**: Precio actualizado a 459.96€ en PcComponentes.
+> 📅 **Artículo actualizado en julio de 2026**: Precio actualizado a 459,96€ en PcComponentes.
 
 El LG 27UP850N-W es el monitor 4K de referencia para teletrabajadores que conectan el portátil: USB-C con 96W de carga, soporte ergonómico completo con ajuste de altura, giro y pivote, y cobertura DCI-P3 95 % para trabajo visual exigente. Un cable, todo conectado.
 

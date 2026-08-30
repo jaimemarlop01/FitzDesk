@@ -39,7 +39,7 @@ Para el teletrabajador con un portátil como equipo principal, el Q27P3CV promet
 
 El panel IPS de 27 pulgadas a resolución QHD (2.560 × 1.440) ofrece 109 píxeles por pulgada, suficientes para que el texto se vea nítido sin necesidad de escalar en Windows 11. La frecuencia de 75 Hz es adecuada para trabajo —los 60 Hz básicos resultan algo menos fluidos al mover ventanas rápidamente— y la respuesta de 4ms GtG garantiza ausencia de blurring en animaciones de interfaz.
 
-El punto diferencial está en la conectividad. El puerto USB-C soporta DisplayPort Alt Mode más carga de 65W: conectar un portátil moderno requiere un solo cable que transmite imagen, audio y carga simultáneamente. El hub USB integrado añade cuatro puertos USB-A, convirtiendo el monitor en el punto central para teclado, ratón, pendrives y cualquier otro periférico. Esto elimina el maraña de cables que suele rodear un portátil en el escritorio.
+El punto diferencial está en la conectividad. El puerto USB-C soporta DisplayPort Alt Mode más carga de 65W: conectar un portátil moderno requiere un solo cable que transmite imagen, audio y carga simultáneamente. El hub USB integrado añade cuatro puertos USB-A, convirtiendo el monitor en el punto central para teclado, ratón, pendrives y cualquier otro periférico. Esto elimina la maraña de cables que suele rodear un portátil en el escritorio.
 
 La base ofrece regulación completa: altura (hasta 150mm), inclinación, giro e incluso pivote a 90° para modo retrato. Para programadores o quienes trabajan con documentos largos, el modo retrato es una ventaja real que pocos monitores de este precio incluyen.
 

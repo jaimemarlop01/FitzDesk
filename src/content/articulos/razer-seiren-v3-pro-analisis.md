@@ -83,7 +83,7 @@ La combinación de calidad de audio profesional, facilidad de uso y flexibilidad
 
 El criterio para decidir es sencillo: si el audio es parte de tu trabajo cotidiano —videollamadas, podcast, formación en línea—, el Seiren V3 Pro se amortiza rápido. Si solo haces tres reuniones semanales desde un piso en silencio, hay opciones más razonables. La doble salida USB-C/XLR te deja escalar a estudio sin cambiar el micrófono cuando llegue el momento.
 
-Mi nota: 8/10
+Mi nota: 8.0/10
 
 ## Conclusión
 

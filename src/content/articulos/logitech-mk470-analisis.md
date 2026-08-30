@@ -79,7 +79,7 @@ Su combinación de diseño compacto, conexión inalámbrica y batería de larga 
 
 A menos de 50€ obtienes teclado y ratón inalámbrico, silencioso y con batería para 3 años (teclado) y año y medio (ratón), sin instalar nada. El plástico del teclado flexiona un poco si aprietas con fuerza, y no hay Bluetooth ni multi-dispositivo. Pero si lo que quieres es montar un puesto básico y dejar de pensar en el combo, el MK470 cumple sin historia.
 
-Mi nota: 8/10
+Mi nota: 8.0/10
 
 ## Conclusión
 
