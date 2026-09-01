@@ -22,7 +22,6 @@ keywords_secundarias:
   - "Logitech Signature M650"
   - "ratón inalámbrico silencioso"
   - "ratón Bluetooth oficina"
-borrador: true
 conectividad: "Logi Bolt / Bluetooth 5.0"
 cable: "Inalámbrico"
 dpi: "400–4000 DPI"
