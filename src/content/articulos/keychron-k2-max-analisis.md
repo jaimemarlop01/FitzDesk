@@ -22,7 +22,6 @@ keywords_secundarias:
   - "Keychron K2 Max"
   - "teclado 75% teletrabajo"
   - "teclado mecánico hot-swap inalámbrico"
-borrador: true
 conectividad: "Bluetooth 5.1 / USB-C / receptor 2.4 GHz"
 cable: "Inalámbrico / Con cable"
 switches: "Gateron G Pro hot-swappables"
