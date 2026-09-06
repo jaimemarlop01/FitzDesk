@@ -17,7 +17,6 @@ enlaces:
   - "https://www.pccomponentes.com/buscar/?query=msi+pro+mp341cq"
   - "https://www.pccomponentes.com/buscar/?query=lg+34wq75c"
   - "https://www.pccomponentes.com/buscar/?query=lg+ultrawide+34bq76c"
-borrador: true
 ---
 
 El monitor ultrawide —ese formato alargado en proporción 21:9 que va de los 29 a los 49 pulgadas— lleva años siendo una de las preguntas recurrentes en setups de teletrabajo. La promesa es clara: más espacio horizontal para trabajar con varias ventanas a la vez, como dos monitores sin el marco en el medio. La pregunta real es si ese espacio adicional traduce en productividad real para el tipo de trabajo que haces, o si es más estética que utilidad.
