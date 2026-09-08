@@ -22,7 +22,6 @@ keywords_secundarias:
   - "Logitech POP Keys"
   - "teclado inalámbrico mecánico"
   - "teclado mecánico para trabajo"
-borrador: true
 conectividad: "Bluetooth 5.1 (3 dispositivos) / Logi Bolt"
 cable: "Inalámbrico"
 switches: "Romer-G Tactile (mecánico)"
