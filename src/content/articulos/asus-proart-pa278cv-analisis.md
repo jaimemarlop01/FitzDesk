@@ -22,7 +22,6 @@ keywords_secundarias:
   - "ASUS ProArt PA278CV"
   - "monitor diseño USB-C"
   - "monitor QHD 27 pulgadas profesional"
-borrador: true
 tamano: "27 pulgadas"
 resolucion: "QHD (2560×1440)"
 panel: "IPS"
