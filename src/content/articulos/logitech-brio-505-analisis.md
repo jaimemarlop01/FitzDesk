@@ -22,7 +22,6 @@ keywords_secundarias:
   - "Logitech Brio 505"
   - "webcam Full HD USB-C"
   - "cámara web para Teams Zoom"
-borrador: true
 conectividad: "USB-C"
 cable: "Con cable"
 compatible: "Windows / macOS / ChromeOS / iOS / iPadOS"
