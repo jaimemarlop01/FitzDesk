@@ -1,9 +1,9 @@
 ﻿---
-title: "HP Spectre x360 14: el convertible premium para teletrabajadores exigentes"
+title: "HP Spectre x360 14: convertible premium para teletrabajo exigente"
 slug: "hp-spectre-x360-14-analisis"
 categoria: "portatiles"
 fecha: "2026-11-10"
-descripcion: "HP Spectre x360 14: pantalla OLED táctil 2.8K, Intel Core Ultra, bisagra 360° y OLED 48 Hz-120 Hz. El convertible premium para quien no quiere compromisos."
+descripcion: "HP Spectre x360 14: OLED táctil 2.8K, Intel Core Ultra y bisagra 360°. El convertible premium para quien no acepta compromisos."
 imagen: "/images/articulos/hp-spectre-x360-14-analisis.webp"
 imagen_thumb: "/images/articulos/hp-spectre-x360-14-analisis-thumb.webp"
 puntuacion: 8.5

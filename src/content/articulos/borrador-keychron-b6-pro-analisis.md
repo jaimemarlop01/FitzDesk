@@ -1,9 +1,9 @@
 ﻿---
-title: "Keychron B6 Pro: mecánico Bluetooth hot-swap de gama media para teletrabajar"
+title: "Keychron B6 Pro: mecánico hot-swap Bluetooth de gama media"
 slug: "keychron-b6-pro-analisis"
 categoria: "teclados"
 fecha: "2026-11-19"
-descripcion: "Keychron B6 Pro: full size mecánico, hot-swap, Bluetooth 5.1 y batería de 4.000 mAh. El teclado de entrada a la gama de calidad de Keychron con teclado numérico."
+descripcion: "Keychron B6 Pro: mecánico full size hot-swap, Bluetooth 5.1 y batería de 4.000 mAh. Teclado de entrada a la gama de calidad de Keychron."
 imagen: "/images/articulos/keychron-b6-pro-analisis.webp"
 imagen_thumb: "/images/articulos/keychron-b6-pro-analisis-thumb.webp"
 puntuacion: 8.0

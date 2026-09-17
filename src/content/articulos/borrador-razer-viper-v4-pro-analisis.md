@@ -1,5 +1,5 @@
 ---
-title: "Razer Viper V4 Pro: el ratón ultrapreciso de 49 gramos para largas jornadas"
+title: "Razer Viper V4 Pro: ratón ultrapreciso de 49g para largas jornadas"
 slug: "razer-viper-v4-pro-analisis"
 categoria: "ratones"
 fecha: "2026-09-24"
@@ -7,7 +7,7 @@ descripcion: "Análisis del Razer Viper V4 Pro: ultraligero, 180h de batería y 
 imagen: "/images/articulos/razer-viper-v4-pro-analisis.webp"
 imagen_thumb: "/images/articulos/razer-viper-v4-pro-analisis-thumb.webp"
 puntuacion: 8.4
-precio: "Ver precio"
+precio: "175,62€"
 enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=razer+viper+v4+pro"
 tiempo_lectura: "7 min"
 tipo: "analisis"
@@ -23,7 +23,10 @@ criterios:
   autonomia: 9.0
   conectividad: 9.0
   calidad_precio: 7.0
+fecha_actualizacion: "2026-09-17"
+actualizado: true
 ---
+> 📅 **Artículo actualizado en septiembre de 2026**: Precio actualizado a 175,62€ en PcComponentes.
 
 El Razer Viper V4 Pro parte de una premisa simple: el mejor ratón es el que no notas en la mano. Con 49 gramos y un sensor capaz de 50.000 DPI, Razer ha construido una herramienta que desaparece en largas sesiones de trabajo y aparece solo cuando la necesitas con toda su precisión.
 

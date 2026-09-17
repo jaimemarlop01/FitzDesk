@@ -1,5 +1,5 @@
 ﻿---
-title: "Microsoft Arc Mouse: el ratón plegable para teletrabajadores en movimiento"
+title: "Microsoft Arc Mouse: el ratón plegable para trabajar en movimiento"
 slug: "microsoft-arc-mouse-analisis"
 categoria: "ratones"
 fecha: "2026-10-06"

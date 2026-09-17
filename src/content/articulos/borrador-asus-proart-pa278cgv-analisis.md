@@ -1,9 +1,9 @@
 ﻿---
-title: "ASUS ProArt PA278CGV: el monitor con certificación de color profesional para teletrabajo"
+title: "ASUS ProArt PA278CGV: monitor con certificación de color profesional"
 slug: "asus-proart-pa278cgv-analisis"
 categoria: "monitores"
 fecha: "2026-12-03"
-descripcion: "ASUS ProArt PA278CGV: IPS 27\" QHD, 99% AdobeRGB, calibración de fábrica Delta E < 2, USB-C 90W y soporte ergonómico completo. Certificación profesional de color a precio razonable."
+descripcion: "ASUS ProArt PA278CGV: IPS 27\" QHD, 99% AdobeRGB, Delta E < 2 de fábrica y USB-C 90W. Certificación de color profesional a precio razonable."
 imagen: "/images/articulos/asus-proart-pa278cgv-analisis.webp"
 imagen_thumb: "/images/articulos/asus-proart-pa278cgv-analisis-thumb.webp"
 puntuacion: 8.5

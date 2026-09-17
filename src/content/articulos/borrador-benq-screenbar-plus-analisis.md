@@ -1,9 +1,9 @@
 ﻿---
-title: "BenQ ScreenBar Plus: iluminación de escritorio con mando de control integrado"
+title: "BenQ ScreenBar Plus: iluminación con mando de control integrado"
 slug: "benq-screenbar-plus-analisis"
 categoria: "setups"
 fecha: "2026-11-12"
-descripcion: "BenQ ScreenBar Plus: barra de luz para monitor con mando inalámbrico, temperatura de color ajustable y cero reflejos en pantalla. El setup de iluminación definitivo."
+descripcion: "BenQ ScreenBar Plus: barra de luz con mando inalámbrico, temperatura ajustable y cero reflejos. El setup de iluminación definitivo."
 imagen: "/images/articulos/benq-screenbar-plus-analisis.webp"
 imagen_thumb: "/images/articulos/benq-screenbar-plus-analisis-thumb.webp"
 puntuacion: 8.5

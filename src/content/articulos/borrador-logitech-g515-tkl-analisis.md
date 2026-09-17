@@ -1,9 +1,9 @@
 ﻿---
-title: "Logitech G515 TKL: mecánico perfil bajo inalámbrico para teletrabajar sin ruido"
+title: "Logitech G515 TKL: mecánico de perfil bajo inalámbrico y silencioso"
 slug: "logitech-g515-tkl-analisis"
 categoria: "teclados"
 fecha: "2026-11-26"
-descripcion: "Logitech G515 TKL: switches mecánicos GL de perfil bajo, inalámbrico a tres dispositivos y hasta 600 horas de batería. El mecánico de perfil bajo más silencioso del mercado."
+descripcion: "Logitech G515 TKL: switches GL de perfil bajo, inalámbrico a tres dispositivos y 600 horas de batería. El mecánico de perfil bajo más silencioso."
 imagen: "/images/articulos/logitech-g515-tkl-analisis.webp"
 imagen_thumb: "/images/articulos/logitech-g515-tkl-analisis-thumb.webp"
 puntuacion: 8.5

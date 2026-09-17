@@ -1,9 +1,9 @@
 ﻿---
-title: "Microsoft Bluetooth Desktop: el combo teclado+ratón para el setup minimalista"
+title: "Microsoft Bluetooth Desktop: combo teclado y ratón minimalista"
 slug: "microsoft-bluetooth-desktop-analisis"
 categoria: "setups"
 fecha: "2026-12-17"
-descripcion: "Microsoft Bluetooth Desktop: combo teclado de membrana y ratón inalámbrico, Bluetooth puro sin receptor USB, diseño silencioso y precio contenido. El kit de entrada más limpio del mercado."
+descripcion: "Microsoft Bluetooth Desktop: teclado de membrana y ratón Bluetooth sin receptor USB, diseño silencioso y precio contenido."
 imagen: "/images/articulos/microsoft-bluetooth-desktop-analisis.webp"
 imagen_thumb: "/images/articulos/microsoft-bluetooth-desktop-analisis-thumb.webp"
 puntuacion: 7.5

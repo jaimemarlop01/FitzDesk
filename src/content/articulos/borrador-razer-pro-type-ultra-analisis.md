@@ -1,9 +1,9 @@
 ﻿---
-title: "Razer Pro Type Ultra: mecánico silencioso inalámbrico para teletrabajadores serios"
+title: "Razer Pro Type Ultra: mecánico silencioso inalámbrico para oficina"
 slug: "razer-pro-type-ultra-analisis"
 categoria: "teclados"
 fecha: "2026-10-29"
-descripcion: "Razer Pro Type Ultra: switches amarillos silenciosos, inalámbrico a tres dispositivos, teclado numérico y 214 horas de batería. Mecánico de oficina definitivo."
+descripcion: "Razer Pro Type Ultra: switches silenciosos, inalámbrico a tres dispositivos, teclado numérico y 214 horas de batería. Mecánico de oficina completo."
 imagen: "/images/articulos/razer-pro-type-ultra-analisis.webp"
 imagen_thumb: "/images/articulos/razer-pro-type-ultra-analisis-thumb.webp"
 puntuacion: 8.5

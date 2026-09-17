@@ -1,5 +1,5 @@
 ﻿---
-title: "Samsung ViewFinity S60UA 27\": 4K profesional con USB-C para teletrabajo"
+title: "Samsung ViewFinity S60UA: 4K profesional con USB-C para teletrabajo"
 slug: "samsung-s60ua-analisis"
 categoria: "monitores"
 fecha: "2026-10-20"

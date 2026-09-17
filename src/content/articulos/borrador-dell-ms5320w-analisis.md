@@ -1,5 +1,5 @@
 ﻿---
-title: "Dell MS5320W: ratón multi-dispositivo para el teletrabajador que se mueve"
+title: "Dell MS5320W: el ratón multi-dispositivo para teletrabajadores"
 slug: "dell-ms5320w-analisis"
 categoria: "ratones"
 fecha: "2026-11-05"

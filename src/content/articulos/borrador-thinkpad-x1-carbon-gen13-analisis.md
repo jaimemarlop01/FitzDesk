@@ -1,9 +1,9 @@
 ﻿---
-title: "ThinkPad X1 Carbon Gen 13: el ultrabook empresarial de referencia en 2026"
+title: "ThinkPad X1 Carbon Gen 13: ultrabook empresarial de referencia"
 slug: "thinkpad-x1-carbon-gen13-analisis"
 categoria: "portatiles"
 fecha: "2026-12-01"
-descripcion: "Lenovo ThinkPad X1 Carbon Gen 13: menos de 1,12 kg, teclado ThinkPad de leyenda, hasta 48 horas de batería y certificaciones militares. El mejor portátil para teletrabajo intensivo."
+descripcion: "Lenovo ThinkPad X1 Carbon Gen 13: menos de 1,12 kg, teclado ThinkPad, hasta 48 horas de batería y certificaciones militares."
 imagen: "/images/articulos/thinkpad-x1-carbon-gen13-analisis.webp"
 imagen_thumb: "/images/articulos/thinkpad-x1-carbon-gen13-analisis-thumb.webp"
 puntuacion: 9.0

@@ -1,9 +1,9 @@
 ﻿---
-title: "Logitech MX Keys Mini: el teclado compacto para setups sin espacio libre"
+title: "Logitech MX Keys Mini: teclado compacto para setups reducidos"
 slug: "logitech-mx-keys-mini-analisis"
 categoria: "teclados"
 fecha: "2026-10-22"
-descripcion: "Logitech MX Keys Mini: teclado 65% inalámbrico con retroiluminación adaptativa, perfil bajo y tres dispositivos. ¿Merece la pena frente al MX Keys S completo?"
+descripcion: "Logitech MX Keys Mini: teclado 65% inalámbrico con retroiluminación adaptativa y tres dispositivos. ¿Merece frente al MX Keys S completo?"
 imagen: "/images/articulos/logitech-mx-keys-mini-analisis.webp"
 imagen_thumb: "/images/articulos/logitech-mx-keys-mini-analisis-thumb.webp"
 puntuacion: 8.0

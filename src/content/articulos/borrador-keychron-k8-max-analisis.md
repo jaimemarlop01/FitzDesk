@@ -1,9 +1,9 @@
 ﻿---
-title: "Keychron K8 Max: TKL inalámbrico hot-swap — el mecánico más completo de su precio"
+title: "Keychron K8 Max: TKL hot-swap inalámbrico con QMK y VIA"
 slug: "keychron-k8-max-analisis"
 categoria: "teclados"
 fecha: "2026-12-10"
-descripcion: "Keychron K8 Max: TKL hot-swap, Bluetooth 5.1 a tres dispositivos, batería de 4.000 mAh y soporte Keychron QMK/VIA. El teclado mecánico más completo por debajo de 130€."
+descripcion: "Keychron K8 Max: TKL hot-swap, Bluetooth a tres dispositivos y soporte QMK/VIA. El mecánico más completo por debajo de 130€."
 imagen: "/images/articulos/keychron-k8-max-analisis.webp"
 imagen_thumb: "/images/articulos/keychron-k8-max-analisis-thumb.webp"
 puntuacion: 8.5

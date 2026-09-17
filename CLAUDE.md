@@ -277,6 +277,8 @@ Objetivos:
 
 ## Estado de borradores
 - Última revisión: 2026-09-17
+- Borradores pendientes: 33
+- Listos para publicar: 11
 - Última ejecución de completar-borradores: 2026-09-17
 - Borradores descartados: 0
 - Borradores completados: 28 (pasada 2026-09-17: imágenes reales obtenidas con imageCollector para 28 borradores con imagen_placeholder:true; eliminado imagen_placeholder de todos; avisos de afiliado eliminados del cuerpo en 9 artículos; fitzQuote migrado al cuerpo y eliminado del frontmatter en 8 artículos; enlace_afiliado corregido en borrador-asus-vivobook-15-oferta)
@@ -555,7 +557,30 @@ De esos 14, **4 se conservaron y completaron** (traídos a `develop` con frontma
 
 ## Estado del calendario de publicaciones
 - Ritmo: Domingo c/2 semanas (guía/comparativa) · Martes y jueves (análisis/lanzamiento, 9:00–14:00 — hora exacta no garantizada por retrasos de cola en GitHub Actions, ver nota 2026-06-18)
-- Calendario generado: 2026-06-22
+- Calendario generado: 2026-09-17
+- Próxima publicación: 2026-09-20 — mejor-teclado-mecanico-teletrabajo-2026 (guía, domingo)
+- Semanas de contenido disponibles: ~13 (hasta 2026-12-20)
+- Borradores listos para publicar: 10 análisis/lanzamientos + 4 guías/comparativas pendientes
+- Borradores incompletos (no planificados): 0
+- Sin programar: ninguno
+- **Correcciones aplicadas 2026-09-17 (pasada de verificación)**:
+  - Sep 8: diaSemana corregido "jueves" → "martes" (logitech-pop-keys — swap previo del 2026-07-20 no actualizó este campo)
+  - Sep 10: diaSemana corregido "martes" → "jueves" (asus-proart-pa278cv — mismo motivo)
+  - Sep 22: prioridad corregida MEDIA → ALTA (Microsoft = marca conocida)
+  - Sep 24: asignado lenovo-ideapad-5-pro (portatiles) en lugar de razer-viper-v4-pro — evita dos artículos de "ratones" en la misma semana 22-24
+  - Sep 27: entrada eliminada (domingo quincenal incorrecto — solo 1 semana después del 20/09)
+  - Oct 4 nuevo: mejores-ratones-inalambricos (guía, ratones, ALTA) — domingo quincenal correcto
+  - Oct 8: cambiado de guía-portátiles (tipo incorrecto para jueves) a logitech-mx-keys-mini (teclados, ALTA)
+  - Oct 13: asignado samsung-s60ua (monitores, ALTA) en lugar de lenovo-ideapad-5-pro (movido a sep 24)
+  - Oct 18 nuevo: mejores-portatiles (guía, portatiles, ALTA) — domingo quincenal correcto
+  - Oct 20: asignado razer-viper-v4-pro (ratones, ALTA) en lugar de samsung-s60ua (movido a oct 13)
+  - Oct 22: asignado razer-pro-type-ultra (teclados, ALTA) en lugar de logitech-mx-keys-mini (movido a oct 8)
+  - Oct 25: entrada eliminada (mejores-hubs — solo 1 semana después del oct 18, viola regla quincenal)
+  - Oct 29: entrada eliminada (razer-pro-type-ultra movido a oct 22)
+  - Nov 1 nuevo: mejores-hubs-usb-c (guía, setups, MEDIA) — domingo quincenal correcto (2 semanas tras oct 18)
+  - Prioridades corregidas en múltiples entradas: marcas conocidas (Logitech, Corsair, Razer, Microsoft, Dell, Keychron, ASUS) que figuraban como MEDIA corregidas a ALTA
+- **⚠️ Alerta imagen_placeholder**: 7 borradores próximos tienen imagen_placeholder: true y serán bloqueados por auto-publisher.js. Ejecutar `node imageCollector.js --slug [slug]` antes de cada fecha de publicación: lenovo-ideapad-5-pro (24/09), razer-pro-click-mini (29/09), keychron-q1-pro (01/10), mejores-ratones-inalambricos (04/10), microsoft-arc-mouse (06/10), logitech-mx-keys-mini (08/10), mejores-portatiles (18/10)
+- PENDIENTE: notifier.js no tiene lógica para disparar el recordatorio de domingo el sábado anterior a las 20:00 — checkPublicationReminders() solo actúa los días 2, 3 y 4 (mar, mié, jue). Para guías dominicales el recordatorio del sábado debe implementarse manualmente o extender la función.
 - **✅ airra-labs-rotary-mouse ya tiene imagen oficial (2026-07-07)** — imagen real proporcionada por el usuario (`16x9_2133x1200_highres-rotary-mouse.webp`), procesada con Sharp. Slot del 11/08 desbloqueado.
 - **Cambio de calendario 2026-06-22**: `airra-labs-rotary-mouse-analisis` se retira de su slot del 23/07 (jueves) por falta de imagen oficial. En vez de dejar hueco o descartarlo, se desplazó toda la secuencia martes/jueves un slot hacia atrás (jabra-evolve2-30-se 28/07→23/07, cherry-kc-6000-slim 30/07→28/07, logitech-mk470 04/08→30/07, trust-tk-350-silent 06/08→04/08, razer-seiren-v3-pro 11/08→06/08) y Airra Labs pasa a ocupar el último slot libre, el 11/08 (martes). Acuerdo con el usuario: si sigue sin imagen cuando se vuelva a regenerar el calendario, se desplaza de nuevo al final (no se descarta el borrador, solo se pospone indefinidamente). Categorías vecinas verificadas sin repetición consecutiva tras el desplazamiento (21/07 monitores → 23/07 setups → 26/07 guias → 28/07 teclados → 30/07 setups → 04/08 teclados → 06/08 setups → 09/08 guias → 11/08 ratones)
 - **Corregido 2026-06-21: error de día de la semana.** Una sesión anterior calculó mal el día de semana de fechas de julio (asumió 10/07=jueves y 13/07=domingo cuando en realidad 10/07=viernes y 13/07=lunes). Verificado con cálculo de fecha real (no a mano): el jueves real sin cubrir era el **09/07** y el domingo quincenal real (14 días tras el 28/06) es el **12/07**. Todas las fechas de julio/agosto de esta entrada están verificadas con `Date.UTC()`, no contadas a mano
