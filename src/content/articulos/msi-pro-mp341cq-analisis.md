@@ -22,7 +22,7 @@ keywords_secundarias:
   - "MSI Pro MP341CQ"
   - "monitor 34 pulgadas ultrawide"
   - "monitor curvo para trabajo"
-borrador: true
+
 tamano: "34 pulgadas"
 resolucion: "WQHD (3440×1440)"
 panel: "VA curvo (1500R)"
