@@ -108,6 +108,8 @@ jobs:
       # ── 6. Commit y push a main (dispara deploy.yml automáticamente) ─────────
       - name: Publicar en main
         if: steps.check.outputs.status == 'ready' && steps.process.outcome == 'success'
+        env:
+          TITULO: ${{ steps.check.outputs.titulo }}
         run: |
           git config user.name  "FitzDesk Bot"
           git config user.email "bot@fitzdesk.com"
@@ -125,7 +127,7 @@ jobs:
 
           [ -f "$IMG_FILE" ] && git add "$IMG_FILE"
 
-          git commit -m "feat: publicar ${{ steps.check.outputs.titulo }}"
+          git commit -m "feat: publicar $TITULO"
           git push origin main
 
       # ── 6b-0. Notificación Discord — artículo publicado en main ──────────────
@@ -170,6 +172,8 @@ jobs:
       # artículos con borrador: true) y desincronizado del estado real del sitio.
       - name: Sincronizar develop con el artículo publicado
         if: steps.check.outputs.status == 'ready' && steps.process.outcome == 'success'
+        env:
+          TITULO: ${{ steps.check.outputs.titulo }}
         run: |
           PUB_FILE="src/content/articulos/${{ steps.check.outputs.published_slug }}.md"
           DRF_FILE="src/content/articulos/${{ steps.check.outputs.draft_slug }}.md"
@@ -196,7 +200,7 @@ jobs:
           if git diff --cached --quiet; then
             echo "develop ya estaba al día — nada que sincronizar"
           else
-            git commit -m "chore: sincronizar ${{ steps.check.outputs.titulo }} publicado en main"
+            git commit -m "chore: sincronizar $TITULO publicado en main"
             git push origin develop
           fi
 
