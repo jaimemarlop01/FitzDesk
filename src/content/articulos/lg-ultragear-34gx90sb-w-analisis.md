@@ -12,7 +12,7 @@ criterios:
   conectividad: 8.0
   cuidado_ocular: 7.5
   calidad_precio: 6.5
-precio: "999€"
+precio: "824,99€"
 enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=lg+ultragear+34gx90sb-w"
 tiempo_lectura: "6 min"
 tipo: "analisis"
@@ -22,7 +22,7 @@ keywords_secundarias:
   - "WebOS"
   - "teletrabajo"
 imagen_thumb: "/images/articulos/lg-ultragear-34gx90sb-w-analisis-thumb.webp"
-fecha_actualizacion: "2026-07-19"
+fecha_actualizacion: "2026-09-17"
 actualizado: true
 tamano: "34 pulgadas"
 puertos: "HDMI 2.1, DisplayPort 1.4, USB-C (65W)"

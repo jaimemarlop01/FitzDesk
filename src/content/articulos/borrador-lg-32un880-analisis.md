@@ -3,7 +3,7 @@ title: "LG 32UN880-B Ergo: monitor 4K de 32\" con brazo ajustable incluido"
 slug: "lg-32un880-analisis"
 categoria: "monitores"
 fecha: "2026-11-03"
-descripcion: "LG 32UN880-B Ergo: 4K 32\", USB-C 96W, brazo ergonómico incluido y calibración de fábrica. El monitor que elimina el soporte de brazo del presupuesto."
+descripcion: "LG 32UN880-B Ergo: 4K 32\", USB-C 96W y brazo ergonómico incluido. El monitor que elimina el soporte de brazo del presupuesto."
 imagen: "/images/articulos/lg-32un880-analisis.webp"
 imagen_thumb: "/images/articulos/lg-32un880-analisis-thumb.webp"
 puntuacion: 8.5

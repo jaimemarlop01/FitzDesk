@@ -2,11 +2,14 @@ import Groq from 'groq-sdk';
 import { parse as parseHtml } from 'node-html-parser';
 import { logInfo, logWarn } from './notifier.js';
 
-if (!process.env.GROQ_API_KEY) {
-  console.error('ERROR: GROQ_API_KEY no definida');
-  process.exit(1);
+let _analyzerClient = null;
+function getClient() {
+  if (!_analyzerClient) {
+    if (!process.env.GROQ_API_KEY) throw new Error('GROQ_API_KEY no definida');
+    _analyzerClient = new Groq({ apiKey: process.env.GROQ_API_KEY });
+  }
+  return _analyzerClient;
 }
-const client = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 import { slugify } from './utils/slugify.js';
 
@@ -259,7 +262,7 @@ INSTRUCCIONES PARA LOS CAMPOS DE INSTAGRAM EN EL FRONTMATTER:
 - instagram_pros_frases: Exactamente 4 frases, en el mismo orden que los bullets de "## Lo mejor". Cada una describe el IMPACTO REAL del pro para quien teletrabaja, no el dato técnico. Máximo 8 palabras. Tono cercano, como hablarle a un amigo. No repetir palabras del bullet. Frases MALAS: "Rueda menos fluida causa frustración". Frases BUENAS: "Olvídate de cargarlo durante semanas", "El cursor va exactamente donde quieres".
 - instagram_contras_frases: Exactamente 3 frases, en el mismo orden que los bullets de "## Lo mejorable". Mismas reglas: impacto real, máximo 8 palabras, tono cercano, sin repetir palabras del bullet.`;
 
-  const completion = await client.chat.completions.create({
+  const completion = await getClient().chat.completions.create({
     model: 'llama-3.3-70b-versatile',
     max_tokens: 2000,
     messages: [{ role: 'user', content: prompt }],

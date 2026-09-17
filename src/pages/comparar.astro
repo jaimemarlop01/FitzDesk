@@ -147,7 +147,8 @@ const dataJson = JSON.stringify({ byCategory, validCats, catLabels: CAT_LABELS }
 <script is:inline>
 (function () {
   /* ── DATA ── */
-  var DATA = JSON.parse(document.getElementById('comparar-data').textContent);
+  var dataEl = document.getElementById('comparar-data');
+  var DATA = JSON.parse(dataEl ? dataEl.textContent : '{}');
   var byCategory = DATA.byCategory;
   var validCats  = DATA.validCats;
   var catLabels  = DATA.catLabels;

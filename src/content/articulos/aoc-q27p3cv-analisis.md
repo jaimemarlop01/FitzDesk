@@ -12,7 +12,7 @@ criterios:
   conectividad: 9.5
   cuidado_ocular: 8.0
   calidad_precio: 9.5
-precio: "279,99€"
+precio: "263,74€"
 enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=aoc+q27p3cv"
 tiempo_lectura: "6 min"
 tipo: "analisis"
@@ -29,7 +29,10 @@ frecuencia: "75 Hz"
 puertos: "USB-C 65W, 4x USB-A"
 hdr: "HDR10 (compatible)"
 usb_c_vatios: "65W"
+fecha_actualizacion: "2026-09-17"
+actualizado: true
 ---
+> 📅 **Artículo actualizado en septiembre de 2026**: Precio actualizado a 263,74€ en PcComponentes.
 
 El Dell S2722QC tiene un problema: el AOC Q27P3CV existe. A precio similar o inferior, AOC ha construido un monitor QHD de 27 pulgadas con panel IPS, USB-C de 65W y un hub USB integrado que convierte el monitor en el centro de conectividad del escritorio. Es el tipo de producto que no genera titulares en el sector pero que, puesto junto a la competencia en una comparativa objetiva, resulta difícil de ignorar.
 

@@ -12,8 +12,8 @@ criterios:
   compatibilidad: 8.0
   sonido_imagen: 8.5
   calidad_precio: 8.5
-precio: "46,98€"
-fecha_actualizacion: "2026-07-07"
+precio: "39,99€"
+fecha_actualizacion: "2026-09-17"
 enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=logitech+mk470"
 tiempo_lectura: "5 min"
 tipo: "analisis"
@@ -28,7 +28,9 @@ conectividad: "Nano receptor USB 2.4 GHz (no Unifying)"
 cable: "Inalámbrico"
 bateria: "36 meses / 2 AAA (teclado), 18 meses / 1 AA (ratón)"
 compatible: "Windows / macOS / ChromeOS"
+actualizado: true
 ---
+> 📅 **Artículo actualizado en septiembre de 2026**: Precio actualizado a 39,99€ en PcComponentes.
 
 ## Introducción
 

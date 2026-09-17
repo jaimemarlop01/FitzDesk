@@ -59,7 +59,7 @@ Para teletrabajo, **la recomendación general es táctil**. Si trabajas en solit
 
 ### Hasta 80€ — entrada sin compromisos
 
-**[Keychron V1](/articulo/keychron-v1-analisis) — 79€ · 8.9/10**
+**[Keychron V1](/articulo/keychron-v1-analisis) — 79€ · 8.8/10**
 El teclado mecánico con mejor relación calidad-precio del mercado en 2026. Cuerpo de aluminio CNC, gasket mount (amortigua el golpe al teclear), hot-swap y compatibilidad con QMK/VIA por 79€. Va por cable, lo que para un escritorio fijo no es ninguna limitación. Difícil de superar a este precio.
 
 **[Logitech POP Keys](/articulo/logitech-pop-keys-analisis) — 48€ · 7.5/10**
@@ -70,7 +70,7 @@ El más asequible de los mecánicos analizados. Switches Kailh BOX, Bluetooth pa
 **[Corsair K70 Core TKL](/articulo/corsair-k70-core-tkl-analisis) — 80€ · 7.8/10**
 TKL (sin teclado numérico) con cuerpo de aluminio y RGB. Compatible con switches Cherry MX. Más orientado a uso mixto trabajo/gaming que a teletrabajo puro, pero sólido para quien quiere TKL con aluminio sin pagar precio premium.
 
-**[Keychron K2 V2](/articulo/keychron-k2-v2) — 89€ · 8.8/10**
+**[Keychron K2 V2](/articulo/keychron-k2-v2) — 89€ · 8.5/10**
 El mecánico inalámbrico más popular entre teletrabajadores. Formato 75% (más compacto que TKL pero con teclas de función y flechas), Bluetooth para tres dispositivos, compatible con Mac y Windows. La combinación de precio, conectividad y formato lo hace el punto de entrada ideal para quien quiere un mecánico inalámbrico.
 
 **[Keychron K8 Pro](/articulo/keychron-k8-pro-analisis) — 109€ · 9.0/10**
@@ -91,9 +91,9 @@ El mecánico de perfil bajo de Logitech, pensado para quien viene de membrana y 
 | Teclado | Precio | Nota | Inalámbrico | Hot-swap | Formato |
 |---|---|---|---|---|---|
 | [Logitech POP Keys](/articulo/logitech-pop-keys-analisis) | 48€ | 7.5/10 | ✅ Bluetooth | ❌ | Compacto |
-| [Keychron V1](/articulo/keychron-v1-analisis) | 79€ | 8.9/10 | ❌ Cable | ✅ | TKL |
+| [Keychron V1](/articulo/keychron-v1-analisis) | 79€ | 8.8/10 | ❌ Cable | ✅ | TKL |
 | [Corsair K70 Core TKL](/articulo/corsair-k70-core-tkl-analisis) | 80€ | 7.8/10 | ❌ Cable | ❌ | TKL |
-| [Keychron K2 V2](/articulo/keychron-k2-v2) | 89€ | 8.8/10 | ✅ Bluetooth | ✅ | 75% |
+| [Keychron K2 V2](/articulo/keychron-k2-v2) | 89€ | 8.5/10 | ✅ Bluetooth | ✅ | 75% |
 | [Keychron K8 Pro](/articulo/keychron-k8-pro-analisis) | 109€ | 9.0/10 | ✅ Triple | ✅ | TKL |
 | [Keychron K2 Max](/articulo/keychron-k2-max-analisis) | 140€ | 8.8/10 | ✅ Triple | ✅ | 75% |
 | [Logitech MX Mechanical](/articulo/logitech-mx-mechanical-analisis) | 156€ | 8.4/10 | ✅ Bolt | ❌ | Full/Mini |

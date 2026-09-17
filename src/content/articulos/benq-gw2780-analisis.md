@@ -11,7 +11,7 @@ criterios:
   conectividad: 7.5
   cuidado_ocular: 9.3
   calidad_precio: 9.0
-precio: "266,81€"
+precio: "227,00€"
 enlace_afiliado: "https://www.pccomponentes.com/benq-gw2780"
 tiempo_lectura: "5 min"
 tipo: "analisis"
@@ -30,7 +30,7 @@ especificaciones:
   Altavoces: "2x2W integrados"
   Ajustes: "Inclinación -5°/+20°"
   Certificacion: "TÜV Rheinland Eye Comfort"
-fecha_actualizacion: "2026-06-24"
+fecha_actualizacion: "2026-09-17"
 actualizado: true
 tamano: "27 pulgadas"
 resolucion: "Full HD (1920×1080)"

@@ -225,7 +225,7 @@ const reviewSchema = esAnalisisConPuntuacion ? {
         <main class="article-main">
           <p class="article-lead">{descripcion}</p>
 
-          {puntuacion && <ScoreBox puntuacion={puntuacion} precio={precio} />}
+          {puntuacion != null && <ScoreBox puntuacion={puntuacion} precio={precio} />}
 
           <AffiliateButton href={pcSearchUrl} precio={precio} />
 
@@ -262,7 +262,7 @@ const reviewSchema = esAnalisisConPuntuacion ? {
         </main>
 
         <aside class="article-sidebar">
-          {puntuacion && (
+          {puntuacion != null && (
             <div class="sidebar-card">
               <h3>Puntuación</h3>
               <div class="sidebar-score" style={`color: ${scoreColor(puntuacion)}`}>

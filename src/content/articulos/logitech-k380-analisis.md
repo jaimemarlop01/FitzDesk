@@ -12,7 +12,7 @@ criterios:
   conectividad: 8.5
   durabilidad: 8.5
   calidad_precio: 9.5
-precio: "39,99€"
+precio: "34,95€"
 enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=logitech+k380"
 tiempo_lectura: "5 min"
 tipo: "analisis"
@@ -30,7 +30,10 @@ formato: "Compacto sin numérico"
 retroiluminacion: "No"
 bateria: "hasta 24 meses (2x pilas AAA)"
 compatible: "Windows, macOS, Android, iOS, Chrome OS"
+fecha_actualizacion: "2026-09-17"
+actualizado: true
 ---
+> 📅 **Artículo actualizado en septiembre de 2026**: Precio actualizado a 34,95€ en PcComponentes.
 > 📅 **Artículo revisado en julio de 2026**: Puntuación actualizada a 7.5/10 con nueva rúbrica editorial.
 
 

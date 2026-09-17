@@ -11,7 +11,7 @@ criterios:
   autonomia: 8.0
   conectividad: 8.5
   calidad_precio: 8.0
-precio: "45,90€"
+precio: "37,65€"
 enlace_afiliado: "https://www.pccomponentes.com/logitech-lift"
 tiempo_lectura: "6 min"
 tipo: "analisis"
@@ -30,7 +30,7 @@ especificaciones:
   Compatibilidad: "Windows, macOS, iPadOS, ChromeOS"
   Versiones: "Diestros y zurdos"
   Botones: "6 programables"
-fecha_actualizacion: "2026-06-24"
+fecha_actualizacion: "2026-09-17"
 actualizado: true
 conectividad: "Bluetooth / Logi Bolt (2,4 GHz)"
 cable: "Inalámbrico"

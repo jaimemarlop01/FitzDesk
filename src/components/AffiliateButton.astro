@@ -48,13 +48,13 @@ const { href, precio, tienda = 'PcComponentes' } = Astro.props;
     border-radius: var(--radius-lg);
     text-decoration: none;
     transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
-    box-shadow: 0 4px 14px rgba(249, 115, 22, 0.35);
+    box-shadow: var(--shadow-brand);
   }
 
   .affiliate-btn:hover {
     background: var(--color-brand-dark);
     transform: translateY(-1px);
-    box-shadow: 0 6px 20px rgba(249, 115, 22, 0.45);
+    box-shadow: var(--shadow-brand-hover);
     text-decoration: none;
     color: white;
   }

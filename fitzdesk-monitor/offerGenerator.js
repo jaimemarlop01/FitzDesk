@@ -31,11 +31,14 @@ import { notifyOferta } from './notifier.js';
 const __dirname   = dirname(fileURLToPath(import.meta.url));
 const CONTENT_DIR = resolve(__dirname, '../src/content/articulos');
 
-if (!process.env.GROQ_API_KEY) {
-  console.error('ERROR: GROQ_API_KEY no definida');
-  process.exit(1);
+let _offerClient = null;
+function getClient() {
+  if (!_offerClient) {
+    if (!process.env.GROQ_API_KEY) throw new Error('GROQ_API_KEY no definida');
+    _offerClient = new Groq({ apiKey: process.env.GROQ_API_KEY });
+  }
+  return _offerClient;
 }
-const client = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 function today() { return new Date().toISOString().slice(0, 10); }
 
@@ -104,7 +107,7 @@ No incluyas el aviso de oferta ni el aviso de afiliado, se añaden automáticame
 
 PARÁMETROS: 250-400 palabras en total. Nunca inventes un precio, descuento o dato que no se te haya dado. Si el descuento no se especifica, no menciones ningún porcentaje concreto.`;
 
-  const completion = await client.chat.completions.create({
+  const completion = await getClient().chat.completions.create({
     model: 'llama-3.3-70b-versatile',
     max_tokens: 1200,
     messages: [{ role: 'user', content: prompt }],

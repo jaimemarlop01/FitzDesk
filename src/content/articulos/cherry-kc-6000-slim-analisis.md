@@ -12,7 +12,7 @@ criterios:
   conectividad: 6.0
   durabilidad: 8.5
   calidad_precio: 8.0
-precio: "49,99€"
+precio: "38,59€"
 enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=cherry+kc+6000+slim"
 conectividad: "USB-A"
 cable: "Con cable"
@@ -28,7 +28,10 @@ keywords_secundarias:
   - "teclado de bajo perfil"
   - "Cherry KC 6000 Slim"
 imagen_thumb: "/images/articulos/cherry-kc-6000-slim-analisis-thumb.webp"
+fecha_actualizacion: "2026-09-17"
+actualizado: true
 ---
+> 📅 **Artículo actualizado en septiembre de 2026**: Precio actualizado a 38,59€ en PcComponentes.
 
 Cherry es el fabricante de los switches mecánicos más utilizados del mundo. Sin embargo, no todo lo que produce lleva switch mecánico: el KC 6000 Slim es su propuesta para quienes prefieren un teclado de bajo perfil, silencioso y duradero para el trabajo de oficina diario.
 
