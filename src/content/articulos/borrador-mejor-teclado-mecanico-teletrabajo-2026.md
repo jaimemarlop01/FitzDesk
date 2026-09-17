@@ -112,4 +112,3 @@ En 2026, el rango entre 79€ y 109€ concentra los mejores teclados mecánicos
 
 Si llevas meses con el teclado que venía con el ordenador o con un membrana genérico, cualquier mecánico de esta lista va a cambiar la experiencia de escribir durante horas. La curva de adaptación dura unos días. La diferencia se nota el resto de los años.
 
-> *Los precios indicados son orientativos. Te recomendamos verificar el precio actual antes de comprar. FitzDesk puede recibir una comisión si compras a través de los enlaces de esta página.*

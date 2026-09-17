@@ -1,4 +1,4 @@
----
+﻿---
 title: "Keychron K8 Max: TKL inalámbrico hot-swap — el mecánico más completo de su precio"
 slug: "keychron-k8-max-analisis"
 categoria: "teclados"
@@ -18,13 +18,11 @@ enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=keychron+k8+max"
 tiempo_lectura: "6 min"
 tipo: "analisis"
 borrador: true
-imagen_placeholder: true
 keyword_principal: "Keychron K8 Max teclado mecánico TKL"
 keywords_secundarias:
   - "teclado mecánico TKL hot-swap Bluetooth"
   - "Keychron K8 Max inalámbrico"
   - "mecánico TKL multi-dispositivo"
-fitzQuote: "El K8 Max es la versión definitiva del K8, el teclado TKL de Keychron que más se ha vendido históricamente. Hot-swap de 5 pines, Bluetooth a tres dispositivos, batería de 4.000 mAh y compatibilidad QMK/VIA por 120€. Difícil de batir en la categoría TKL. Mi nota: 8.5/10"
 ---
 
 El Keychron K8 fue durante años el teclado mecánico TKL inalámbrico de referencia en el mercado: formato tenkeyless sin numpad, Bluetooth, construcción sólida y precio razonable. El K8 Max llega como la versión definitivamente mejorada del K8 original: añade hot-swap de 5 pines, soporte QMK/VIA para programación avanzada de teclas y compatibilidad con Keychron K8 Pro para quienes ya tienen switches y keycaps de esa generación.
@@ -97,5 +95,3 @@ El K8 Max es la versión definitiva del K8, el TKL de Keychron más vendido hist
 ## Conclusión
 
 El Keychron K8 Max es la referencia del mercado en teclados mecánicos TKL inalámbricos hot-swap por debajo de 130€. La combinación de hot-swap de 5 pines, cuatro dispositivos, autonomía de semanas y compatibilidad QMK/VIA hace que sea la opción más completa de la categoría. El único compromiso es la ausencia de aluminio, que para la mayoría del uso de teletrabajo sedentario no cambia nada relevante en la experiencia diaria.
-
-> ⚠️ **Aviso**: Los precios mostrados son orientativos. Te recomendamos verificar el precio actual antes de comprar. FitzDesk puede recibir una comisión por compras realizadas a través de los enlaces de esta página.

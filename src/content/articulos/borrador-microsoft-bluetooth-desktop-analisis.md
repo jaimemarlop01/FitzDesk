@@ -1,4 +1,4 @@
----
+﻿---
 title: "Microsoft Bluetooth Desktop: el combo teclado+ratón para el setup minimalista"
 slug: "microsoft-bluetooth-desktop-analisis"
 categoria: "setups"
@@ -8,23 +8,21 @@ imagen: "/images/articulos/microsoft-bluetooth-desktop-analisis.webp"
 imagen_thumb: "/images/articulos/microsoft-bluetooth-desktop-analisis-thumb.webp"
 puntuacion: 7.5
 criterios:
-  funcionalidad: 7.5
-  compatibilidad: 8.5
   calidad_construccion: 7.5
-  instalacion: 9.5
+  facilidad_uso: 9.5
+  compatibilidad: 8.5
+  sonido_imagen: 7.5
   calidad_precio: 8.0
 precio: "60€"
 enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=microsoft+bluetooth+desktop"
 tiempo_lectura: "5 min"
 tipo: "analisis"
 borrador: true
-imagen_placeholder: true
 keyword_principal: "Microsoft Bluetooth Desktop teclado ratón"
 keywords_secundarias:
   - "combo teclado ratón Bluetooth Microsoft"
   - "kit teclado ratón inalámbrico sin receptor"
   - "set periféricos Bluetooth teletrabajo"
-fitzQuote: "El Bluetooth Desktop resuelve el caso de uso del Bluetooth puro sin receptor USB: un solo par de teclas para sincronizar teclado y ratón, sin dongles que ocupen puertos. El teclado es cómodo pero no especial; el ratón es básico. Para el setup sin complicaciones a 60€, cumple. Para prestaciones de verdad, mira el Signature M750 más el MX Keys Mini por separado. Mi nota: 7.5/10"
 ---
 
 La mayoría de los combos teclado-ratón del mercado usan un receptor USB unificado: el mismo dongle gestiona ambos periféricos, lo que ocupa un puerto USB pero elimina el Bluetooth de la ecuación. El Microsoft Bluetooth Desktop toma el camino opuesto: Bluetooth puro para ambos dispositivos, sin ningún receptor USB. Para quienes tienen pocos puertos USB disponibles, trabajan con tablets o quieren el escritorio completamente limpio de dongles, esta diferencia importa.
@@ -95,5 +93,3 @@ El Bluetooth Desktop resuelve el caso de uso del Bluetooth puro sin receptor USB
 ## Conclusión
 
 El Microsoft Bluetooth Desktop es el combo de entrada más limpio del mercado para quien necesita teclado y ratón Bluetooth sin receptor USB, a 60€ el pack. No compite con los periféricos individuales de gama media-alta en ninguna característica, pero ofrece Bluetooth puro, instalación inmediata y cero ocupación de puertos USB a un precio que tiene pocos rivales directos. Para el teletrabajador con presupuesto ajustado o con el requisito específico de no usar receptor USB, es una opción honesta y directa.
-
-> ⚠️ **Aviso**: Los precios mostrados son orientativos. Te recomendamos verificar el precio actual antes de comprar. FitzDesk puede recibir una comisión por compras realizadas a través de los enlaces de esta página.

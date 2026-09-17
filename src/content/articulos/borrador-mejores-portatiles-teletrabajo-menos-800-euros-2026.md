@@ -1,4 +1,4 @@
----
+﻿---
 title: "Mejores portátiles para teletrabajo por menos de 800€ en 2026"
 slug: "mejores-portatiles-teletrabajo-menos-800-euros-2026"
 categoria: "portatiles"
@@ -9,7 +9,6 @@ imagen_thumb: "/images/articulos/mejores-portatiles-teletrabajo-menos-800-euros-
 tiempo_lectura: "8 min"
 tipo: "guia"
 borrador: true
-imagen_placeholder: true
 keyword_principal: "mejores portátiles teletrabajo menos 800 euros"
 keywords_secundarias:
   - "portátil teletrabajo 2026"
@@ -108,4 +107,3 @@ Por menos de 800€ es posible encontrar un portátil excelente para teletrabajo
 
 El mercado de portátiles por menos de 800€ en 2026 está en buen momento. Los cuatro modelos de esta guía cubren los perfiles más habituales del teletrabajador: quien prioriza la pantalla, quien prioriza el teclado, quien prioriza la robustez empresarial y quien quiere el mejor equilibrio entre precio y prestaciones generales. No hay una respuesta única correcta: depende de qué parte del portátil uses más durante el día.
 
-> ⚠️ **Aviso**: Los precios mostrados son orientativos. Te recomendamos verificar el precio actual antes de comprar. FitzDesk puede recibir una comisión por compras realizadas a través de los enlaces de esta página.

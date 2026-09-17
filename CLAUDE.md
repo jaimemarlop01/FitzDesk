@@ -276,13 +276,17 @@ Objetivos:
 - [x] ✅ Pre-generar carruseles Instagram para todos los artículos del calendario — **COMPLETADO 2026-08-06**: 47 artículos cubiertos (06/08–20/12). 18 artículos (06/08–22/09) commiteados en sesión anterior; 29 artículos (24/09–20/12) generados en esta sesión. 3 imágenes nuevas obtenidas: lenovo-ideapad-5-pro, mejores-hubs-usb-c, thinkpad-x1-carbon-gen13
 
 ## Estado de borradores
-- Última revisión: 2026-07-20
-- Borradores pendientes: 26
-- Última ejecución de completar-borradores: 2026-07-20
-- **Nuevo borrador añadido 2026-07-20**: `mejor-teclado-mecanico-teletrabajo-2026` (guía, teclados, 20/09) — cubre los 7 mecánicos analizados hasta esa fecha; imagen Gemini real (sin imagen_placeholder)
+- Última revisión: 2026-09-17
+- Última ejecución de completar-borradores: 2026-09-17
 - Borradores descartados: 0
-- Borradores completados: 17
-- Borradores listos para revisión humana: 25
+- Borradores completados: 28 (pasada 2026-09-17: imágenes reales obtenidas con imageCollector para 28 borradores con imagen_placeholder:true; eliminado imagen_placeholder de todos; avisos de afiliado eliminados del cuerpo en 9 artículos; fitzQuote migrado al cuerpo y eliminado del frontmatter en 8 artículos; enlace_afiliado corregido en borrador-asus-vivobook-15-oferta)
+- Borradores listos para revisión humana: 33
+- **Pasada 2026-09-17 — completar-borradores sobre los 33 borradores activos**:
+  - 28 borradores con `imagen_placeholder: true` → imágenes reales obtenidas con `imageCollector.js --borradores` (26/28) y con `--query` manual (2/28: mejores-hubs-usb-c, thinkpad-x1-carbon-gen13). `imagen_placeholder: true` eliminado de todos los frontmatters
+  - 9 borradores con aviso de afiliado en el cuerpo → eliminados (logitech-signature-m650-large, logitech-g515-tkl, razer-pro-click-mini, keychron-q1-pro, microsoft-arc-mouse, aoc-u27p2a, asus-proart-pa278cgv, keychron-k8-max, dell-s2722dc)
+  - 8 borradores con `fitzQuote` en frontmatter → campo eliminado del frontmatter (sección ya existía en el cuerpo en todos los casos): logitech-signature-m650-large, logitech-g515-tkl, razer-pro-click-mini, keychron-q1-pro, microsoft-arc-mouse, aoc-u27p2a, asus-proart-pa278cgv, keychron-k8-max
+  - `borrador-asus-vivobook-15-oferta` → enlace_afiliado corregido de URL de buscador incorrecto a `https://www.pccomponentes.com/buscar/?query=asus+vivobook+15`
+- **Nuevo borrador añadido 2026-07-20**: `mejor-teclado-mecanico-teletrabajo-2026` (guía, teclados, 20/09) — cubre los 7 mecánicos analizados hasta esa fecha; imagen Gemini real (sin imagen_placeholder)
 - **Pasada 2026-07-20 — completar-borradores sobre los 25 borradores activos**:
   - 12 artículos de análisis con `Mi nota:` ausente en `## 🐿️ Fitz recomienda` → añadido (benq-pd2705q, logitech-pop-keys, msi-pro-mp341cq, asus-proart-pa278cv, logitech-brio-505, corsair-k70-core-tkl, corsair-xeneon-edge, microsoft-bluetooth-ergonomic-mouse, logitech-signature-m650, logitech-mx-mechanical, keychron-k2-max, logitech-mx-vertical)
   - `borrador-logitech-brio-505-analisis` — criterios corregidos (calidad_imagen→calidad_construccion, conectividad→sonido_imagen) para coincidir con la categoría setups
@@ -360,8 +364,18 @@ De esos 14, **4 se conservaron y completaron** (traídos a `develop` con frontma
 **Bug corregido en `analyzer.js`**: el segundo borrador descartado tenía `borrador: false` en el frontmatter pese a estar recién generado sin revisar. Causa: `generateDraft()` deja que la IA genere el frontmatter completo como texto libre (incluyendo el campo `borrador:`), y el código nunca lo validaba después — al contrario que `precio:` y `enlace_afiliado:`, que sí se sobrescriben siempre en `injectPcData()`. Corregido añadiendo una normalización forzada antes de `injectPcData()`: si el campo existe con cualquier valor (`true` o `false`), se fuerza a `true`; si no existe, se inserta antes del cierre del frontmatter. Mismo patrón defensivo que ya usaban `precio`/`enlace_afiliado`.
 
 ## Estado del código
-- Última revisión: 2026-07-28 (23ª pasada — fix /comparar category cards)
+- Última revisión: 2026-09-17 (25ª pasada — auditoría completa)
 - Errores críticos pendientes: 0 | Estado: ✅ Sin errores críticos
+- **Advertencias pendientes confirmadas (25ª pasada)**:
+  - `src/pages/articulo/[slug].astro:228,265` — `{puntuacion && ...}` falsy check incorrecto; debería ser `{puntuacion != null && ...}` (nuevo)
+  - `src/pages/comparar.astro:150` — `document.getElementById('comparar-data').textContent` sin null-check; TypeError si el elemento no existe (nuevo)
+  - `deploy.yml:46` — `npm install` en vez de `npm ci` (pendiente desde 14ª pasada)
+  - `publicar-automatico.yml` — URL del artículo enviada a Discord antes de que el deploy complete (pendiente desde 14ª pasada)
+  - `AffiliateButton.astro:51,57`, `buscar.astro:393,602`, `contacto.astro:185,205`, `index.astro:301` — 7 instancias de `rgba(249,115,22,...)` hardcodeadas (pendiente desde 14ª pasada; las 2 de `comparar.astro:203,204` son intencionales para Chart.js)
+  - `[slug].astro:133-137` — `precioLimpio` puede producir valores inválidos en JSON-LD para artículos con precio no estándar (pendiente desde 18ª pasada)
+- **Resueltas en esta pasada (no reaparecen en el informe)**:
+  - Google Fonts doble carga — no hay `@import` en `global.css` (era pendiente desde 14ª pasada)
+  - `socialPublisher.js` 6 fetch() sin AbortSignal.timeout() — todas tienen timeout de 15s (era pendiente desde 14ª pasada)
 - **Cambios 2026-07-28 (23ª pasada — fix /comparar)**:
   - **`comparar.astro` — category cards no aparecían (bug crítico de interfaz)**: los SVG strings (con `<`, `>`, `"`) se pasaban al cliente vía `JSON.stringify` + `set:html` en un `<script type="application/json">`. Astro procesa `set:html` como HTML, lo que corrompía el JSON. `JSON.parse` lanzaba un error, el script se detenía antes del `forEach` de cards, y el contenedor `#cat-pills` quedaba vacío. **Solución**: `CAT_CARD_DATA` (colores e iconos SVG) se define ahora como objeto JS estático directamente en el `<script>` del cliente — los SVG strings con comillas simples son seguros en literales JS porque el parser HTML dentro de `<script>` solo cierra el bloque con `</script>`, no con otros `<tags>`. Se eliminó `CAT_CARDS` del frontmatter de Astro y del `dataJson`. El CSS ya estaba en `<style is:global>` (correcto para elementos creados por JS).
   - **`/categoria/comparativas/` eliminada**: la página de categoría de comparativas se quitó del array `allCategories` de `[slug].astro` y de todas las referencias en `Footer.astro` y `buscar.astro` — reemplazada por la herramienta `/comparar`.
@@ -500,9 +514,13 @@ De esos 14, **4 se conservaron y completaron** (traídos a `develop` con frontma
   - 14 artículos de análisis — bloque `criterios:` con 5 valores reales por categoría (ratones: ergonomia/precision/autonomia/conectividad/calidad_precio · teclados: tacto/ruido/conectividad/durabilidad/calidad_precio · monitores: calidad_imagen/ergonomia_soporte/conectividad/cuidado_ocular/calidad_precio · portátiles: rendimiento/bateria/pantalla/teclado_trackpad/calidad_precio)
 
 ## Estado de precios
-- Última revisión de precios: 2026-07-20
-- Artículos con precio desactualizado: 0 ✅
-- Artículos pendientes de revisión: 3 (`lg-gram-14-2025-analisis`, `asus-vivobook-15-oled-analisis`, `lenovo-thinkpad-e14-gen6-analisis` — configuraciones descatalogadas del mercado español, no reabrir salvo dato nuevo del usuario, misma situación que revisiones anteriores)
+- Última revisión de precios: 2026-09-17
+- Artículos con precio desactualizado: 13
+- Artículos pendientes de revisión: 17 (10 a revisar + 7 sin precio fiable; ver informe completo del 2026-09-17)
+- **Artículos sin precio fiable (2026-09-17)**: 7 — `asus-vivobook-15-oled-analisis` (config descatalogada), `lenovo-thinkpad-e14-gen6-analisis` (config descatalogada), `lg-gram-14-2025-analisis` (config descatalogada), `dell-s2722qc-analisis` (PcComponentes eliminó página, sin alternativa verificada), `lg-27up850n-analisis` (ídem), `razer-pro-click-analisis` (ídem), `trust-tk-350-silent-analisis` (múltiples retailers pero sin precio verificado en idealo ni PcComponentes en esta sesión)
+- **Precios con cambio detectado (2026-09-17, pendientes de ejecutar `articleUpdater.js`)**: logitech-mx-master-3s (145,99€→69,00€ idealo), logitech-lift-vertical (45,90€→37,65€ idealo), logitech-mx-anywhere-3s (59,99€→63,99€ subida idealo), logitech-mx-keys-s (74,95€→87,18€ subida idealo), benq-gw2780 (266,81€→227,00€ idealo), lg-27un880 (435,00€→417,69€ idealo), logitech-k380 (39,99€→34,95€ idealo), samsung-s27a600 (489€→291,04€ auditoría 30/08 — verificar antes de ejecutar), lg-ultragear-34gx90sb-w (999€→824,99€ idealo), aoc-q27p3cv (279,99€→263,74€ MediaMarkt), logitech-mk470 (46,98€→39,99€ idealo), cherry-kc-6000-slim (49,99€→38,59€ idealo), hp-935-creator-wireless (59,99€→83,99€ subida, auditoría 30/08 — verificar antes de ejecutar)
+- **Artículos sin precio fiable (2026-08-30)**: 6 — `asus-vivobook-15-oled-analisis`, `dell-s2722qc-analisis`, `lenovo-thinkpad-e14-gen6-analisis`, `lg-27up850n-analisis`, `lg-gram-14-2025-analisis`, `razer-pro-click-analisis` — 3 por config descatalogada (no reabrir), 3 por página eliminada en PcComponentes sin alternativa fiable verificada
+- **Precios con cambio significativo detectado (2026-08-30, pendientes de ejecutar `articleUpdater.js`)**: logitech-mx-master-3s (145,99€→85,37€), samsung-s27a600 (489€→291,04€), hp-935-creator-wireless (59,99€→83,99€ subida), cherry-kc-6000-slim (49,99€→38,59€), lg-ultragear (999€→824,99€), benq-gw2780 (266,81€→227€), logitech-mx-anywhere-3s (59,99€→69,50€ subida), logitech-mx-keys-s (74,95€→87,18€ subida), aoc-q27p3cv (279,99€→310,33€ subida)
 - **⚠️ Alerta próxima — 2026-07-24**: 9 artículos actualizados el 2026-06-24 cruzarán los 30 días sin revisión de precio (benq-gw2780, dell-s2722qc, keychron-k8-pro, keychron-v1, lg-27un880, logitech-lift-vertical, logitech-mx-anywhere-3s, logitech-mx-keys-s, logitech-mx-master-3s)
 - **Revisión 2026-07-19**: 5 precios actualizados en una pasada:
   - `lg-ultragear-34gx90sb-w-analisis` (borrador, publica 21/07): "Ver precio" → 999€. Confirmado que 34GX90SB-W y 34GX90SA-W son el mismo hardware con sufijos regionales distintos; ambos tienen MLA+ y 1300 nits. Precio oficial confirmado por el usuario

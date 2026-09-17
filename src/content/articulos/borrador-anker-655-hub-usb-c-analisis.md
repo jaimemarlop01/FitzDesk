@@ -1,4 +1,4 @@
----
+﻿---
 title: "Anker 655 USB-C Hub 8 en 1: un cable para conectarlo todo"
 slug: "anker-655-hub-usb-c-analisis"
 categoria: "setups"
@@ -8,23 +8,21 @@ imagen: "/images/articulos/anker-655-hub-usb-c-analisis.webp"
 imagen_thumb: "/images/articulos/anker-655-hub-usb-c-analisis-thumb.webp"
 puntuacion: 8.5
 criterios:
-  funcionalidad: 8.5
-  compatibilidad: 8.5
   calidad_construccion: 8.5
-  instalacion: 9.5
+  facilidad_uso: 9.5
+  compatibilidad: 8.5
+  sonido_imagen: 8.5
   calidad_precio: 8.5
 precio: "45€"
 enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=anker+655+usb+c+hub"
 tiempo_lectura: "5 min"
 tipo: "analisis"
 borrador: true
-imagen_placeholder: true
 keyword_principal: "Anker 655 hub USB-C"
 keywords_secundarias:
   - "hub USB-C 8 en 1"
   - "hub USB-C 4K 60Hz"
   - "hub multiuerto portátil"
-fitzQuote: "El Anker 655 es el hub que recomendaría a alguien que me preguntara sin más contexto. Funciona, no calienta, carga el portátil rápido y pesa menos que una tableta de chocolate. Hay opciones más baratas y opciones más caras, pero pocas en este precio hacen todo tan bien. Mi nota: 8.5/10"
 ---
 
 Anker lleva años siendo la referencia del mercado de hubs y cargadores portátiles con una fórmula consistente: construir bien, poner el precio en el punto justo y no complicar demasiado las cosas. El 655 USB-C Hub 8 en 1 es uno de sus modelos más equilibrados para el uso de teletrabajo diario: ocho puertos en un cuerpo metálico de menos de 150 gramos, con 85 W de carga pass-through para el portátil y HDMI 2.0 para un monitor 4K a 60 Hz.
@@ -92,5 +90,3 @@ El Anker 655 es el hub que recomendaría a alguien que me preguntara sin más co
 ## Conclusión
 
 El Anker 655 USB-C Hub 8 en 1 es la recomendación de referencia para el setup de teletrabajo básico: un portátil moderno con puerto USB-C, un monitor, un teclado, un ratón y la tarjeta SD de la cámara conectados todos al mismo cable. A 45€ es la inversión más rentable para limpiar el escritorio de cables sin comprometer las prestaciones. Sus limitaciones —un solo monitor, sin Ethernet— son conocidas y razonables para su precio; para necesidades más complejas, el siguiente paso es un dock de escritorio con fuente de alimentación externa.
-
-> ⚠️ **Aviso**: Los precios mostrados son orientativos. Te recomendamos verificar el precio actual antes de comprar. FitzDesk puede recibir una comisión por compras realizadas a través de los enlaces de esta página.

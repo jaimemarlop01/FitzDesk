@@ -1,4 +1,4 @@
----
+﻿---
 title: "Samsung ViewFinity S60UA 27\": 4K profesional con USB-C para teletrabajo"
 slug: "samsung-s60ua-analisis"
 categoria: "monitores"
@@ -18,13 +18,11 @@ enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=samsung+s60ua"
 tiempo_lectura: "6 min"
 tipo: "analisis"
 borrador: true
-imagen_placeholder: true
 keyword_principal: "Samsung ViewFinity S60UA 4K monitor USB-C"
 keywords_secundarias:
   - "monitor 4K 27 pulgadas teletrabajo"
   - "Samsung monitor USB-C 90W"
   - "monitor profesional 4K precio"
-fitzQuote: "El S60UA entra en el terreno del LG 27UP850N-W pero con algunas ventajas: el USB-C carga a 90 W en vez de 96 W, la diferencia es irrelevante en uso real. Lo que añade es conectividad KVM y HDMI 2.0, lo que lo hace más versátil para setups con varios dispositivos. Mi nota: 8.5/10"
 ---
 
 Samsung lleva años con el ViewFinity S60UA en catálogo y en 2026 sigue siendo una de las referencias más sólidas en el segmento de monitores 4K de 27 pulgadas con USB-C por debajo de los 400€. Comparte terreno con el LG 27UP850N-W, que hemos analizado por separado, y la comparativa entre ambos es inevitable para quien busca en este rango de precio y especificaciones.
@@ -98,5 +96,3 @@ El S60UA entra en el terreno del LG 27UP850N-W pero con algunas ventajas propias
 ## Conclusión
 
 El Samsung ViewFinity S60UA 27" es uno de los monitores 4K con USB-C más completos del mercado por debajo de 400€. El KVM integrado y el soporte ergonómico completo lo diferencian del resto de la gama, y la cobertura sRGB del 99% lo hace apto para trabajo profesional. Su principal limitación es el brillo moderado, que puede ser un problema en habitaciones con mucha luz natural. Para el resto de casos de uso habituales en teletrabajo, es una opción sólida y bien valorada.
-
-> ⚠️ **Aviso**: Los precios mostrados son orientativos. Te recomendamos verificar el precio actual antes de comprar. FitzDesk puede recibir una comisión por compras realizadas a través de los enlaces de esta página.

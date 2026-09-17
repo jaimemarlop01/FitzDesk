@@ -8,7 +8,7 @@ imagen: "/images/articulos/asus-vivobook-15-oferta.webp"
 precio_oferta: "649€"
 precio_normal: "799€"
 descuento: "19%"
-enlace_afiliado: "https://www.pccomponentes.com/buscador/?query=ASUS%20Vivobook%2015"
+enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=asus+vivobook+15"
 tiempo_lectura: "2 min"
 tipo: "oferta"
 oferta_activa: true

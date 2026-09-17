@@ -1,4 +1,4 @@
----
+﻿---
 title: "Logitech G515 TKL: mecánico perfil bajo inalámbrico para teletrabajar sin ruido"
 slug: "logitech-g515-tkl-analisis"
 categoria: "teclados"
@@ -18,13 +18,11 @@ enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=logitech+g515+tkl"
 tiempo_lectura: "6 min"
 tipo: "analisis"
 borrador: true
-imagen_placeholder: true
 keyword_principal: "Logitech G515 TKL mecánico perfil bajo"
 keywords_secundarias:
   - "teclado mecánico perfil bajo inalámbrico"
   - "Logitech G515 teletrabajo"
   - "teclado mecánico silencioso multi-dispositivo"
-fitzQuote: "El G515 TKL rompe una norma del mercado: teclado mecánico de perfil bajo inalámbrico a tres dispositivos con 600 horas de batería. Comparte base con el G915 TKL pero a la mitad del precio. Si quieres mecánico, perfil bajo y que no agote la batería en semanas, no hay rival directo. Mi nota: 8.5/10"
 ---
 
 Los teclados mecánicos de perfil bajo son una categoría que Logitech dominó durante años con el G915 TKL (el más caro, con aluminio y todas las prestaciones) pero que dejó sin una opción de precio medio durante demasiado tiempo. El G515 TKL llega a llenar ese hueco: mismos switches GL de perfil bajo, misma conectividad inalámbrica para tres dispositivos, misma autonomía declarada de 600 horas, pero en un cuerpo de plástico y a la mitad del precio.
@@ -96,5 +94,3 @@ El G515 TKL rompe una norma del mercado: teclado mecánico de perfil bajo inalá
 ## Conclusión
 
 El Logitech G515 TKL es la opción recomendada para quien quiere la experiencia del teclado mecánico en el formato de perfil bajo habitual en los de membrana, sin renunciar a la conectividad trimodal ni a una autonomía que se mide en meses. A 129€ es la alternativa más equilibrada entre el MX Keys S (membrana premium) y el G915 TKL (mecánico premium con aluminio), y para muchos usuarios el punto óptimo de la gama.
-
-> ⚠️ **Aviso**: Los precios mostrados son orientativos. Te recomendamos verificar el precio actual antes de comprar. FitzDesk puede recibir una comisión por compras realizadas a través de los enlaces de esta página.
