@@ -20,7 +20,6 @@ enlaces:
   - "https://www.pccomponentes.com/buscar/?query=keychron+k2+max"
   - "https://www.pccomponentes.com/buscar/?query=corsair+k70+core+tkl"
   - "https://www.pccomponentes.com/buscar/?query=logitech+mx+mechanical"
-borrador: true
 ---
 
 Si llevas horas escribiendo al día, el teclado es la herramienta de trabajo con la que más contacto físico tienes. Y sin embargo, la mayoría de las guías de setup de teletrabajo lo tratan como un accesorio secundario, por detrás del monitor o la silla. Esta guía es para quien quiere tomárselo en serio.
