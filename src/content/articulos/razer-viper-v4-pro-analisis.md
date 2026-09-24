@@ -11,7 +11,6 @@ precio: "Ver precio"
 enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=razer+viper+v4+pro"
 tiempo_lectura: "7 min"
 tipo: "analisis"
-borrador: true
 keyword_principal: "ratón inalámbrico ultrapreciso"
 keywords_secundarias:
   - "Razer Viper V4 Pro"
