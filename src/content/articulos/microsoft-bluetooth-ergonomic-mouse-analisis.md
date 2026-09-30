@@ -22,7 +22,6 @@ keywords_secundarias:
   - "Microsoft Bluetooth Ergonomic Mouse"
   - "ratón ergonómico Bluetooth"
   - "ratón para teletrabajo Microsoft"
-borrador: true
 conectividad: "Bluetooth 5.0"
 cable: "Inalámbrico"
 dpi: "800–2400 DPI"
