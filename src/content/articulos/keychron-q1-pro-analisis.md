@@ -1,4 +1,4 @@
----
+﻿---
 title: "Keychron Q1 Pro: el teclado mecánico premium inalámbrico con aluminio"
 slug: "keychron-q1-pro-analisis"
 categoria: "teclados"
@@ -17,14 +17,11 @@ precio: "180€"
 enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=keychron+q1+pro"
 tiempo_lectura: "7 min"
 tipo: "analisis"
-borrador: true
-imagen_placeholder: true
 keyword_principal: "Keychron Q1 Pro teclado mecánico"
 keywords_secundarias:
   - "teclado mecánico premium inalámbrico"
   - "teclado aluminio QMK"
   - "mecánico 75% hot-swap"
-fitzQuote: "El Q1 Pro es el teclado para quien ya sabe exactamente lo que quiere: aluminio sólido, personalización total y la libertad de no depender del cable. Si llevas tiempo buscando el mecánico definitivo para tu escritorio, probablemente lo acabas de encontrar. Mi nota: 9.0/10"
 ---
 
 La gama Q de Keychron marcó un antes y un después en los teclados mecánicos de calidad a precio razonable. El Q1 fue la primera propuesta con cuerpo de aluminio CNC, montaje gasket y compatibilidad con QMK/VIA, características que antes solo se encontraban en teclados de edición limitada o precios de tres cifras. El Q1 Pro añade lo que faltaba al Q1: conectividad inalámbrica a través de Bluetooth 5.1 con batería de 4.000 mAh, sin renunciar a ninguna de las virtudes del original.
@@ -97,5 +94,3 @@ El Q1 Pro es el teclado para quien ya sabe exactamente lo que quiere: aluminio s
 ## Conclusión
 
 El Keychron Q1 Pro es la propuesta más completa de Keychron para el usuario que no quiere compromisos: aluminio, gasket mount, hot-swap, QMK/VIA e inalámbrico en un solo paquete. A 180€ es caro para ser un teclado, pero los componentes justifican el precio si el teclado es la herramienta que más usas durante el día. Para el resto, la gama Q sin inalámbrico o la gama K de Keychron ofrecen prestaciones muy sólidas a precios considerablemente más bajos.
-
-> ⚠️ **Aviso**: Los precios mostrados son orientativos. Te recomendamos verificar el precio actual antes de comprar. FitzDesk puede recibir una comisión por compras realizadas a través de los enlaces de esta página.
