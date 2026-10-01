@@ -17,7 +17,6 @@ precio: "180€"
 enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=keychron+q1+pro"
 tiempo_lectura: "7 min"
 tipo: "analisis"
-borrador: true
 keyword_principal: "Keychron Q1 Pro teclado mecánico"
 keywords_secundarias:
   - "teclado mecánico premium inalámbrico"
