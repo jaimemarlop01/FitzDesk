@@ -8,7 +8,6 @@ imagen: "/images/articulos/mejores-ratones-inalambricos-teletrabajo-2026.webp"
 imagen_thumb: "/images/articulos/mejores-ratones-inalambricos-teletrabajo-2026-thumb.webp"
 tiempo_lectura: "7 min"
 tipo: "guia"
-borrador: true
 keyword_principal: "mejores ratones inalámbricos teletrabajo"
 keywords_secundarias:
   - "ratón inalámbrico trabajo"
