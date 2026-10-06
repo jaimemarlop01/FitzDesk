@@ -17,7 +17,6 @@ precio: "80€"
 enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=microsoft+arc+mouse"
 tiempo_lectura: "6 min"
 tipo: "analisis"
-borrador: true
 keyword_principal: "Microsoft Arc Mouse teletrabajo"
 keywords_secundarias:
   - "ratón plegable Bluetooth"
