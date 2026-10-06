@@ -1,5 +1,5 @@
----
-title: "Microsoft Arc Mouse: el ratón plegable para teletrabajadores en movimiento"
+﻿---
+title: "Microsoft Arc Mouse: el ratón plegable para trabajar en movimiento"
 slug: "microsoft-arc-mouse-analisis"
 categoria: "ratones"
 fecha: "2026-10-06"
@@ -17,14 +17,11 @@ precio: "80€"
 enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=microsoft+arc+mouse"
 tiempo_lectura: "6 min"
 tipo: "analisis"
-borrador: true
-imagen_placeholder: true
 keyword_principal: "Microsoft Arc Mouse teletrabajo"
 keywords_secundarias:
   - "ratón plegable Bluetooth"
   - "ratón portátil trabajo"
   - "Microsoft ratón compacto"
-fitzQuote: "El Arc Mouse tiene el mejor mecanismo de apagado que he visto en un ratón: lo doblas y se apaga, lo extiendes y se enciende. El concepto es brillante. La ergonomía en jornadas largas ya es otra conversación. Mi nota: 7.5/10"
 ---
 
 El Microsoft Arc Mouse lleva una década siendo uno de los diseños más reconocibles del mundo del hardware. El concepto es simple y elegante: un ratón completamente plano que se curva para adoptar la forma ergonómica cuando lo usas y se aplana de nuevo para caber en cualquier funda o bolsillo cuando no lo necesitas. Al plegarlo se apaga automáticamente; al abrirlo, se enciende. No hay ningún botón de encendido, ningún cable, ningún receptor USB que perder.
@@ -102,5 +99,3 @@ El Arc Mouse tiene el mejor mecanismo de apagado que he visto en un ratón: lo d
 ## Conclusión
 
 El Microsoft Arc Mouse es un producto de nicho que hace muy bien lo que promete: ser el ratón más portátil y elegante del mercado. Su punto débil es también lo que lo hace especial: el diseño compacto sacrifica la ergonomía para jornadas largas y la rueda táctil no reemplaza al 100% la sensación de una rueda mecánica de calidad. Si tu caso de uso principal es el trabajo en movimiento, es difícil encontrar algo mejor a este precio. Si buscas un ratón para el escritorio de casa donde pasarás ocho horas al día, hay opciones más cómodas con prestaciones similares.
-
-> ⚠️ **Aviso**: Los precios mostrados son orientativos. Te recomendamos verificar el precio actual antes de comprar. FitzDesk puede recibir una comisión por compras realizadas a través de los enlaces de esta página.
