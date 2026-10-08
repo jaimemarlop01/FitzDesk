@@ -17,7 +17,6 @@ precio: "99€"
 enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=logitech+mx+keys+mini"
 tiempo_lectura: "6 min"
 tipo: "analisis"
-borrador: true
 keyword_principal: "Logitech MX Keys Mini teclado compacto"
 keywords_secundarias:
   - "teclado 65% inalámbrico trabajo"
