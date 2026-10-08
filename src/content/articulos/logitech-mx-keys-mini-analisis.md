@@ -1,9 +1,9 @@
----
-title: "Logitech MX Keys Mini: el teclado compacto para setups sin espacio libre"
+﻿---
+title: "Logitech MX Keys Mini: teclado compacto para setups reducidos"
 slug: "logitech-mx-keys-mini-analisis"
 categoria: "teclados"
 fecha: "2026-10-22"
-descripcion: "Logitech MX Keys Mini: teclado 65% inalámbrico con retroiluminación adaptativa, perfil bajo y tres dispositivos. ¿Merece la pena frente al MX Keys S completo?"
+descripcion: "Logitech MX Keys Mini: teclado 65% inalámbrico con retroiluminación adaptativa y tres dispositivos. ¿Merece frente al MX Keys S completo?"
 imagen: "/images/articulos/logitech-mx-keys-mini-analisis.webp"
 imagen_thumb: "/images/articulos/logitech-mx-keys-mini-analisis-thumb.webp"
 puntuacion: 8.0
@@ -17,14 +17,11 @@ precio: "99€"
 enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=logitech+mx+keys+mini"
 tiempo_lectura: "6 min"
 tipo: "analisis"
-borrador: true
-imagen_placeholder: true
 keyword_principal: "Logitech MX Keys Mini teclado compacto"
 keywords_secundarias:
   - "teclado 65% inalámbrico trabajo"
   - "MX Keys Mini vs MX Keys S"
   - "teclado compacto Bluetooth retroiluminación"
-fitzQuote: "El MX Keys Mini hace una cosa que el MX Keys S no puede: caber en cualquier escritorio sin que el ratón acabe en el borde. Si el espacio es tu problema, aquí está la solución. Si puedes tener el teclado completo, úsalo. Mi nota: 8.0/10"
 ---
 
 El Logitech MX Keys S (analizado previamente en FitzDesk) es uno de los mejores teclados de membrana para teletrabajo. Pero tiene un problema evidente para quienes trabajan en mesas pequeñas o quieren un setup minimalista: mide 43 cm de ancho con el teclado numérico. El MX Keys Mini resuelve ese problema ofreciendo la misma experiencia de escritura en un formato 65% —sin teclado numérico y con teclas de función en capa secundaria— que mide apenas 29,6 cm.
@@ -105,5 +102,3 @@ El MX Keys Mini hace una cosa que el MX Keys S no puede: caber en cualquier escr
 ## Conclusión
 
 El Logitech MX Keys Mini es una versión reducida del MX Keys S que mantiene la esencia de la experiencia de escritura (teclas esféricas de bajo perfil, tres dispositivos, USB-C) en un formato que ocupa un tercio menos de espacio. El precio es algo superior al modelo completo, lo que puede parecer paradójico, pero la ingeniería del formato compacto y la retroiluminación adaptativa lo justifican. Para el usuario adecuado —sin necesidad de numpad y con espacio limitado— es una opción difícil de superar en el segmento de teclados de membrana premium.
-
-> ⚠️ **Aviso**: Los precios mostrados son orientativos. Te recomendamos verificar el precio actual antes de comprar. FitzDesk puede recibir una comisión por compras realizadas a través de los enlaces de esta página.
