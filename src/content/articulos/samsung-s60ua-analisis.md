@@ -17,7 +17,6 @@ precio: "349€"
 enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=samsung+s60ua"
 tiempo_lectura: "6 min"
 tipo: "analisis"
-borrador: true
 keyword_principal: "Samsung ViewFinity S60UA 4K monitor USB-C"
 keywords_secundarias:
   - "monitor 4K 27 pulgadas teletrabajo"
