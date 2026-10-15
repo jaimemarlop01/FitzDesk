@@ -17,7 +17,6 @@ precio: "45€"
 enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=kensington+pro+fit+ergo+wireless"
 tiempo_lectura: "6 min"
 tipo: "analisis"
-borrador: true
 keyword_principal: "Kensington Pro Fit Ergo ratón ergonómico"
 keywords_secundarias:
   - "ratón vertical teletrabajo"
