@@ -1,228 +1,6 @@
 {
   "entries": [
     {
-      "id": "https://hardzone.es/noticias/procesadores/especificaciones-procesador-amd-ryzen-z3/",
-      "url": "https://hardzone.es/noticias/procesadores/especificaciones-procesador-amd-ryzen-z3/",
-      "titleHash": "4b0543cb19e7e712441946250c81bd96",
-      "ts": 1790944059817
-    },
-    {
-      "id": "https://hardzone.es/noticias/equipos/revision-ps5-slim-2026-cambios-durabilidad/",
-      "url": "https://hardzone.es/noticias/equipos/revision-ps5-slim-2026-cambios-durabilidad/",
-      "titleHash": "f23e97a305a5e792e4f061449472ac98",
-      "ts": 1790944059819
-    },
-    {
-      "id": "https://hardzone.es/noticias/equipos/nueva-subida-precios-rasbperry-pi/",
-      "url": "https://hardzone.es/noticias/equipos/nueva-subida-precios-rasbperry-pi/",
-      "titleHash": "740d139a83e4c569bb83ba23978eb726",
-      "ts": 1790944059820
-    },
-    {
-      "id": "https://hardzone.es/noticias/juegos/geforce-now-arranca-octubre-25-nuevos-juegos-mes/",
-      "url": "https://hardzone.es/noticias/juegos/geforce-now-arranca-octubre-25-nuevos-juegos-mes/",
-      "titleHash": "f107fc1e104cbfe7c01dd94e10b828c1",
-      "ts": 1790944059822
-    },
-    {
-      "id": "https://hardzone.es/noticias/juegos/steam-ofertas-otono-1-8-octubre-juegos-bajan-precio/",
-      "url": "https://hardzone.es/noticias/juegos/steam-ofertas-otono-1-8-octubre-juegos-bajan-precio/",
-      "titleHash": "b006b905799f357118b2b6a0b75aabc6",
-      "ts": 1790944059823
-    },
-    {
-      "id": "https://hardzone.es/ofertas/amazon/portatil-lenovo-1026/",
-      "url": "https://hardzone.es/ofertas/amazon/portatil-lenovo-1026/",
-      "titleHash": "56c76a7a6bae55edf42acc9afb2ec4ff",
-      "ts": 1790944060046
-    },
-    {
-      "id": "https://hardzone.es/noticias/tarjetas-graficas/dlss-45-llega-rdna-4-primeras-pruebas-mod-radeon-rx-9000/",
-      "url": "https://hardzone.es/noticias/tarjetas-graficas/dlss-45-llega-rdna-4-primeras-pruebas-mod-radeon-rx-9000/",
-      "titleHash": "e7f7f0a825407b5589e4ddceb100be9e",
-      "ts": 1790944061548
-    },
-    {
-      "id": "https://hardzone.es/noticias/equipos/psp-3-chip-3nm-eficiencia-autonomia/",
-      "url": "https://hardzone.es/noticias/equipos/psp-3-chip-3nm-eficiencia-autonomia/",
-      "titleHash": "7d4be7bc21e4d33ed2d2724d7fb44ee8",
-      "ts": 1790944061549
-    },
-    {
-      "id": "https://www.google.com/url?rct=j&sa=t&url=https://www.xataka.com/seleccion/lg-presenta-su-nuevo-televisor-portatil-bateria-integrada-para-ver-tele-cualquier-habitacion&ct=ga&cd=CAIyGzE0ZGI4MmY5NjA1ZDI0ZTU6ZXM6ZXM6RVM6Ug&usg=AOvVaw0KOr6aXFGvbHb2Ptzmgymz",
-      "url": "https://www.google.com/url",
-      "titleHash": "e119b6851db0222cc111ac64a925fe30",
-      "ts": 1790944062425
-    },
-    {
-      "id": "https://www.xataka.com/magnet/como-mayor-cadena-bufes-eeuu-ha-descifrado-matematicas-todo-que-puedas-comer-secreto-esta-patatas",
-      "url": "https://www.xataka.com/magnet/como-mayor-cadena-bufes-eeuu-ha-descifrado-matematicas-todo-que-puedas-comer-secreto-esta-patatas",
-      "titleHash": "a0d3dcdaf195ac08be571c6902f507c6",
-      "ts": 1791027323902
-    },
-    {
-      "id": "https://www.xataka.com/empresas-y-economia/justicia-burgo-ebro-villanueva-gallego-se-plantan-centros-datos-amazon-como-tributan",
-      "url": "https://www.xataka.com/empresas-y-economia/justicia-burgo-ebro-villanueva-gallego-se-plantan-centros-datos-amazon-como-tributan",
-      "titleHash": "a7a8f958dd5f5fc8513ade9ace464bd7",
-      "ts": 1791027323904
-    },
-    {
-      "id": "https://www.xataka.com/movilidad/andres-becares-responsable-concesionario-ebro-gente-no-se-hipoteca-bmw-prefiere-compra-racional",
-      "url": "https://www.xataka.com/movilidad/andres-becares-responsable-concesionario-ebro-gente-no-se-hipoteca-bmw-prefiere-compra-racional",
-      "titleHash": "8285996982e503d1cdbf6ad61e52167f",
-      "ts": 1791027323907
-    },
-    {
-      "id": "https://www.xataka.com/magnet/juego-siguiente-dibujar-fronteras-balcanes-18xx-provocar-guerras-sangrientas-limpiezas-etnicas",
-      "url": "https://www.xataka.com/magnet/juego-siguiente-dibujar-fronteras-balcanes-18xx-provocar-guerras-sangrientas-limpiezas-etnicas",
-      "titleHash": "c92219ecb583c6be4868c572e929dce8",
-      "ts": 1791027323910
-    },
-    {
-      "id": "https://www.xataka.com/seguridad/17-3-billones-filas-usar-admin-como-usuario-agujero-microsoft-que-descubrio-chaval-16-anos",
-      "url": "https://www.xataka.com/seguridad/17-3-billones-filas-usar-admin-como-usuario-agujero-microsoft-que-descubrio-chaval-16-anos",
-      "titleHash": "0e33d96908391561b19247d1f1ec7f61",
-      "ts": 1791027323916
-    },
-    {
-      "id": "https://www.xataka.com/magnet/hace-tres-dias-eres-extranjero-japon-te-va-a-costar-20-veces-quedarte-a-vivir-para-siempre",
-      "url": "https://www.xataka.com/magnet/hace-tres-dias-eres-extranjero-japon-te-va-a-costar-20-veces-quedarte-a-vivir-para-siempre",
-      "titleHash": "9e52c24d34d4909ee2f6b2568e50b87b",
-      "ts": 1791027323919
-    },
-    {
-      "id": "https://www.xataka.com/empresas-y-economia/microsoft-queria-que-ceo-linkedin-fuera-a-oficina-cada-dia-ha-preferido-dejar-empresa-mudarse",
-      "url": "https://www.xataka.com/empresas-y-economia/microsoft-queria-que-ceo-linkedin-fuera-a-oficina-cada-dia-ha-preferido-dejar-empresa-mudarse",
-      "titleHash": "a546cd306804173420a7864727fa2e94",
-      "ts": 1791027323922
-    },
-    {
-      "id": "https://www.xataka.com/empresas-y-economia/nunca-antes-hemos-tenido-herramientas-ia-para-ser-productivos-dificil-encontrar-suite-perfecta",
-      "url": "https://www.xataka.com/empresas-y-economia/nunca-antes-hemos-tenido-herramientas-ia-para-ser-productivos-dificil-encontrar-suite-perfecta",
-      "titleHash": "6cea445fa0219dbfd741c7b4eb4e3e5a",
-      "ts": 1791027323924
-    },
-    {
-      "id": "https://www.xataka.com/seleccion/liquidacion-teles-outlet-corte-ingles-marcas-samsung-sony-lg",
-      "url": "https://www.xataka.com/seleccion/liquidacion-teles-outlet-corte-ingles-marcas-samsung-sony-lg",
-      "titleHash": "8b8256d87eb1994aff72c5e3203f3595",
-      "ts": 1791027323927
-    },
-    {
-      "id": "https://www.xataka.com/magnet/castillos-espana-llamativo-mapa-3d-132-fortalezas-sus-maquetas",
-      "url": "https://www.xataka.com/magnet/castillos-espana-llamativo-mapa-3d-132-fortalezas-sus-maquetas",
-      "titleHash": "a52da130e60260832673069790da67b0",
-      "ts": 1791027323931
-    },
-    {
-      "id": "https://www.xataka.com/streaming/streamer-bulgaro-ajedrez-se-enfrento-casualidad-a-magnus-carlsen-partida-online-acto-seguido-se-volvio-loco",
-      "url": "https://www.xataka.com/streaming/streamer-bulgaro-ajedrez-se-enfrento-casualidad-a-magnus-carlsen-partida-online-acto-seguido-se-volvio-loco",
-      "titleHash": "285f039613614dbdbd24844a20ed3a7d",
-      "ts": 1791027323969
-    },
-    {
-      "id": "https://www.xataka.com/accesorios/invento-capsula-nespresso-nestle-hizo-miles-millones-ella-su-creador-no-cobro-royalties-se-hizo-rico",
-      "url": "https://www.xataka.com/accesorios/invento-capsula-nespresso-nestle-hizo-miles-millones-ella-su-creador-no-cobro-royalties-se-hizo-rico",
-      "titleHash": "bcd4e746fb5208ccbf8155e1c53abb79",
-      "ts": 1791027323972
-    },
-    {
-      "id": "https://www.xataka.com/mexico/hoy-no-circula-sabatino-que-autos-pueden-circular-cuales-descansan-3-octubre",
-      "url": "https://www.xataka.com/mexico/hoy-no-circula-sabatino-que-autos-pueden-circular-cuales-descansan-3-octubre",
-      "titleHash": "09725958cf0756cf68df722eec22e655",
-      "ts": 1791027323994
-    },
-    {
-      "id": "https://www.xataka.com/movilidad/hay-carrera-totalmente-absurda-tener-carga-rapida-coche-electrico-geely-acaba-superar-a-byd",
-      "url": "https://www.xataka.com/movilidad/hay-carrera-totalmente-absurda-tener-carga-rapida-coche-electrico-geely-acaba-superar-a-byd",
-      "titleHash": "7b02a42485c254bb55fdd08a60458fed",
-      "ts": 1791027324017
-    },
-    {
-      "id": "https://www.xataka.com/espacio/spacex-ha-lanzado-tres-cohetes-13-horas-ultimo-llevaba-secreto-estados-unidos",
-      "url": "https://www.xataka.com/espacio/spacex-ha-lanzado-tres-cohetes-13-horas-ultimo-llevaba-secreto-estados-unidos",
-      "titleHash": "c1e8c4147d5f772a271f932171c0b96e",
-      "ts": 1791027324019
-    },
-    {
-      "id": "https://www.xataka.com/robotica-e-ia/tenemos-nuevo-modelo-capaz-pasar-test-turing-video-al-eso-dicen-sus-creadores",
-      "url": "https://www.xataka.com/robotica-e-ia/tenemos-nuevo-modelo-capaz-pasar-test-turing-video-al-eso-dicen-sus-creadores",
-      "titleHash": "7633272eac9dac2940fb70dc3d1cd63a",
-      "ts": 1791027324021
-    },
-    {
-      "id": "https://www.xataka.com/magnet/mitico-bar-madrid-donde-se-rodo-esa-escena-bola-negra-cafe-pota-familia-al-frente-1959",
-      "url": "https://www.xataka.com/magnet/mitico-bar-madrid-donde-se-rodo-esa-escena-bola-negra-cafe-pota-familia-al-frente-1959",
-      "titleHash": "3f4e329dc2c50beb9862fe7f735871da",
-      "ts": 1791027324080
-    },
-    {
-      "id": "https://www.xataka.com/seleccion/anos-teletrabajando-estas-tres-herramientas-que-no-pueden-faltar-mi-portatil-movil-para-trabajar-forma-segura",
-      "url": "https://www.xataka.com/seleccion/anos-teletrabajando-estas-tres-herramientas-que-no-pueden-faltar-mi-portatil-movil-para-trabajar-forma-segura",
-      "titleHash": "4798f9f4611bc4a82c28b01deb8f7e51",
-      "ts": 1791027324082
-    },
-    {
-      "id": "https://www.xataka.com/movilidad/20-anos-despues-extremadura-tiene-luz-verde-para-construir-ansiada-autovia-badajoz-problema-que-no-autovia",
-      "url": "https://www.xataka.com/movilidad/20-anos-despues-extremadura-tiene-luz-verde-para-construir-ansiada-autovia-badajoz-problema-que-no-autovia",
-      "titleHash": "b79b28a89b57294cb87a4751915599c1",
-      "ts": 1791027324097
-    },
-    {
-      "id": "https://www.xataka.com/magnet/pleno-s-xxi-california-acaba-prohibir-matrimonio-infantil-solo-quedan-32-estados-eeuu-que-permiten",
-      "url": "https://www.xataka.com/magnet/pleno-s-xxi-california-acaba-prohibir-matrimonio-infantil-solo-quedan-32-estados-eeuu-que-permiten",
-      "titleHash": "57e26570029c9fd800e2188745b5b949",
-      "ts": 1791027324128
-    },
-    {
-      "id": "https://www.xataka.com/ecologia-y-naturaleza/europa-cauces-secos-grandes-rios-europeos-se-quedan-agua-ponen-jaque-l-todo-que-continente-cree",
-      "url": "https://www.xataka.com/ecologia-y-naturaleza/europa-cauces-secos-grandes-rios-europeos-se-quedan-agua-ponen-jaque-l-todo-que-continente-cree",
-      "titleHash": "af3bafb652404e4fb5d82dce864ecd69",
-      "ts": 1791027324130
-    },
-    {
-      "id": "https://www.xataka.com/medicina-y-salud/siempre-nos-han-dicho-que-normal-perder-100-pelos-al-dia-estudios-que-han-contado-verdad-dicen-otra-cosa",
-      "url": "https://www.xataka.com/medicina-y-salud/siempre-nos-han-dicho-que-normal-perder-100-pelos-al-dia-estudios-que-han-contado-verdad-dicen-otra-cosa",
-      "titleHash": "656f5b86a949bf41dca0acdecd30e8a0",
-      "ts": 1791027324131
-    },
-    {
-      "id": "https://www.xataka.com/literatura-comics-y-juegos/quiza-dentro-10-anos-llegue-a-ser-algo-muy-grande-he-superado-primer-dia-comic-malaga-2026",
-      "url": "https://www.xataka.com/literatura-comics-y-juegos/quiza-dentro-10-anos-llegue-a-ser-algo-muy-grande-he-superado-primer-dia-comic-malaga-2026",
-      "titleHash": "9bba0ad33aa2b1b380feec68736aa959",
-      "ts": 1791027324179
-    },
-    {
-      "id": "https://www.xataka.com/magnet/hace-siete-anos-mercadona-era-perfecta-desconocida-portugal-hoy-vende-a-mitad-sus-hogares",
-      "url": "https://www.xataka.com/magnet/hace-siete-anos-mercadona-era-perfecta-desconocida-portugal-hoy-vende-a-mitad-sus-hogares",
-      "titleHash": "19f27b7814243f717c8e815f4899a75f",
-      "ts": 1791027324180
-    },
-    {
-      "id": "https://www.xataka.com/seleccion/marshall-estrena-bromley-150-altavoz-para-fiestas-40-horas-bateria-luces-escenario-e-interfaz-para-guitarra-micro",
-      "url": "https://www.xataka.com/seleccion/marshall-estrena-bromley-150-altavoz-para-fiestas-40-horas-bateria-luces-escenario-e-interfaz-para-guitarra-micro",
-      "titleHash": "237c52540f3d7d109b20693ad24956eb",
-      "ts": 1791027324224
-    },
-    {
-      "id": "https://www.xataka.com/movilidad/demasiado-tarde-ceo-ford-cree-que-europa-ha-perdido-batalla-coches-chinos-avisa-a-eeuu-que-no-cometa-error",
-      "url": "https://www.xataka.com/movilidad/demasiado-tarde-ceo-ford-cree-que-europa-ha-perdido-batalla-coches-chinos-avisa-a-eeuu-que-no-cometa-error",
-      "titleHash": "f064611bb54b3351d7e8f0283b4afc15",
-      "ts": 1791027324269
-    },
-    {
-      "id": "https://hardzone.es/noticias/perifericos/auriculares-abiertos-cerrados-semiabiertos-gaming-cuando-usar/",
-      "url": "https://hardzone.es/noticias/perifericos/auriculares-abiertos-cerrados-semiabiertos-gaming-cuando-usar/",
-      "titleHash": "639c0a07d9cc43d6f54f575e16fea33f",
-      "ts": 1791027326734
-    },
-    {
-      "id": "https://hardzone.es/noticias/juegos/web-jugar-juegos-clasicos-pc-windows/",
-      "url": "https://hardzone.es/noticias/juegos/web-jugar-juegos-clasicos-pc-windows/",
-      "titleHash": "0fcbf91b3569aa008648c6ff696ea48c",
-      "ts": 1791027326735
-    },
-    {
       "id": "https://hardzone.es/noticias/tarjetas-graficas/rtx-5070-dispara-steam-tarjeta-grafica-popular-plataforma/",
       "url": "https://hardzone.es/noticias/tarjetas-graficas/rtx-5070-dispara-steam-tarjeta-grafica-popular-plataforma/",
       "titleHash": "a2c75f241264b528ac7145612f14040b",
@@ -2999,6 +2777,228 @@
       "url": "https://hardzone.es/noticias/procesadores/nvidia-rtx-spark-plataforma-windows/",
       "titleHash": "57bb1ce0df814272f4e7095a6cec3c05",
       "ts": 1792149424098
+    },
+    {
+      "id": "https://www.xataka.com/magnet/rusia-puso-motores-a-reaccion-a-sus-drones-para-volar-a-600-km-h-respuesta-ucrania-ha-sido-darle-ojos-cerebro-a-ametralladora",
+      "url": "https://www.xataka.com/magnet/rusia-puso-motores-a-reaccion-a-sus-drones-para-volar-a-600-km-h-respuesta-ucrania-ha-sido-darle-ojos-cerebro-a-ametralladora",
+      "titleHash": "ead4c1cefaac1d6db17830de7f36fb12",
+      "ts": 1792233395063
+    },
+    {
+      "id": "https://www.xataka.com/magnet/posible-encontrar-casas-9-000-euros-pueblos-remotos-cuenca-verdadero-problema-llega-despues",
+      "url": "https://www.xataka.com/magnet/posible-encontrar-casas-9-000-euros-pueblos-remotos-cuenca-verdadero-problema-llega-despues",
+      "titleHash": "202cd73141c8cf0e46e4719a25756145",
+      "ts": 1792233395064
+    },
+    {
+      "id": "https://www.xataka.com/medicina-y-salud/asi-rutina-ideal-para-manejar-estres-manana-meditaciones-mindfulness",
+      "url": "https://www.xataka.com/medicina-y-salud/asi-rutina-ideal-para-manejar-estres-manana-meditaciones-mindfulness",
+      "titleHash": "a67f70774945c03be89e5bca31c21162",
+      "ts": 1792233395065
+    },
+    {
+      "id": "https://www.xataka.com/robotica-e-ia/zhang-yiming-dueno-tiktok-ha-duplicado-su-fortuna-su-secreto-ia-claro",
+      "url": "https://www.xataka.com/robotica-e-ia/zhang-yiming-dueno-tiktok-ha-duplicado-su-fortuna-su-secreto-ia-claro",
+      "titleHash": "df59dcb0e51c360b49708417f8a9f85d",
+      "ts": 1792233395066
+    },
+    {
+      "id": "https://www.xataka.com/seleccion/corte-ingles-esta-liquidando-todas-estas-teles-su-outlet-online-marcas-lg-samsung",
+      "url": "https://www.xataka.com/seleccion/corte-ingles-esta-liquidando-todas-estas-teles-su-outlet-online-marcas-lg-samsung",
+      "titleHash": "17174704187a977c98a6edcb4da4dba3",
+      "ts": 1792233395070
+    },
+    {
+      "id": "https://www.xataka.com/robotica-e-ia/chatgpt-sigue-siendo-rey-no-intocable-asi-ha-cambiado-mapa-ia-ano",
+      "url": "https://www.xataka.com/robotica-e-ia/chatgpt-sigue-siendo-rey-no-intocable-asi-ha-cambiado-mapa-ia-ano",
+      "titleHash": "a90dbbea3fece239da4640d9ce5e4522",
+      "ts": 1792233395070
+    },
+    {
+      "id": "https://www.xataka.com/telefono-movil/hoy-entra-vigor-prefijo-400-como-reconocer-bloquear-llamadas-comerciales-que-no-acabara-todo-spam",
+      "url": "https://www.xataka.com/telefono-movil/hoy-entra-vigor-prefijo-400-como-reconocer-bloquear-llamadas-comerciales-que-no-acabara-todo-spam",
+      "titleHash": "6b3b9ee3500d7906538aa202fce7fa52",
+      "ts": 1792233395072
+    },
+    {
+      "id": "https://www.xataka.com/ecologia-y-naturaleza/china-6-000-metros-al-fondo-pacifico-buscando-metales-para-sus-baterias-ha-encontrado-11-700-virus-que-desconociamos",
+      "url": "https://www.xataka.com/ecologia-y-naturaleza/china-6-000-metros-al-fondo-pacifico-buscando-metales-para-sus-baterias-ha-encontrado-11-700-virus-que-desconociamos",
+      "titleHash": "43af4582d6c8b8464a7a2b563d48bbba",
+      "ts": 1792233395073
+    },
+    {
+      "id": "https://www.xataka.com/magnet/noruega-arqueologos-han-recuperado-48-objetos-hace-6-000-anos-pesima-noticia-para-planeta",
+      "url": "https://www.xataka.com/magnet/noruega-arqueologos-han-recuperado-48-objetos-hace-6-000-anos-pesima-noticia-para-planeta",
+      "titleHash": "53a28cb9d657fda808ae871cb085b6ad",
+      "ts": 1792233395075
+    },
+    {
+      "id": "https://www.xataka.com/ecologia-y-naturaleza/botijos-granadinos-nieve-masticada-imprenta-brooklyn-larga-historia-como-llegamos-al-aire-acondicionado",
+      "url": "https://www.xataka.com/ecologia-y-naturaleza/botijos-granadinos-nieve-masticada-imprenta-brooklyn-larga-historia-como-llegamos-al-aire-acondicionado",
+      "titleHash": "2ba39e1868fd3ad96c8b1f73f7f7143d",
+      "ts": 1792233395076
+    },
+    {
+      "id": "https://www.xataka.com/robotica-e-ia/agentes-ia-estan-aprendiendo-a-mejorar-su-propio-software-clave-puede-estar-predecir-sus-errores-antes-cometerlos",
+      "url": "https://www.xataka.com/robotica-e-ia/agentes-ia-estan-aprendiendo-a-mejorar-su-propio-software-clave-puede-estar-predecir-sus-errores-antes-cometerlos",
+      "titleHash": "c07a3dbd41d86577888bbca224607e9a",
+      "ts": 1792233395077
+    },
+    {
+      "id": "https://www.xataka.com/robotica-e-ia/openai-pidio-a-ia-que-terminara-tarea-programacion-acabo-entrando-cartera-ajena-para-conseguirlo",
+      "url": "https://www.xataka.com/robotica-e-ia/openai-pidio-a-ia-que-terminara-tarea-programacion-acabo-entrando-cartera-ajena-para-conseguirlo",
+      "titleHash": "846baf7d817366de0c2ada521510523c",
+      "ts": 1792233395078
+    },
+    {
+      "id": "https://www.xataka.com/seleccion/oficial-asi-segunda-generacion-auriculares-reparables-ahora-soporte-ldac-bateria-intercambiable",
+      "url": "https://www.xataka.com/seleccion/oficial-asi-segunda-generacion-auriculares-reparables-ahora-soporte-ldac-bateria-intercambiable",
+      "titleHash": "2ceee28a7a269670245ccc769b6bb279",
+      "ts": 1792233395079
+    },
+    {
+      "id": "https://www.xataka.com/streaming/este-drama-que-arrasa-prime-video-aborda-tema-que-genero-lleva-seis-anos-esquivando-pandemia",
+      "url": "https://www.xataka.com/streaming/este-drama-que-arrasa-prime-video-aborda-tema-que-genero-lleva-seis-anos-esquivando-pandemia",
+      "titleHash": "34d2840d42e96f98a0d95b5f6337a71f",
+      "ts": 1792233395080
+    },
+    {
+      "id": "https://www.xataka.com/cine-y-tv/nueva-pelicula-netflix-ha-conseguido-que-hollywood-no-logro-55-anos-historia-usar-stairway-to-heaven",
+      "url": "https://www.xataka.com/cine-y-tv/nueva-pelicula-netflix-ha-conseguido-que-hollywood-no-logro-55-anos-historia-usar-stairway-to-heaven",
+      "titleHash": "b497b7992671755beaba81767de71ec9",
+      "ts": 1792233395082
+    },
+    {
+      "id": "https://www.xataka.com/seleccion/sony-bravia-9-ii-uno-mejores-televisores-2026-puedes-acompanar-sistema-completo-sonido-ahorrar-850-euros",
+      "url": "https://www.xataka.com/seleccion/sony-bravia-9-ii-uno-mejores-televisores-2026-puedes-acompanar-sistema-completo-sonido-ahorrar-850-euros",
+      "titleHash": "fd7d0eef208220cad7e4d9da195ec8ac",
+      "ts": 1792233395084
+    },
+    {
+      "id": "https://www.xataka.com/movilidad/ley-propiedad-horizontal-permite-expertos-confirman-puedes-instalar-barandilla-tu-plaza-no-rayen-tu-coche",
+      "url": "https://www.xataka.com/movilidad/ley-propiedad-horizontal-permite-expertos-confirman-puedes-instalar-barandilla-tu-plaza-no-rayen-tu-coche",
+      "titleHash": "a77f09ec7ca1cbb1546b62b62ca26641",
+      "ts": 1792233395085
+    },
+    {
+      "id": "https://www.xataka.com/espacio/descubren-que-enanas-blancas-no-blancas-al-no-todas",
+      "url": "https://www.xataka.com/espacio/descubren-que-enanas-blancas-no-blancas-al-no-todas",
+      "titleHash": "e9ee9f70444e90e3954e91ebe987ccaf",
+      "ts": 1792233395086
+    },
+    {
+      "id": "https://www.xataka.com/empresas-y-economia/anthropic-ofrece-172-000-euros-al-ano-a-alguien-que-quiera-hacer-exactamente-trabajo-que-deberia-hacer-agente-ia",
+      "url": "https://www.xataka.com/empresas-y-economia/anthropic-ofrece-172-000-euros-al-ano-a-alguien-que-quiera-hacer-exactamente-trabajo-que-deberia-hacer-agente-ia",
+      "titleHash": "1dea4463f6c23bb0a114d051a68cd05d",
+      "ts": 1792233395087
+    },
+    {
+      "id": "https://www.xataka.com/ecologia-y-naturaleza/decada-1950-argentina-libero-faisanes-asiaticos-isla-patagonia-hoy-dominan-sus-bosques-preocupan-a-cientificos",
+      "url": "https://www.xataka.com/ecologia-y-naturaleza/decada-1950-argentina-libero-faisanes-asiaticos-isla-patagonia-hoy-dominan-sus-bosques-preocupan-a-cientificos",
+      "titleHash": "e58b17f6b3014fb1c484eada55773e06",
+      "ts": 1792233395089
+    },
+    {
+      "id": "https://www.xataka.com/seleccion/lidl-12-99-euros-este-aspirador-mano-cables-ideal-para-escritorio-sofas-coche",
+      "url": "https://www.xataka.com/seleccion/lidl-12-99-euros-este-aspirador-mano-cables-ideal-para-escritorio-sofas-coche",
+      "titleHash": "259422954524f7153237c3a4959bf147",
+      "ts": 1792233395090
+    },
+    {
+      "id": "https://www.xataka.com/magnet/mercadona-siguio-detective-a-trabajador-albacete-baja-que-cuidaba-a-su-hija-enferma-despues-despidio-justicia-obliga-a-readmitirlo",
+      "url": "https://www.xataka.com/magnet/mercadona-siguio-detective-a-trabajador-albacete-baja-que-cuidaba-a-su-hija-enferma-despues-despidio-justicia-obliga-a-readmitirlo",
+      "titleHash": "b811a26f80dd72cf04c083bacb64831b",
+      "ts": 1792233395091
+    },
+    {
+      "id": "https://www.xataka.com/seleccion/electro-depot-celebra-su-decimo-aniversario-precios-bajos-sorteo-para-llevarte-compra-gratis-300-euros",
+      "url": "https://www.xataka.com/seleccion/electro-depot-celebra-su-decimo-aniversario-precios-bajos-sorteo-para-llevarte-compra-gratis-300-euros",
+      "titleHash": "29a249c729e18751a6f6676600ed4d2c",
+      "ts": 1792233395093
+    },
+    {
+      "id": "https://www.xataka.com/empresas-y-economia/getty-primera-gran-empresa-pasado-caer-culpa-ia-otras-no-aprenden-no-sera-ultima",
+      "url": "https://www.xataka.com/empresas-y-economia/getty-primera-gran-empresa-pasado-caer-culpa-ia-otras-no-aprenden-no-sera-ultima",
+      "titleHash": "3bf759706678db8b3662130d005cc301",
+      "ts": 1792233395094
+    },
+    {
+      "id": "https://www.xataka.com/moviles/reservas-iphone-duo-han-sido-autentica-odisea-que-se-han-quedado-plegable-apple-tendran-que-esperar-a-2027",
+      "url": "https://www.xataka.com/moviles/reservas-iphone-duo-han-sido-autentica-odisea-que-se-han-quedado-plegable-apple-tendran-que-esperar-a-2027",
+      "titleHash": "bef585662ae59277cb25ea9aa2508ebd",
+      "ts": 1792233395095
+    },
+    {
+      "id": "https://www.xataka.com/ecologia-y-naturaleza/ultimos-50-anos-se-han-perdido-12-billones-toneladas-hielo-polar-hay-agua-suficiente-para-cubrir-europa-metro-medio",
+      "url": "https://www.xataka.com/ecologia-y-naturaleza/ultimos-50-anos-se-han-perdido-12-billones-toneladas-hielo-polar-hay-agua-suficiente-para-cubrir-europa-metro-medio",
+      "titleHash": "75785c4fb3a09e1404f5e6ede74621d9",
+      "ts": 1792233395097
+    },
+    {
+      "id": "https://hardzone.es/noticias/tarjetas-graficas/ati-radeon-9700-pro-superar-graficas-nvidia/",
+      "url": "https://hardzone.es/noticias/tarjetas-graficas/ati-radeon-9700-pro-superar-graficas-nvidia/",
+      "titleHash": "ea24e7c3a621ac9be7ad84189da57295",
+      "ts": 1792233396615
+    },
+    {
+      "id": "https://hardzone.es/noticias/juegos/speedruns-imposibles-como-rompen-grandes-juegos/",
+      "url": "https://hardzone.es/noticias/juegos/speedruns-imposibles-como-rompen-grandes-juegos/",
+      "titleHash": "65a5da500dbffe295a0f5f2c14dfe51b",
+      "ts": 1792233396616
+    },
+    {
+      "id": "https://hardzone.es/noticias/juegos/gran-turismo-sport-llega-pc-sony-steam/",
+      "url": "https://hardzone.es/noticias/juegos/gran-turismo-sport-llega-pc-sony-steam/",
+      "titleHash": "4ef003b3cf8ccdff64a2f4fd49ad2681",
+      "ts": 1792233396617
+    },
+    {
+      "id": "https://hardzone.es/noticias/equipos/lenovo-lanza-nuevo-rival-macbook-neo-ideapad-vibe/",
+      "url": "https://hardzone.es/noticias/equipos/lenovo-lanza-nuevo-rival-macbook-neo-ideapad-vibe/",
+      "titleHash": "774642ddee1c431b0280d2875017d539",
+      "ts": 1792233396855
+    },
+    {
+      "id": "https://hardzone.es/ofertas/amazon/consola-ninos-1026/",
+      "url": "https://hardzone.es/ofertas/amazon/consola-ninos-1026/",
+      "titleHash": "700f84cf7747f87bff9991f8890da4ae",
+      "ts": 1792233398357
+    },
+    {
+      "id": "https://hardzone.es/noticias/procesadores/procesador-intel-oculto-dentro-ryzen-nueva-estafa-detectada-amazon/",
+      "url": "https://hardzone.es/noticias/procesadores/procesador-intel-oculto-dentro-ryzen-nueva-estafa-detectada-amazon/",
+      "titleHash": "912c7ad0a18faf08e35ea4034624efc8",
+      "ts": 1792233398359
+    },
+    {
+      "id": "https://hardzone.es/noticias/equipos/ps6-cara-presidente-sony-responde/",
+      "url": "https://hardzone.es/noticias/equipos/ps6-cara-presidente-sony-responde/",
+      "titleHash": "0e17635ca6604f83620ffb8d7f1d157e",
+      "ts": 1792233398359
+    },
+    {
+      "id": "https://hardzone.es/reviews/portatiles/asus-proart-p16-h7607-nvidia-rtx-spark/",
+      "url": "https://hardzone.es/reviews/portatiles/asus-proart-p16-h7607-nvidia-rtx-spark/",
+      "titleHash": "d570a1176e4af51a57a5b6ea443e71e3",
+      "ts": 1792233398361
+    },
+    {
+      "id": "https://www.google.com/url?rct=j&sa=t&url=http://www.gameit.es/ducky-ok-m-75-review/&ct=ga&cd=CAIyHDY3M2Y2ZGQwZDA3Y2FiZTY6Y29tOmVzOkVTOlI&usg=AOvVaw36SN9UISPPXpg7Atcwet59",
+      "url": "https://www.google.com/url",
+      "titleHash": "3826eb3832c60f4a90e32b150829bd91",
+      "ts": 1792233398611
+    },
+    {
+      "id": "https://www.google.com/url?rct=j&sa=t&url=https://www.geeknetic.es/Noticia/40495/Merece-la-pena-pagar-casi-6000-dolares-por-un-portatil-para-IA-local-Los-primeros-analisis-del-Surface-Laptop-Ultra-no-dejan-lugar-a-dudas.html&ct=ga&cd=CAIyHDQ5ZDE2OGFmODgwYzI0N2Q6Y29tOmVzOkVTOlI&usg=AOvVaw1CTp5eH8ZUjtSonvHB_H45",
+      "url": "https://www.google.com/url",
+      "titleHash": "03bb26bf9839286578aefb78799cfce5",
+      "ts": 1792233398701
+    },
+    {
+      "id": "https://www.google.com/url?rct=j&sa=t&url=https://elchapuzasinformatico.com/2026/10/asus-proart-p16-h7607-nvidia-spark-review/&ct=ga&cd=CAIyHDQ5ZDE2OGFmODgwYzI0N2Q6Y29tOmVzOkVTOlI&usg=AOvVaw1gJMcDl3hCxCdAFCD2Nq1J",
+      "url": "https://www.google.com/url",
+      "titleHash": "db27e8c774cfecaf518dc8731227d492",
+      "ts": 1792233398702
     }
   ]
 }
