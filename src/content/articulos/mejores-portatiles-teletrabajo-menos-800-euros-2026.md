@@ -8,7 +8,6 @@ imagen: "/images/articulos/mejores-portatiles-teletrabajo-menos-800-euros-2026.w
 imagen_thumb: "/images/articulos/mejores-portatiles-teletrabajo-menos-800-euros-2026-thumb.webp"
 tiempo_lectura: "8 min"
 tipo: "guia"
-borrador: true
 keyword_principal: "mejores portátiles teletrabajo menos 800 euros"
 keywords_secundarias:
   - "portátil teletrabajo 2026"
