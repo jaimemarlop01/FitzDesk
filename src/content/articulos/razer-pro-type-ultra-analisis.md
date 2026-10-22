@@ -17,7 +17,6 @@ precio: "169€"
 enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=razer+pro+type+ultra"
 tiempo_lectura: "7 min"
 tipo: "analisis"
-borrador: true
 keyword_principal: "Razer Pro Type Ultra teclado mecánico"
 keywords_secundarias:
   - "teclado mecánico silencioso inalámbrico"
