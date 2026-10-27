@@ -17,7 +17,6 @@ precio: "45€"
 enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=anker+655+usb+c+hub"
 tiempo_lectura: "5 min"
 tipo: "analisis"
-borrador: true
 keyword_principal: "Anker 655 hub USB-C"
 keywords_secundarias:
   - "hub USB-C 8 en 1"
