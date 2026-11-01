@@ -8,7 +8,6 @@ imagen: "/images/articulos/mejores-hubs-usb-c-teletrabajo-2026.webp"
 imagen_thumb: "/images/articulos/mejores-hubs-usb-c-teletrabajo-2026-thumb.webp"
 tiempo_lectura: "7 min"
 tipo: "guia"
-borrador: true
 keyword_principal: "mejores hubs USB-C teletrabajo 2026"
 keywords_secundarias:
   - "hub USB-C portátil"
