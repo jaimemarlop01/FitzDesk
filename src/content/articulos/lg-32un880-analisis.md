@@ -17,7 +17,6 @@ precio: "499€"
 enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=lg+32un880"
 tiempo_lectura: "7 min"
 tipo: "analisis"
-borrador: true
 keyword_principal: "LG 32UN880 monitor 4K brazo ergonómico"
 keywords_secundarias:
   - "monitor 4K 32 pulgadas USB-C"
