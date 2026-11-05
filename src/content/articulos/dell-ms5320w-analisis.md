@@ -17,7 +17,6 @@ precio: "40€"
 enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=dell+ms5320w"
 tiempo_lectura: "5 min"
 tipo: "analisis"
-borrador: true
 keyword_principal: "Dell MS5320W ratón inalámbrico"
 keywords_secundarias:
   - "ratón multi-dispositivo Dell"
