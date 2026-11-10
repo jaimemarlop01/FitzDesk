@@ -17,7 +17,6 @@ precio: "1.499€"
 enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=hp+spectre+x360+14"
 tiempo_lectura: "7 min"
 tipo: "analisis"
-borrador: true
 keyword_principal: "HP Spectre x360 14 teletrabajo"
 keywords_secundarias:
   - "portátil convertible premium 2026"
