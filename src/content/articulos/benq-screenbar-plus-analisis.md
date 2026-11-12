@@ -17,7 +17,6 @@ precio: "129€"
 enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=benq+screenbar+plus"
 tiempo_lectura: "6 min"
 tipo: "analisis"
-borrador: true
 keyword_principal: "BenQ ScreenBar Plus iluminación monitor"
 keywords_secundarias:
   - "barra de luz monitor teletrabajo"
