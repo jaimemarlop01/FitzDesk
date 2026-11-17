@@ -17,7 +17,6 @@ precio: "45€"
 enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=logitech+signature+m750"
 tiempo_lectura: "5 min"
 tipo: "analisis"
-borrador: true
 keyword_principal: "Logitech Signature M750 ratón silencioso"
 keywords_secundarias:
   - "ratón inalámbrico silencioso Logitech"
