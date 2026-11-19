@@ -17,7 +17,6 @@ precio: "90€"
 enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=keychron+b6+pro"
 tiempo_lectura: "6 min"
 tipo: "analisis"
-borrador: true
 keyword_principal: "Keychron B6 Pro teclado mecánico"
 keywords_secundarias:
   - "teclado mecánico hot-swap Bluetooth"
