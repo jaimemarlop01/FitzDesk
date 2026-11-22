@@ -7,7 +7,6 @@ descripcion: "Los mejores regalos para teletrabajadores en Navidad 2026, organiz
 imagen: "/images/articulos/regalos-navidad-teletrabajadores-2026.webp"
 imagen_thumb: "/images/articulos/regalos-navidad-teletrabajadores-2026-thumb.webp"
 tipo: "guia"
-borrador: true
 keyword_principal: "regalos navidad teletrabajadores 2026"
 keywords_secundarias:
   - "mejores regalos teletrabajo"
