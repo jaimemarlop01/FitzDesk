@@ -17,7 +17,6 @@ precio: "279€"
 enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=aoc+u27p2a"
 tiempo_lectura: "6 min"
 tipo: "analisis"
-borrador: true
 keyword_principal: "AOC U27P2A monitor 4K ergonómico"
 keywords_secundarias:
   - "monitor 4K 27 pulgadas ergonómico"
