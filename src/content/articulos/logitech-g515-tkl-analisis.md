@@ -17,7 +17,6 @@ precio: "129€"
 enlace_afiliado: "https://www.pccomponentes.com/buscar/?query=logitech+g515+tkl"
 tiempo_lectura: "6 min"
 tipo: "analisis"
-borrador: true
 keyword_principal: "Logitech G515 TKL mecánico perfil bajo"
 keywords_secundarias:
   - "teclado mecánico perfil bajo inalámbrico"
